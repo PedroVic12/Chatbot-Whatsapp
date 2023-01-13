@@ -1,16 +1,15 @@
 {
-  "name": "kyogre---ia",
-  "version": "2.0.0",
+  "name": "chatbot-kyogre",
+  "version": "1.0.0",
   "description": "",
-  "main": "main.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "qrcode-terminal": "^0.12.0",
-    "whatsapp-web.js": "^1.18.4"
+    "whatsapp-web.js": "github:pedroslopez/whatsapp-web.js#fix-buttons-list"
   }
 }
