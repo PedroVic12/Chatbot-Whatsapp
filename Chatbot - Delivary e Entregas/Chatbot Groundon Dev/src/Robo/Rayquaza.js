@@ -226,6 +226,7 @@ const Estagio3 = new (class {
         enviarMensagem(whatsapp, message, `Aqui estão as nossas localizações: \n ${botafogo.nome} \n ${botafogo.rua1} \n ${botafogo.rua2} \n ${botafogo.rua3}`)
 
     }
+    
 })
 
 

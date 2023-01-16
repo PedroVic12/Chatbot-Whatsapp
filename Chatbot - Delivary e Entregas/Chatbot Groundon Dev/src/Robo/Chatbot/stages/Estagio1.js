@@ -12,25 +12,12 @@ class Estagio1 {
 
     boasVindas(message) {
 
-        this.chatbot.enviarMensagem(message, 'Meu nome é Groundon, sou um chatbot e estou aqui para te ajudar a fazer seu pedido!');
+        this.chatbot.enviarMensagem(message, `Bem-vindo a Citta Lanchonete! Obrigado por escolher a nossa lanchonete. \n Eu sou o Robô Groundon e estou aqui para ajudá-lo. `);
         this.chatbot.enviarMensagem(message, "Antes de começarmos, por favor, digite seu *nome*:")
 
     }
 
-    infoCliente(whatsapp, message) {
-        let horario_pedido = Estagio1.getHoras()
-        let nome = this.getNomeCliente(whatsapp, message);
-        let telefone_cliente = message.from.split('@')[0]
-
-        this.numero_pedido++
-
-        return {
-            "Nome": nome,
-            "Numero de Pedidos": this.numero_pedido,
-            "horario do pedido": horario_pedido,
-            "Telefone": telefone_cliente
-        }
-    }
+    
 
 }
 

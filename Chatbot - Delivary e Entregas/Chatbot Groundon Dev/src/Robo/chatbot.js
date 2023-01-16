@@ -69,6 +69,23 @@ class Chatbot {
         return this.whatsapp.sendMessage(message.from, text)
     }
 
+    enviarBotao(message, text, buttons) {
+        const botoes = new Buttons(text, buttons);
+        return this.whatsapp.sendMessage(message.from, botoes);
+    }
+
+
+    enviarBotao2(message, frase, lista) {
+        const botoes = [];
+
+        for (let i = 0; i < lista.length; i++) {
+            botoes.push({ body: lista[i] });
+        }
+
+        let button = new Buttons(frase, botoes, 'Chatbot Groundon', "Horário de Atendimento = ${this.chatbot.getHoras()}");
+        return whatsapp.sendMessage(message.from, button)
+    }
+
     enviarMensagemComDelay(message, text, delay) {
         setTimeout(() => {
             return this.whatsapp.sendMessage(message.from, text).then(() => {
@@ -83,11 +100,6 @@ class Chatbot {
         return whatsapp.sendMessage(message.from, list);
     }
 
-    enviarBotao(whatsapp, message, text, buttons) {
-
-        const botoes = new Buttons(text, buttons);
-        return whatsapp.sendMessage(message.from, botoes);
-    }
 
     getHoras() {
         let data_atual = new Date();

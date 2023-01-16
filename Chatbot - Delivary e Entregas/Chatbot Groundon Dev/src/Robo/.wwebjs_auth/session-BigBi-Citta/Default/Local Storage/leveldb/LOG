@@ -1,3 +1,6 @@
-2023/01/16-15:19:47.041 17ed2 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta/Default/Local Storage/leveldb/MANIFEST-000001
-2023/01/16-15:19:47.042 17ed2 Recovering log #16
-2023/01/16-15:19:47.043 17ed2 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta/Default/Local Storage/leveldb/000016.log 
+2023/01/16-18:59:30.667 32622 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta/Default/Local Storage/leveldb/MANIFEST-000001
+2023/01/16-18:59:30.668 32622 Recovering log #26
+2023/01/16-18:59:30.668 32622 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta/Default/Local Storage/leveldb/000026.log 
+2023/01/16-19:06:30.911 3265a Level-0 table #30: started
+2023/01/16-19:06:30.911 3265a Level-0 table #30: 12910 bytes OK
+2023/01/16-19:06:30.911 3265a Delete type=0 #26
