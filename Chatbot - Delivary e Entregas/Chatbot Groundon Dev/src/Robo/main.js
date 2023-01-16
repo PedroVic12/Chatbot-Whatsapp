@@ -46,12 +46,11 @@ chatbot.whatsapp.on('message', message => {
         // Boas Vindas
         chatbot.enviarMensagem(message, `Bem-vindo a Citta Lanchonete! Obrigado por escolher a nossa lanchonete. \n Eu sou o Robô Groundon e estou aqui para ajudá-lo. `
         );
-
         chatbot.enviarMensagem(message, "Ola mundo 2")
 
 
         //erro ate aqui
-        Estagio1.boasVindas(chatbot.whatsapp, message)
+        Estagio1.boasVindas(message)
 
         chatbot.avancarEstagio()
     }
