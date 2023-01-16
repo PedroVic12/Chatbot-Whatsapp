@@ -23,6 +23,7 @@ const Estagio1 = require('./Chatbot/stages/Estagio1')
 
 //!Inicializando o BOT
 const chatbot = new Groundon();
+const estagio1 = new Estagio1();
 
 chatbot.conectandoWpp()
     .then(() => {
@@ -50,9 +51,9 @@ chatbot.whatsapp.on('message', message => {
 
 
         //erro ate aqui
-        Estagio1.boasVindas(message)
+        estagio1.boasVindas(message)
 
-        chatbot.avancarEstagio()
+        //chatbot.avancarEstagio()
     }
 
     if (chatbot.numero_estagio === 2) {

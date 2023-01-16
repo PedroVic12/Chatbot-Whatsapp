@@ -9,9 +9,10 @@ class Estagio1 extends Chatbot {
 
     boasVindas(message) {
 
+        Chatbot.enviarMensagem(message, "Ola mundo 3")
         super.enviarMensagem(message, 'Olá, seja bem vindo ao Groundon!');
-        super.enviarMensagem(message, 'Meu nome é Groundon, sou um chatbot e estou aqui para te ajudar a fazer seu pedido!');
-        super.enviarMensagem(message, "Antes de começarmos, por favor, digite seu *nome*:");
+        // super.enviarMensagem(message, 'Meu nome é Groundon, sou um chatbot e estou aqui para te ajudar a fazer seu pedido!');
+        // super.enviarMensagem(message, "Antes de começarmos, por favor, digite seu *nome*:");
 
     }
 

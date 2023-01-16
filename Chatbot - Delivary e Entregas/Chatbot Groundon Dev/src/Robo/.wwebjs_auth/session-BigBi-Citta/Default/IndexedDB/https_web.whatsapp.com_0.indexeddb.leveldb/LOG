@@ -1,3 +1,24 @@
-2023/01/16-12:51:25.729 21ad Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/01/16-12:51:25.729 21ad Recovering log #414
-2023/01/16-12:51:25.748 21ad Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000414.log 
+2023/01/16-13:04:41.831 45a4 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/01/16-13:04:41.831 45a4 Recovering log #424
+2023/01/16-13:04:41.909 45a4 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000424.log 
+2023/01/16-13:06:05.881 460c Level-0 table #435: started
+2023/01/16-13:06:05.911 460c Level-0 table #435: 1234845 bytes OK
+2023/01/16-13:06:05.912 460c Delete type=0 #424
+2023/01/16-13:06:06.539 460e Compacting 1@1 + 7@2 files
+2023/01/16-13:06:06.631 460e Generated table #436@1: 29787 keys, 2256848 bytes
+2023/01/16-13:06:06.703 460e Generated table #437@1: 24038 keys, 2278693 bytes
+2023/01/16-13:06:06.777 460e Generated table #438@1: 24052 keys, 2285778 bytes
+2023/01/16-13:06:06.849 460e Generated table #439@1: 35824 keys, 2272670 bytes
+2023/01/16-13:06:06.921 460e Generated table #440@1: 76871 keys, 2275713 bytes
+2023/01/16-13:06:06.978 460e Generated table #441@1: 27971 keys, 2193447 bytes
+2023/01/16-13:06:07.030 460e Generated table #442@1: 58145 keys, 1132645 bytes
+2023/01/16-13:06:07.030 460e Compacted 1@1 + 7@2 files => 14695794 bytes
+2023/01/16-13:06:07.030 460e compacted to: files[ 0 0 7 0 0 0 0 ]
+2023/01/16-13:06:07.030 460e Delete type=2 #426
+2023/01/16-13:06:07.030 460e Delete type=2 #427
+2023/01/16-13:06:07.030 460e Delete type=2 #428
+2023/01/16-13:06:07.030 460e Delete type=2 #429
+2023/01/16-13:06:07.030 460e Delete type=2 #430
+2023/01/16-13:06:07.030 460e Delete type=2 #431
+2023/01/16-13:06:07.030 460e Delete type=2 #432
+2023/01/16-13:06:07.030 460e Delete type=2 #435

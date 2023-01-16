@@ -70,11 +70,13 @@ class Chatbot {
     }
 
     enviarLista(whatsapp, message, items) {
+
         const list = new List(items);
         return whatsapp.sendMessage(message.from, list);
     }
 
     enviarBotao(whatsapp, message, text, buttons) {
+        
         const botoes = new Buttons(text, buttons);
         return whatsapp.sendMessage(message.from, botoes);
     }
