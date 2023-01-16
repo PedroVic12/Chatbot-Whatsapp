@@ -60,13 +60,21 @@ class Chatbot {
     };
 
     //! Funções anonimas
-    avancarEstagio() {
+    async avancarEstagio() {
         this.numero_estagio++
         console.log("Avançando o estágio!")
     }
 
     enviarMensagem(message, text) {
-        return this.whatsapp.sendMessage(message.from, text);
+        return this.whatsapp.sendMessage(message.from, text)
+    }
+
+    enviarMensagemComDelay(message, text, delay) {
+        setTimeout(() => {
+            return this.whatsapp.sendMessage(message.from, text).then(() => {
+                console.log("Mensagem enviada com sucesso!");
+            });
+        }, delay)
     }
 
     enviarLista(whatsapp, message, items) {
@@ -76,7 +84,7 @@ class Chatbot {
     }
 
     enviarBotao(whatsapp, message, text, buttons) {
-        
+
         const botoes = new Buttons(text, buttons);
         return whatsapp.sendMessage(message.from, botoes);
     }

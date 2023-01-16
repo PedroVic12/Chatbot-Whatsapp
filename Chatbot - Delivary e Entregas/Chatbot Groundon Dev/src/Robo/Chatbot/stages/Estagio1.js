@@ -1,33 +1,20 @@
 const Chatbot = require("../../chatbot");
 
-class Estagio1 extends Chatbot {
-    constructor() {
-        super();
-        this.numero_pedido = 1
-        this.nome_cliente = ""
+//Apresentação, Consulta No Banco de dados, iniciar Atendimento
+class Estagio1 {
+
+
+    //Herança implícita da classe Chatbot
+    constructor(Chatbot) {
+        this.chatbot = Chatbot;
+
     }
 
     boasVindas(message) {
 
-        Chatbot.enviarMensagem(message, "Ola mundo 3")
-        super.enviarMensagem(message, 'Olá, seja bem vindo ao Groundon!');
-        // super.enviarMensagem(message, 'Meu nome é Groundon, sou um chatbot e estou aqui para te ajudar a fazer seu pedido!');
-        // super.enviarMensagem(message, "Antes de começarmos, por favor, digite seu *nome*:");
+        this.chatbot.enviarMensagem(message, 'Meu nome é Groundon, sou um chatbot e estou aqui para te ajudar a fazer seu pedido!');
+        this.chatbot.enviarMensagem(message, "Antes de começarmos, por favor, digite seu *nome*:")
 
-    }
-
-    async getNomeCliente(whatsapp, message) {
-        try {
-            this.nome_cliente = message.body
-            enviarMensagem(whatsapp, message, `Prazer em te conhecer, ${this.nome_cliente}!`);
-
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
-    getNome() {
-        return this.nome_cliente;
     }
 
     infoCliente(whatsapp, message) {

@@ -20,10 +20,17 @@
 
 const Groundon = require('./chatbot.js');
 const Estagio1 = require('./Chatbot/stages/Estagio1')
+const Estagio2 = require('./Chatbot/stages/Estagio2')
 
 //!Inicializando o BOT
 const chatbot = new Groundon();
-const estagio1 = new Estagio1();
+const estagio1 = new Estagio1(chatbot);
+const estagio2 = new Estagio2(chatbot)
+
+function delay() {
+    return new Promise(resolve => setTimeout(resolve, 1000));
+
+}
 
 chatbot.conectandoWpp()
     .then(() => {
@@ -39,39 +46,41 @@ chatbot.conectandoWpp()
 
 chatbot.recebeMensagem()
 
-
+//Evento Listener para o Robo receber as mensagens
 chatbot.whatsapp.on('message', message => {
 
     //! ===================== Estágio 1 - Apresentação =====================
     if (chatbot.numero_estagio === 1) {
+
         // Boas Vindas
-        chatbot.enviarMensagem(message, `Bem-vindo a Citta Lanchonete! Obrigado por escolher a nossa lanchonete. \n Eu sou o Robô Groundon e estou aqui para ajudá-lo. `
-        );
-        chatbot.enviarMensagem(message, "Ola mundo 2")
+        chatbot.enviarMensagem(message, `Bem-vindo a Citta Lanchonete! Obrigado por escolher a nossa lanchonete. \n Eu sou o Robô Groundon e estou aqui para ajudá-lo. `);
 
-
-        //erro ate aqui
         estagio1.boasVindas(message)
 
-        //chatbot.avancarEstagio()
+        delay()
+        chatbot.avancarEstagio()
     }
 
     if (chatbot.numero_estagio === 2) {
 
-        console.log("OLA MUNDO")
+        //Pegando o nome do cliente
+        estagio2.getNomeCliente(message)
+
+        // Verificar na Base de dados com try e catch
+        console.log("Estou no Estágio 2")
+
+
+        // Mostrando o Menu
+        // chatbot.mostrarCardapio(whatsapp, message)
+        // chatbot.enviarMensagem(whatsapp, message, `Horário de Atendimento = ${chatbot.getHoras()}`)
+        // whatsapp.sendMessage(message.from, `Horário de Atendimento = ${chatbot.getHoras()}`)
 
     }
 
 
-
-    //Pegando o nome do cliente
     //const nome_cliente = chatbot.getNome(whatsapp, message);
     chatbot.enviarMensagem(whatsapp, message, `Um prazer te conhecer, ${nome_cliente}`)
 
-    // Mostrando o Menu
-    // chatbot.mostrarCardapio(whatsapp, message)
-    // chatbot.enviarMensagem(whatsapp, message, `Horário de Atendimento = ${chatbot.getHoras()}`)
-    // whatsapp.sendMessage(message.from, `Horário de Atendimento = ${chatbot.getHoras()}`)
 
 })
 

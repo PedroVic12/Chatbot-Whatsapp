@@ -16,6 +16,26 @@ class Banco {
     delete(key) {
         delete this.cliente[key];
     }
+
+    getCliente() {
+        //faz o getCliente para ver se o cliente esta na base de dados
+
+    }
+
+    setCliente(nome, carrinho, total, numero_whatsapp) {
+        // se não tiver, faz o setCliente na base
+
+        this.nome_cliente = nome;
+        this.carrinho = carrinho;
+        this.total = total;
+        this.numero_whatsapp = numero_whatsapp;
+    }
+
+
+    delCliente()
+
+
+
 }
 
 module.exports = Banco;

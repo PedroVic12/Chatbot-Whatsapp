@@ -1,3 +1,17 @@
-2023/01/16-13:01:52.587 3c01 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/01/16-13:01:52.588 3c01 Recovering log #424
-2023/01/16-13:01:52.608 3c01 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000424.log 
+2023/01/16-15:13:21.928 149d0 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/01/16-15:13:21.929 149d0 Recovering log #518
+2023/01/16-15:13:22.074 149d0 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000518.log 
+2023/01/16-15:13:35.323 149d1 Level-0 table #530: started
+2023/01/16-15:13:35.396 149d1 Level-0 table #530: 1285294 bytes OK
+2023/01/16-15:13:35.405 149d1 Delete type=0 #518
+2023/01/16-15:13:35.905 149d0 Compacting 1@1 + 8@2 files
+2023/01/16-15:13:36.068 149d0 Generated table #531@1: 29787 keys, 2254672 bytes
+2023/01/16-15:13:36.215 149d0 Generated table #532@1: 24042 keys, 2280662 bytes
+2023/01/16-15:13:36.358 149d0 Generated table #533@1: 24165 keys, 2283563 bytes
+2023/01/16-15:13:36.514 149d0 Generated table #534@1: 23779 keys, 2280327 bytes
+2023/01/16-15:13:36.700 149d0 Generated table #535@1: 50946 keys, 2269630 bytes
+2023/01/16-15:13:36.893 149d0 Generated table #536@1: 76515 keys, 2278600 bytes
+2023/01/16-15:13:37.037 149d0 Generated table #537@1: 21890 keys, 2187268 bytes
+2023/01/16-15:13:37.167 149d0 Generated table #538@1: 66805 keys, 1315617 bytes
+2023/01/16-15:13:37.167 149d0 Compacted 1@1 + 8@2 files => 17150339 bytes
+2023/01/16-15:13:37.170 149d0 compacted to: files[ 0 0 8 0 0 0 0 ]
