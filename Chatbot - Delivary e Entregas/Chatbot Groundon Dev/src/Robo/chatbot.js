@@ -94,10 +94,10 @@ class Chatbot {
         }, delay)
     }
 
-    enviarLista(whatsapp, message, items) {
+    enviarLista(message, items) {
 
-        const list = new List(items);
-        return whatsapp.sendMessage(message.from, list);
+        const list = new List("List Body", "BtnText", items, "Titulo", "Footer");
+        return this.whatsapp.sendMessage(message.from, list);
     }
 
 

@@ -1,4 +1,3 @@
-const { MessageAck } = require("whatsapp-web.js");
 const Chatbot = require("../../chatbot");
 
 class Estagio2 {
@@ -57,6 +56,8 @@ class Estagio2 {
                 { body: "Ver nossa Localização" }
             ], 'Chatbot Groundon', `Horário de Atendimento = ${this.chatbot.getHoras()}`
         );
+
+        //Testar os IFs aqui dentro para que não precise de outro estagio
 
         
     }

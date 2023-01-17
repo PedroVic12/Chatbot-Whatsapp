@@ -1,12 +1,20 @@
 const ExcelJS = require('exceljs');
 const { faker } = require('@faker-js/faker');
+const Chatbot = require("../../chatbot");
 
-//!Usando a Biblioteca
+xlsx_path = "Robo/Chatbot/Banco de Dados/Janeiro/base_de_dados_janeiro.xlsx"
+
+
+//!Criando um objeto do tipo Workbook
 const workbook = new ExcelJS.Workbook();
 
 //!Mudar o Nome para o mes Correspondente da Data atual
 const sheet = workbook.addWorksheet('Janeiro');
 
+// Access the first worksheet in the Excel file
+let worksheet = workbook.getWorksheet(1);
+
+// Set the header row
 sheet.columns = [
     { header: 'Nome', key: 'name', width: 32 },
     { header: 'Telefone', key: 'phone', width: 32 },
@@ -14,10 +22,11 @@ sheet.columns = [
 
 
 //!Meu Banco de Dados
-class Banco {
-    constructor() {
-        this.cliente = {};
+class BancoDeDados {
+    constructor(Chatbot) {
+        this.chatbot = Chatbot;
 
+        this.cliente = {};
         this.nome_cliente = '';
         this.carrinho = [];
         this.total = 0;
@@ -32,6 +41,18 @@ class Banco {
     }
     delete(key) {
         delete this.cliente[key];
+    }
+
+
+    lerDadosExcel(path) {
+        // Read the Excel file
+        workbook.xlsx.readFile(path);
+
+        // Iterate over the rows in the worksheet
+        sheet.eachRow(function (row, rowNumber) {
+            return "Row " + rowNumber + " = " + JSON.stringify(row.values);
+        });
+
     }
 
     getCliente() {
@@ -56,9 +77,9 @@ class Banco {
             name: nome,
             phone: telefone,
         });
-        workbook.xlsx.writeFile('Robo/Chatbot/Banco de Dados/Janeiro/base_de_dados_janeiro.xlsx')
+        workbook.xlsx.writeFile(xlsx)
     }
 
 }
 
-module.exports = Banco;
+module.exports = BancoDeDados;
