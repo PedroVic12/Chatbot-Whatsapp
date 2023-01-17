@@ -74,7 +74,7 @@ chatbot.whatsapp.on('message', message => {
 
         // TODO Verificar na Base de dados com try e catch
         estagio2.infoCliente(message)
-        chatbot.enviarMensagem( message, `Horário de Atendimento = ${chatbot.getHoras()}`)
+        chatbot.enviarMensagem(message, `Horário de Atendimento = ${chatbot.getHoras()}`)
 
     }
 
@@ -104,7 +104,7 @@ chatbot.whatsapp.on('message', message => {
 
     else if (chatbot.numero_estagio === 4) {
 
-        chatbot.enviarMensagem(message, "Estamos processando seu pedido, aguarde um momento")   
+        chatbot.enviarMensagem(message, "Estamos processando seu pedido, aguarde um momento")
 
 
     }
