@@ -67,14 +67,20 @@ chatbot.whatsapp.on('message', message => {
         estagio2.mostrarMenuPrincipal(message)
         //estagio2.mandarMensagemTeste(message)
 
-        // TODO Verificar na Base de dados com try e catch
-        dados = Banco.lerDadosExcel()
+        // TODO Verificar na Base de dados com try e catch com uma função
+        xlsx_path = "Chatbot/Banco de Dados/Janeiro/base_de_dados_janeiro.xlsx"
+        dados = Banco.lerDadosExcel(xlsx_path)
         console.log(dados)
-        chatbot.enviarMensagem(message, `Horário de Atendimento = ${chatbot.getHoras()}`)
 
-        chatbot.avancarEstagio()
-
+        //TODO criar um objeto Cliente(nome) que pegue todos as informações do cliente atual
         estagio2.infoCliente(message)
+
+
+
+
+
+        chatbot.enviarMensagem(message, `Horário de Atendimento = ${chatbot.getHoras()}`)
+        chatbot.avancarEstagio()
 
     }
 
@@ -101,8 +107,7 @@ chatbot.whatsapp.on('message', message => {
 
 
     }
-
-    //! Estagio 4 - Pagamento
+    //!=====================  Estagio 4 - Pagamento ===================== 
     else if (chatbot.numero_estagio === 4) {
 
         chatbot.enviarMensagem(message, "Estamos processando seu pedido, aguarde um momento")
@@ -116,10 +121,19 @@ chatbot.whatsapp.on('message', message => {
 
     }
 
+    //!=====================  Estagio 5 - Entrega e Resumo ===================== 
+
+    else if (chatbot.numero_estagio === 5) {
+        chatbot.enviarMensagem(message, "Estamos processando seu pedido, aguarde um momento")
+
+    }
+
+    //!=====================   Estagio 6 - Finalização ===================== 
+
+    else if (chatbot.numero_estagio == 6) {
+        chatbot.enviarMensagem(message, "Estamos processando seu pedido, aguarde um momento")
+    }
+
 })
 
-//! Estagio 5 - Entrega e Resumo
-
-
-//! Estagio 6 - Finalização
 

@@ -70,7 +70,9 @@ class BancoDeDados {
     }
 
 
-    delCliente()
+    delCliente() {
+
+    }
 
     adicionarCliente(nome, telefone) {
         sheet.addRow({
