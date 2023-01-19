@@ -18,6 +18,9 @@ class Estagio4 {
         );
     }
 
+    
+
+
     adicionarItensCarrinho() {
 
     }

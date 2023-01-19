@@ -5,6 +5,7 @@ class Chatbot {
     constructor() {
         // this._chatbot = new Chatbot();
         this.numero_estagio = 1
+        this.conversa_cliente = []
 
         //! Instanciando o Objeto com o nome do Cliente
         this.whatsapp = new Client({
@@ -13,14 +14,20 @@ class Chatbot {
 
         const wpp = this.whatsapp;
         //const whatsapp = new Client();
+
     }
 
+    //! Métodos
     conectandoWpp = () => {
 
 
         return new Promise((resolve, reject) => {
+            console.log("====================================")
+            console.log("\t CHATBOT GROUNDON \nby:pvpeterparker")
+            console.log("====================================\n")
             console.log("\nIniciando o Chatbot...")
             console.log('Gerando QR code...');
+            console.log("====================================")
 
             this.whatsapp.on('qr', qr => {
                 qrcode.generate(qr, { small: true });
@@ -34,41 +41,86 @@ class Chatbot {
             this.whatsapp.initialize();
         });
     };
-
     recebeMensagem() {
 
         //hora atual
         let data_atual = new Date();
+
         let hora = data_atual.getHours();
         let minuto = data_atual.getMinutes();
+        let segundos = data_atual.getSeconds()
 
         this.whatsapp.on('message', message => {
 
+            //Pegando dados do cliente
+            const whatsappIsOnMessage = true
             let nome = message._data.notifyName;
             let telefone = message.from.split('@')[0]
+            const conversa_cliente = ["CONVERSA CLIENTE"]
 
+            //Arquivo de Log (precisa da interface bonita)
             console.log("\n")
-            console.log("Data  = ", data_atual)
-            console.log("Horário inicio do Atendimento = " + hora + ":" + minuto);
-            console.log("Nome do Cliente = ", nome)
-            console.log("Número do Usuário = " + telefone);
-            console.log("Mensagem recebida = " + message.body); //Salvar dentro de uma lista para usar I.A depois
-            console.log("Fluxo Atual =  ", this.numero_estagio)
-            console.log("\n")
+            console.log("=====================================")
+            console.log(`| Data  = ${data_atual.getDate()}/${data_atual.getDate()}/${data_atual.getFullYear()} |`)
+            console.log(`| Horário inicio do Atendimento = ${hora}:${minuto}:0${segundos} |`);
+            console.log("| Nome do Cliente = ", nome)
+            console.log("| Número do Usuário = " + telefone);
+
+            //Salvar dentro de uma lista para usar I.A depois
+            let ultima_mensagem = message.body
+            console.log("Ultima Mensagem recebida = " + ultima_mensagem);
+            //let teste = pegarConversa(message)
+
+            //Mostrando onde o seu código está
+            console.log("--> Fluxo Atual =  " + this.numero_estagio + "|")
+            console.log("=====================================")
         });
 
     };
 
-    //! Funções anonimas
+    // tempo_perdido(){
+    //   let tempo_calcular =  segundos_ultima_mensagem -  segundos_primeira_mensagem
+    // }
+
+    //! ================== > Funções anonimas
     async avancarEstagio() {
         this.numero_estagio++
-        console.log("Avançando o estágio!")
     }
-
     enviarMensagem(message, text) {
         return this.whatsapp.sendMessage(message.from, text)
     }
+    getHoras() {
+        let data_atual = new Date();
+        let hora = data_atual.getHours();
+        let minuto = data_atual.getMinutes();
 
+        return ` ${hora}:${minuto}`
+    }
+
+    pegarConversa(message) {
+        this.conversa_cliente.push(message.body);
+        return `${this.conversa_cliente}`
+    }
+
+
+    //!Funções para enviar Listas
+
+    enviarLista_old(message, _sections) {
+        let _itens = new List("Escolha o {produto}", "Fazer Pedido", _sections, "title", "Footer");
+        return this.whatsapp.sendMessage(message.from, _itens);
+    }
+
+
+    sendListWhatsapp(message, _nome_produto, _preco_produto) {
+        let rows = () => {
+            return { title: _nome_produto, description: _preco_produto };
+        };
+        let _itens = new List("List Body", "BtnText", rows, "Titulo", "Footer");
+        this.whatsapp.sendMessage(message.from, _itens);
+    }
+
+
+    //!Funções para enviar Botões
     enviarBotao(message, text, buttons) {
         const botoes = new Buttons(text, buttons);
         return this.whatsapp.sendMessage(message.from, botoes);
@@ -94,20 +146,6 @@ class Chatbot {
         }, delay)
     }
 
-    enviarLista(message, items) {
-
-        const list = new List("List Body", "BtnText", items, "Titulo", "Footer");
-        return this.whatsapp.sendMessage(message.from, list);
-    }
-
-
-    getHoras() {
-        let data_atual = new Date();
-        let hora = data_atual.getHours();
-        let minuto = data_atual.getMinutes();
-
-        return hora + ":" + minuto
-    }
 
 }
 
