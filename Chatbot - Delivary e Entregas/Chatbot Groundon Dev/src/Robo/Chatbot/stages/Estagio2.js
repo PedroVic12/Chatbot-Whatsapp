@@ -32,20 +32,23 @@ class Estagio2 {
         let horario_pedido = this.chatbot.getHoras()
 
         //let nome = this.getNomeCliente(whatsapp, message);
-        let nome = message._data.notifyName;
+        let nome_cliente = message._data.notifyName;
 
         let telefone_cliente = message.from.split('@')[0]
 
         dados = {
-            "Nome": nome,
-            "Numero de Pedidos": this.numero_pedido_dia,
+            "Nome": nome_cliente,
+            "Numero do Pedido": this.numero_pedido_dia,
             "horario do pedido": horario_pedido,
             "Telefone": telefone_cliente
         }
 
         this.chatbot.enviarMensagem(message, `Dados do Cliente: ${JSON.stringify(dados)}`)
+
+        //colocar a variavel dados para o excel
+
     }
-    
+
 
     mostrarMenuPrincipal = (message) => {
 
@@ -59,18 +62,8 @@ class Estagio2 {
 
         //Testar os IFs aqui dentro para que não precise de outro estagio
 
-        
-    }
-
-    mandarMensagemTeste(message) {
-
-        this.chatbot.enviarBotao2(message, "Escolha as opções", ["Sim", "Não"])
 
     }
-
-
-    
-
 }
 
 module.exports = Estagio2;

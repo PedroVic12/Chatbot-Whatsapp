@@ -11,14 +11,14 @@ class Estagio4 {
 
         this.chatbot.enviarBotao(message, `Vamos lá,  ${this.estagio2.getNome()}! Escolha uma opção abaixo do que voce deseja`,
             [
-                { body: "Sanduiches" },
+                { body: "Sanduíches" },
                 { body: "Bebidas" },
                 { body: "Salgados" }
             ]
         );
     }
 
-    
+
 
 
     adicionarItensCarrinho() {

@@ -76,7 +76,6 @@ chatbot.whatsapp.on('message', message => {
 
         //TODO criar um objeto Cliente(nome) que pegue todos as informações do cliente atual
         estagio2.infoCliente(message)
-        chatbot.enviarMensagem(message, `Horário de Atendimento = ${chatbot.getHoras()}`)
         chatbot.avancarEstagio()
     }
 
@@ -105,57 +104,42 @@ chatbot.whatsapp.on('message', message => {
         let sanduiche = new Sanduiches("Hambúrguer", 12.99);
         let bebida = new Bebidas("Coca-cola", 4.99);
 
-        // Mandando a lista de produtos para o cliente
-        const sendList = function () {
-            let _title = 'COMPRE AQUI';
-            let _btnPedido = "Fazer Pedido"
-            let _titulo = "Titulo"
-            let _footer = "Footer"
-            let sections = [
-                { title: bebida.nome, description: `Preço: R$ ${bebida.preco}` },
-                { title: sanduiche.nome, description: `Preço: R$ ${sanduiche.preco}` },
-                { title: salgado.nome, description: `Preço: R$ ${salgado.preco}` }
-            ];
-            const _itens_lista = new List(_title, _btnPedido, sections, "_titulo", "_footer");
-            chatbot.enviarLista_old(message, _itens_lista);
-        }
-        //sendList()
-
-
 
         //TODO Criar uma função para enviar a lista de produtos
-        if (message.body === 'Salgados') {
+        if (message.body === 'Sanduíches') {
+
             let sections = [{
-                title: "==> ESCOLHA os Salgados MAIS CAROS ", rows:
+                title: "==> ESCOLHA os Sanduíches MAIS CAROS ", rows:
                     [
-                        { title: salgado.nome, description: "salgado.preco" },
+                        { title: sanduiche.nome, description: ` R$ ${sanduiche.preco}` }
                     ]
             }]
-            chatbot.enviarLista_old(message, sections)
+            chatbot.enviarLista3(message, "COMPRE AQUI", "FAZER PEDIDO", sections)
         }
 
         if (message.body === 'Bebidas') {
             let sections = [{
                 title: "==> ESCOLHA OS REFRIGERANTES MAIS CAROS", rows:
                     [
-                        { title: bebida.nome, description: "Preço = 1800k" },
+                        { title: bebida.nome, description: `R$ ${bebida.preco}` },
                     ]
             }]
+
+            chatbot.enviarLista3(message, "COMPRE AQUI", "FAZER PEDIDO", sections)
             chatbot.enviarLista_old(message, sections)
-            chatbot.sendListWhatsapp(message, bebida.nome, bebida.preco)
+            //chatbot.sendListWhatsapp(message, bebida.nome, bebida.preco)
 
         }
 
-        if (message.body === 'Sanduíches') {
 
-            let DEBUG = `${sanduiche.getPreco()}`
+        if (message.body === 'Salgados') {
             let sections = [{
-                title: "==> ESCOLHA os Sanduíches MAIS CAROS ", rows:
+                title: "==> ESCOLHA os Salgados MAIS CAROS ", rows:
                     [
-                        { title: sanduiche.nome, description: DEBUG },
+                        { title: salgado.nome, description: `R$ ${salgado.preco}` },
                     ]
             }]
-            chatbot.enviarLista_old(message, sections)
+            chatbot.enviarLista3(message, "COMPRE AQUI", "FAZER PEDIDO", sections)
         }
 
 

@@ -105,8 +105,14 @@ class Chatbot {
 
     //!Funções para enviar Listas
 
-    enviarLista_old(message, _sections) {
-        let _itens = new List("Escolha o {produto}", "Fazer Pedido", _sections, "title", "Footer");
+    enviarLista_old(message, itens_list) {
+        let _itens = new List("listBody", "BtnText", itens_list, "Chatbot Groundon", "footer");
+        return this.whatsapp.sendMessage(message.from, _itens);
+    }
+
+
+    enviarLista3(message, listBody, BtnText, itens_list) {
+        let _itens = new List(listBody, BtnText, itens_list, "Chatbot Groundon", "footer");
         return this.whatsapp.sendMessage(message.from, _itens);
     }
 
@@ -115,14 +121,14 @@ class Chatbot {
         let rows = () => {
             return { title: _nome_produto, description: _preco_produto };
         };
-        let _itens = new List("List Body", "BtnText", rows, "Titulo", "Footer");
+        let _itens = new List("List Body", "BtnText", rows, "Chatbot Groundon", "Footer");
         this.whatsapp.sendMessage(message.from, _itens);
     }
 
 
     //!Funções para enviar Botões
-    enviarBotao(message, text, buttons) {
-        const botoes = new Buttons(text, buttons);
+    enviarBotao(message, text, buttons, _title, _footer) {
+        const botoes = new Buttons(text, buttons, _title, _footer)
         return this.whatsapp.sendMessage(message.from, botoes);
     }
 
