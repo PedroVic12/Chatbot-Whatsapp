@@ -1,44 +1,14 @@
-2023/01/19-14:02:18.109 d77e Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/01/19-14:02:18.114 d77e Recovering log #2753
-2023/01/19-14:02:18.125 d77e Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/002753.log 
-2023/01/19-14:02:29.437 d78f Compacting 1@1 + 6@2 files
-2023/01/19-14:02:29.596 d78f Generated table #2758@1: 90931 keys, 2361685 bytes
-2023/01/19-14:02:29.680 d78f Generated table #2759@1: 8816 keys, 2363344 bytes
-2023/01/19-14:02:29.775 d78f Generated table #2760@1: 27802 keys, 2202994 bytes
-2023/01/19-14:02:29.892 d78f Generated table #2761@1: 62532 keys, 2224348 bytes
-2023/01/19-14:02:30.011 d78f Generated table #2762@1: 80630 keys, 1573257 bytes
-2023/01/19-14:02:30.011 d78f Compacted 1@1 + 6@2 files => 10725628 bytes
-2023/01/19-14:02:30.019 d78f compacted to: files[ 0 1 25 0 0 0 0 ]
-2023/01/19-14:02:30.020 d78f Delete type=2 #2756
-2023/01/19-14:02:30.020 d78f Delete type=2 #2749
-2023/01/19-14:02:30.021 d78f Delete type=2 #2746
-2023/01/19-14:02:30.021 d78f Delete type=2 #2750
-2023/01/19-14:02:30.021 d78f Delete type=2 #2751
-2023/01/19-14:02:30.021 d78f Delete type=2 #2747
-2023/01/19-14:02:30.021 d78f Delete type=2 #2748
-2023/01/19-14:02:30.424 d77b Compacting 1@1 + 12@2 files
-2023/01/19-14:02:30.630 d77b Generated table #2763@1: 30269 keys, 2270064 bytes
-2023/01/19-14:02:30.759 d77b Generated table #2764@1: 24735 keys, 2283469 bytes
-2023/01/19-14:02:30.892 d77b Generated table #2765@1: 24656 keys, 2280071 bytes
-2023/01/19-14:02:30.999 d77b Generated table #2766@1: 24722 keys, 2289750 bytes
-2023/01/19-14:02:31.103 d77b Generated table #2767@1: 24484 keys, 2279330 bytes
-2023/01/19-14:02:31.210 d77b Generated table #2768@1: 24561 keys, 2282961 bytes
-2023/01/19-14:02:31.317 d77b Generated table #2769@1: 24622 keys, 2282044 bytes
-2023/01/19-14:02:31.428 d77b Generated table #2770@1: 24726 keys, 2280837 bytes
-2023/01/19-14:02:31.529 d77b Generated table #2771@1: 24801 keys, 2282418 bytes
-2023/01/19-14:02:31.580 d77b Generated table #2772@1: 13297 keys, 1216762 bytes
-2023/01/19-14:02:31.580 d77b Compacted 1@1 + 12@2 files => 21747706 bytes
-2023/01/19-14:02:31.582 d77b compacted to: files[ 0 0 23 0 0 0 0 ]
-2023/01/19-14:02:31.583 d77b Delete type=2 #2712
-2023/01/19-14:02:31.583 d77b Delete type=2 #2736
-2023/01/19-14:02:31.583 d77b Delete type=2 #2556
-2023/01/19-14:02:31.583 d77b Delete type=2 #2702
-2023/01/19-14:02:31.583 d77b Delete type=2 #2557
-2023/01/19-14:02:31.583 d77b Delete type=2 #2711
-2023/01/19-14:02:31.584 d77b Delete type=2 #2713
-2023/01/19-14:02:31.584 d77b Delete type=2 #2714
-2023/01/19-14:02:31.584 d77b Delete type=2 #2716
-2023/01/19-14:02:31.584 d77b Delete type=2 #2715
-2023/01/19-14:02:31.584 d77b Delete type=2 #2755
-2023/01/19-14:02:31.584 d77b Delete type=2 #2737
-2023/01/19-14:02:31.584 d77b Delete type=2 #2738
+2023/01/20-16:11:22.976 497a9 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/01/20-16:11:22.978 497a9 Recovering log #3405
+2023/01/20-16:11:23.009 497a9 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/003405.log 
+2023/01/20-16:11:23.010 497a9 Delete type=2 #3391
+2023/01/20-16:11:23.010 497a9 Delete type=2 #3392
+2023/01/20-16:11:23.010 497a9 Delete type=2 #3393
+2023/01/20-16:11:23.010 497a9 Delete type=2 #3394
+2023/01/20-16:11:23.010 497a9 Delete type=2 #3395
+2023/01/20-16:11:23.010 497a9 Delete type=2 #3396
+2023/01/20-16:11:23.010 497a9 Delete type=2 #3397
+2023/01/20-16:11:23.011 497a9 Delete type=2 #3398
+2023/01/20-16:11:23.011 497a9 Delete type=2 #3399
+2023/01/20-16:11:23.011 497a9 Delete type=2 #3400
+2023/01/20-16:11:23.011 497a9 Delete type=2 #3408

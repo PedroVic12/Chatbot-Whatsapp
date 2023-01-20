@@ -1,68 +1,38 @@
-2023/01/19-14:04:17.885 db64 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/01/19-14:04:17.887 db64 Recovering log #2753
-2023/01/19-14:04:18.016 db64 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/002753.log 
-2023/01/19-14:04:30.012 dba4 Level-0 table #2775: started
-2023/01/19-14:04:30.062 dba4 Level-0 table #2775: 1271259 bytes OK
-2023/01/19-14:04:30.064 dba4 Delete type=0 #2753
-2023/01/19-14:04:31.246 dba5 Compacting 1@0 + 0@1 files
-2023/01/19-14:04:31.312 dba5 Generated table #2776@0: 13238 keys, 315734 bytes
-2023/01/19-14:04:31.328 dba5 Generated table #2777@0: 4089 keys, 262709 bytes
-2023/01/19-14:04:31.329 dba5 Generated table #2778@0: 269 keys, 4755 bytes
-2023/01/19-14:04:31.329 dba5 Compacted 1@0 + 0@1 files => 583198 bytes
-2023/01/19-14:04:31.330 dba5 compacted to: files[ 0 3 23 0 0 0 0 ]
-2023/01/19-14:04:31.629 dba5 Compacting 1@1 + 10@2 files
-2023/01/19-14:04:31.782 dba5 Generated table #2779@1: 24713 keys, 2288475 bytes
-2023/01/19-14:04:31.894 dba5 Generated table #2780@1: 24428 keys, 2281987 bytes
-2023/01/19-14:04:32.014 dba5 Generated table #2781@1: 24867 keys, 2275614 bytes
-2023/01/19-14:04:32.141 dba5 Generated table #2782@1: 53749 keys, 2278488 bytes
-2023/01/19-14:04:32.287 dba5 Generated table #2783@1: 103265 keys, 2256391 bytes
-2023/01/19-14:04:32.445 dba5 Generated table #2784@1: 105452 keys, 2258305 bytes
-2023/01/19-14:04:32.580 dba5 Generated table #2785@1: 99648 keys, 2285471 bytes
-2023/01/19-14:04:32.660 dba5 Generated table #2786@1: 8446 keys, 2453866 bytes
-2023/01/19-14:04:32.743 dba5 Generated table #2787@1: 24780 keys, 2194122 bytes
-2023/01/19-14:04:32.851 dba5 Generated table #2788@1: 54267 keys, 2222360 bytes
-2023/01/19-14:04:32.868 dba5 Generated table #2789@1: 12204 keys, 238027 bytes
-2023/01/19-14:04:32.868 dba5 Compacted 1@1 + 10@2 files => 23033106 bytes
-2023/01/19-14:04:32.870 dba5 compacted to: files[ 0 2 24 0 0 0 0 ]
-2023/01/19-14:04:32.870 dba5 Delete type=2 #2760
-2023/01/19-14:04:32.870 dba5 Delete type=2 #2741
-2023/01/19-14:04:32.870 dba5 Delete type=2 #2777
-2023/01/19-14:04:32.870 dba5 Delete type=2 #2758
-2023/01/19-14:04:32.872 dba5 Delete type=2 #2759
-2023/01/19-14:04:32.872 dba5 Delete type=2 #2761
-2023/01/19-14:04:32.872 dba5 Delete type=2 #2745
-2023/01/19-14:04:32.873 dba5 Delete type=2 #2740
-2023/01/19-14:04:32.873 dba5 Delete type=2 #2742
-2023/01/19-14:04:32.873 dba5 Delete type=2 #2775
-2023/01/19-14:04:32.873 dba5 Delete type=2 #2743
-2023/01/19-14:04:32.873 dba5 Delete type=2 #2744
-2023/01/19-14:04:36.289 db64 Compacting 1@1 + 10@2 files
-2023/01/19-14:04:36.410 db64 Generated table #2790@1: 31014 keys, 2265002 bytes
-2023/01/19-14:04:36.549 db64 Generated table #2791@1: 24732 keys, 2281258 bytes
-2023/01/19-14:04:36.688 db64 Generated table #2792@1: 24609 keys, 2279770 bytes
-2023/01/19-14:04:36.833 db64 Generated table #2793@1: 24634 keys, 2287017 bytes
-2023/01/19-14:04:36.972 db64 Generated table #2794@1: 24655 keys, 2283293 bytes
-2023/01/19-14:04:37.103 db64 Generated table #2795@1: 24485 keys, 2284418 bytes
-2023/01/19-14:04:37.245 db64 Generated table #2796@1: 24596 keys, 2281076 bytes
-2023/01/19-14:04:37.372 db64 Generated table #2797@1: 24747 keys, 2280972 bytes
-2023/01/19-14:04:37.501 db64 Generated table #2798@1: 24752 keys, 2281182 bytes
-2023/01/19-14:04:37.577 db64 Generated table #2799@1: 14468 keys, 1323873 bytes
-2023/01/19-14:04:37.577 db64 Compacted 1@1 + 10@2 files => 21847861 bytes
-2023/01/19-14:04:37.580 db64 compacted to: files[ 0 1 24 0 0 0 0 ]
-2023/01/19-14:04:37.581 db64 Delete type=2 #2763
-2023/01/19-14:04:37.581 db64 Delete type=2 #2772
-2023/01/19-14:04:37.581 db64 Delete type=2 #2765
-2023/01/19-14:04:37.581 db64 Delete type=2 #2771
-2023/01/19-14:04:37.581 db64 Delete type=2 #2766
-2023/01/19-14:04:37.581 db64 Delete type=2 #2768
-2023/01/19-14:04:37.582 db64 Delete type=2 #2767
-2023/01/19-14:04:37.582 db64 Delete type=2 #2776
-2023/01/19-14:04:37.582 db64 Delete type=2 #2769
-2023/01/19-14:04:37.582 db64 Delete type=2 #2770
-2023/01/19-14:04:37.582 db64 Delete type=2 #2764
-2023/01/19-14:04:56.513 dba8 Compacting 1@1 + 1@2 files
-2023/01/19-14:04:56.670 dba8 Generated table #2800@1: 80899 keys, 1578212 bytes
-2023/01/19-14:04:56.670 dba8 Compacted 1@1 + 1@2 files => 1578212 bytes
-2023/01/19-14:04:56.672 dba8 compacted to: files[ 0 0 24 0 0 0 0 ]
-2023/01/19-14:04:56.673 dba8 Delete type=2 #2762
-2023/01/19-14:04:56.673 dba8 Delete type=2 #2778
+2023/01/20-16:12:14.680 49d94 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/01/20-16:12:14.681 49d94 Recovering log #3405
+2023/01/20-16:12:14.773 49d94 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/003405.log 
+2023/01/20-16:12:26.197 49d94 Level-0 table #3429: started
+2023/01/20-16:12:26.225 49d94 Level-0 table #3429: 1252409 bytes OK
+2023/01/20-16:12:26.225 49d94 Delete type=0 #3405
+2023/01/20-16:12:26.233 49d94 Compacting 1@0 + 0@1 files
+2023/01/20-16:12:26.253 49d94 Generated table #3430@0: 13729 keys, 321212 bytes
+2023/01/20-16:12:26.255 49d94 Generated table #3431@0: 652 keys, 60561 bytes
+2023/01/20-16:12:26.259 49d94 Generated table #3432@0: 2810 keys, 87786 bytes
+2023/01/20-16:12:26.259 49d94 Compacted 1@0 + 0@1 files => 469559 bytes
+2023/01/20-16:12:26.259 49d94 compacted to: files[ 0 3 28 0 0 0 0 ]
+2023/01/20-16:12:26.259 49d94 Delete type=2 #3429
+2023/01/20-16:12:34.169 49dde Compacting 1@1 + 6@2 files
+2023/01/20-16:12:34.224 49dde Generated table #3433@1: 14857 keys, 2569708 bytes
+2023/01/20-16:12:34.260 49dde Generated table #3434@1: 13702 keys, 2163119 bytes
+2023/01/20-16:12:34.344 49dde Generated table #3435@1: 37763 keys, 2231162 bytes
+2023/01/20-16:12:34.446 49dde Generated table #3436@1: 96041 keys, 2243380 bytes
+2023/01/20-16:12:34.494 49dde Generated table #3437@1: 47945 keys, 936821 bytes
+2023/01/20-16:12:34.494 49dde Compacted 1@1 + 6@2 files => 10144190 bytes
+2023/01/20-16:12:34.494 49dde compacted to: files[ 0 2 27 0 0 0 0 ]
+2023/01/20-16:12:34.495 49dde Delete type=2 #3410
+2023/01/20-16:12:34.495 49dde Delete type=2 #3411
+2023/01/20-16:12:34.495 49dde Delete type=2 #3412
+2023/01/20-16:12:34.495 49dde Delete type=2 #3413
+2023/01/20-16:12:34.495 49dde Delete type=2 #3414
+2023/01/20-16:12:34.495 49dde Delete type=2 #3426
+2023/01/20-16:12:34.495 49dde Delete type=2 #3432
+2023/01/20-16:12:36.699 49ddf Compacting 1@1 + 3@2 files
+2023/01/20-16:12:36.803 49ddf Generated table #3438@1: 30518 keys, 2268221 bytes
+2023/01/20-16:12:36.859 49ddf Generated table #3439@1: 24683 keys, 2287255 bytes
+2023/01/20-16:12:36.863 49ddf Generated table #3440@1: 1662 keys, 144623 bytes
+2023/01/20-16:12:36.863 49ddf Compacted 1@1 + 3@2 files => 4700099 bytes
+2023/01/20-16:12:36.863 49ddf compacted to: files[ 0 1 27 0 0 0 0 ]
+2023/01/20-16:12:36.863 49ddf Delete type=2 #3378
+2023/01/20-16:12:36.863 49ddf Delete type=2 #3403
+2023/01/20-16:12:36.863 49ddf Delete type=2 #3415
+2023/01/20-16:12:36.863 49ddf Delete type=2 #3430

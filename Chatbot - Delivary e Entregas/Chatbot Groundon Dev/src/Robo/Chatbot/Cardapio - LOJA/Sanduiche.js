@@ -14,16 +14,18 @@ class Sanduiches {
     getPreco() {
         return `Preço = ${this.preco}`;
     }
+
+    static getAllSanduiches() {
+        return [
+            new Sanduiches("Big Mac", 7.99),
+            new Sanduiches("Quarteirão", 3.99),
+            new Sanduiches("X-TUDO", 5.99),
+            new Sanduiches("Cheese Burguer", 13.99),
+            new Sanduiches("Cheese Bacon", 10.99)
+        ]
+    }
 }
 
-
-let BigMac = new Sanduiches("Big Mac", 8)
-let quarteirao = new Sanduiches("Quarteirão", 5)
-let x_tudo = new Sanduiches("X-TUDO", 10)
-
-var todo_cardapio = []
-todo_cardapio.push(BigMac, quarteirao, x_tudo)
-//console.log(todo_cardapio)
 
 
 module.exports = Sanduiches;

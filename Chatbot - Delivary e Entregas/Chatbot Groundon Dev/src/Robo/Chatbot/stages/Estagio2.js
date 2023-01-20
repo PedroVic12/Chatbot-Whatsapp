@@ -1,20 +1,21 @@
 const Chatbot = require("../../chatbot");
+const BancoDeDados = require("../Banco de Dados - EXCEL/Banco")
+const Cliente = require("../Pedido/Cliente")
 
 class Estagio2 {
-
     //Herança implícita da classe Chatbot
     constructor(Chatbot) {
         this.chatbot = Chatbot;
 
         //Numero de Pedidos por dia
         this.numero_pedido_dia = 1
-        this.nome_cliente = ""
+        this.NomeCliente = ""
 
     }
     async getNomeCliente(message) {
         try {
-            this.nome_cliente = message.body
-            this.chatbot.enviarMensagem(message, `Prazer em te conhecer, ${this.nome_cliente}!`);
+            this.NomeCliente = message.body
+            this.chatbot.enviarMensagem(message, `Prazer em te conhecer, ${this.NomeCliente}!`);
             this.chatbot.enviarMensagem(message, `Seu numero de Pedido é ${this.numero_pedido} `)
 
         } catch (err) {
@@ -23,18 +24,19 @@ class Estagio2 {
     }
 
     getNome() {
-        return this.nome_cliente;
+        return this.NomeCliente;
     }
-
 
     infoCliente(message) {
 
+        //let data_atual = new Date();
+       
         let horario_pedido = this.chatbot.getHoras()
-
-        //let nome = this.getNomeCliente(whatsapp, message);
         let nome_cliente = message._data.notifyName;
-
+        //let nome_cliente2 = this.getNome()
         let telefone_cliente = message.from.split('@')[0]
+
+        // cliente_atual = new Cliente(this.chatbot, nome_cliente, telefone_cliente)
 
         dados = {
             "Nome": nome_cliente,
@@ -43,9 +45,18 @@ class Estagio2 {
             "Telefone": telefone_cliente
         }
 
-        this.chatbot.enviarMensagem(message, `Dados do Cliente: ${JSON.stringify(dados)}`)
+
 
         //colocar a variavel dados para o excel
+        this.chatbot.enviarMensagem(message, `Dados do Cliente: ${JSON.stringify(dados)}`)
+        // excel = new BancoDeDados(this.chatbot)
+        // excel.adicionarCliente(nome_cliente, telefone_cliente)
+
+        // se o cliente estiver na base de dados, enviar uma mensagem que o cliente ja esta cadastrado
+        //this.chatbot.enviarMensagem(message, `Cliente ${nome_cliente2} já cadastrado!`)
+
+        // se o cliente não estiver na base de dados, cadastrar o cliente
+        //this.chatbot.enviarMensagem(message, `Cliente atual = ${cliente_atual}`)
 
     }
 
@@ -61,8 +72,6 @@ class Estagio2 {
         );
 
         //Testar os IFs aqui dentro para que não precise de outro estagio
-
-
     }
 }
 

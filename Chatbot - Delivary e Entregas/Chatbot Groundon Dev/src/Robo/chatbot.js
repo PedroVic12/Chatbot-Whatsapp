@@ -23,7 +23,7 @@ class Chatbot {
 
         return new Promise((resolve, reject) => {
             console.log("====================================")
-            console.log("\t CHATBOT GROUNDON \nby:pvpeterparker")
+            console.log("\t CHATBOT GROUNDON V4.1.0 \nby:pvpeterparker")
             console.log("====================================\n")
             console.log("\nIniciando o Chatbot...")
             console.log('Gerando QR code...');
@@ -102,6 +102,13 @@ class Chatbot {
         return `${this.conversa_cliente}`
     }
 
+    delay(t, v) {
+        return new Promise(function (resolve) {
+            setTimeout(() => {
+                resolve.bind(null, v)
+            }, t);
+        })
+    }
 
     //!Funções para enviar Listas
 
@@ -110,21 +117,10 @@ class Chatbot {
         return this.whatsapp.sendMessage(message.from, _itens);
     }
 
-
-    enviarLista3(message, listBody, BtnText, itens_list) {
+    enviarLista(message, listBody, BtnText, itens_list) {
         let _itens = new List(listBody, BtnText, itens_list, "Chatbot Groundon", "footer");
         return this.whatsapp.sendMessage(message.from, _itens);
     }
-
-
-    sendListWhatsapp(message, _nome_produto, _preco_produto) {
-        let rows = () => {
-            return { title: _nome_produto, description: _preco_produto };
-        };
-        let _itens = new List("List Body", "BtnText", rows, "Chatbot Groundon", "Footer");
-        this.whatsapp.sendMessage(message.from, _itens);
-    }
-
 
     //!Funções para enviar Botões
     enviarBotao(message, text, buttons, _title, _footer) {

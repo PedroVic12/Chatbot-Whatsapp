@@ -9,6 +9,10 @@ const sheet = workbook.addWorksheet('Janeiro');
 sheet.columns = [
     { header: 'Nome', key: 'name', width: 32 },
     { header: 'Telefone', key: 'phone', width: 32 },
+    //{ header: "Data", key: "date", width: 32 },
+    { header: "Itens", key: "item", width: 32 },
+    { header: "Total", key: "total", width: 32 },
+    { header: "Endereço", key: "address", width: 32 },
 ]
 
 for (let i = 0; i < 5; i++) {
@@ -23,14 +27,14 @@ function adicionarCliente(nome, telefone) {
         name: nome,
         phone: telefone,
     });
-    workbook.xlsx.writeFile('Robo/Chatbot/Banco de Dados/Janeiro/base_de_dados_janeiro.xlsx')
+    workbook.xlsx.writeFile('Chatbot/Banco de Dados - EXCEL/Janeiro/base_de_dados_janeiro.xlsx')
 }
 
 
 sheet.getRow(1).font = {
     bold: true,
     size: 14,
-    color: { argb: 'FFFFFF' }
+    color: { argb: '0000FF' }
 
 }
 
@@ -40,4 +44,4 @@ sheet.getRow(1).fill = {
     bgColor: { argb: 'FF000000' }
 }
 
-workbook.xlsx.writeFile('Robo/Chatbot/Banco de Dados/Janeiro/base_de_dados_janeiro.xlsx')
+workbook.xlsx.writeFile('Chatbot/Banco de Dados - EXCEL/Janeiro/base_de_dados_janeiro.xlsx')

@@ -1,5 +1,6 @@
 const Chatbot = require("../../chatbot");
 const Estagio2 = require("./Estagio2.js");
+const Cliente = require("../Pedido/Cliente.js");
 
 class Estagio4 {
     constructor(Chatbot, Estagio2) {
@@ -16,16 +17,42 @@ class Estagio4 {
                 { body: "Salgados" }
             ]
         );
-    }
 
-
-
-
-    adicionarItensCarrinho() {
 
     }
 
+    enviarListaBebidas(message) {
 
+    }
+
+    enviarListaSalgados(message) {
+
+    }
+    enviarListaSanduiches(message) {
+
+    }
+
+    adicionarItensCarrinho(message) {
+
+        // Colocando o pedido na base de dados
+        this.chatbot.delay(1000).then(async function () {
+            const cliente = message._data.notifyName;
+            const itens = getItens(cliente)
+            const total = getTotal(cliente)
+            this.setItens(`${itens}, ${message._data.ListResponse.title, cliente}`)
+            this.setTotal()
+        });
+
+        // Enviando mensagem de confirmação
+        this.chatbot.delay(2000).then(async function () {
+            const cliente = message._data.notifyName;
+            const itens = getItens(cliente)
+            const total = getTotal(cliente)
+            this.chatbot.enviarMensagem(message, `Seu pedido é: ${itens} e o total é: ${total}`)
+        })
+
+
+    }
 
     getTotal() {
 
@@ -59,88 +86,6 @@ class Estagio4 {
 
     //chatbot.notaFiscal() 
 
-    fazerPedido(whatsapp, message) {
-        let button = new Buttons("Tudo bem, ${nome_cliente}? Escolha uma opção abaixo do que voce deseja", [
-            { body: 'Sanduiche' },
-            { body: 'Bebidas' },
-            { body: 'Salgados' }
-        ], 'Chatbot Groundon', 'Horário de Atendimento = ');
-
-        whatsapp.sendMessage(message.from, button)
-
-
-        if (message.body === 'Sanduiche') {
-
-            //loop que pega o ID, Nome do produto e o Preço
-
-            const lista_produtos = new List(
-                "Here's our list of products at 50% off",
-                "Lanches Disponíveis",
-                [
-                    {
-                        title: "Sanduiches Disponíveis",
-                        rows: [
-                            { id: "1", title: "Sanduiche" },
-                            { id: "2", title: "Bebidas" },
-                            { id: "3", title: "Salgados" },
-                        ],
-                    },
-                ],
-                "Por favor selecione um produto"
-            );
-
-            whatsapp.sendMessage(message.from, lista_produtos)
-
-        }
-
-        if (message.body === 'Bebidas') {
-            const lista_produtos = new List(
-                "Here's our list of products at 50% off",
-                "Lanches Disponíveis",
-                [
-                    {
-                        title: "Bebidas Disponíveis",
-                        rows: [
-                            { id: "1", title: "Sanduiche" },
-                            { id: "2", title: "Bebidas" },
-                            { id: "3", title: "Salgados" },
-                        ],
-                    },
-                ],
-                "Por favor selecione um produto"
-            );
-
-            whatsapp.sendMessage(message.from, lista_produtos)
-
-        }
-
-        if (message.body === 'Salgados') {
-            const lista_produtos = new List(
-                "Here's our list of products at 50% off",
-                "Lanches Disponíveis",
-                [
-                    {
-                        title: "Salgados Disponíveis",
-                        rows: [
-                            { id: "1", title: "Sanduiche" },
-                            { id: "2", title: "Bebidas" },
-                            { id: "3", title: "Salgados" },
-                        ],
-                    },
-                ],
-                "Por favor selecione um produto"
-            );
-
-            whatsapp.sendMessage(message.from, lista_produtos)
-        }
-
-        if (message.body === 'Voltar') {
-            whatsapp.sendMessage(message.from, 'Voltando...');
-
-        }
-
-
-    }
 }
 
 module.exports = Estagio4

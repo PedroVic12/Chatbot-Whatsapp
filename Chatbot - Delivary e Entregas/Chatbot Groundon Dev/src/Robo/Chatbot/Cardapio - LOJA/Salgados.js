@@ -12,16 +12,17 @@ class Salgados {
     getPreco() {
         return this.preco;
     }
+
+    static getAllSalgados() {
+        return [
+            new Salgados("Coxinha", 4.99),
+            new Salgados("Salgados Diversos", 3.99),
+            new Salgados("Pão de Queijo", 3.99),
+            new Salgados("Fatia de Pizza", 3.99),
+            new Salgados("Pastel", 3.99)
+        ]
+    }
 }
-
-
-let salgados_diversos = new Salgados("Salgados Diversos", 6)
-let pao_de_queijo = new Salgados("Pão de Queijo", 5)
-let fatia_pizza = new Salgados("Fatia de Pizza", 10)
-
-let todo_cardapio = []
-todo_cardapio.push(salgados_diversos, pao_de_queijo, fatia_pizza)
-//console.log(todo_cardapio)
 
 
 module.exports = Salgados;

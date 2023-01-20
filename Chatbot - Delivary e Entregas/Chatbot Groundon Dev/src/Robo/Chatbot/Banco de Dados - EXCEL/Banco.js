@@ -58,10 +58,11 @@ class BancoDeDados {
     }
 
 
-    //Métodos
+    //!Métodos
     lerDadosExcel(path) {
         // Read the Excel file
         workbook.xlsx.readFile(path);
+
         // Iterate over the rows in the worksheet
         sheet.eachRow(function (row, rowNumber) {
             return "Row " + rowNumber + " = " + JSON.stringify(row.values);

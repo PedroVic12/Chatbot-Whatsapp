@@ -11,14 +11,19 @@
 //! Importações e variáveis GLOBAIS
 // Documentação:  https://wwebjs.dev/guide/#replying-to-messages
 const Groundon = require('./chatbot.js');
+const BancoDeDados = require("./Chatbot/Banco de Dados - EXCEL/Banco");
+
 const Estagio1 = require('./Chatbot/stages/Estagio1')
 const Estagio2 = require('./Chatbot/stages/Estagio2')
 const Estagio3 = require('./Chatbot/stages/Estagio3')
 const Estagio4 = require('./Chatbot/stages/Estagio4')
-const BancoDeDados = require("./Chatbot/Banco de Dados - EXCEL/Banco");
+
 const Bebidas = require('./Chatbot/Cardapio - LOJA/Bebidas.js');
 const Salgados = require("./Chatbot/Cardapio - LOJA/Salgados")
 const Sanduiches = require("./Chatbot/Cardapio - LOJA/Sanduiche");
+
+const Carrinho = require("./Chatbot/Pedido/Carrinho");
+const Cliente = require("./Chatbot/Pedido/Cliente");
 const { List } = require('whatsapp-web.js');
 
 //!Inicializando o BOT
@@ -28,11 +33,12 @@ const estagio2 = new Estagio2(chatbot);
 const estagio3 = new Estagio3(chatbot);
 const estagio4 = new Estagio4(chatbot, estagio2);
 const Banco = new BancoDeDados(chatbot)
+const cliente = new Cliente(chatbot)
+const carrinho = new Carrinho(chatbot)
 
 
-function delay() {
-    return new Promise(resolve => setTimeout(resolve, 1000));
-
+function delay(tempo) {
+    return new Promise(resolve => setTimeout(resolve, tempo));
 }
 
 // Talvez seja necessário um código para autenticar 
@@ -62,20 +68,18 @@ chatbot.whatsapp.on('message', message => {
     //!=====================  Estágio 2 - Mostrar Opções =====================
     else if (chatbot.numero_estagio === 2) {
 
-        //Pegando o nome do cliente
         estagio2.getNomeCliente(message)
-
-        // Mostrando o Menu
         estagio2.mostrarMenuPrincipal(message)
-        //estagio2.mandarMensagemTeste(message)
 
         // TODO Verificar na Base de dados com try e catch com uma função
-        excel_janeiro = "Chatbot/Banco de Dados - EXCEL/Janeiro/base_de_dados_janeiro.xlsx"
-        dados = Banco.lerDadosExcel(excel_janeiro)
-        console.log(dados)
+        // excel_janeiro = "Chatbot/Banco de Dados - EXCEL/Janeiro/base_de_dados_janeiro.xlsx"
+        // let dados_excel = Banco.lerDadosExcel(excel_janeiro)
+        //chatbot.enviarMensagem(message, "Base de Dados Atual " + dados_excel)
 
         //TODO criar um objeto Cliente(nome) que pegue todos as informações do cliente atual
-        estagio2.infoCliente(message)
+        //estagio2.infoCliente(message)
+
+        
         chatbot.avancarEstagio()
     }
 
@@ -96,51 +100,69 @@ chatbot.whatsapp.on('message', message => {
     }
     //!=====================  Estagio 4 - Cliente Escolhe Pedido e faz Pagamento ===================== 
     else if (chatbot.numero_estagio === 4) {
-        chatbot.enviarMensagem(message, "Aqui está o seu pedido: ")
 
-        // TODO pegar o objeto que vem de cada produto
-        //Instanciando os produtos do estabelecimento
-        let salgado = new Salgados("Coxinha", 2.50)
-        let sanduiche = new Sanduiches("Hambúrguer", 12.99);
-        let bebida = new Bebidas("Coca-cola", 4.99);
+        //TODO Modularizar Instanciando os produtos do estabelecimento
+        const cardapio_sanduiche = Sanduiches.getAllSanduiches()
+        const cardapio_bebidas = Bebidas.getAllBebidas()
+        const cardapio_salgados = Salgados.getAllSalgados()
 
-
-        //TODO Criar uma função para enviar a lista de produtos
+        //TODO Fazer uma função dentro do estágio 4 para cada produto
         if (message.body === 'Sanduíches') {
+            let sanduiche_array = []
 
-            let sections = [{
-                title: "==> ESCOLHA os Sanduíches MAIS CAROS ", rows:
-                    [
-                        { title: sanduiche.nome, description: ` R$ ${sanduiche.preco}` }
-                    ]
+            // Percorre todas as bebidas e adiciona a lista
+            cardapio_sanduiche.forEach(sanduiche => {
+                sanduiche_array.push({ title: sanduiche.nome, description: `R$ ${sanduiche.preco}` })
+            })
+
+            // Guarda o array para colocar dentro da lista do wpp
+            let itens_lista_wpp = [{
+                title: "==> ESCOLHA os Sanduíches MAIS CAROS ", rows: sanduiche_array
             }]
-            chatbot.enviarLista3(message, "COMPRE AQUI", "FAZER PEDIDO", sections)
+            chatbot.enviarLista(message, `${estagio2.getNome()}, Escolha os itens do seu pedido`, "FAZER PEDIDO", itens_lista_wpp)
         }
 
+        let bebidas_array = []
         if (message.body === 'Bebidas') {
-            let sections = [{
-                title: "==> ESCOLHA OS REFRIGERANTES MAIS CAROS", rows:
-                    [
-                        { title: bebida.nome, description: `R$ ${bebida.preco}` },
-                    ]
+
+            // Percorre todas as bebidas e adiciona a lista
+            cardapio_bebidas.forEach(bebida => {
+                bebidas_array.push({ title: bebida.nome, description: `R$ ${bebida.preco}` });
+            });
+
+            // Guarda o array para colocar dentro da lista do wpp
+            let itens_lista_wpp = [{
+                title: "==> ESCOLHA AS BEBIDAS MAIS CARAS", rows: bebidas_array
             }]
 
-            chatbot.enviarLista3(message, "COMPRE AQUI", "FAZER PEDIDO", sections)
-            chatbot.enviarLista_old(message, sections)
-            //chatbot.sendListWhatsapp(message, bebida.nome, bebida.preco)
-
+            chatbot.enviarLista(message, "ESCOLHA O PRODUTO QUE VOCE DESEJA", "FAZER PEDIDO", itens_lista_wpp)
         }
-
 
         if (message.body === 'Salgados') {
-            let sections = [{
-                title: "==> ESCOLHA os Salgados MAIS CAROS ", rows:
-                    [
-                        { title: salgado.nome, description: `R$ ${salgado.preco}` },
-                    ]
+
+            let salgados_array = []
+
+            // Percorre todas as bebidas e adiciona a lista
+            cardapio_salgados.forEach(salgado => {
+                salgados_array.push({ title: salgado.nome, description: `R$ ${salgado.preco}` });
+            })
+
+            // Guarda o array para colocar dentro da lista do wpp
+            let itens_lista_wpp = [{
+                title: "==> ESCOLHA os Salgados MAIS CAROS ", rows: salgados_array
             }]
-            chatbot.enviarLista3(message, "COMPRE AQUI", "FAZER PEDIDO", sections)
+
+            chatbot.enviarLista3(message, "COMPRE AQUI", "FAZER PEDIDO", itens_lista_wpp)
         }
+
+        if (message.body === 'Finalizar Pedido') { }
+
+        if (message.body === 'Reiniciar Pedido') { }
+
+
+        //Adicionando no carrinho
+        chatbot.enviarMensagem(message, `Adicionando no carrinho... ${bebidas_array}`)
+        cliente.realizaPedido(message, bebidas_array)
 
 
         chatbot.enviarMensagem(message, "Bom Apetite!")
