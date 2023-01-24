@@ -5,7 +5,7 @@ class Carrinho {
     constructor(Chatbot) {
         this.chatbot = Chatbot;
         this.carrinho_loja = {
-            itensPedido: [],
+            nomeProduto: [],
             total: 0
         };
     }
@@ -18,23 +18,35 @@ class Carrinho {
         let bebidas_array = []
 
         cardapio_bebidas.forEach(bebida => {
-            bebidas_array.push({ title: bebida.nome, description: `R$ ${bebida.preco}` })
+            bebidas_array.push({ title: bebida.nome, description: bebida.preco })
         })
 
-        console.log("Todos os Produtos: ", bebidas_array)
-
-
+        return bebidas_array
     }
 
-    adicionarProdutoCarrinho(_nome_produto) {
+    formatarProdutos() {
+        return this.carrinho_loja.nomeProduto.map(item => `${item.title}`).join(", ")
+    }
 
-        let produto = itens.find(p => p.nome === _nome_produto);
-        if (produto) {
-            this.carrinho_loja.itensPedido.push(produto);
-            this.carrinho_loja.total += produto.preco;
-        }
 
-        this.chatbot.enviarMensagem(message, `*Itens do Pedido:* ${this.carrinho_loja.itensPedido} \n *Valor total do pedido:* R$ ${this.carrinho_loja.total}`)
+    adicionarProdutoCarrinho(...pedido_cliente) {
+
+        let itens = this.todosItensCardapio()
+
+        pedido_cliente.forEach(_nome_produto => {
+
+            let produtoCarrinho = itens.find(element => element.title === _nome_produto);
+
+            if (produtoCarrinho) {
+                this.carrinho_loja.nomeProduto.push(produtoCarrinho);
+                this.carrinho_loja.total += produtoCarrinho.description;
+            }
+        })
+
+
+
+        console.log(`*Itens do Pedido:* ${this.formatarProdutos()} \n *Valor total do pedido:* R$ ${this.carrinho_loja.total}`)
+        //this.chatbot.enviarMensagem(message, `*Itens do Pedido:* ${this.carrinho_loja.itensPedido} \n *Valor total do pedido:* R$ ${this.carrinho_loja.total}`)
 
     }
 
@@ -50,6 +62,12 @@ class Carrinho {
 }
 
 
+let c1 = new Carrinho(Chatbot)
+let _cardapio = c1.todosItensCardapio()
+//console.log("Todos os Produtos: ", _cardapio)
+c1.adicionarProdutoCarrinho("Guaraná")
+c1.adicionarProdutoCarrinho('Pepsi')
+c1.adicionarProdutoCarrinho('Fanta Uva')
 
 
 module.exports = Carrinho;

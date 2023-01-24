@@ -79,7 +79,7 @@ chatbot.whatsapp.on('message', message => {
         //TODO criar um objeto Cliente(nome) que pegue todos as informações do cliente atual
         //estagio2.infoCliente(message)
 
-        
+
         chatbot.avancarEstagio()
     }
 
@@ -161,6 +161,15 @@ chatbot.whatsapp.on('message', message => {
 
 
         //Adicionando no carrinho
+        let _carrinho = {
+            itens: [],
+            preco: 0
+        }
+
+        function local(){
+            
+        }
+
         chatbot.enviarMensagem(message, `Adicionando no carrinho... ${bebidas_array}`)
         cliente.realizaPedido(message, bebidas_array)
 

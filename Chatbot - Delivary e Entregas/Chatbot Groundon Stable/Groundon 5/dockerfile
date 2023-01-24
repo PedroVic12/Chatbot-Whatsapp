@@ -1,0 +1,11 @@
+FROM node:16.18
+
+WORKDIR /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Stable/Groundon 5/
+
+COPY package*.json .
+
+RUN npm install 
+
+COPY . .
+
+CMD node server.js

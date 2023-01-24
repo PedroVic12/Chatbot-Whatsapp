@@ -23,7 +23,7 @@ class Chatbot {
 
         return new Promise((resolve, reject) => {
             console.log("====================================")
-            console.log("\t CHATBOT GROUNDON V4.1.0 \nby:pvpeterparker")
+            console.log("\t CHATBOT GROUNDON V4.3.0 \nby:pvpeterparker")
             console.log("====================================\n")
             console.log("\nIniciando o Chatbot...")
             console.log('Gerando QR code...');
@@ -141,10 +141,9 @@ class Chatbot {
     }
 
     enviarMensagemComDelay(message, text, delay) {
-        setTimeout(() => {
-            return this.whatsapp.sendMessage(message.from, text).then(() => {
-                console.log("Mensagem enviada com sucesso!");
-            });
+        setTimeout(async () => {
+            await this.whatsapp.sendMessage(message.from, text);
+            console.log("Mensagem enviada com sucesso!");
         }, delay)
     }
 

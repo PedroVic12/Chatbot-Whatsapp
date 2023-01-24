@@ -32,6 +32,15 @@ class Estagio4 {
 
     }
 
+
+
+    adicionarAoCarrinho(item) {
+        let carrinho = []
+        carrinho.push(item);
+    }
+
+
+
     adicionarItensCarrinho(message) {
 
         // Colocando o pedido na base de dados
