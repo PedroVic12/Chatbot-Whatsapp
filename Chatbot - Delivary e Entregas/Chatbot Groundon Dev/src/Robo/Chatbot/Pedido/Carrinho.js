@@ -45,6 +45,8 @@ class Carrinho {
 
 
 
+        
+
         console.log(`*Itens do Pedido:* ${this.formatarProdutos()} \n *Valor total do pedido:* R$ ${this.carrinho_loja.total}`)
         //this.chatbot.enviarMensagem(message, `*Itens do Pedido:* ${this.carrinho_loja.itensPedido} \n *Valor total do pedido:* R$ ${this.carrinho_loja.total}`)
 
