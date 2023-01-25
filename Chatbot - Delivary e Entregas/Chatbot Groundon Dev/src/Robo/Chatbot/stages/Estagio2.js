@@ -68,7 +68,7 @@ class Estagio2 {
                 { body: "Ver Cardápio" },
                 { body: "Fazer Pedido" },
                 { body: "Ver nossa Localização" }
-            ], 'Chatbot Groundon', `Horário de Atendimento = ${this.chatbot.getHoras()}`
+            ], '🤖 Chatbot Groundon', `Horário de Atendimento = ${this.chatbot.getHoras()}`
         );
 
         //Testar os IFs aqui dentro para que não precise de outro estagio

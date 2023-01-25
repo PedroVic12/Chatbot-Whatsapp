@@ -71,7 +71,7 @@ class Chatbot {
             console.log("\n\n")
             console.log("=====================================")
             console.log("|  INFORMAÇÕES DO CLIENTE  |")
-            //console.log(`| Data  = ${dia_trabalho.getDate()}/${dia_trabalho.getMonth()}/${dia_trabalho.getFullYear()} |`)
+            console.log(`| Data  = ${data_atual.getDate()}/${data_atual.getMonth() + 1}/${data_atual.getFullYear()} |`)
             console.log(`| Horário inicio do Atendimento = ${hora}:${minuto}:0${segundos} |`);
             console.log("| Nome do Cliente = ", nome)
             console.log("| Número do Usuário = " + telefone);
@@ -101,7 +101,8 @@ class Chatbot {
     }
     getDataAtual() {
         let dia_trabalho = new Date()
-        return `${dia_trabalho.getDate()}/${dia_trabalho.getMonth()}/${dia_trabalho.getFullYear()}`
+        let mes = dia_trabalho.getMonth() + 1
+        return `${dia_trabalho.getDate()}/${mes}/${dia_trabalho.getFullYear()}`
     }
 
     getHoras() {
@@ -147,13 +148,28 @@ class Chatbot {
     //!Funções para enviar Listas
 
     enviarLista_old(message, itens_list) {
-        let _itens = new List("listBody", "BtnText", itens_list, "Chatbot Groundon", "footer");
+        let _itens = new List("listBody", "BtnText", itens_list, "🤖 Chatbot Groundon", "footer");
         return this.whatsapp.sendMessage(message.from, _itens);
     }
 
     enviarLista(message, listBody, BtnText, itens_list) {
-        let _itens = new List(listBody, BtnText, itens_list, "Chatbot Groundon", "footer");
+        let _itens = new List(listBody, BtnText, itens_list, "🤖 Chatbot Groundon", "footer");
         return this.whatsapp.sendMessage(message.from, _itens);
+    }
+
+    mostrarProdutosLista(message) {
+
+        let itens_lista_wpp = [{
+            title: "==> Continue Seu Pedido",
+            rows:
+                [{ title: "Continuar Pedido", description: "Escolha as opções de comida novamente" },
+                { title: "Ver Carrinho", description: "Ver os produtos que voce possui no carrinho" },
+                { title: "Reiniciar Pedido", description: "Cancelar o pedido e voltar para o estágio inicial" },
+                { title: "Finalizar Pedido", description: "Finalizar o pedido" }
+                ]
+        }]
+
+        this.enviarLista(message, "Escolha umas opções abaixo", "Continuar Pedido", itens_lista_wpp)
     }
 
     //!====================================================================

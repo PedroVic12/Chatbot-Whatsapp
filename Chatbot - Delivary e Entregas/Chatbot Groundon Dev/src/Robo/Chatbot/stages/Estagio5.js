@@ -7,6 +7,11 @@ class Estagio4 {
     }
 
 
+    //chatbot.ProcessaPagamento() -> joga na base de dados
+
+    //enviarPedido (pegar localização)
+
+    //chatbot.notaFiscal() 
 }
 
 module.exports = Estagio4;

@@ -7,29 +7,6 @@ class Estagio3 {
 
 
 
-    mostrarCardapioNoChat(message) {
-        // Define o cardápio
-        const cardapio = [
-            {
-                nome: 'Refrigerante',
-                preco: 3.50,
-            },
-            {
-                nome: 'Suco',
-                preco: 4.00,
-            },
-            {
-                nome: 'Água Mineral',
-                preco: 2.50,
-            },
-        ];
-        // Transforma o cardápio em uma lista de strings
-        const opcoes = cardapio.map(bebida => `${bebida.nome} - R$${bebida.preco}`).join('\n');
-
-        // Envia a mensagem com o cardápio para o usuário
-        this.chatbot.enviarMensagem(message, `Aqui está o nosso cardápio: \n\n${opcoes}\n\nPor favor, digite o nome da bebida que deseja pedir:`);
-
-    }
 
     mostrarLocal(message) {
         let botafogo = {

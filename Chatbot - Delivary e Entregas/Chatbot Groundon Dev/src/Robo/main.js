@@ -19,8 +19,8 @@ const Estagio3 = require('./Chatbot/stages/Estagio3')
 const Estagio4 = require('./Chatbot/stages/Estagio4')
 
 const Bebidas = require('./Chatbot/Cardapio - LOJA/Bebidas.js');
-const Salgados = require("./Chatbot/Cardapio - LOJA/Salgados")
-const Sanduiches = require("./Chatbot/Cardapio - LOJA/Sanduiche");
+const Salgados = require("./Chatbot/Cardapio - LOJA/Salgados.js")
+const Sanduiches = require("./Chatbot/Cardapio - LOJA/Sanduiche.js");
 
 const Carrinho = require("./Chatbot/Pedido/Carrinho");
 const Cliente = require("./Chatbot/Pedido/Cliente");
@@ -79,7 +79,6 @@ chatbot.whatsapp.on('message', message => {
         //TODO criar um objeto Cliente(nome) que pegue todos as informações do cliente atual
         //estagio2.infoCliente(message)
 
-
         chatbot.avancarEstagio()
     }
 
@@ -88,12 +87,14 @@ chatbot.whatsapp.on('message', message => {
     //!=====================  Estágio 3 - Anota o pedido e coloca no carrinho  =====================
     else if (chatbot.numero_estagio === 3) {
         if (message.body === 'Ver Cardápio') {
-            estagio3.mostrarCardapioNoChat(message)
+            //estagio3.mostrarCardapioNoChat(message)
+            chatbot.enviarMensagem(message, 'Vou mostrar o cardapio em PDF!')
         }
         if (message.body === 'Fazer Pedido') {
             chatbot.avancarEstagio().then(
                 chatbot.mostrarProdutosBotao(message)
             )
+
         }
         if (message.body === 'Ver nossa Localização') {
             estagio3.mostrarLocal(message)
@@ -105,81 +106,63 @@ chatbot.whatsapp.on('message', message => {
     //!=====================  Estagio 4 - Cliente Escolhe Pedido e faz Pagamento ===================== 
     else if (chatbot.numero_estagio === 4) {
 
-        //! TODO Modularizar Instanciando os produtos do estabelecimento
-        const cardapio_sanduiche = Sanduiches.getAllSanduiches()
-        const cardapio_bebidas = Bebidas.getAllBebidas()
-        const cardapio_salgados = Salgados.getAllSalgados()
-
         //TODO Fazer uma função dentro do estágio 4 para cada produto
         if (message.body === 'Sanduíches') {
-            let sanduiche_array = []
+            const cardapio_sanduiche = Sanduiches.getAllSanduiches()
+            estagio4.enviarListaSanduiches(message, cardapio_sanduiche)
 
-            // Percorre todas as bebidas e adiciona a lista
-            cardapio_sanduiche.forEach(sanduiche => {
-                sanduiche_array.push({ title: sanduiche.nome, description: `R$ ${sanduiche.preco}` })
-            })
-
-            // Guarda o array para colocar dentro da lista do wpp
-            let itens_lista_wpp = [{
-                title: "==> ESCOLHA os Sanduíches MAIS CAROS ", rows: sanduiche_array
-            }]
-            chatbot.enviarLista(message, `${estagio2.getNome()}, Escolha os itens do seu pedido`, "FAZER PEDIDO", itens_lista_wpp)
+            //TODO Adicionando no carrinho
+            cliente.realizaPedido(message)
         }
+
         if (message.body === 'Bebidas') {
-            let bebidas_array = []
+            // Mostra a lista de bebidas
+            const cardapio_bebidas = Bebidas.getAllBebidas()
+            estagio4.enviarListaBebidas(message, cardapio_bebidas)
 
-            // Percorre todas as bebidas e adiciona a lista
-            cardapio_bebidas.forEach(bebida => {
-                bebidas_array.push({ title: bebida.nome, description: `R$ ${bebida.preco}` });
-            });
 
-            // Guarda o array para colocar dentro da lista do wpp
-            let itens_lista_wpp = [{
-                title: "==> ESCOLHA AS BEBIDAS MAIS CARAS", rows: bebidas_array
-            }]
-
-            chatbot.enviarLista(message, "ESCOLHA O PRODUTO QUE VOCE DESEJA", "FAZER PEDIDO", itens_lista_wpp)
         }
+
         if (message.body === 'Salgados') {
+            const cardapio_salgados = Salgados.getAllSalgados()
+            estagio4.enviarListaSalgados(message, cardapio_salgados)
 
-            let salgados_array = []
+            //TODO Adicionando no carrinho
+            cliente.realizaPedido(message)
+        }
 
-            // Percorre todas as bebidas e adiciona a lista
-            cardapio_salgados.forEach(salgado => {
-                salgados_array.push({ title: salgado.nome, description: `R$ ${salgado.preco}` });
-            })
+        if (message.body === 'Continuar Pedido\n' +
+            'Escolha as opções de comida novamente') {
+            chatbot.numero_estagio === 4;
+            //chatbot.mostrarProdutosBotao(message)
+        }
 
-            // Guarda o array para colocar dentro da lista do wpp
-            let itens_lista_wpp = [{
-                title: "==> ESCOLHA os Salgados MAIS CAROS ", rows: salgados_array
-            }]
+        if (message.body === 'Finalizar Pedido') {
+            chatbot.avancarEstagio().then(
+                chatbot.enviarMensagem(message, "🤖 Bom Apetite!")
+            )
+        }
 
-            chatbot.enviarLista(message, "COMPRE AQUI", "FAZER PEDIDO", itens_lista_wpp)
+        if (message.body === 'Reiniciar Pedido') {
+            chatbot.numero_estagio === 1;
         }
 
 
-        //TODO Adicionando no carrinho
-        cliente.realizaPedido(message)
 
 
         // TODO loop aqui ate finalizar o pedido
-        chatbot.mostrarProdutosBotao(message)
+        //chatbot.mostrarProdutosLista(message)
+
         //chatbot.verCarrinho(message)
-        if (message.body === 'Finalizar Pedido') { }
-        if (message.body === 'Reiniciar Pedido') { }
-
-
-
-        chatbot.avancarEstagio().then(
-            chatbot.enviarMensagem(message, "🤖 Bom Apetite!")
-        )
+        chatbot.enviarMensagem(message, 'Adicionando no carrinho...')
 
     }
 
     //!=====================  Estagio 5 - Entrega e Resumo ===================== 
 
     else if (chatbot.numero_estagio === 5) {
-        chatbot.enviarMensagem(message, " 🤖 Vou anotar seu pedido!")
+            //TODO Adicionando no carrinho
+            cliente.realizaPedido(message)
 
         //TODO COLOCAR TUDO NA MESMA CLASSE
         const cardapio_loja = carrinho.todosItensCardapio()
