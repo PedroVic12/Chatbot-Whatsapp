@@ -2,7 +2,7 @@ const Chatbot = require("../../chatbot");
 const Carrinho = require("./Carrinho")
 
 class Cliente {
-    constructor(Chatbot,Carrinho) {
+    constructor(Chatbot, Carrinho) {
         //herança
         this.chatbot = Chatbot;
         this.carrinho = Carrinho;
@@ -14,8 +14,9 @@ class Cliente {
     realizaPedido(message) {
         const produtoEscolhido = this.chatbot.getLastMessage(message)
 
-        this.chatbot.enviarMensagem(message, `🤖 ${produtoEscolhido} adicionado ao carrinho!`)
-        carrinho.adicionarProdutoCarrinho(produtoEscolhido);
+        //todo carrinho.adicionarProdutoCarrinho(produtoEscolhido);
+
+        return this.chatbot.enviarMensagem(message, `🤖 ${produtoEscolhido} adicionado ao carrinho!`)
         //return produtoEscolhido
     }
 

@@ -70,7 +70,8 @@ class Chatbot {
             this.delay(3000)
             console.log("\n\n")
             console.log("=====================================")
-            console.log(`| Data  = ${data_atual.getDate()}/${data_atual.getDate()}/${data_atual.getFullYear()} |`)
+            console.log("|  INFORMAÇÕES DO CLIENTE  |")
+            //console.log(`| Data  = ${dia_trabalho.getDate()}/${dia_trabalho.getMonth()}/${dia_trabalho.getFullYear()} |`)
             console.log(`| Horário inicio do Atendimento = ${hora}:${minuto}:0${segundos} |`);
             console.log("| Nome do Cliente = ", nome)
             console.log("| Número do Usuário = " + telefone);
@@ -136,6 +137,10 @@ class Chatbot {
     getLastMessage(message) {
         let lastMessage = message.body;
         return lastMessage
+    }
+
+    verCarrinho(message) {
+        return this.whatsapp.sendMessage(message.from, `*Itens do Pedido:* ${this.carrinho_loja.nomeProduto.map(item => `${item.title}`).join(", ")} \n *Valor total do pedido:* R$ ${this.carrinho_loja.total}`)
     }
 
     //!====================================================================

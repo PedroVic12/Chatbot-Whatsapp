@@ -13,14 +13,6 @@ class Carrinho {
         };
     }
 
-    mensagemFormatadaMap(message) {
-        return this.chatbot.enviarMensagem(message, `*Itens do Pedido:* ${this.carrinho_loja.nomeProduto.map(item => `${item.title}`).join(", ")} \n *Valor total do pedido:* R$ ${this.carrinho_loja.total}`)
-    }
-
-    verCarrinho(){
-        return this.mensagemFormatadaMap()
-    }
-
     todosItensCardapio() {
         //Instanciando os produtos do estabelecimento
         const cardapio_bebidas = Bebidas.getAllBebidas()
@@ -54,9 +46,6 @@ class Carrinho {
                 this.carrinho_loja.total += produtoCarrinho.description;
             }
         })
-
-        //teste aqui em baixo
-        this.verCarrinho()
 
     }
 

@@ -34,7 +34,7 @@ const estagio3 = new Estagio3(chatbot);
 const estagio4 = new Estagio4(chatbot, estagio2);
 const Banco = new BancoDeDados(chatbot)
 const carrinho = new Carrinho(chatbot)
-const cliente = new Cliente(chatbot,carrinho)
+const cliente = new Cliente(chatbot, carrinho)
 
 
 //! Talvez seja necessário um código para autenticar
@@ -156,15 +156,22 @@ chatbot.whatsapp.on('message', message => {
 
             chatbot.enviarLista(message, "COMPRE AQUI", "FAZER PEDIDO", itens_lista_wpp)
         }
-        if (message.body === 'Finalizar Pedido') { }
-        if (message.body === 'Reiniciar Pedido') { }
+
 
         //TODO Adicionando no carrinho
         cliente.realizaPedido(message)
+
+
+        // TODO loop aqui ate finalizar o pedido
         chatbot.mostrarProdutosBotao(message)
+        //chatbot.verCarrinho(message)
+        if (message.body === 'Finalizar Pedido') { }
+        if (message.body === 'Reiniciar Pedido') { }
+
+
 
         chatbot.avancarEstagio().then(
-        chatbot.enviarMensagem(message, "🤖 Bom Apetite!")
+            chatbot.enviarMensagem(message, "🤖 Bom Apetite!")
         )
 
     }
@@ -184,13 +191,13 @@ chatbot.whatsapp.on('message', message => {
     //!=====================   Estagio 6 - Finalização ===================== 
 
     else if (chatbot.numero_estagio == 6) {
-                chatbot.enviarMensagem(message, "🤖 Estamos processando seu a sua entrega, aguarde um momento")
+        chatbot.enviarMensagem(message, "🤖 Estamos processando seu a sua entrega, aguarde um momento")
 
 
     }
 
-    else if(chatbot.numero_estagio === 7){
-                chatbot.enviarMensagem(message, "🤖 Seu pedido está pronto para entrega!!!!!")
+    else if (chatbot.numero_estagio === 7) {
+        chatbot.enviarMensagem(message, "🤖 Seu pedido está pronto para entrega!!!!!")
 
     }
 
