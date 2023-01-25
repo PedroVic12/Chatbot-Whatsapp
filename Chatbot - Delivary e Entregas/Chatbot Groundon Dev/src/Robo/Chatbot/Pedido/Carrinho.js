@@ -13,9 +13,12 @@ class Carrinho {
         };
     }
 
-    verCarrinho(message) {
-        console.log(`*Itens do Pedido:* ${this.carrinho_loja.nomeProduto.map(item => `${item.title}`).join(", ")} \n *Valor total do pedido:* R$ ${this.carrinho_loja.total}`)
-        //this.chatbot.enviarMensagem(message, `*Itens do Pedido:* ${this.carrinho_loja.nomeProduto.map(item => `${item.title}`).join(", ")} \n *Valor total do pedido:* R$ ${this.carrinho_loja.total}`)
+    mensagemFormatadaMap(message) {
+        return this.chatbot.enviarMensagem(message, `*Itens do Pedido:* ${this.carrinho_loja.nomeProduto.map(item => `${item.title}`).join(", ")} \n *Valor total do pedido:* R$ ${this.carrinho_loja.total}`)
+    }
+
+    verCarrinho(){
+        return this.mensagemFormatadaMap()
     }
 
     todosItensCardapio() {
@@ -52,7 +55,9 @@ class Carrinho {
             }
         })
 
-        return this.verCarrinho()
+        //teste aqui em baixo
+        this.verCarrinho()
+
     }
 
     removeProdutoCarrinho(produto) {
