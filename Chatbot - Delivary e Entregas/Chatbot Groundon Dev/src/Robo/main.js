@@ -17,6 +17,7 @@ const Estagio1 = require('./Chatbot/stages/Estagio1')
 const Estagio2 = require('./Chatbot/stages/Estagio2')
 const Estagio3 = require('./Chatbot/stages/Estagio3')
 const Estagio4 = require('./Chatbot/stages/Estagio4')
+const Estagio5 = require('./Chatbot/stages/Estagio5')
 
 const Bebidas = require('./Chatbot/Cardapio - LOJA/Bebidas.js');
 const Salgados = require("./Chatbot/Cardapio - LOJA/Salgados.js")
@@ -28,13 +29,17 @@ const { List } = require('whatsapp-web.js');
 
 //!Inicializando o BOT
 const chatbot = new Groundon();
+const Banco = new BancoDeDados(chatbot)
+
+const carrinho = new Carrinho(chatbot)
+const cliente = new Cliente(chatbot, carrinho)
+
 const estagio1 = new Estagio1(chatbot);
 const estagio2 = new Estagio2(chatbot);
 const estagio3 = new Estagio3(chatbot);
 const estagio4 = new Estagio4(chatbot, estagio2);
-const Banco = new BancoDeDados(chatbot)
-const carrinho = new Carrinho(chatbot)
-const cliente = new Cliente(chatbot, carrinho)
+const estagio5 = new Estagio5(chatbot, carrinho)
+
 
 
 //! Talvez seja necessário um código para autenticar
@@ -108,7 +113,6 @@ chatbot.whatsapp.on('message', message => {
     //!=====================  Estagio 4 - Cliente Escolhe Pedido e faz Pagamento ===================== 
     else if (chatbot.numero_estagio === 4) {
 
-        //TODO Fazer uma função dentro do estágio 4 para cada produto
         if (message.body === 'Sanduíches') {
             const cardapio_sanduiche = Sanduiches.getAllSanduiches()
             estagio4.enviarListaSanduiches(message, cardapio_sanduiche)
@@ -119,47 +123,41 @@ chatbot.whatsapp.on('message', message => {
             estagio4.enviarListaSalgados(message, cardapio_salgados)
         }
 
-         if (message.body === 'Bebidas') {
+        if (message.body === 'Bebidas') {
             const cardapio_bebidas = Bebidas.getAllBebidas()
             estagio4.enviarListaBebidas(message, cardapio_bebidas)
         }
 
         chatbot.avancarEstagio().then(
-            chatbot.enviarMensagem(message,'Processando seu pedido...')
+            chatbot.enviarMensagem(message, "🤖 Bom Apetite!")
         )
     }
 
     //!=====================  Estagio 5 - Entrega e Resumo ===================== 
 
     else if (chatbot.numero_estagio === 5) {
+
         //TODO Adicionando no carrinho
         cliente.realizaPedido(message)
 
+        //TODO Mostrar o Carrinho
+        chatbot.enviarMensagem(message,`M̀y Market = ${carrinho.getNameProductsMarket()}`)
 
-
-        // TODO loop aqui ate finalizar o pedido
-        //chatbot.verCarrinho(message)
+        //Pegando todo o cardapio em forma de objeto
         chatbot.mostrarProdutosLista(message)
 
-        //TODO COLOCAR TUDO NA MESMA CLASSE
-        const cardapio_loja = carrinho.todosItensCardapio()
-        carrinho.adicionarProdutoCarrinho(cardapio_loja)
-        estagio4.continuarPedido(message)
-
-        chatbot.enviarMensagem(message, 'Adicionando no carrinho...')
-
-
-
-
-        if (message.body === 'Continuar Pedido\n' +
-            'Escolha as opções de comida novamente')
-        {
-            chatbot.numero_estagio === 4;
+        if (message.body === 'Continuar Pedido\nEscolha as opções de comida novamente') {
+            chatbot.voltarEstagio().then(
+                chatbot.enviarMensagem(message,'🤖 Voltando estagio...')
+            ).then(
+                chatbot.mostrarProdutosBotao(message)
+            )
         }
 
         if (message.body === 'Finalizar Pedido') {
             chatbot.avancarEstagio().then(
-                chatbot.enviarMensagem(message, "🤖 Bom Apetite!")
+                chatbot.enviarMensagem(message, "🤖 Estamos processando seu a sua entrega, aguarde um momento")
+
             )
         }
 
@@ -167,13 +165,14 @@ chatbot.whatsapp.on('message', message => {
             chatbot.numero_estagio === 1;
         }
 
+
     }
 
     //!=====================   Estagio 6 - Finalização ===================== 
 
     else if (chatbot.numero_estagio == 6) {
-        chatbot.enviarMensagem(message, "🤖 Estamos processando seu a sua entrega, aguarde um momento")
 
+        chatbot.enviarMensagem(message, "🤖 Seu pedido está pronto para entrega!!!!!")
 
     }
 

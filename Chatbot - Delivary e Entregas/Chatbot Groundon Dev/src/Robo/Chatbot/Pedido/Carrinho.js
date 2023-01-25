@@ -1,5 +1,8 @@
 const Chatbot = require("../../chatbot");
 const Bebidas = require("../Cardapio - LOJA/Bebidas");
+const Salgados = require("../Cardapio - LOJA/Salgados");
+const Sanduiches = require("../Cardapio - LOJA/Sanduiche");
+
 
 class Carrinho {
     constructor(Chatbot) {
@@ -11,35 +14,26 @@ class Carrinho {
             nomeProduto: [],
             total: 0
         };
+
+        this.market_place = []
     }
 
-    todosItensCardapio() {
-        //Instanciando os produtos do estabelecimento
-        const cardapio_bebidas = Bebidas.getAllBebidas()
-
-        // Percorre todas as bebidas e adiciona a lista
-        let bebidas_array = []
-
-        cardapio_bebidas.forEach(bebida => {
-            bebidas_array.push({ title: bebida.nome, description: bebida.preco })
-        })
-
-        return bebidas_array
+    //!Métodos de TESTE
+    addCarrinho(...item) {
+        this.market_place.push(item)
+    }
+    getNameProductsMarket() {
+        return this.market_place;
     }
 
+    //!Métodos
+    adicionarProdutoCarrinho(...array_pedido_cliente) {
 
-    formatarProdutos() {
-        return this.carrinho_loja.nomeProduto.map(item => `${item.title}`).join(", ")
-    }
+        const cardapio = this.todosItensCardapio()
 
-  
-    adicionarProdutoCarrinho(...pedido_cliente) {
+        array_pedido_cliente.forEach(_nome_produto => {
 
-        let itens = this.todosItensCardapio()
-
-        pedido_cliente.forEach(_nome_produto => {
-
-            let produtoCarrinho = itens.find(element => element.title === _nome_produto);
+            let produtoCarrinho = cardapio.find(element => element.title === _nome_produto);
 
             if (produtoCarrinho) {
                 this.carrinho_loja.nomeProduto.push(produtoCarrinho);
@@ -47,24 +41,55 @@ class Carrinho {
             }
         })
 
+        console.log('JUSTIN BIEBER AINDA VOU SER VOCE')
+    }
+
+    verCarrinho() {
+        return `*Itens do Pedido:* ${this.carrinho_loja.nomeProduto.map(item => `${item.title}`).join(", ")} \n *Valor total do pedido:* R$ ${this.carrinho_loja.total}`
+    }
+
+    todosItensCardapio() {
+        //Instanciando os produtos do estabelecimento
+        let _cardapio_bebidas = Bebidas.getAllBebidas()
+        let _cardapio_salgados = Salgados.getAllSalgados()
+        let _cardapio_sanduiches = Sanduiches.getAllSanduiches()
+
+        // Percorre todas as bebidas e adiciona a lista
+        const all_products = []
+
+        _cardapio_bebidas.forEach(bebida => {
+            all_products.push({ title: bebida.nome, description: bebida.preco })
+        })
+
+        _cardapio_salgados.forEach(salgado => {
+            all_products.push({ title: salgado.nome, description: salgado.preco })
+        })
+
+        _cardapio_sanduiches.forEach(sanduiche => {
+            all_products.push({ title: sanduiche.nome, description: sanduiche.preco })
+        })
+
+        return all_products
     }
 
     removeProdutoCarrinho(produto) {
         this.carrinho_loja = this.itens.filter(p => p !== produto);
     }
 
-
-
-
 }
 
 
-let c1 = new Carrinho(Chatbot)
-let _cardapio = c1.todosItensCardapio()
-//console.log("Todos os Produtos: ", _cardapio)
-c1.adicionarProdutoCarrinho("Guaraná")
-c1.adicionarProdutoCarrinho('Pepsi')
-c1.adicionarProdutoCarrinho('Fanta Uva')
+// let c1 = new Carrinho(Chatbot)
+//
+// let _cardapio = c1.todosItensCardapio()
+// c1.adicionarProdutoCarrinho("Guaraná")
+// c1.adicionarProdutoCarrinho('Pepsi')
+// c1.adicionarProdutoCarrinho('Fanta Uva')
+// console.log(c1.getMyCarrinho())
+//
+//
+// c1.addCarrinho("Guarana", 'Caipirinha de Fenix')
+// console.log(c1.getMarket())
 
 
 module.exports = Carrinho;

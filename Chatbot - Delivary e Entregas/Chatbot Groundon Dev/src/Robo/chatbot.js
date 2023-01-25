@@ -1,5 +1,9 @@
 const { Client, LocalAuth, Buttons, List, MessageMedia, MessageAck, LegacySessionAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
+const fs = require('fs');
+
+
+
 
 //!============================= MANUTENÇÃO =============================
 //! - SOMENTE FUNÇÕES GLOBAIS 
@@ -9,7 +13,7 @@ const qrcode = require('qrcode-terminal');
 class Chatbot {
     constructor() {
         this.numero_estagio = 1
-        this.conversas = [[], [], [], []];
+        this.conversas = [[], [], [], [], [], [], [], [], [], []];
         this.numero_pedido_dia = 1
 
         //! Instanciando o Objeto com o nome do Cliente
@@ -102,10 +106,35 @@ class Chatbot {
         })
     };
 
-    //!========================================================================================================================================================================================================
-    //!========================================================================================================================================================================================================
+    voltarEstagio() {
+        return new Promise((resolve, reject) => {
+            try {
+                this.numero_estagio--
+                resolve()
+            } catch (error) {
+                reject(error)
+            }
+        })
+        
+    }
+    gerarArquivoTxt(txt) {
+
+        // Caminho do arquivo
+        const caminho = "/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/Logs/arquivo.txt";
+
+        // Usando o método writeFile para escrever o conteúdo no arquivo
+        fs.writeFile(caminho, txt, (erro) => {
+            if (erro) {
+                console.error(erro);
+            } else {
+                console.log("Arquivo criado com sucesso!");
+            }
+        });
+    }
+
     //!========================================================================================================================================================================================================
     //! Funções anonimas ASSÍNCRONAS
+    //!========================================================================================================================================================================================================
     delay(t, v) {
         return new Promise(function (resolve) {
             setTimeout(() => {
@@ -143,9 +172,6 @@ class Chatbot {
         return lastMessage
     }
 
-    verCarrinho(message) {
-        return this.whatsapp.sendMessage(message.from, `*Itens do Pedido:* ${this.carrinho_loja.nomeProduto.map(item => `${item.title}`).join(", ")} \n *Valor total do pedido:* R$ ${this.carrinho_loja.total}`)
-    }
 
     //!========================================================================================================================================================================================================
     //!Funções para enviar Listas

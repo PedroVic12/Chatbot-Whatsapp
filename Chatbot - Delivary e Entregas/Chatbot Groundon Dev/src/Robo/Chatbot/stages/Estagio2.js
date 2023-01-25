@@ -16,7 +16,8 @@ class Estagio2 {
             this.chatbot.enviarMensagem(message, `✅ Prazer em te conhecer, ${this.NomeCliente}!`);
 
             let data = this.chatbot.getDataAtual()
-            this.chatbot.enviarMensagem(message, ` Números de Pedido == ${this.chatbot.numero_pedido_dia} em |${data}|  `)
+            this.chatbot.gerarArquivoTxt(` Números de Pedido == ${this.chatbot.numero_pedido_dia} em |${data}|  `)
+            this.chatbot.enviarMensagem(message, ` Números de Pedido == ${this.chatbot.numero_pedido_dia} em | ${data} | `)
 
         } catch (err) {
             console.log(err);
@@ -53,22 +54,22 @@ class Estagio2 {
         // excel.adicionarCliente(nome_cliente, telefone_cliente)
 
         // se o cliente estiver na base de dados, enviar uma mensagem que o cliente ja esta cadastrado
-        //this.chatbot.enviarMensagem(message, `Cliente ${nome_cliente2} já cadastrado!`)
+        //this.chatbot.enviarMensagem(message, `Cliente ${ nome_cliente2 } já cadastrado!`)
 
         // se o cliente não estiver na base de dados, cadastrar o cliente
-        //this.chatbot.enviarMensagem(message, `Cliente atual = ${cliente_atual}`)
+        //this.chatbot.enviarMensagem(message, `Cliente atual = ${ cliente_atual } `)
 
     }
 
 
     mostrarMenuPrincipal = (message) => {
 
-        this.chatbot.enviarBotao(message, `Vamos lá,  ${this.getNome()}! Escolha uma opção abaixo do que voce deseja`,
+        this.chatbot.enviarBotao(message, `Vamos lá, ${this.getNome()} !Escolha uma opção abaixo do que voce deseja`,
             [
                 { body: "Ver Cardápio" },
                 { body: "Fazer Pedido" },
                 { body: "Ver nossa Localização" }
-            ], '🤖 Chatbot Groundon', `Horário de Atendimento = ${this.chatbot.getHoras()}`
+            ], '🤖 Chatbot Groundon', `Horário de Atendimento = ${this.chatbot.getHoras()} `
         );
 
         //Testar os IFs aqui dentro para que não precise de outro estagio
