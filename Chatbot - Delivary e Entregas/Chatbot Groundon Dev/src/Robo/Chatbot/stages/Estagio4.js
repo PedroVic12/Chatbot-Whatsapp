@@ -8,18 +8,7 @@ class Estagio4 {
         this.estagio2 = Estagio2;
     }
 
-    mostrarProdutos(message) {
 
-        this.chatbot.enviarBotao(message, `Vamos lá,  ${this.estagio2.getNome()}! Escolha uma opção abaixo do que voce deseja`,
-            [
-                { body: "Sanduíches" },
-                { body: "Bebidas" },
-                { body: "Salgados" }
-            ]
-        );
-
-
-    }
 
     enviarListaBebidas(message) {
 
@@ -32,16 +21,23 @@ class Estagio4 {
 
     }
 
+    continuarPedido(message) {
+        this.chatbot.enviarBotao(message, ` Escolha uma opção abaixo do que voce deseja`,
+            [
+                { body: "Continuar Pedido" },
+                { body: "Finalizar Pedido" },
+                { body: "Reiniciar Pedido" }
+            ]
+        );
 
-
-    adicionarAoCarrinho(item) {
-        let carrinho = []
-        carrinho.push(item);
     }
 
 
 
-    adicionarItensCarrinho(message) {
+
+
+
+    adicionarCarrinhoZdg(message) {
 
         // Colocando o pedido na base de dados
         this.chatbot.delay(1000).then(async function () {
@@ -60,6 +56,7 @@ class Estagio4 {
             this.chatbot.enviarMensagem(message, `Seu pedido é: ${itens} e o total é: ${total}`)
         })
 
+        this.chatbot.enviarMensagem(message, `|${produtoEscolhido} \n| Deseja adicionar mais algum produto?`);
 
     }
 
@@ -87,6 +84,11 @@ class Estagio4 {
     delItens() {
 
     }
+
+
+ 
+
+
 
     //! Métodos dos outros itens
     //chatbot.ProcessaPagamento() -> joga na base de dados

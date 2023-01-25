@@ -1,51 +1,35 @@
-2023/01/23-22:59:37.011 311e9 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/01/23-22:59:37.014 311e9 Recovering log #3428
-2023/01/23-22:59:37.092 311e9 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/003428.log 
-2023/01/23-23:00:00.095 312c3 Level-0 table #3443: started
-2023/01/23-23:00:00.117 312c3 Level-0 table #3443: 1221404 bytes OK
-2023/01/23-23:00:00.118 312c3 Delete type=0 #3428
-2023/01/23-23:00:00.130 312c3 Compacting 1@0 + 1@1 files
-2023/01/23-23:00:00.161 312c3 Generated table #3444@0: 19056 keys, 428697 bytes
-2023/01/23-23:00:00.165 312c3 Generated table #3445@0: 1635 keys, 149264 bytes
-2023/01/23-23:00:00.171 312c3 Generated table #3446@0: 3940 keys, 105852 bytes
-2023/01/23-23:00:00.171 312c3 Compacted 1@0 + 1@1 files => 683813 bytes
-2023/01/23-23:00:00.171 312c3 compacted to: files[ 0 3 27 0 0 0 0 ]
-2023/01/23-23:00:00.172 312c3 Delete type=2 #3443
-2023/01/23-23:00:00.360 312c6 Compacting 1@1 + 5@2 files
-2023/01/23-23:00:00.409 312c6 Generated table #3447@1: 16619 keys, 2570794 bytes
-2023/01/23-23:00:00.440 312c6 Generated table #3448@1: 12999 keys, 2160919 bytes
-2023/01/23-23:00:00.507 312c6 Generated table #3449@1: 37669 keys, 2232816 bytes
-2023/01/23-23:00:00.593 312c6 Generated table #3450@1: 93968 keys, 2241415 bytes
-2023/01/23-23:00:00.648 312c6 Generated table #3451@1: 50511 keys, 986731 bytes
-2023/01/23-23:00:00.648 312c6 Compacted 1@1 + 5@2 files => 10192675 bytes
-2023/01/23-23:00:00.649 312c6 compacted to: files[ 0 2 27 0 0 0 0 ]
-2023/01/23-23:00:00.649 312c6 Delete type=2 #3431
-2023/01/23-23:00:00.649 312c6 Delete type=2 #3433
-2023/01/23-23:00:00.649 312c6 Delete type=2 #3434
-2023/01/23-23:00:00.649 312c6 Delete type=2 #3435
-2023/01/23-23:00:00.649 312c6 Delete type=2 #3436
-2023/01/23-23:00:00.649 312c6 Delete type=2 #3437
-2023/01/23-23:00:00.649 312c6 Delete type=2 #3446
-2023/01/23-23:00:00.651 312c6 Compacting 1@1 + 10@2 files
-2023/01/23-23:00:00.715 312c6 Generated table #3452@1: 31076 keys, 2269391 bytes
-2023/01/23-23:00:00.768 312c6 Generated table #3453@1: 24694 keys, 2287721 bytes
-2023/01/23-23:00:00.839 312c6 Generated table #3454@1: 24887 keys, 2275040 bytes
-2023/01/23-23:00:00.910 312c6 Generated table #3455@1: 24786 keys, 2284897 bytes
-2023/01/23-23:00:00.981 312c6 Generated table #3456@1: 24783 keys, 2291047 bytes
-2023/01/23-23:00:01.052 312c6 Generated table #3457@1: 24554 keys, 2283339 bytes
-2023/01/23-23:00:01.131 312c6 Generated table #3458@1: 24695 keys, 2283455 bytes
-2023/01/23-23:00:01.194 312c6 Generated table #3459@1: 24613 keys, 2281317 bytes
-2023/01/23-23:00:01.200 312c6 Generated table #3460@1: 2624 keys, 242323 bytes
-2023/01/23-23:00:01.200 312c6 Compacted 1@1 + 10@2 files => 18498530 bytes
-2023/01/23-23:00:01.200 312c6 compacted to: files[ 0 1 26 0 0 0 0 ]
-2023/01/23-23:00:01.200 312c6 Delete type=2 #3338
-2023/01/23-23:00:01.200 312c6 Delete type=2 #3339
-2023/01/23-23:00:01.200 312c6 Delete type=2 #3340
-2023/01/23-23:00:01.200 312c6 Delete type=2 #3341
-2023/01/23-23:00:01.200 312c6 Delete type=2 #3342
-2023/01/23-23:00:01.200 312c6 Delete type=2 #3343
-2023/01/23-23:00:01.200 312c6 Delete type=2 #3379
-2023/01/23-23:00:01.200 312c6 Delete type=2 #3438
-2023/01/23-23:00:01.200 312c6 Delete type=2 #3439
-2023/01/23-23:00:01.200 312c6 Delete type=2 #3440
-2023/01/23-23:00:01.200 312c6 Delete type=2 #3444
+2023/01/24-19:16:07.813 5a8a3 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-003874
+2023/01/24-19:16:07.814 5a8a3 Recovering log #4130
+2023/01/24-19:16:07.814 5a8a3 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/004130.log 
+2023/01/24-19:16:08.712 5a8a6 Compacting 1@0 + 1@1 files
+2023/01/24-19:16:08.745 5a8a6 Generated table #4133@0: 18510 keys, 392821 bytes
+2023/01/24-19:16:08.763 5a8a6 Generated table #4134@0: 4119 keys, 376364 bytes
+2023/01/24-19:16:08.774 5a8a6 Generated table #4135@0: 2672 keys, 94166 bytes
+2023/01/24-19:16:08.774 5a8a6 Compacted 1@0 + 1@1 files => 863351 bytes
+2023/01/24-19:16:08.774 5a8a6 compacted to: files[ 0 3 41 0 0 0 0 ]
+2023/01/24-19:16:08.776 5a8a6 Delete type=2 #4118
+2023/01/24-19:16:08.776 5a8a6 Delete type=2 #4131
+2023/01/24-19:16:18.486 5a8a3 Compacting 1@1 + 6@2 files
+2023/01/24-19:16:18.608 5a8a3 Generated table #4136@1: 89944 keys, 2388596 bytes
+2023/01/24-19:16:18.652 5a8a3 Generated table #4137@1: 9107 keys, 2479337 bytes
+2023/01/24-19:16:18.691 5a8a3 Generated table #4138@1: 13808 keys, 2162367 bytes
+2023/01/24-19:16:18.769 5a8a3 Generated table #4139@1: 41261 keys, 2245272 bytes
+2023/01/24-19:16:18.846 5a8a3 Generated table #4140@1: 79418 keys, 2224376 bytes
+2023/01/24-19:16:18.929 5a8a3 Generated table #4141@1: 80199 keys, 1565048 bytes
+2023/01/24-19:16:18.929 5a8a3 Compacted 1@1 + 6@2 files => 13064996 bytes
+2023/01/24-19:16:18.929 5a8a3 compacted to: files[ 0 2 41 0 0 0 0 ]
+2023/01/24-19:16:18.929 5a8a3 Delete type=2 #4120
+2023/01/24-19:16:18.930 5a8a3 Delete type=2 #4121
+2023/01/24-19:16:18.930 5a8a3 Delete type=2 #4122
+2023/01/24-19:16:18.930 5a8a3 Delete type=2 #4123
+2023/01/24-19:16:18.930 5a8a3 Delete type=2 #4124
+2023/01/24-19:16:18.930 5a8a3 Delete type=2 #4125
+2023/01/24-19:16:18.930 5a8a3 Delete type=2 #4135
+2023/01/24-19:16:19.309 5a8c2 Compacting 1@1 + 2@2 files
+2023/01/24-19:16:19.394 5a8c2 Generated table #4142@1: 30343 keys, 2269484 bytes
+2023/01/24-19:16:19.458 5a8c2 Generated table #4143@1: 24526 keys, 2271858 bytes
+2023/01/24-19:16:19.458 5a8c2 Compacted 1@1 + 2@2 files => 4541342 bytes
+2023/01/24-19:16:19.458 5a8c2 compacted to: files[ 0 1 41 0 0 0 0 ]
+2023/01/24-19:16:19.458 5a8c2 Delete type=2 #4126
+2023/01/24-19:16:19.458 5a8c2 Delete type=2 #4127
+2023/01/24-19:16:19.459 5a8c2 Delete type=2 #4133

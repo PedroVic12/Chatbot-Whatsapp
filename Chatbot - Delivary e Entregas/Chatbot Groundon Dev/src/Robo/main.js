@@ -33,19 +33,15 @@ const estagio2 = new Estagio2(chatbot);
 const estagio3 = new Estagio3(chatbot);
 const estagio4 = new Estagio4(chatbot, estagio2);
 const Banco = new BancoDeDados(chatbot)
-const cliente = new Cliente(chatbot)
 const carrinho = new Carrinho(chatbot)
+const cliente = new Cliente(chatbot,carrinho)
 
 
-function delay(tempo) {
-    return new Promise(resolve => setTimeout(resolve, tempo));
-}
-
-// Talvez seja necessário um código para autenticar 
+//! Talvez seja necessário um código para autenticar
 chatbot.conectandoWpp()
     .then(() => {
         // Código a ser executado após a promise ser resolvida
-        console.log('Conectado com sucesso!\n\n')
+        console.log('✅ Conectado com sucesso!\n\n')
 
     })
     .catch((error) => {
@@ -53,8 +49,10 @@ chatbot.conectandoWpp()
         console.log("Ops Deu Problema ao conectar! :(")
         console.log(error)
     })
-
+chatbot.contarNumeroPedidos()
 chatbot.recebeMensagem()
+
+
 
 //Evento Listener para o Robo receber as mensagens
 chatbot.whatsapp.on('message', message => {
@@ -64,6 +62,8 @@ chatbot.whatsapp.on('message', message => {
         estagio1.boasVindas(message)
         chatbot.avancarEstagio()
     }
+
+
 
     //!=====================  Estágio 2 - Mostrar Opções =====================
     else if (chatbot.numero_estagio === 2) {
@@ -84,6 +84,7 @@ chatbot.whatsapp.on('message', message => {
     }
 
 
+
     //!=====================  Estágio 3 - Anota o pedido e coloca no carrinho  =====================
     else if (chatbot.numero_estagio === 3) {
         if (message.body === 'Ver Cardápio') {
@@ -91,17 +92,20 @@ chatbot.whatsapp.on('message', message => {
         }
         if (message.body === 'Fazer Pedido') {
             chatbot.avancarEstagio().then(
-                estagio4.mostrarProdutos(message)
+                chatbot.mostrarProdutosBotao(message)
             )
         }
         if (message.body === 'Ver nossa Localização') {
             estagio3.mostrarLocal(message)
         }
     }
+
+
+
     //!=====================  Estagio 4 - Cliente Escolhe Pedido e faz Pagamento ===================== 
     else if (chatbot.numero_estagio === 4) {
 
-        //TODO Modularizar Instanciando os produtos do estabelecimento
+        //! TODO Modularizar Instanciando os produtos do estabelecimento
         const cardapio_sanduiche = Sanduiches.getAllSanduiches()
         const cardapio_bebidas = Bebidas.getAllBebidas()
         const cardapio_salgados = Salgados.getAllSalgados()
@@ -121,9 +125,8 @@ chatbot.whatsapp.on('message', message => {
             }]
             chatbot.enviarLista(message, `${estagio2.getNome()}, Escolha os itens do seu pedido`, "FAZER PEDIDO", itens_lista_wpp)
         }
-
-        let bebidas_array = []
         if (message.body === 'Bebidas') {
+            let bebidas_array = []
 
             // Percorre todas as bebidas e adiciona a lista
             cardapio_bebidas.forEach(bebida => {
@@ -137,7 +140,6 @@ chatbot.whatsapp.on('message', message => {
 
             chatbot.enviarLista(message, "ESCOLHA O PRODUTO QUE VOCE DESEJA", "FAZER PEDIDO", itens_lista_wpp)
         }
-
         if (message.body === 'Salgados') {
 
             let salgados_array = []
@@ -152,42 +154,44 @@ chatbot.whatsapp.on('message', message => {
                 title: "==> ESCOLHA os Salgados MAIS CAROS ", rows: salgados_array
             }]
 
-            chatbot.enviarLista3(message, "COMPRE AQUI", "FAZER PEDIDO", itens_lista_wpp)
+            chatbot.enviarLista(message, "COMPRE AQUI", "FAZER PEDIDO", itens_lista_wpp)
         }
-
         if (message.body === 'Finalizar Pedido') { }
-
         if (message.body === 'Reiniciar Pedido') { }
 
+        //TODO Adicionando no carrinho
+        cliente.realizaPedido(message)
+        chatbot.mostrarProdutosBotao(message)
 
-        //Adicionando no carrinho
-        let _carrinho = {
-            itens: [],
-            preco: 0
-        }
+        chatbot.avancarEstagio().then(
+        chatbot.enviarMensagem(message, "🤖 Bom Apetite!")
+        )
 
-        function local(){
-            
-        }
-
-        chatbot.enviarMensagem(message, `Adicionando no carrinho... ${bebidas_array}`)
-        cliente.realizaPedido(message, bebidas_array)
-
-
-        chatbot.enviarMensagem(message, "Bom Apetite!")
     }
 
     //!=====================  Estagio 5 - Entrega e Resumo ===================== 
 
     else if (chatbot.numero_estagio === 5) {
-        chatbot.enviarMensagem(message, "Estamos processando seu a sua entrega, aguarde um momento")
+        chatbot.enviarMensagem(message, " 🤖 Vou anotar seu pedido!")
+
+        //TODO COLOCAR TUDO NA MESMA CLASSE
+        const cardapio_loja = carrinho.todosItensCardapio()
+        carrinho.adicionarProdutoCarrinho(cardapio_loja)
+        estagio4.continuarPedido(message)
 
     }
 
     //!=====================   Estagio 6 - Finalização ===================== 
 
     else if (chatbot.numero_estagio == 6) {
-        chatbot.enviarMensagem(message, "Seu pedido está pronto para entrega!!!!!")
+                chatbot.enviarMensagem(message, "🤖 Estamos processando seu a sua entrega, aguarde um momento")
+
+
+    }
+
+    else if(chatbot.numero_estagio === 7){
+                chatbot.enviarMensagem(message, "🤖 Seu pedido está pronto para entrega!!!!!")
+
     }
 
 })

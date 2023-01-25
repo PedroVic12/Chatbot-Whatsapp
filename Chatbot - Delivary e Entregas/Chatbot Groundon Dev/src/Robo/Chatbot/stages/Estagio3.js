@@ -5,6 +5,8 @@ class Estagio3 {
         this.chatbot = Chatbot;
     }
 
+
+
     mostrarCardapioNoChat(message) {
         // Define o cardápio
         const cardapio = [
@@ -42,7 +44,7 @@ class Estagio3 {
     }
 
 
-  
+
 }
 
 module.exports = Estagio3;

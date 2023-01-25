@@ -3,11 +3,19 @@ const Bebidas = require("../Cardapio - LOJA/Bebidas");
 
 class Carrinho {
     constructor(Chatbot) {
+        //herança
         this.chatbot = Chatbot;
+
+        //atributos
         this.carrinho_loja = {
             nomeProduto: [],
             total: 0
         };
+    }
+
+    verCarrinho(message) {
+        console.log(`*Itens do Pedido:* ${this.carrinho_loja.nomeProduto.map(item => `${item.title}`).join(", ")} \n *Valor total do pedido:* R$ ${this.carrinho_loja.total}`)
+        //this.chatbot.enviarMensagem(message, `*Itens do Pedido:* ${this.carrinho_loja.nomeProduto.map(item => `${item.title}`).join(", ")} \n *Valor total do pedido:* R$ ${this.carrinho_loja.total}`)
     }
 
     todosItensCardapio() {
@@ -24,11 +32,12 @@ class Carrinho {
         return bebidas_array
     }
 
+
     formatarProdutos() {
         return this.carrinho_loja.nomeProduto.map(item => `${item.title}`).join(", ")
     }
 
-
+  
     adicionarProdutoCarrinho(...pedido_cliente) {
 
         let itens = this.todosItensCardapio()
@@ -43,22 +52,14 @@ class Carrinho {
             }
         })
 
-
-
-        
-
-        console.log(`*Itens do Pedido:* ${this.formatarProdutos()} \n *Valor total do pedido:* R$ ${this.carrinho_loja.total}`)
-        //this.chatbot.enviarMensagem(message, `*Itens do Pedido:* ${this.carrinho_loja.itensPedido} \n *Valor total do pedido:* R$ ${this.carrinho_loja.total}`)
-
+        return this.verCarrinho()
     }
 
     removeProdutoCarrinho(produto) {
         this.carrinho_loja = this.itens.filter(p => p !== produto);
     }
 
-    verCarrinho() {
-        return this.carrinho_loja;
-    }
+
 
 
 }

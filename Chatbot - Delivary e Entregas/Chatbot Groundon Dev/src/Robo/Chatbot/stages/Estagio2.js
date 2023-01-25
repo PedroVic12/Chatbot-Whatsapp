@@ -6,17 +6,17 @@ class Estagio2 {
     //Herança implícita da classe Chatbot
     constructor(Chatbot) {
         this.chatbot = Chatbot;
-
-        //Numero de Pedidos por dia
-        this.numero_pedido_dia = 1
         this.NomeCliente = ""
 
     }
     async getNomeCliente(message) {
         try {
+
             this.NomeCliente = message.body
-            this.chatbot.enviarMensagem(message, `Prazer em te conhecer, ${this.NomeCliente}!`);
-            this.chatbot.enviarMensagem(message, `Seu numero de Pedido é ${this.numero_pedido} `)
+            this.chatbot.enviarMensagem(message, `✅ Prazer em te conhecer, ${this.NomeCliente}!`);
+
+            let data = this.chatbot.getDataAtual()
+            this.chatbot.enviarMensagem(message, ` Números de Pedido == ${this.chatbot.numero_pedido_dia} em |${data}|  `)
 
         } catch (err) {
             console.log(err);
@@ -30,7 +30,7 @@ class Estagio2 {
     infoCliente(message) {
 
         //let data_atual = new Date();
-       
+
         let horario_pedido = this.chatbot.getHoras()
         let nome_cliente = message._data.notifyName;
         //let nome_cliente2 = this.getNome()

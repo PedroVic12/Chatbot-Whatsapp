@@ -2,22 +2,27 @@ const Chatbot = require("../../chatbot");
 const Carrinho = require("./Carrinho")
 
 class Cliente {
-    constructor(Chatbot, nome, telefone) {
+    constructor(Chatbot,Carrinho) {
+        //herança
         this.chatbot = Chatbot;
+        this.carrinho = Carrinho;
 
-        this.nome = nome
-        this.telefone = telefone
+        //atributos
+        // this.nome = nome
+        // this.telefone = telefone
+    }
+    realizaPedido(message) {
+        const produtoEscolhido = this.chatbot.getLastMessage(message)
+
+        this.chatbot.enviarMensagem(message, `🤖 ${produtoEscolhido} adicionado ao carrinho!`)
+        carrinho.adicionarProdutoCarrinho(produtoEscolhido);
+        //return produtoEscolhido
     }
 
-    getNome() { }
-
-    realizaPedido(message, productItemArray) {
-        //Checando se o que o usuario pediu esta na lista 
-        const produtoEscolhido = productItemArray.find(item => item.nome === message.body);
-
-        Carrinho.adicionarProdutoCarrinho(produtoEscolhido);
-        this.chatbot.enviarMensagem(message, `${produtoEscolhido.nome} adicionado ao carrinho!`);
+    getNome() {
+        //return this.nome
     }
+
 
     getLocation() {
 

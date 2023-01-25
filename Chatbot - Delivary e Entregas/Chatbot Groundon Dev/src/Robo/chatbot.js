@@ -1,11 +1,17 @@
 const { Client, LocalAuth, Buttons, List, MessageMedia, MessageAck, LegacySessionAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 
+//!============================= MANUTENÇÃO =============================
+//! - SOMENTE FUNÇÕES GLOBAIS 
+//! - SOMENTE VARIÁVEIS COM CONST
+//!====================================================================
+
 class Chatbot {
     constructor() {
         // this._chatbot = new Chatbot();
         this.numero_estagio = 1
         this.conversa_cliente = []
+        this.numero_pedido_dia = 1
 
         //! Instanciando o Objeto com o nome do Cliente
         this.whatsapp = new Client({
@@ -22,7 +28,7 @@ class Chatbot {
 
 
         return new Promise((resolve, reject) => {
-            console.log("====================================")
+            console.log("\n\n====================================")
             console.log("\t CHATBOT GROUNDON V4.3.0 \nby:pvpeterparker")
             console.log("====================================\n")
             console.log("\nIniciando o Chatbot...")
@@ -41,11 +47,13 @@ class Chatbot {
             this.whatsapp.initialize();
         });
     };
+
+
+
     recebeMensagem() {
 
         //hora atual
         let data_atual = new Date();
-
         let hora = data_atual.getHours();
         let minuto = data_atual.getMinutes();
         let segundos = data_atual.getSeconds()
@@ -59,7 +67,8 @@ class Chatbot {
             const conversa_cliente = ["CONVERSA CLIENTE"]
 
             //Arquivo de Log (precisa da interface bonita)
-            console.log("\n")
+            this.delay(3000)
+            console.log("\n\n")
             console.log("=====================================")
             console.log(`| Data  = ${data_atual.getDate()}/${data_atual.getDate()}/${data_atual.getFullYear()} |`)
             console.log(`| Horário inicio do Atendimento = ${hora}:${minuto}:0${segundos} |`);
@@ -68,39 +77,19 @@ class Chatbot {
 
             //Salvar dentro de uma lista para usar I.A depois
             let ultima_mensagem = message.body
-            console.log("Ultima Mensagem recebida = " + ultima_mensagem);
+            console.log("|Ultima Mensagem recebida = " + ultima_mensagem);
             //let teste = pegarConversa(message)
 
             //Mostrando onde o seu código está
-            console.log("--> Fluxo Atual =  " + this.numero_estagio + "|")
+            console.log("\n--> Fluxo Atual =  " + this.numero_estagio + "|")
             console.log("=====================================")
         });
 
     };
 
-    // tempo_perdido(){
-    //   let tempo_calcular =  segundos_ultima_mensagem -  segundos_primeira_mensagem
-    // }
 
-    //! ================== > Funções anonimas
-    async avancarEstagio() {
-        this.numero_estagio++
-    }
-    enviarMensagem(message, text) {
-        return this.whatsapp.sendMessage(message.from, text)
-    }
-    getHoras() {
-        let data_atual = new Date();
-        let hora = data_atual.getHours();
-        let minuto = data_atual.getMinutes();
-
-        return ` ${hora}:${minuto}`
-    }
-
-    pegarConversa(message) {
-        this.conversa_cliente.push(message.body);
-        return `${this.conversa_cliente}`
-    }
+    //!====================================================================
+    //! Funções anonimas ASSÍNCRONAS
 
     delay(t, v) {
         return new Promise(function (resolve) {
@@ -109,7 +98,47 @@ class Chatbot {
             }, t);
         })
     }
+    getDataAtual() {
+        let dia_trabalho = new Date()
+        return `${dia_trabalho.getDate()}/${dia_trabalho.getMonth()}/${dia_trabalho.getFullYear()}`
+    }
 
+    getHoras() {
+        let data_atual = new Date();
+        let hora = data_atual.getHours();
+        let minuto = data_atual.getMinutes();
+
+        return ` ${hora}:${minuto}`
+    }
+
+    contarNumeroPedidos() {
+        return this.numero_pedido_dia++
+    }
+
+    avancarEstagio() {
+        return new Promise((resolve, reject) => {
+            try {
+                this.numero_estagio++
+                resolve()
+            } catch (error) {
+                reject(error)
+            }
+        })
+    }
+
+
+    //!====================================================================
+    //! Funções para a conversa de fluxo
+    enviarMensagem(message, text) {
+        return this.whatsapp.sendMessage(message.from, text)
+    }
+
+    getLastMessage(message) {
+        let lastMessage = message.body;
+        return lastMessage
+    }
+
+    //!====================================================================
     //!Funções para enviar Listas
 
     enviarLista_old(message, itens_list) {
@@ -122,12 +151,24 @@ class Chatbot {
         return this.whatsapp.sendMessage(message.from, _itens);
     }
 
+    //!====================================================================
     //!Funções para enviar Botões
+
+    mostrarProdutosBotao(message) {
+
+        this.enviarBotao(message, `Escolha uma opção abaixo do que voce deseja`,
+            [
+                { body: "Sanduíches" },
+                { body: "Bebidas" },
+                { body: "Salgados" }
+            ]
+        );
+    }
+
     enviarBotao(message, text, buttons, _title, _footer) {
         const botoes = new Buttons(text, buttons, _title, _footer)
         return this.whatsapp.sendMessage(message.from, botoes);
     }
-
 
     enviarBotao2(message, frase, lista) {
         const botoes = [];
@@ -140,6 +181,15 @@ class Chatbot {
         return whatsapp.sendMessage(message.from, button)
     }
 
+    //!====================================================================
+    //! Funções mortas
+    procuraPedidoEstoque(message, productItemArray) {
+        //Checando se o que o usuario pediu esta na lista 
+        const produtoEscolhido = productItemArray.find(item => item.nome === message.body);
+        carrinho.adicionarProdutoCarrinho(produtoEscolhido);
+    }
+
+
     enviarMensagemComDelay(message, text, delay) {
         setTimeout(async () => {
             await this.whatsapp.sendMessage(message.from, text);
@@ -147,6 +197,16 @@ class Chatbot {
         }, delay)
     }
 
+
+    tempo_perdido() {
+        let tempo_calcular = segundos_ultima_mensagem - segundos_primeira_mensagem
+    }
+    debugStage(n) {
+        console.log("====================================")
+        console.log("DEBUGING o Chatbot")
+        console.log("====================================")
+        this.numero_estagio = n;
+    }
 
 }
 
