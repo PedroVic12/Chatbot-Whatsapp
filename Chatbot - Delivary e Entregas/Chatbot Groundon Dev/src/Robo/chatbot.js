@@ -4,13 +4,12 @@ const qrcode = require('qrcode-terminal');
 //!============================= MANUTENÇÃO =============================
 //! - SOMENTE FUNÇÕES GLOBAIS 
 //! - SOMENTE VARIÁVEIS COM CONST
-//!====================================================================
+//!======================================================================
 
 class Chatbot {
     constructor() {
-        // this._chatbot = new Chatbot();
         this.numero_estagio = 1
-        this.conversa_cliente = []
+        this.conversas = [[], [], [], []];
         this.numero_pedido_dia = 1
 
         //! Instanciando o Objeto com o nome do Cliente
@@ -19,8 +18,15 @@ class Chatbot {
         });
 
         const wpp = this.whatsapp;
-        //const whatsapp = new Client();
+    }
 
+    //! Funções de LOG
+    armazenarConversa(message) {
+        this.conversas[this.numero_estagio - 1].push(message.body);
+    }
+
+    verConversa() {
+        return this.conversas
     }
 
     //! Métodos
@@ -48,8 +54,6 @@ class Chatbot {
         });
     };
 
-
-
     recebeMensagem() {
 
         //hora atual
@@ -59,12 +63,9 @@ class Chatbot {
         let segundos = data_atual.getSeconds()
 
         this.whatsapp.on('message', message => {
-
             //Pegando dados do cliente
-            const whatsappIsOnMessage = true
             let nome = message._data.notifyName;
             let telefone = message.from.split('@')[0]
-            const conversa_cliente = ["CONVERSA CLIENTE"]
 
             //Arquivo de Log (precisa da interface bonita)
             this.delay(3000)
@@ -79,7 +80,9 @@ class Chatbot {
             //Salvar dentro de uma lista para usar I.A depois
             let ultima_mensagem = message.body
             console.log("|Ultima Mensagem recebida = " + ultima_mensagem);
-            //let teste = pegarConversa(message)
+
+            const todaConversa = this.verConversa()
+            console.log("Conversa = ", todaConversa)
 
             //Mostrando onde o seu código está
             console.log("\n--> Fluxo Atual =  " + this.numero_estagio + "|")
@@ -88,10 +91,21 @@ class Chatbot {
 
     };
 
+    avancarEstagio() {
+        return new Promise((resolve, reject) => {
+            try {
+                this.numero_estagio++
+                resolve()
+            } catch (error) {
+                reject(error)
+            }
+        })
+    };
 
-    //!====================================================================
+    //!========================================================================================================================================================================================================
+    //!========================================================================================================================================================================================================
+    //!========================================================================================================================================================================================================
     //! Funções anonimas ASSÍNCRONAS
-
     delay(t, v) {
         return new Promise(function (resolve) {
             setTimeout(() => {
@@ -114,22 +128,11 @@ class Chatbot {
     }
 
     contarNumeroPedidos() {
-        return this.numero_pedido_dia++
+        this.numero_pedido_dia++
+        return this.numero_pedido_dia
     }
 
-    avancarEstagio() {
-        return new Promise((resolve, reject) => {
-            try {
-                this.numero_estagio++
-                resolve()
-            } catch (error) {
-                reject(error)
-            }
-        })
-    }
-
-
-    //!====================================================================
+    //!========================================================================================================================================================================================================
     //! Funções para a conversa de fluxo
     enviarMensagem(message, text) {
         return this.whatsapp.sendMessage(message.from, text)
@@ -144,7 +147,7 @@ class Chatbot {
         return this.whatsapp.sendMessage(message.from, `*Itens do Pedido:* ${this.carrinho_loja.nomeProduto.map(item => `${item.title}`).join(", ")} \n *Valor total do pedido:* R$ ${this.carrinho_loja.total}`)
     }
 
-    //!====================================================================
+    //!========================================================================================================================================================================================================
     //!Funções para enviar Listas
 
     enviarLista_old(message, itens_list) {

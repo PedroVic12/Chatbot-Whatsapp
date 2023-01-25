@@ -57,6 +57,8 @@ chatbot.recebeMensagem()
 //Evento Listener para o Robo receber as mensagens
 chatbot.whatsapp.on('message', message => {
 
+    chatbot.armazenarConversa(message);
+
     //! ===================== Estágio 1 - Apresentação =====================
     if (chatbot.numero_estagio === 1) {
         estagio1.boasVindas(message)
@@ -110,31 +112,49 @@ chatbot.whatsapp.on('message', message => {
         if (message.body === 'Sanduíches') {
             const cardapio_sanduiche = Sanduiches.getAllSanduiches()
             estagio4.enviarListaSanduiches(message, cardapio_sanduiche)
-
-            //TODO Adicionando no carrinho
-            cliente.realizaPedido(message)
-        }
-
-        if (message.body === 'Bebidas') {
-            // Mostra a lista de bebidas
-            const cardapio_bebidas = Bebidas.getAllBebidas()
-            estagio4.enviarListaBebidas(message, cardapio_bebidas)
-
-
         }
 
         if (message.body === 'Salgados') {
             const cardapio_salgados = Salgados.getAllSalgados()
             estagio4.enviarListaSalgados(message, cardapio_salgados)
-
-            //TODO Adicionando no carrinho
-            cliente.realizaPedido(message)
         }
 
+         if (message.body === 'Bebidas') {
+            const cardapio_bebidas = Bebidas.getAllBebidas()
+            estagio4.enviarListaBebidas(message, cardapio_bebidas)
+        }
+
+        chatbot.avancarEstagio().then(
+            chatbot.enviarMensagem(message,'Processando seu pedido...')
+        )
+    }
+
+    //!=====================  Estagio 5 - Entrega e Resumo ===================== 
+
+    else if (chatbot.numero_estagio === 5) {
+        //TODO Adicionando no carrinho
+        cliente.realizaPedido(message)
+
+
+
+        // TODO loop aqui ate finalizar o pedido
+        //chatbot.verCarrinho(message)
+        chatbot.mostrarProdutosLista(message)
+
+        //TODO COLOCAR TUDO NA MESMA CLASSE
+        const cardapio_loja = carrinho.todosItensCardapio()
+        carrinho.adicionarProdutoCarrinho(cardapio_loja)
+        estagio4.continuarPedido(message)
+
+        chatbot.enviarMensagem(message, 'Adicionando no carrinho...')
+
+
+
+
         if (message.body === 'Continuar Pedido\n' +
-            'Escolha as opções de comida novamente') {
+            'Escolha as opções de comida novamente')
+        {
             chatbot.numero_estagio === 4;
-            //chatbot.mostrarProdutosBotao(message)
         }
 
         if (message.body === 'Finalizar Pedido') {
@@ -146,28 +166,6 @@ chatbot.whatsapp.on('message', message => {
         if (message.body === 'Reiniciar Pedido') {
             chatbot.numero_estagio === 1;
         }
-
-
-
-
-        // TODO loop aqui ate finalizar o pedido
-        //chatbot.mostrarProdutosLista(message)
-
-        //chatbot.verCarrinho(message)
-        chatbot.enviarMensagem(message, 'Adicionando no carrinho...')
-
-    }
-
-    //!=====================  Estagio 5 - Entrega e Resumo ===================== 
-
-    else if (chatbot.numero_estagio === 5) {
-            //TODO Adicionando no carrinho
-            cliente.realizaPedido(message)
-
-        //TODO COLOCAR TUDO NA MESMA CLASSE
-        const cardapio_loja = carrinho.todosItensCardapio()
-        carrinho.adicionarProdutoCarrinho(cardapio_loja)
-        estagio4.continuarPedido(message)
 
     }
 
