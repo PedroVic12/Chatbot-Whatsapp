@@ -99,6 +99,8 @@ chatbot.whatsapp.on('message', message => {
         }
         if (message.body === 'Fazer Pedido') {
             chatbot.avancarEstagio().then(
+                chatbot.enviarMensagem(message,'processando...')
+            ).then(
                 chatbot.mostrarProdutosBotao(message)
             )
 
@@ -110,8 +112,10 @@ chatbot.whatsapp.on('message', message => {
 
 
 
-    //!=====================  Estagio 4 - Cliente Escolhe Pedido e faz Pagamento ===================== 
+    //!=====================  Estagio 4 - Cliente Escolhe os Produtos da Loja =====================
     else if (chatbot.numero_estagio === 4) {
+
+        //chatbot.promiseBotao(message)
 
         if (message.body === 'Sanduíches') {
             const cardapio_sanduiche = Sanduiches.getAllSanduiches()
@@ -128,28 +132,35 @@ chatbot.whatsapp.on('message', message => {
             estagio4.enviarListaBebidas(message, cardapio_bebidas)
         }
 
-        chatbot.avancarEstagio().then(
-            chatbot.enviarMensagem(message, "🤖 Bom Apetite!")
-        )
+        chatbot.avancarEstagio()
+
     }
 
     //!=====================  Estagio 5 - Entrega e Resumo ===================== 
 
     else if (chatbot.numero_estagio === 5) {
 
-        //TODO Adicionando no carrinho
+        //TODO Adicionando no carrinho ----> BUG AQUI DENTRO DESSA FUNÇÂO
         cliente.realizaPedido(message)
 
         //TODO Mostrar o Carrinho
-        chatbot.enviarMensagem(message,`M̀y Market = ${carrinho.getNameProductsMarket()}`)
+        carrinho.adicionarProdutoCarrinho(carrinho.getNameProductsMarket())
+        chatbot.enviarMensagem(message,carrinho.verCarrinho())
 
-        //Pegando todo o cardapio em forma de objeto
-        chatbot.mostrarProdutosLista(message)
+        chatbot.avancarEstagio().then(
+            chatbot.mostrarProdutosLista(message)
+        )
+    }
+
+    //!=====================   Estagio 6 - Finalização ===================== 
+
+    else if (chatbot.numero_estagio == 6) {
+
+        chatbot.enviarMensagem(message,'processando...')
 
         if (message.body === 'Continuar Pedido\nEscolha as opções de comida novamente') {
-            chatbot.voltarEstagio().then(
-                chatbot.enviarMensagem(message,'🤖 Voltando estagio...')
-            ).then(
+
+            chatbot.voltarEstagio(4).then(
                 chatbot.mostrarProdutosBotao(message)
             )
         }
@@ -157,22 +168,12 @@ chatbot.whatsapp.on('message', message => {
         if (message.body === 'Finalizar Pedido') {
             chatbot.avancarEstagio().then(
                 chatbot.enviarMensagem(message, "🤖 Estamos processando seu a sua entrega, aguarde um momento")
-
             )
         }
 
         if (message.body === 'Reiniciar Pedido') {
             chatbot.numero_estagio === 1;
         }
-
-
-    }
-
-    //!=====================   Estagio 6 - Finalização ===================== 
-
-    else if (chatbot.numero_estagio == 6) {
-
-        chatbot.enviarMensagem(message, "🤖 Seu pedido está pronto para entrega!!!!!")
 
     }
 

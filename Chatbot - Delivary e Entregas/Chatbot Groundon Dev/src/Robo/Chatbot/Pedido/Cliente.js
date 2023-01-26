@@ -18,17 +18,25 @@ class Cliente {
     }
 
     realizaPedido(message) {
+
         // Pega o item escolhido
-        const produtoEscolhido = this.chatbot.getLastMessage(message)
-        const name_product =  this.BotpegarNomeProduto(produtoEscolhido)
+        const produtoEscolhidoComPreco = this.chatbot.getLastMessage(message)
+        let nome_produto =  this.BotpegarNomeProduto(produtoEscolhidoComPreco)
 
         //Coloca o Produto no carrinho
-        this.carrinho.addCarrinho(name_product)
-        let produto_cliente = this.carrinho.getNameProductsMarket()
+        let array_teste = []
 
-        //BUG NESSAS 2 LINHAS
-        this.carrinho.adicionarProdutoCarrinho(name_product)
+        nome_produto = nome_produto.replace('\n','')
+        array_teste.push(nome_produto)
+
+        let produto_cliente = this.carrinho.getNameProductsMarket()
+        array_teste.push(produto_cliente)
+
+        //BUG NESSAS 2 LINHAS --> Ta esperando receber um array
         this.carrinho.adicionarProdutoCarrinho(produto_cliente);
+        this.carrinho.setItens(nome_produto)
+        this.carrinho.adicionarProdutoCarrinho(nome_produto)
+        this.carrinho.adicionarProdutoCarrinho(array_teste)
 
 
         //Ver carrinho

@@ -1,0 +1,21 @@
+2023/01/25-19:45:20.832 52ab0 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/.wwebjs_auth/session-BigBi-Citta/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/01/25-19:45:20.832 52ab0 Recovering log #3
+2023/01/25-19:45:20.869 52ab0 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/.wwebjs_auth/session-BigBi-Citta/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000003.log 
+2023/01/25-19:45:21.368 52aab Manual compaction at level-0 from '\x00\x07\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x08\x00\x00\x00' @ 0 : 0; will stop at (end)
+2023/01/25-19:45:21.371 52ab0 Level-0 table #5: started
+2023/01/25-19:45:21.380 52ab0 Level-0 table #5: 326935 bytes OK
+2023/01/25-19:45:21.380 52ab0 Delete type=0 #3
+2023/01/25-19:45:21.380 52ab0 Manual compaction at level-0 from '\x00\x06\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x07\x00\x00\x00' @ 0 : 0; will stop at (end)
+2023/01/25-19:45:21.381 52ab0 Level-0 table #7: started
+2023/01/25-19:45:21.382 52ab0 Level-0 table #7: 508 bytes OK
+2023/01/25-19:45:21.382 52ab0 Delete type=0 #4
+2023/01/25-19:45:21.382 52ab0 Manual compaction at level-0 from '\x00\x05\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x06\x00\x00\x00' @ 0 : 0; will stop at (end)
+2023/01/25-19:45:21.382 52ab0 Manual compaction at level-1 from '\x00\x05\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x06\x00\x00\x00' @ 0 : 0; will stop at '\x00\x05\x02\x02\x03\x00\x00\x00\x00\x00\x00\xf0?' @ 16317 : 0
+2023/01/25-19:45:21.382 52ab0 Compacting 1@1 + 1@2 files
+2023/01/25-19:45:21.391 52ab0 Generated table #8@1: 2874 keys, 117694 bytes
+2023/01/25-19:45:21.391 52ab0 Compacted 1@1 + 1@2 files => 117694 bytes
+2023/01/25-19:45:21.391 52ab0 compacted to: files[ 0 0 1 0 0 0 0 ]
+2023/01/25-19:45:21.391 52ab0 Delete type=2 #7
+2023/01/25-19:45:21.391 52ab0 Manual compaction at level-1 from '\x00\x05\x02\x02\x03\x00\x00\x00\x00\x00\x00\xf0?' @ 16317 : 0 .. '\x00\x06\x00\x00\x00' @ 0 : 0; will stop at (end)
+2023/01/25-19:45:21.402 52ade Manual compaction at level-0 from '\x00\x03\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x04\x00\x00\x00' @ 0 : 0; will stop at (end)
+2023/01/25-19:45:21.402 52ade Manual compaction at level-1 from '\x00\x03\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x04\x00\x00\x00' @ 0 : 0; will stop at (end)

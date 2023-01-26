@@ -115,8 +115,26 @@ class Chatbot {
                 reject(error)
             }
         })
-        
+
     }
+
+    voltarEstagio(num_estagio) {
+
+        return new Promise((resolve, reject) => {
+
+            try {
+
+                this.numero_estagio = num_estagio;
+
+                resolve()
+
+            } catch (error) {
+                reject(error)
+            }
+        })
+
+    }
+
     gerarArquivoTxt(txt) {
 
         // Caminho do arquivo
@@ -192,7 +210,6 @@ class Chatbot {
             title: "==> Continue Seu Pedido",
             rows:
                 [{ title: "Continuar Pedido", description: "Escolha as opções de comida novamente" },
-                { title: "Ver Carrinho", description: "Ver os produtos que voce possui no carrinho" },
                 { title: "Reiniciar Pedido", description: "Cancelar o pedido e voltar para o estágio inicial" },
                 { title: "Finalizar Pedido", description: "Finalizar o pedido" }
                 ]
@@ -213,6 +230,25 @@ class Chatbot {
                 { body: "Salgados" }
             ]
         );
+    }
+
+    promiseBotao(message) {
+        return new Promise((resolve, reject) => {
+            try {
+                this.enviarBotao(message, `Escolha uma opção abaixo do que voce deseja`,
+                    [
+                        { body: "Sanduíches" },
+                        { body: "Bebidas" },
+                        { body: "Salgados" }
+                    ]
+                );
+                resolve();
+            } catch (error) {
+                reject(error);
+            }
+        });
+
+
     }
 
     enviarBotao(message, text, buttons, _title, _footer) {

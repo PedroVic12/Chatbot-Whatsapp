@@ -19,7 +19,7 @@ class Carrinho {
     }
 
     //!Métodos de TESTE
-    addCarrinho(...item) {
+    setItens(...item) {
         this.market_place.push(item)
     }
     getNameProductsMarket() {
@@ -41,7 +41,7 @@ class Carrinho {
             }
         })
 
-        console.log('JUSTIN BIEBER AINDA VOU SER VOCE')
+        //console.log('JUSTIN BIEBER AINDA VOU SER VOCE')
     }
 
     verCarrinho() {
