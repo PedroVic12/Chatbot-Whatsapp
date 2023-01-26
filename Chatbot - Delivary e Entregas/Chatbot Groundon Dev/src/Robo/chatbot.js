@@ -2,9 +2,6 @@ const { Client, LocalAuth, Buttons, List, MessageMedia, MessageAck, LegacySessio
 const qrcode = require('qrcode-terminal');
 const fs = require('fs');
 
-
-
-
 //!============================= MANUTENÇÃO =============================
 //! - SOMENTE FUNÇÕES GLOBAIS 
 //! - SOMENTE VARIÁVEIS COM CONST
@@ -26,7 +23,11 @@ class Chatbot {
 
     //! Funções de LOG
     armazenarConversa(message) {
-        this.conversas[this.numero_estagio - 1].push(message.body);
+
+        if (message.body.length < 1000) {
+            this.conversas[this.numero_estagio - 1].push(message.body);
+        }
+
     }
 
     verConversa() {
@@ -148,6 +149,13 @@ class Chatbot {
                 console.log("Arquivo criado com sucesso!");
             }
         });
+
+
+        // pega as datas se os segundos do dia
+
+        // se os segundos do mesmo dia for diferente
+
+        // aumenta o numero de pedidos
     }
 
     //!========================================================================================================================================================================================================
@@ -211,7 +219,7 @@ class Chatbot {
             rows:
                 [{ title: "Continuar Pedido", description: "Escolha as opções de comida novamente" },
                 { title: "Reiniciar Pedido", description: "Cancelar o pedido e voltar para o estágio inicial" },
-                { title: "Finalizar Pedido", description: "Finalizar o pedido" }
+                { title: "Finalizar Pedido", description: "Se preparar para a entrega!" }
                 ]
         }]
 
@@ -220,6 +228,16 @@ class Chatbot {
 
     //!====================================================================
     //!Funções para enviar Botões
+
+    mostrarFormasDePagamento(message) {
+        this.enviarBotao(message, `Escolha uma opção abaixo do que voce deseja`,
+            [
+                { body: "Dinheiro" },
+                { body: "Cartão" },
+                { body: "Pix" }
+            ]
+        );
+    }
 
     mostrarProdutosBotao(message) {
 

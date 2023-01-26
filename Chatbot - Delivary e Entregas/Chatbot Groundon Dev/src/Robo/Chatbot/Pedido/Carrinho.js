@@ -45,7 +45,7 @@ class Carrinho {
     }
 
     verCarrinho() {
-        return `*Itens do Pedido:* ${this.carrinho_loja.nomeProduto.map(item => `${item.title}`).join(", ")} \n *Valor total do pedido:* R$ ${this.carrinho_loja.total}`
+        return `🛒 Seu Carrinho:\n\n*Itens do Pedido:* ${this.carrinho_loja.nomeProduto.map(item => `${item.title}`).join(", ")} \n *Valor total do pedido:* R$ ${this.carrinho_loja.total}`
     }
 
     todosItensCardapio() {

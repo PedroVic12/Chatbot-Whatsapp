@@ -93,11 +93,11 @@ chatbot.whatsapp.on('message', message => {
 
     //!=====================  Estágio 3 - Anota o pedido e coloca no carrinho  =====================
     else if (chatbot.numero_estagio === 3) {
-        if (message.body === 'Ver Cardápio') {
+        if (message.body === 'Ver Cardápio' && message.type !== 'location') {
             //estagio3.mostrarCardapioNoChat(message)
             chatbot.enviarMensagem(message, 'Vou mostrar o cardapio em PDF!')
         }
-        if (message.body === 'Fazer Pedido') {
+        if (message.body === 'Fazer Pedido' && message.type !== 'location') {
             chatbot.avancarEstagio().then(
                 chatbot.enviarMensagem(message,'processando...')
             ).then(
@@ -105,7 +105,7 @@ chatbot.whatsapp.on('message', message => {
             )
 
         }
-        if (message.body === 'Ver nossa Localização') {
+        if (message.body === 'Ver nossa Localização' && message.type !== 'location') {
             estagio3.mostrarLocal(message)
         }
     }
@@ -117,17 +117,17 @@ chatbot.whatsapp.on('message', message => {
 
         //chatbot.promiseBotao(message)
 
-        if (message.body === 'Sanduíches') {
+        if (message.body === 'Sanduíches' && message.type !== 'location') {
             const cardapio_sanduiche = Sanduiches.getAllSanduiches()
             estagio4.enviarListaSanduiches(message, cardapio_sanduiche)
         }
 
-        if (message.body === 'Salgados') {
+        if (message.body === 'Salgados' && message.type !== 'location') {
             const cardapio_salgados = Salgados.getAllSalgados()
             estagio4.enviarListaSalgados(message, cardapio_salgados)
         }
 
-        if (message.body === 'Bebidas') {
+        if (message.body === 'Bebidas' && message.type !== 'location') {
             const cardapio_bebidas = Bebidas.getAllBebidas()
             estagio4.enviarListaBebidas(message, cardapio_bebidas)
         }
@@ -144,8 +144,8 @@ chatbot.whatsapp.on('message', message => {
         cliente.realizaPedido(message)
 
         //TODO Mostrar o Carrinho
-        carrinho.adicionarProdutoCarrinho(carrinho.getNameProductsMarket())
-        chatbot.enviarMensagem(message,carrinho.verCarrinho())
+        carrinho.adicionarProdutoCarrinho(carrinho.getNameProductsMarket()) // estagio 5
+        chatbot.enviarMensagem(message,carrinho.verCarrinho()) // estagio 5
 
         chatbot.avancarEstagio().then(
             chatbot.mostrarProdutosLista(message)
@@ -154,30 +154,61 @@ chatbot.whatsapp.on('message', message => {
 
     //!=====================   Estagio 6 - Finalização ===================== 
 
-    else if (chatbot.numero_estagio == 6) {
+    else if (chatbot.numero_estagio === 6) {
 
-        chatbot.enviarMensagem(message,'processando...')
-
-        if (message.body === 'Continuar Pedido\nEscolha as opções de comida novamente') {
+        if (message.body === 'Continuar Pedido\nEscolha as opções de comida novamente' && message.type !== 'location') {
 
             chatbot.voltarEstagio(4).then(
                 chatbot.mostrarProdutosBotao(message)
             )
         }
 
-        if (message.body === 'Finalizar Pedido') {
+        if (message.body === 'Finalizar Pedido\nSe preparar para a entrega!' && message.type !== 'location') {
             chatbot.avancarEstagio().then(
-                chatbot.enviarMensagem(message, "🤖 Estamos processando seu a sua entrega, aguarde um momento")
+                chatbot.enviarMensagem(message, "🤖 Por favor, envie sua localização através do Whatsapp para realizar a entrega")
             )
         }
 
-        if (message.body === 'Reiniciar Pedido') {
+        if (message.body === 'Reiniciar Pedido' && message.type !== 'location') {
             chatbot.numero_estagio === 1;
         }
 
     }
 
     else if (chatbot.numero_estagio === 7) {
+
+        if (message.type === 'location'){
+            cliente.getAddressFromCoordinates(message)
+            //cliente.getLocation(message)
+        }
+
+
+
+        chatbot.enviarMensagem(message, "🤖 Estamos processando seu a sua entrega, aguarde um momento...")
+
+
+        chatbot.enviarMensagem(message,'Escolha a forma de pagamento')
+        chatbot.avancarEstagio().then(
+            chatbot.mostrarFormasDePagamento(message)
+        )
+
+    }
+
+    else if (chatbot.numero_estagio === 8) {
+        chatbot.enviarMensagem(message, "🤖 Seu pedido está sendo preparado!!!!!")
+
+        cliente.setPagamento(message)
+        cliente.getPagamento(message)
+
+        cliente.getInfoCliente()  //Mudar de objeto --> Chatbot que tem que fazer isso
+
+    }
+
+     else if (chatbot.numero_estagio === 9) {
+
+    }
+
+      else if (chatbot.numero_estagio === 10) {
         chatbot.enviarMensagem(message, "🤖 Seu pedido está pronto para entrega!!!!!")
 
     }
