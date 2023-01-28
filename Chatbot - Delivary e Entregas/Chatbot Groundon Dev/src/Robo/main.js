@@ -10,7 +10,7 @@
 
 //! Importações e variáveis GLOBAIS
 // Documentação:  https://wwebjs.dev/guide/#replying-to-messages
-const Groundon = require('./chatbot.js');
+const Groundon = require('./Chatbot/chatbot');
 const BancoDeDados = require("./Chatbot/Banco de Dados - EXCEL/Banco");
 
 const Estagio1 = require('./Chatbot/stages/Estagio1')

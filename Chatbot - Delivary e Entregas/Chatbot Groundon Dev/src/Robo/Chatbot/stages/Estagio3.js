@@ -1,4 +1,4 @@
-const Chatbot = require("../../chatbot")
+const Chatbot = require("../chatbot")
 
 class Estagio3 {
     constructor(Chatbot) {

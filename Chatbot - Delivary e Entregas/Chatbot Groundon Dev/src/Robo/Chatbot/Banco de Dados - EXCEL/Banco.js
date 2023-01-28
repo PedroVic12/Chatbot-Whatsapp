@@ -1,6 +1,6 @@
 const ExcelJS = require('exceljs');
 const { faker } = require('@faker-js/faker');
-const Chatbot = require("../../chatbot");
+const Chatbot = require("../chatbot");
 
 const xlsx_path = "Chatbot/Banco de Dados - EXCEL/Janeiro/base_de_dados_janeiro.xlsx"
 

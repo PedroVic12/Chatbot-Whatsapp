@@ -1,4 +1,4 @@
-const Chatbot = require("../../chatbot");
+const Chatbot = require("../chatbot");
 const BancoDeDados = require("../Banco de Dados - EXCEL/Banco")
 const Cliente = require("../Pedido/Cliente")
 const Carrinho = require("../Pedido/Carrinho")

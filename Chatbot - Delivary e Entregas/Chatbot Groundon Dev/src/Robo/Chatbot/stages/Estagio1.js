@@ -1,4 +1,4 @@
-const Chatbot = require("../../chatbot");
+const Chatbot = require("../chatbot");
 
 //Apresentação, Consulta No Banco de dados, iniciar Atendimento
 class Estagio1 {

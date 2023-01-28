@@ -1,4 +1,4 @@
-const Chatbot = require("../../chatbot");
+const Chatbot = require("../chatbot");
 const Cliente = require("../Pedido/Cliente.js");
 const Carrinho = require("../Pedido/Carrinho")
 
