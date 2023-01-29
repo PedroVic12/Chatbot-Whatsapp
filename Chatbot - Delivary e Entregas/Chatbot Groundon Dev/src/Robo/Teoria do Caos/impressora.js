@@ -9,7 +9,7 @@ const fs = require('fs')
 //Mostra as impressoras disponiveis
 console.log(printer.getPrinters())
 
-const info = fs.readFileSync('nota_fiscal.txt')
+const info = fs.readFileSync('arquivo.txt')
 
 function mandarImprimir() {
 
