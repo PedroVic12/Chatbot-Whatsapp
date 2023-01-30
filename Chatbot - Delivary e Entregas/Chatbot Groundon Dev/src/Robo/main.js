@@ -189,7 +189,7 @@ chatbot.whatsapp.on('message', message => {
 
 
         chatbot.avancarEstagio().then(
-            chatbot.mostrarBotaoConfirmaPedido(message,`Voce confirma? \n endereço de *Cliente ${estagio2.getNome()}* = *${address_user}*?`)
+            chatbot.mostrarBotaoConfirmaPedido(message,`Voce confirma? \n *Nome Cliente: ${estagio2.getNome()}* \n*Endereço de entrega: ${address_user}*`)
         )
     }
 
