@@ -1,24 +1,24 @@
-2023/01/30-16:42:35.990 5080 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/01/30-16:42:35.991 5080 Recovering log #213
-2023/01/30-16:42:36.106 5080 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000213.log 
-2023/01/30-16:42:47.632 509b Level-0 table #224: started
-2023/01/30-16:42:47.736 509b Level-0 table #224: 1266238 bytes OK
-2023/01/30-16:42:47.767 509b Delete type=0 #213
-2023/01/30-16:42:48.529 509b Compacting 1@1 + 7@2 files
-2023/01/30-16:42:48.721 509b Generated table #225@1: 31087 keys, 2255253 bytes
-2023/01/30-16:42:48.822 509b Generated table #226@1: 28530 keys, 2242806 bytes
-2023/01/30-16:42:48.955 509b Generated table #227@1: 4916 keys, 2154945 bytes
-2023/01/30-16:42:49.064 509b Generated table #228@1: 25373 keys, 2191823 bytes
-2023/01/30-16:42:49.198 509b Generated table #229@1: 28092 keys, 2197611 bytes
-2023/01/30-16:42:49.348 509b Generated table #230@1: 115667 keys, 2267457 bytes
-2023/01/30-16:42:49.440 509b Generated table #231@1: 59172 keys, 1147216 bytes
-2023/01/30-16:42:49.440 509b Compacted 1@1 + 7@2 files => 14457111 bytes
-2023/01/30-16:42:49.490 509b compacted to: files[ 0 0 7 0 0 0 0 ]
-2023/01/30-16:42:49.491 509b Delete type=2 #218
-2023/01/30-16:42:49.491 509b Delete type=2 #219
-2023/01/30-16:42:49.491 509b Delete type=2 #216
-2023/01/30-16:42:49.491 509b Delete type=2 #224
-2023/01/30-16:42:49.491 509b Delete type=2 #221
-2023/01/30-16:42:49.491 509b Delete type=2 #220
-2023/01/30-16:42:49.491 509b Delete type=2 #217
-2023/01/30-16:42:49.491 509b Delete type=2 #215
+2023/01/30-16:56:50.502 5f63 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/01/30-16:56:50.502 5f63 Recovering log #253
+2023/01/30-16:56:50.571 5f63 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000253.log 
+2023/01/30-16:57:14.480 5f67 Level-0 table #264: started
+2023/01/30-16:57:14.551 5f67 Level-0 table #264: 1265898 bytes OK
+2023/01/30-16:57:14.587 5f67 Delete type=0 #253
+2023/01/30-16:57:17.039 5f67 Compacting 1@1 + 7@2 files
+2023/01/30-16:57:17.195 5f67 Generated table #265@1: 30347 keys, 2255053 bytes
+2023/01/30-16:57:17.303 5f67 Generated table #266@1: 39735 keys, 2293002 bytes
+2023/01/30-16:57:17.395 5f67 Generated table #267@1: 4337 keys, 2153286 bytes
+2023/01/30-16:57:17.539 5f67 Generated table #268@1: 11204 keys, 2161644 bytes
+2023/01/30-16:57:17.681 5f67 Generated table #269@1: 40609 keys, 2233910 bytes
+2023/01/30-16:57:17.832 5f67 Generated table #270@1: 77376 keys, 2220501 bytes
+2023/01/30-16:57:18.058 5f67 Generated table #271@1: 104588 keys, 2026401 bytes
+2023/01/30-16:57:18.058 5f67 Compacted 1@1 + 7@2 files => 15343797 bytes
+2023/01/30-16:57:18.111 5f67 compacted to: files[ 0 0 7 0 0 0 0 ]
+2023/01/30-16:57:18.112 5f67 Delete type=2 #258
+2023/01/30-16:57:18.112 5f67 Delete type=2 #264
+2023/01/30-16:57:18.112 5f67 Delete type=2 #259
+2023/01/30-16:57:18.112 5f67 Delete type=2 #257
+2023/01/30-16:57:18.112 5f67 Delete type=2 #261
+2023/01/30-16:57:18.112 5f67 Delete type=2 #256
+2023/01/30-16:57:18.113 5f67 Delete type=2 #260
+2023/01/30-16:57:18.113 5f67 Delete type=2 #255

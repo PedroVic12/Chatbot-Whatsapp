@@ -180,50 +180,48 @@ chatbot.whatsapp.on('message', message => {
 
     else if (chatbot.numero_estagio === 7) {
         const address_user = chatbot.getLastMessage(message)
-        let mostrouBotao = false;
-        if (!mostrouBotao) {
-            chatbot.mostrarBotaoConfirmaPedido(message,`Voce confirma? \n endereço de *Cliente ${estagio2.getNome()}* = *${address_user}*?`)
-            mostrouBotao = true;
-        }
+
 
         if (message.type === 'location') {
             cliente.getAddressFromCoordinates(message)
             //cliente.getLocation(message)
         }
 
+
+        chatbot.avancarEstagio().then(
+            chatbot.mostrarBotaoConfirmaPedido(message,`Voce confirma? \n endereço de *Cliente ${estagio2.getNome()}* = *${address_user}*?`)
+        )
+    }
+
+    else if (chatbot.numero_estagio === 8) {
+
         if (message.body ==='Sim' && message.type !== 'location'){
             chatbot.avancarEstagio().then(
                 chatbot.mostrarFormasDePagamento(message)
             )
         }
+
         else{
-            console.log('teste3')
-            //chatbot.numero_estagio === 7
+            chatbot.numero_estagio === 7
         }
-
-    }
-
-    else if (chatbot.numero_estagio === 8) {
-
-
-        cliente.setPagamento(message)
-        cliente.getPagamento(message)
-
-        chatbot.enviarMensagem(message, "🤖 Seu pedido está sendo preparado!!!!!")
-
-        // TODO armazenar na base de dados
-        cliente.gerarNotaFiscal(message)  //Mudar de objeto --> Chatbot que tem que fazer isso
 
 
     }
 
     else if (chatbot.numero_estagio === 9) {
-        chatbot.enviarMensagem(message, "🤖 Seu pedido está pronto para entrega!!!!!")
 
+        cliente.setPagamento(message)
+        cliente.getPagamento(message)
+
+        // TODO armazenar na base de dados
+        cliente.gerarNotaFiscal(message)  //Mudar de objeto --> Chatbot que tem que fazer isso
+
+        chatbot.enviarMensagem(message, "🤖 Seu pedido está sendo preparado!!!!!")
 
     }
 
     else if (chatbot.numero_estagio === 10) {
+        chatbot.enviarMensagem(message, "🤖 Seu pedido está pronto para entrega!!!!!")
 
     }
 
