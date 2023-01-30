@@ -122,6 +122,9 @@ class Cliente {
         return this.chatbot.enviarMensagem(message, `Forma de Pagamento escolhida = ${this.setPagamento(message)}`)
     }
 
+    gerarNotaFiscal(){
+        return `Nome do Cliente = {} \n Telefone = {} \n Itens do Pedido ={} \n Total do Pedido = R$ {}\n Forma de Pagamento = {} \n Endereço de Entrega = {}`
+    }
 
 }
 

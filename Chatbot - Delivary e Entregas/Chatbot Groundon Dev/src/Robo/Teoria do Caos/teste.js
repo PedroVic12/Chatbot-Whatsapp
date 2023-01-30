@@ -1,7 +1,5 @@
 const stageMap = new Map();
 
-
-
 whatsapp.on('message', message => {
     const phoneNumber = message.from.split('@')[0];
     let stage = stageMap.get(phoneNumber);

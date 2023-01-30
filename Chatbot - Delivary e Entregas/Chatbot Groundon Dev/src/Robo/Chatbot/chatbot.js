@@ -15,7 +15,7 @@ class Chatbot {
 
         //! Instanciando o Objeto com o nome do Cliente
         this.whatsapp = new Client({
-            authStrategy: new LocalAuth({ clientId: "BigBi-Citta" })
+            authStrategy: new LocalAuth({ clientId: "BigBi-Citta2" })
         });
 
         const wpp = this.whatsapp;
@@ -139,7 +139,7 @@ class Chatbot {
     gerarArquivoTxt(txt) {
 
         // Caminho do arquivo
-        const caminho = "/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/Logs/arquivo.txt";
+        const caminho = "/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/Teoria do Caos/arquivo.txt";
 
         // Usando o método writeFile para escrever o conteúdo no arquivo
         fs.writeFile(caminho, txt, (erro) => {
@@ -230,7 +230,7 @@ class Chatbot {
     //!Funções para enviar Botões
 
     mostrarFormasDePagamento(message) {
-        this.enviarBotao(message, `Escolha uma opção abaixo do que voce deseja`,
+        this.enviarBotao(message, `Escolha uma forma de pagamento:`,
             [
                 { body: "Dinheiro" },
                 { body: "Cartão" },
@@ -249,6 +249,16 @@ class Chatbot {
             ]
         );
     }
+
+    mostrarBotaoConfirmaPedido(message, txt) {
+        this.enviarBotao(message, txt,
+            [
+                { body: "Sim" },
+                { body: "Não" }
+            ]
+        );
+    }
+
 
     promiseBotao(message) {
         return new Promise((resolve, reject) => {

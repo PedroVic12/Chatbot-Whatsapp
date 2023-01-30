@@ -4,7 +4,7 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
 class Servidor {
-  final _router = Router();
+  //final _router = Router();
 
   Handler get handler {
     final router = Router();
@@ -13,6 +13,6 @@ class Servidor {
       return Response(200, body: 'Primeira rota');
     });
 
-    return _router;
+    return router;
   }
 }

@@ -36,4 +36,4 @@ function mandarImprimir() {
 
 }
 
-mandarImprimir()
+//mandarImprimir()

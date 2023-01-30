@@ -76,7 +76,6 @@ chatbot.whatsapp.on('message', message => {
     else if (chatbot.numero_estagio === 2) {
 
         estagio2.getNomeCliente(message)
-        estagio2.mostrarMenuPrincipal(message)
 
         // TODO Verificar na Base de dados com try e catch com uma função
         // excel_janeiro = "Chatbot/Banco de Dados - EXCEL/Janeiro/base_de_dados_janeiro.xlsx"
@@ -86,7 +85,11 @@ chatbot.whatsapp.on('message', message => {
         //TODO criar um objeto Cliente(nome) que pegue todos as informações do cliente atual
         //estagio2.infoCliente(message)
 
-        chatbot.avancarEstagio()
+        chatbot.enviarMensagem(message, 'Ola mundo!')
+
+        chatbot.avancarEstagio().then(
+            estagio2.mostrarMenuPrincipal(message)
+        )
     }
 
 
@@ -99,7 +102,7 @@ chatbot.whatsapp.on('message', message => {
         }
         if (message.body === 'Fazer Pedido' && message.type !== 'location') {
             chatbot.avancarEstagio().then(
-                chatbot.enviarMensagem(message,'processando...')
+                chatbot.enviarMensagem(message, 'processando...')
             ).then(
                 chatbot.mostrarProdutosBotao(message)
             )
@@ -145,7 +148,7 @@ chatbot.whatsapp.on('message', message => {
 
         //TODO Mostrar o Carrinho
         carrinho.adicionarProdutoCarrinho(carrinho.getNameProductsMarket()) // estagio 5
-        chatbot.enviarMensagem(message,carrinho.verCarrinho()) // estagio 5
+        chatbot.enviarMensagem(message, carrinho.verCarrinho()) // estagio 5
 
         chatbot.avancarEstagio().then(
             chatbot.mostrarProdutosLista(message)
@@ -176,40 +179,51 @@ chatbot.whatsapp.on('message', message => {
     }
 
     else if (chatbot.numero_estagio === 7) {
+        const address_user = chatbot.getLastMessage(message)
+        let mostrouBotao = false;
+        if (!mostrouBotao) {
+            chatbot.mostrarBotaoConfirmaPedido(message,`Voce confirma? \n endereço de *Cliente ${estagio2.getNome()}* = *${address_user}*?`)
+            mostrouBotao = true;
+        }
 
-        if (message.type === 'location'){
+        if (message.type === 'location') {
             cliente.getAddressFromCoordinates(message)
             //cliente.getLocation(message)
         }
 
-
-
-        chatbot.enviarMensagem(message, "🤖 Estamos processando seu a sua entrega, aguarde um momento...")
-
-
-        chatbot.enviarMensagem(message,'Escolha a forma de pagamento')
-        chatbot.avancarEstagio().then(
-            chatbot.mostrarFormasDePagamento(message)
-        )
+        if (message.body ==='Sim' && message.type !== 'location'){
+            chatbot.avancarEstagio().then(
+                chatbot.mostrarFormasDePagamento(message)
+            )
+        }
+        else{
+            console.log('teste3')
+            //chatbot.numero_estagio === 7
+        }
 
     }
 
     else if (chatbot.numero_estagio === 8) {
-        chatbot.enviarMensagem(message, "🤖 Seu pedido está sendo preparado!!!!!")
+
 
         cliente.setPagamento(message)
         cliente.getPagamento(message)
 
-        cliente.getInfoCliente()  //Mudar de objeto --> Chatbot que tem que fazer isso
+        chatbot.enviarMensagem(message, "🤖 Seu pedido está sendo preparado!!!!!")
+
+        // TODO armazenar na base de dados
+        cliente.gerarNotaFiscal(message)  //Mudar de objeto --> Chatbot que tem que fazer isso
+
 
     }
 
-     else if (chatbot.numero_estagio === 9) {
-
-    }
-
-      else if (chatbot.numero_estagio === 10) {
+    else if (chatbot.numero_estagio === 9) {
         chatbot.enviarMensagem(message, "🤖 Seu pedido está pronto para entrega!!!!!")
+
+
+    }
+
+    else if (chatbot.numero_estagio === 10) {
 
     }
 
