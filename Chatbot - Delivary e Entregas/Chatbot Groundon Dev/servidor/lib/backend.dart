@@ -1,10 +1,9 @@
-import 'package:servidor/server.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
-import 'package:servidor/server.dart';
+//import 'package:servidor/server.dart';
 
 void main() async {
-  Servidor _server = Servidor();
+  //Servidor _server = Servidor();
 
   final server = shelf_io.serve(
       (request) => Response(200,

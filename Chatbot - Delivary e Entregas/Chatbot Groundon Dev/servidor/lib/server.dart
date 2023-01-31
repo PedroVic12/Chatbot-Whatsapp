@@ -7,7 +7,7 @@ class Servidor {
   //final _router = Router();
 
   Handler get handler {
-    final router = Router();
+    //final router = Router();
 
     router.get('/', (Request request) {
       return Response(200, body: 'Primeira rota');

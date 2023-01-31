@@ -8,7 +8,7 @@ int main() {
     if (file.is_open()) {
         file << "coluna 1 | coluna 2 | coluna 3" << std::endl;
         file << "-------------------------------" << std::endl;
-        file << "valor 1 | valor 2 | valor 3" << std::endl;
+        file << " valor 1 | valor 2  | valor 3" << std::endl;
         file.close();
     } else {
         std::cerr << "Não foi possível abrir o arquivo." << std::endl;
