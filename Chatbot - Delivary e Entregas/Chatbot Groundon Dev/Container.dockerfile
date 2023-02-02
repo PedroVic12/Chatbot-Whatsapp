@@ -1,15 +1,16 @@
-# Use uma imagem Dart base
-FROM dart:2.9
+# Use uma imagem base com o Dart instalado
+FROM dart:2.12
 
-# Adicione as dependências do seu aplicativo
+# Defina a pasta de trabalho
+WORKDIR /servidor/lib/main.dart
+
+# Copie o seu código Dart para a pasta de trabalho
+COPY . .
+
+# Instale as dependências do seu projeto
 RUN pub get
 
-# Copie o código do seu aplicativo para o container
-COPY . /app
-WORKDIR /app
-
-# Execute o seu aplicativo
-CMD dart backend.dart
-
+# Defina o comando para iniciar o servidor
+CMD dart main.dart
 
 # Rodar o o docker >>> systemctl start docker

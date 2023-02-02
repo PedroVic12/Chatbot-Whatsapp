@@ -1,6 +1,6 @@
 FROM node:16.18
 
-WORKDIR /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/app/
+WORKDIR /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/
 
 COPY package*.json ./
 
@@ -8,4 +8,4 @@ RUN npm install
 
 COPY . .
 
-CMD node server.js
+CMD node main.js

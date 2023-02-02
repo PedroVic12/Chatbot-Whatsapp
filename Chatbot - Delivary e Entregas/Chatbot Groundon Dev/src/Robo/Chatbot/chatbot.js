@@ -194,7 +194,7 @@ class Chatbot {
     }
 
     getLastMessage(message) {
-        let lastMessage = message.body;
+        const lastMessage = message.body;
         return lastMessage
     }
 

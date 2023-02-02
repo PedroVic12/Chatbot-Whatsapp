@@ -9,24 +9,62 @@ class Estagio2 {
         this.NomeCliente = ""
 
     }
-    async getNomeCliente(message) {
+
+
+    mostrarMenuPrincipal = (message) => {
+
+        try {
+            const nome_cliente = this.getNome(message)
+            this.chatbot.enviarBotao(message, `Vamos lá, ${nome_cliente} !Escolha uma opção abaixo do que voce deseja`,
+                [
+                    { body: "Ver Cardápio" },
+                    { body: "Fazer Pedido" },
+                    { body: "Ver nossa Localização" }
+                ], '🤖 Chatbot Groundon', `Horário de Atendimento = ${this.chatbot.getHoras()} `
+            );
+        }
+
+        catch (err) {
+            console.log(err);
+        }
+
+    }
+
+    getNome(message) {
+        this.NomeCliente = message.body
+        return this.NomeCliente
+    }
+
+    getNomeCliente(message) {
         try {
 
-            this.NomeCliente = message.body
-            this.chatbot.enviarMensagem(message, `✅ Prazer em te conhecer, ${this.NomeCliente}!`);
-
-            let data = this.chatbot.getDataAtual()
-            this.chatbot.gerarArquivoTxt(` Números de Pedido == ${this.chatbot.numero_pedido_dia} em |${data}|  `)
-            this.chatbot.enviarMensagem(message, ` Números de Pedido == ${this.chatbot.numero_pedido_dia} em | ${data} | `)
+            const name_user = message.body
+            return name_user
 
         } catch (err) {
             console.log(err);
         }
     }
 
-    getNome() {
-        return this.NomeCliente;
+    getTelefone(message) {
+        try {
+            const telefone_user = message.from.split('@')[0]
+            return telefone_user
+        } catch (err) {
+            console.log(err);
+        }
     }
+
+
+    adicionandoClienteNaBasedeDados(message) {
+        let data = this.chatbot.getDataAtual()
+        this.chatbot.gerarArquivoTxt(` Números de Pedido == ${this.chatbot.numero_pedido_dia} em |${data}|  `)
+        this.chatbot.enviarMensagem(message, ` Números de Pedido == ${this.chatbot.numero_pedido_dia} em | ${data} | `)
+    }
+
+
+
+
 
     infoCliente(message) {
 
@@ -62,18 +100,7 @@ class Estagio2 {
     }
 
 
-    mostrarMenuPrincipal = (message) => {
 
-        this.chatbot.enviarBotao(message, `Vamos lá, ${this.getNome()} !Escolha uma opção abaixo do que voce deseja`,
-            [
-                { body: "Ver Cardápio" },
-                { body: "Fazer Pedido" },
-                { body: "Ver nossa Localização" }
-            ], '🤖 Chatbot Groundon', `Horário de Atendimento = ${this.chatbot.getHoras()} `
-        );
-    }
-
-    
 
 
 

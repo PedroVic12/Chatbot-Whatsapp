@@ -1,24 +1,35 @@
-2023/01/30-18:19:31.293 e05 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/01/30-18:19:31.293 e05 Recovering log #263
-2023/01/30-18:19:31.316 e05 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000263.log 
-2023/01/30-18:30:50.689 1046 Level-0 table #274: started
-2023/01/30-18:30:50.769 1046 Level-0 table #274: 1271748 bytes OK
-2023/01/30-18:30:50.800 1046 Delete type=0 #263
-2023/01/30-18:30:55.593 e0b Compacting 1@1 + 7@2 files
-2023/01/30-18:30:55.737 e0b Generated table #275@1: 30280 keys, 2256899 bytes
-2023/01/30-18:30:55.863 e0b Generated table #276@1: 42458 keys, 2302029 bytes
-2023/01/30-18:30:55.987 e0b Generated table #277@1: 4176 keys, 2151829 bytes
-2023/01/30-18:30:56.096 e0b Generated table #278@1: 5707 keys, 2155335 bytes
-2023/01/30-18:30:56.238 e0b Generated table #279@1: 45738 keys, 2241905 bytes
-2023/01/30-18:30:56.397 e0b Generated table #280@1: 68231 keys, 2210242 bytes
-2023/01/30-18:30:56.572 e0b Generated table #281@1: 115575 keys, 2241460 bytes
-2023/01/30-18:30:56.572 e0b Compacted 1@1 + 7@2 files => 15559699 bytes
-2023/01/30-18:30:56.639 e0b compacted to: files[ 0 0 7 0 0 0 0 ]
-2023/01/30-18:30:56.639 e0b Delete type=2 #266
-2023/01/30-18:30:56.639 e0b Delete type=2 #270
-2023/01/30-18:30:56.639 e0b Delete type=2 #269
-2023/01/30-18:30:56.639 e0b Delete type=2 #274
-2023/01/30-18:30:56.639 e0b Delete type=2 #267
-2023/01/30-18:30:56.639 e0b Delete type=2 #271
-2023/01/30-18:30:56.640 e0b Delete type=2 #265
-2023/01/30-18:30:56.640 e0b Delete type=2 #268
+2023/02/02-11:48:06.784 5f80 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/02/02-11:48:06.785 5f80 Recovering log #528
+2023/02/02-11:48:06.830 5f80 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000528.log 
+2023/02/02-11:48:38.626 5fc5 Level-0 table #542: started
+2023/02/02-11:48:38.708 5fc5 Level-0 table #542: 1257924 bytes OK
+2023/02/02-11:48:38.765 5fc5 Delete type=0 #528
+2023/02/02-11:48:40.286 5f7a Compacting 1@0 + 0@1 files
+2023/02/02-11:48:40.359 5f7a Generated table #543@0: 20273 keys, 545396 bytes
+2023/02/02-11:48:40.359 5f7a Compacted 1@0 + 0@1 files => 545396 bytes
+2023/02/02-11:48:40.388 5f7a compacted to: files[ 0 1 10 0 0 0 0 ]
+2023/02/02-11:48:40.389 5f7a Delete type=2 #542
+2023/02/02-11:48:41.116 5f7a Compacting 1@1 + 10@2 files
+2023/02/02-11:48:41.349 5f7a Generated table #544@1: 30150 keys, 2261758 bytes
+2023/02/02-11:48:41.541 5f7a Generated table #545@1: 24587 keys, 2280308 bytes
+2023/02/02-11:48:41.675 5f7a Generated table #546@1: 24874 keys, 2280303 bytes
+2023/02/02-11:48:41.810 5f7a Generated table #547@1: 77390 keys, 2356603 bytes
+2023/02/02-11:48:41.976 5f7a Generated table #548@1: 3717 keys, 2149403 bytes
+2023/02/02-11:48:42.386 5f7a Generated table #549@1: 5452 keys, 2155739 bytes
+2023/02/02-11:48:42.579 5f7a Generated table #550@1: 35216 keys, 2215986 bytes
+2023/02/02-11:48:42.789 5f7a Generated table #551@1: 34112 keys, 2193148 bytes
+2023/02/02-11:48:43.001 5f7a Generated table #552@1: 117094 keys, 2270048 bytes
+2023/02/02-11:48:43.141 5f7a Generated table #553@1: 61228 keys, 1188133 bytes
+2023/02/02-11:48:43.141 5f7a Compacted 1@1 + 10@2 files => 21351429 bytes
+2023/02/02-11:48:43.241 5f7a compacted to: files[ 0 0 10 0 0 0 0 ]
+2023/02/02-11:48:43.242 5f7a Delete type=2 #531
+2023/02/02-11:48:43.242 5f7a Delete type=2 #534
+2023/02/02-11:48:43.242 5f7a Delete type=2 #530
+2023/02/02-11:48:43.242 5f7a Delete type=2 #533
+2023/02/02-11:48:43.242 5f7a Delete type=2 #532
+2023/02/02-11:48:43.243 5f7a Delete type=2 #543
+2023/02/02-11:48:43.243 5f7a Delete type=2 #535
+2023/02/02-11:48:43.243 5f7a Delete type=2 #539
+2023/02/02-11:48:43.243 5f7a Delete type=2 #537
+2023/02/02-11:48:43.243 5f7a Delete type=2 #538
+2023/02/02-11:48:43.243 5f7a Delete type=2 #536
