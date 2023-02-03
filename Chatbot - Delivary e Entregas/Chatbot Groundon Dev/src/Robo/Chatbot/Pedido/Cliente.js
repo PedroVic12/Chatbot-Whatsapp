@@ -112,21 +112,12 @@ class Cliente {
     }
 
 
-    infoCLiente() {
-        const info_object = {
-            nome: this.getNome(),
-            telefone: this.getPhoneNumber(),
-            //pedido: this.carrinho.verCarrinho(),
-            carrinho: this.verCarrinhoCliente(),
-            pagamento: this.forma_pagamento,
-        }
-        return info_object;
-    }
     gerarNotaFiscal() {
         // Formatação Bonita
         return `Resumo do Pedido de : *${this.nome}* \n Telefone = ${this.telefone} \n Itens do Pedido =${this.carrinho.getNomesProdutosPedido()} \n *Valor total do pedido:* R$ ${this.carrinho.getTotalPrecoPedido()} \n Forma de Pagamento = ${this.forma_pagamento} \n Endereço de Entrega = ${this.endereco_cliente}`
     }
     //! Métodos para pegar o endereço pela api do google
+
 
     async getAddressFromCoordinates(message) {
         //! Docs --> https://developers.google.com/maps/documentation/urls/get-started?hl=pt-br

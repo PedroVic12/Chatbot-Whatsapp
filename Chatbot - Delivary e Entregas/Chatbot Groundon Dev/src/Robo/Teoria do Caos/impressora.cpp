@@ -2,6 +2,16 @@
 #include <fstream>
 #include <iostream>
 
+
+// ler o arquivo txt
+
+// escrever no arquivo txt a nota fiscal
+
+// conectando com a impressora e pegar o nome da impressora
+
+// selecionar a impressora imprimir o arquivo txt
+
+
 int main() {
     // Escreva o conteúdo do arquivo
     std::ofstream file("arquivo.txt");

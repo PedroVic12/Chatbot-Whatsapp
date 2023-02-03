@@ -92,14 +92,15 @@ chatbot.whatsapp.on('message', message => {
 
         //Checa o cliente na base de dados e responde
         estagio2.adicionandoClienteNaBasedeDados(message)
+        chatbot.gerarTxtUmItem(nome_cliente)
 
-        // TODO Verificar na Base de dados com try e catch com uma função
-        // excel_janeiro = "Chatbot/Banco de Dados - EXCEL/Janeiro/base_de_dados_janeiro.xlsx"
-        // let dados_excel = Banco.lerDadosExcel(excel_janeiro)
-        //chatbot.enviarMensagem(message, "Base de Dados Atual " + dados_excel)
 
+        //let base_de_dados = estagio2.adicionandoClienteNaBasedeDados(message)
 
         // If cliente ja tem na base de dados, então uma forma de abordagem diferente
+        // if (nome_cliente in base_de_dados){
+        //
+        // }
 
 
         chatbot.enviarMensagem(message, `✅ Prazer em te conhecer, ${nome_cliente}!`);
@@ -196,6 +197,8 @@ chatbot.whatsapp.on('message', message => {
         const endereco_cliente = estagio7.PegandoEnderecoCliente(message)
         cliente.setEndereco(endereco_cliente)
 
+        //TODO --> Procurar uma api que pegue o endereço certinho indepedendente do que o cliente digitar
+
         chatbot.mostrarBotaoConfirmaPedido(message, `Voce confirma ?\n *Nome Cliente: ${cliente.getNome()}* \n *Endereço de entrega: ${cliente.getEndereco()}* `)
 
         chatbot.avancarEstagio().then(
@@ -231,6 +234,8 @@ chatbot.whatsapp.on('message', message => {
 
         // Todo Enviar Nota Fiscal
         chatbot.enviarMensagem(message, `${cliente.gerarNotaFiscal()}`)
+        chatbot.gerarNotaFiscalTxt(cliente.gerarNotaFiscal())
+
 
         chatbot.avancarEstagio().then(
             chatbot.enviarMensagem(message, 'Avançando...')

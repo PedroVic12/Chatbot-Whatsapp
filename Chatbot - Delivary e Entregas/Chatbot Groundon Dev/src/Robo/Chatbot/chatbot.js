@@ -137,6 +137,34 @@ class Chatbot {
 
     }
 
+    gerarTxtUmItem(texto) {
+        // Caminho do arquivo
+        const caminho = "/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/Teoria do Caos/arquivos txt/nome_cliente.txt";
+
+        // Usando o método writeFile para escrever o conteúdo no arquivo
+        fs.writeFile(caminho, texto, (erro) => {
+            if (erro) {
+                console.error(erro);
+            } else {
+                console.log("Nome enviado para o Python!");
+            }
+        });
+    }
+
+    gerarNotaFiscalTxt(texto) {
+        // Caminho do arquivo
+        const caminho = "/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/Teoria do Caos/arquivos txt/nota_fiscal.txt";
+
+        // Usando o método writeFile para escrever o conteúdo no arquivo
+        fs.writeFile(caminho, texto, (erro) => {
+            if (erro) {
+                console.error(erro);
+            } else {
+                console.log("Nota Fiscal Criada!!");
+            }
+        });
+    }
+
     gerarArquivoTxt(txt) {
 
         // Caminho do arquivo

@@ -60,8 +60,22 @@ class Estagio2 {
         let data = this.chatbot.getDataAtual()
         this.chatbot.gerarArquivoTxt(` Números de Pedido == ${this.chatbot.numero_pedido_dia} em |${data}|  `)
         this.chatbot.enviarMensagem(message, ` Números de Pedido == ${this.chatbot.numero_pedido_dia} em | ${data} | `)
-    }
 
+        // TODO Verificar na Base de dados com try e catch com uma função
+        try {
+            let excel_janeiro = "/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/Chatbot/Banco de Dados - EXCEL/Janeiro/base_de_dados_janeiro.xlsx"
+            let dados_excel = Banco.lerDadosExcel(excel_janeiro)
+            chatbot.enviarMensagem(message, "Base de Dados Atual " + dados_excel)
+
+
+        } catch (error) {
+            console.log(error);
+
+        }
+
+
+
+    }
 
 
 
