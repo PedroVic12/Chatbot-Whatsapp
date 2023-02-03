@@ -12,9 +12,13 @@ class Estagio5 {
 
 
 
-    setItensCarrinho(message) {
-        this.carrinho.adicionarProdutoCarrinho(this.carrinho.getNameProductsMarket()) // estagio 5
-        this.chatbot.enviarMensagem(message, this.carrinho.verCarrinho()) // 
+    setItensCarrinho() {
+        return this.carrinho.adicionarProdutoCarrinho(this.carrinho.getNameProductsMarket()) // estagio 5
+
+    }
+
+    verCarrinho(message) {
+        return this.chatbot.enviarMensagem(message, this.carrinho.verCarrinho()) // 
 
     }
 

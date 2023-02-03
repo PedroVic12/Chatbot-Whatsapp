@@ -1,24 +1,28 @@
-2023/02/02-15:39:12.984 301e Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/Chatbot/.wwebjs_auth/session-BigBi-Citta2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/02/02-15:39:12.984 301e Recovering log #158
-2023/02/02-15:39:13.041 301e Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/Chatbot/.wwebjs_auth/session-BigBi-Citta2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000158.log 
-2023/02/02-15:40:49.488 301e Level-0 table #169: started
-2023/02/02-15:40:49.566 301e Level-0 table #169: 1234113 bytes OK
-2023/02/02-15:40:49.600 301e Delete type=0 #158
-2023/02/02-15:40:49.866 2fff Compacting 1@1 + 7@2 files
-2023/02/02-15:40:50.000 2fff Generated table #170@1: 22546 keys, 2219428 bytes
-2023/02/02-15:40:50.092 2fff Generated table #171@1: 4649 keys, 2153084 bytes
-2023/02/02-15:40:50.200 2fff Generated table #172@1: 17220 keys, 2170251 bytes
-2023/02/02-15:40:50.368 2fff Generated table #173@1: 35699 keys, 2223329 bytes
-2023/02/02-15:40:50.551 2fff Generated table #174@1: 76877 keys, 2219841 bytes
-2023/02/02-15:40:50.727 2fff Generated table #175@1: 117685 keys, 2270348 bytes
-2023/02/02-15:40:50.794 2fff Generated table #176@1: 27223 keys, 525254 bytes
-2023/02/02-15:40:50.795 2fff Compacted 1@1 + 7@2 files => 13781535 bytes
-2023/02/02-15:40:50.823 2fff compacted to: files[ 0 0 7 0 0 0 0 ]
-2023/02/02-15:40:50.824 2fff Delete type=2 #162
-2023/02/02-15:40:50.824 2fff Delete type=2 #166
-2023/02/02-15:40:50.824 2fff Delete type=2 #165
-2023/02/02-15:40:50.824 2fff Delete type=2 #161
-2023/02/02-15:40:50.824 2fff Delete type=2 #160
-2023/02/02-15:40:50.824 2fff Delete type=2 #164
-2023/02/02-15:40:50.824 2fff Delete type=2 #169
-2023/02/02-15:40:50.824 2fff Delete type=2 #163
+2023/02/03-13:46:11.416 b9ec Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/Chatbot/.wwebjs_auth/session-BigBi-Citta2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/02/03-13:46:11.416 b9ec Recovering log #432
+2023/02/03-13:46:11.440 b9ec Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/Chatbot/.wwebjs_auth/session-BigBi-Citta2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000432.log 
+2023/02/03-13:46:54.303 b9ec Level-0 table #445: started
+2023/02/03-13:46:54.375 b9ec Level-0 table #445: 1273108 bytes OK
+2023/02/03-13:46:54.413 b9ec Delete type=0 #432
+2023/02/03-13:46:54.964 b9ea Compacting 1@1 + 9@2 files
+2023/02/03-13:46:55.189 b9ea Generated table #446@1: 30188 keys, 2262999 bytes
+2023/02/03-13:46:55.356 b9ea Generated table #447@1: 24789 keys, 2275562 bytes
+2023/02/03-13:46:55.557 b9ea Generated table #448@1: 53434 keys, 2299911 bytes
+2023/02/03-13:46:55.731 b9ea Generated table #449@1: 4042 keys, 2150972 bytes
+2023/02/03-13:46:55.907 b9ea Generated table #450@1: 5494 keys, 2156188 bytes
+2023/02/03-13:46:56.058 b9ea Generated table #451@1: 39224 keys, 2224707 bytes
+2023/02/03-13:46:56.350 b9ea Generated table #452@1: 23075 keys, 2178682 bytes
+2023/02/03-13:46:56.582 b9ea Generated table #453@1: 116066 keys, 2267092 bytes
+2023/02/03-13:46:56.763 b9ea Generated table #454@1: 116182 keys, 2245732 bytes
+2023/02/03-13:46:56.763 b9ea Compacted 1@1 + 9@2 files => 20061845 bytes
+2023/02/03-13:46:57.003 b9ea compacted to: files[ 0 0 9 0 0 0 0 ]
+2023/02/03-13:46:57.003 b9ea Delete type=2 #434
+2023/02/03-13:46:57.004 b9ea Delete type=2 #436
+2023/02/03-13:46:57.004 b9ea Delete type=2 #445
+2023/02/03-13:46:57.004 b9ea Delete type=2 #440
+2023/02/03-13:46:57.004 b9ea Delete type=2 #439
+2023/02/03-13:46:57.004 b9ea Delete type=2 #437
+2023/02/03-13:46:57.004 b9ea Delete type=2 #438
+2023/02/03-13:46:57.004 b9ea Delete type=2 #435
+2023/02/03-13:46:57.004 b9ea Delete type=2 #441
+2023/02/03-13:46:57.004 b9ea Delete type=2 #442

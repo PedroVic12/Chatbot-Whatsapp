@@ -21,6 +21,7 @@ class Chatbot {
         const wpp = this.whatsapp;
     }
 
+
     //! Funções de LOG
     armazenarConversa(message) {
 
@@ -40,7 +41,7 @@ class Chatbot {
 
         return new Promise((resolve, reject) => {
             console.log("\n\n====================================")
-            console.log("\t CHATBOT GROUNDON V4.3.0 \nby:pvpeterparker")
+            console.log("\t CHATBOT GROUNDON V5.3.{} \nby:pvpeterparker")
             console.log("====================================\n")
             console.log("\nIniciando o Chatbot...")
             console.log('Gerando QR code...');

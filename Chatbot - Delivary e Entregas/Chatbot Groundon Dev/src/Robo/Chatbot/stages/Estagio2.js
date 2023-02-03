@@ -14,7 +14,7 @@ class Estagio2 {
     mostrarMenuPrincipal = (message) => {
 
         try {
-            const nome_cliente = this.getNome(message)
+            const nome_cliente = this.getNomeCliente(message)
             this.chatbot.enviarBotao(message, `Vamos lá, ${nome_cliente} !Escolha uma opção abaixo do que voce deseja`,
                 [
                     { body: "Ver Cardápio" },
@@ -30,7 +30,7 @@ class Estagio2 {
 
     }
 
-    getNome(message) {
+    getNameByJavaMethod(message) {
         this.NomeCliente = message.body
         return this.NomeCliente
     }
@@ -46,7 +46,7 @@ class Estagio2 {
         }
     }
 
-    getTelefone(message) {
+    getTelefoneCliente(message) {
         try {
             const telefone_user = message.from.split('@')[0]
             return telefone_user

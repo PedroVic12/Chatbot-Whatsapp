@@ -2,10 +2,10 @@
 /**
  *  Use funções para evitar repetição de código: ao invés de escrever o mesmo código várias vezes, crie uma função que realize essa tarefa e chame-a sempre que necessário.
 
-    Use variáveis em vez de escrever o mesmo valor várias vezes: ao invés de escrever o mesmo valor várias vezes, crie uma variável e atribua-lhe esse valor. Depois, basta chamar a variável sempre que precisar desse valor.
+ Use variáveis em vez de escrever o mesmo valor várias vezes: ao invés de escrever o mesmo valor várias vezes, crie uma variável e atribua-lhe esse valor. Depois, basta chamar a variável sempre que precisar desse valor.
 
-    Use a sintaxe de funções arrow: a sintaxe de funções arrow é mais curta que a sintaxe de funções convencional, o que pode ajudar a reduzir o tamanho do seu código.
-*/
+ Use a sintaxe de funções arrow: a sintaxe de funções arrow é mais curta que a sintaxe de funções convencional, o que pode ajudar a reduzir o tamanho do seu código.
+ */
 //! ============== MANUTENÇÃO ==============
 
 //! Importações e variáveis GLOBAIS
@@ -31,7 +31,7 @@ const Sanduiches = require("./Cardapio - LOJA/Sanduiche.js");
 
 const Carrinho = require("./Pedido/Carrinho");
 const Cliente = require("./Pedido/Cliente");
-const ClienteTeste = require("./Pedido/Cliente-teste");
+
 const { List } = require('whatsapp-web.js');
 const e = require('express');
 
@@ -41,7 +41,7 @@ const Banco = new BancoDeDados(chatbot)
 
 const carrinho = new Carrinho(chatbot)
 const cliente = new Cliente(chatbot, carrinho)
-let PedroVictor;
+
 
 const estagio1 = new Estagio1(chatbot);
 const estagio2 = new Estagio2(chatbot);
@@ -83,19 +83,13 @@ chatbot.whatsapp.on('message', message => {
 
     //!=====================  Estágio 2 - Mostrar Menu Principal =====================
     else if (chatbot.numero_estagio === 2) {
-
         //Pegando os dados do cliente
         const nome_cliente = estagio2.getNomeCliente(message)
-        const telefone_cliente = estagio2.getTelefone(message)
+        cliente.setNome(nome_cliente)
 
-        //Criando um objeto cliente
-        let PedroVictor = new ClienteTeste(nome_cliente, telefone_cliente, chatbot, carrinho)
-
-        chatbot.enviarMensagem(message, `Ola ${PedroVictor.nome} seu telefone é ${PedroVictor.telefone} e seu pedido é ${PedroVictor.pedido_cliente}`);
-        chatbot.enviarMensagem(message, `✅ Prazer em te conhecer, ${nome_cliente}!`);
-
-        let info = PedroVictor.getAllInformations()
-        chatbot.enviarMensagem(message, `Teste = ${info}`)
+        // Pegando o numeo de telefone
+        const numero_telefone = estagio2.getTelefoneCliente(message)
+        cliente.setPhoneNumber(numero_telefone)
 
         //Checa o cliente na base de dados e responde
         estagio2.adicionandoClienteNaBasedeDados(message)
@@ -106,6 +100,10 @@ chatbot.whatsapp.on('message', message => {
         //chatbot.enviarMensagem(message, "Base de Dados Atual " + dados_excel)
 
 
+        // If cliente ja tem na base de dados, então uma forma de abordagem diferente
+
+
+        chatbot.enviarMensagem(message, `✅ Prazer em te conhecer, ${nome_cliente}!`);
         chatbot.avancarEstagio().then(
             estagio2.mostrarMenuPrincipal(message)
         )
@@ -137,8 +135,6 @@ chatbot.whatsapp.on('message', message => {
     //!=====================  Estagio 4 - Cliente Escolhe os Produtos da Loja =====================
     else if (chatbot.numero_estagio === 4) {
 
-        //chatbot.promiseBotao(message)
-
         if (message.body === 'Sanduíches' && message.type !== 'location') {
             const cardapio_sanduiche = Sanduiches.getAllSanduiches()
             estagio4.enviarListaSanduiches(message, cardapio_sanduiche)
@@ -162,15 +158,12 @@ chatbot.whatsapp.on('message', message => {
 
     else if (chatbot.numero_estagio === 5) {
 
-        //Adicionando no carrinho ----> BUG AQUI DENTRO DESSA FUNÇÂO
-        PedroVictor.realizaPedidoNovo(message);
+        //Escolhe o Produto
+        cliente.realizaPedido(message)
 
-        chatbot.enviarMensagem(message,`${PedroVictor.getAllInformations()}`)
-
-        chatbot.enviarMensagem(message,'Debug!')
-
-        //Mostrar o Carrinho
-        estagio5.setItensCarrinho(message);
+        //Coloca no carrinho
+        estagio5.setItensCarrinho();
+        estagio5.verCarrinho(message)
 
         chatbot.avancarEstagio().then(
             chatbot.mostrarProdutosLista(message)
@@ -201,23 +194,17 @@ chatbot.whatsapp.on('message', message => {
 
     else if (chatbot.numero_estagio === 7) {
 
-        //TODO debug nesse estágio
+        const endereco_cliente = estagio7.PegandoEnderecoCliente(message)
+        cliente.setEndereco(endereco_cliente)
 
-        //pega o endereco do cliente pelo metodo tradicional
-        const address_user = chatbot.getLastMessage(message)
-        const endereco_cliente_teste = estagio7.PegandoEnderecoCliente(message)
-
-        //============================ CODIGO TRAVA AQUI ============================
-        // chatbot.mostrarBotaoConfirmaPedido(message,`Voce confirma ?\n * Nome Cliente: ${ estagio2.getNome() }* \n * Endereço de entrega: ${ endereco_cliente_teste }* `)
-        // chatbot.mostrarBotaoConfirmaPedido(message,`Voce confirma ?\n * Nome Cliente: ${ estagio2.getNome() }* \n * Endereço de entrega: ${ address_user }* `)
-        chatbot.mostrarBotaoConfirmaPedido(message, `Voce confirma ?\n * Nome Cliente: { nome_cliente }* \n * Endereço de entrega: { address_user }* `)
+        chatbot.mostrarBotaoConfirmaPedido(message, `Voce confirma ?\n *Nome Cliente: ${cliente.getNome()}* \n *Endereço de entrega: ${cliente.getEndereco()}* `)
 
         chatbot.avancarEstagio().then(
             chatbot.enviarMensagem(message, 'Avançando...')
         )
     }
 
-    //!=====================   Estagio 8 - Pega o Pagamento =====================
+    //!=====================   Estagio 8 - Mostar as formas de Pagamento =====================
     else if (chatbot.numero_estagio === 8) {
 
         if (message.body === 'Sim' && message.type !== 'location') {
@@ -235,16 +222,22 @@ chatbot.whatsapp.on('message', message => {
     //!=====================   Estagio 9 - Mostra todas as infromações finais =====================
 
     else if (chatbot.numero_estagio === 9) {
-        // TODO armazenar na base de dados
-        cliente.setPagamento(message)
-        cliente.getPagamento(message)
-
-        // Todo Enviar Nota Fiscal
-        cliente.gerarNotaFiscal(message)  //Mudar de objeto --> Chatbot que tem que fazer isso
         chatbot.enviarMensagem(message, "🤖 Seu pedido está sendo preparado!!!!!")
 
+        // TODO armazenar na base de dados
+        const cliente_forma_pagamento = cliente.pegandoFormaPagamentoCliente(message)
+        cliente.setFormaPagamento(cliente_forma_pagamento)
+        chatbot.enviarMensagem(message, `Forma de Pagamento Escolhida =  ${cliente.forma_pagamento}`)
+
+
+        // Todo Enviar Nota Fiscal
+        chatbot.enviarMensagem(message, `${cliente.gerarNotaFiscal()}`)
+
+        chatbot.avancarEstagio().then(
+            chatbot.enviarMensagem(message, 'Avançando...')
+        )
+        //!=====================   Estagio 10 Mostra todas as infromações finais =====================
     }
-    //!=====================   Estagio 10 Mostra todas as infromações finais =====================
 
     else if (chatbot.numero_estagio === 10) {
         chatbot.enviarMensagem(message, "🤖 Seu pedido está pronto para entrega!!!!!")
