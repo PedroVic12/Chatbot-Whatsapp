@@ -95,6 +95,8 @@ chatbot.whatsapp.on('message', message => {
         chatbot.gerarTxtUmItem(nome_cliente)
 
 
+        //TODO checar cliente na base de dados
+
         //let base_de_dados = estagio2.adicionandoClienteNaBasedeDados(message)
 
         // If cliente ja tem na base de dados, então uma forma de abordagem diferente
@@ -226,7 +228,7 @@ chatbot.whatsapp.on('message', message => {
     else if (chatbot.numero_estagio === 9) {
         chatbot.enviarMensagem(message, "🤖 Seu pedido está sendo preparado!!!!!")
 
-        // TODO armazenar na base de dados
+        // TODO armazenar na base de dados todas as informalçoes do cliente
         const cliente_forma_pagamento = cliente.pegandoFormaPagamentoCliente(message)
         cliente.setFormaPagamento(cliente_forma_pagamento)
         chatbot.enviarMensagem(message, `Forma de Pagamento Escolhida =  ${cliente.forma_pagamento}`)

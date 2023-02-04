@@ -114,7 +114,7 @@ class Cliente {
 
     gerarNotaFiscal() {
         // Formatação Bonita
-        return `Resumo do Pedido de : *${this.nome}* \n Telefone = ${this.telefone} \n Itens do Pedido =${this.carrinho.getNomesProdutosPedido()} \n *Valor total do pedido:* R$ ${this.carrinho.getTotalPrecoPedido()} \n Forma de Pagamento = ${this.forma_pagamento} \n Endereço de Entrega = ${this.endereco_cliente}`
+        return `Resumo do Pedido de : *${this.nome}* \nTelefone = ${this.telefone} \nItens do Pedido = ${this.carrinho.getNomesProdutosPedido()} \n*Total a pagar =* R$ ${this.carrinho.getTotalPrecoPedido()} \n Forma de Pagamento = ${this.forma_pagamento} \n Endereço de Entrega = ${this.endereco_cliente}`
     }
     //! Métodos para pegar o endereço pela api do google
 
