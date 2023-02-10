@@ -1,0 +1,12 @@
+2023/02/03-15:12:09.803 4f0c Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/02/03-15:12:09.803 4f0c Recovering log #19
+2023/02/03-15:12:09.909 4f0c Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000019.log 
+2023/02/03-15:12:21.336 4ef6 Level-0 table #23: started
+2023/02/03-15:12:21.414 4ef6 Level-0 table #23: 1141351 bytes OK
+2023/02/03-15:12:21.447 4ef6 Delete type=0 #19
+2023/02/03-15:12:52.414 4f0c Compacting 1@0 + 1@1 files
+2023/02/03-15:12:52.577 4f0c Generated table #24@0: 43303 keys, 1157741 bytes
+2023/02/03-15:12:52.577 4f0c Compacted 1@0 + 1@1 files => 1157741 bytes
+2023/02/03-15:12:52.654 4f0c compacted to: files[ 0 1 1 0 0 0 0 ]
+2023/02/03-15:12:52.654 4f0c Delete type=2 #20
+2023/02/03-15:12:52.654 4f0c Delete type=2 #23

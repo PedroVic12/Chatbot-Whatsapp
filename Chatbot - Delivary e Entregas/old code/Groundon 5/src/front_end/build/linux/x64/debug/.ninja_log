@@ -1,0 +1,29 @@
+# ninja log v5
+2	13591	0	/home/pedrov/Documentos/GitHub/Jedi_Cyberpunk/The Witcher Mode/Freelancer/Chatbots/Chatbot - Delivary e Entregas/Kyogre - IA/src/front_end/linux/flutter/ephemeral/flutter_linux/fl_message_codec.h	bc9bfc0617aad993
+14847	14880	0	CMakeFiles/install.util	d62910cfe0893ce7
+2	13591	0	/home/pedrov/Documentos/GitHub/Jedi_Cyberpunk/The Witcher Mode/Freelancer/Chatbots/Chatbot - Delivary e Entregas/Kyogre - IA/src/front_end/linux/flutter/ephemeral/flutter_linux/fl_standard_message_codec.h	bc9bfc0617aad993
+2	13591	0	/home/pedrov/Documentos/GitHub/Jedi_Cyberpunk/The Witcher Mode/Freelancer/Chatbots/Chatbot - Delivary e Entregas/Kyogre - IA/src/front_end/linux/flutter/ephemeral/flutter_linux/fl_binary_codec.h	bc9bfc0617aad993
+2	13591	0	/home/pedrov/Documentos/GitHub/Jedi_Cyberpunk/The Witcher Mode/Freelancer/Chatbots/Chatbot - Delivary e Entregas/Kyogre - IA/src/front_end/linux/flutter/ephemeral/flutter_linux/fl_value.h	bc9bfc0617aad993
+2	13591	0	/home/pedrov/Documentos/GitHub/Jedi_Cyberpunk/The Witcher Mode/Freelancer/Chatbots/Chatbot - Delivary e Entregas/Kyogre - IA/src/front_end/linux/flutter/ephemeral/flutter_linux/fl_method_call.h	bc9bfc0617aad993
+2	13591	0	/home/pedrov/Documentos/GitHub/Jedi_Cyberpunk/The Witcher Mode/Freelancer/Chatbots/Chatbot - Delivary e Entregas/Kyogre - IA/src/front_end/linux/flutter/ephemeral/flutter_linux/fl_basic_message_channel.h	bc9bfc0617aad993
+2	13591	0	/home/pedrov/Documentos/GitHub/Jedi_Cyberpunk/The Witcher Mode/Freelancer/Chatbots/Chatbot - Delivary e Entregas/Kyogre - IA/src/front_end/linux/flutter/ephemeral/flutter_linux/fl_json_method_codec.h	bc9bfc0617aad993
+2	13591	0	/home/pedrov/Documentos/GitHub/Jedi_Cyberpunk/The Witcher Mode/Freelancer/Chatbots/Chatbot - Delivary e Entregas/Kyogre - IA/src/front_end/linux/flutter/ephemeral/flutter_linux/fl_method_codec.h	bc9bfc0617aad993
+2	13591	0	/home/pedrov/Documentos/GitHub/Jedi_Cyberpunk/The Witcher Mode/Freelancer/Chatbots/Chatbot - Delivary e Entregas/Kyogre - IA/src/front_end/linux/flutter/ephemeral/flutter_linux/fl_json_message_codec.h	bc9bfc0617aad993
+2	13591	0	flutter/_phony_	bc9bfc0617aad993
+2	13591	0	/home/pedrov/Documentos/GitHub/Jedi_Cyberpunk/The Witcher Mode/Freelancer/Chatbots/Chatbot - Delivary e Entregas/Kyogre - IA/src/front_end/linux/flutter/ephemeral/flutter_linux/flutter_linux.h	bc9bfc0617aad993
+2	13591	0	/home/pedrov/Documentos/GitHub/Jedi_Cyberpunk/The Witcher Mode/Freelancer/Chatbots/Chatbot - Delivary e Entregas/Kyogre - IA/src/front_end/linux/flutter/ephemeral/flutter_linux/fl_method_response.h	bc9bfc0617aad993
+2	13591	0	/home/pedrov/Documentos/GitHub/Jedi_Cyberpunk/The Witcher Mode/Freelancer/Chatbots/Chatbot - Delivary e Entregas/Kyogre - IA/src/front_end/linux/flutter/ephemeral/flutter_linux/fl_dart_project.h	bc9bfc0617aad993
+2	13591	0	/home/pedrov/Documentos/GitHub/Jedi_Cyberpunk/The Witcher Mode/Freelancer/Chatbots/Chatbot - Delivary e Entregas/Kyogre - IA/src/front_end/linux/flutter/ephemeral/flutter_linux/fl_string_codec.h	bc9bfc0617aad993
+2	13591	0	/home/pedrov/Documentos/GitHub/Jedi_Cyberpunk/The Witcher Mode/Freelancer/Chatbots/Chatbot - Delivary e Entregas/Kyogre - IA/src/front_end/linux/flutter/ephemeral/libflutter_linux_gtk.so	bc9bfc0617aad993
+2	13591	0	/home/pedrov/Documentos/GitHub/Jedi_Cyberpunk/The Witcher Mode/Freelancer/Chatbots/Chatbot - Delivary e Entregas/Kyogre - IA/src/front_end/linux/flutter/ephemeral/flutter_linux/fl_plugin_registry.h	bc9bfc0617aad993
+2	13591	0	/home/pedrov/Documentos/GitHub/Jedi_Cyberpunk/The Witcher Mode/Freelancer/Chatbots/Chatbot - Delivary e Entregas/Kyogre - IA/src/front_end/linux/flutter/ephemeral/flutter_linux/fl_standard_method_codec.h	bc9bfc0617aad993
+2	13591	0	/home/pedrov/Documentos/GitHub/Jedi_Cyberpunk/The Witcher Mode/Freelancer/Chatbots/Chatbot - Delivary e Entregas/Kyogre - IA/src/front_end/linux/flutter/ephemeral/flutter_linux/fl_view.h	bc9bfc0617aad993
+2	13591	0	/home/pedrov/Documentos/GitHub/Jedi_Cyberpunk/The Witcher Mode/Freelancer/Chatbots/Chatbot - Delivary e Entregas/Kyogre - IA/src/front_end/linux/flutter/ephemeral/flutter_linux/fl_method_channel.h	bc9bfc0617aad993
+14547	14847	1673126044182713514	intermediates_do_not_run/front_end	21ac63f87cf154c7
+13596	14547	1673126043879376496	CMakeFiles/front_end.dir/flutter/generated_plugin_registrant.cc.o	407e43b7c7ff3c8b
+2	13591	0	/home/pedrov/Documentos/GitHub/Jedi_Cyberpunk/The Witcher Mode/Freelancer/Chatbots/Chatbot - Delivary e Entregas/Kyogre - IA/src/front_end/linux/flutter/ephemeral/flutter_linux/fl_plugin_registrar.h	bc9bfc0617aad993
+2	13591	0	/home/pedrov/Documentos/GitHub/Jedi_Cyberpunk/The Witcher Mode/Freelancer/Chatbots/Chatbot - Delivary e Entregas/Kyogre - IA/src/front_end/build/linux/x64/debug/flutter/_phony_	bc9bfc0617aad993
+2	13591	0	/home/pedrov/Documentos/GitHub/Jedi_Cyberpunk/The Witcher Mode/Freelancer/Chatbots/Chatbot - Delivary e Entregas/Kyogre - IA/src/front_end/linux/flutter/ephemeral/flutter_linux/fl_engine.h	bc9bfc0617aad993
+2	13591	0	/home/pedrov/Documentos/GitHub/Jedi_Cyberpunk/The Witcher Mode/Freelancer/Chatbots/Chatbot - Delivary e Entregas/Kyogre - IA/src/front_end/linux/flutter/ephemeral/flutter_linux/fl_binary_messenger.h	bc9bfc0617aad993
+13595	14440	1673126043772708533	CMakeFiles/front_end.dir/main.cc.o	928e7c3a31edf90f
+13596	14538	1673126043869376374	CMakeFiles/front_end.dir/my_application.cc.o	e3a441fd7506586

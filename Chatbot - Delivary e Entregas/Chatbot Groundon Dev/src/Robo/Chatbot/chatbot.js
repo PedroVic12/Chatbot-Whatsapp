@@ -139,6 +139,7 @@ class Chatbot {
 
     }
 
+    //!============== Métodos para ....
     gerarTxtUmItem(texto) {
         // Caminho do arquivo
         const caminho = "/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/Teoria do Caos/arquivos txt/nome_cliente.txt";
@@ -152,6 +153,12 @@ class Chatbot {
             }
         });
     }
+
+
+    gerarJson(){
+        
+    }
+
 
     gerarNotaFiscalTxt(texto) {
         // Caminho do arquivo

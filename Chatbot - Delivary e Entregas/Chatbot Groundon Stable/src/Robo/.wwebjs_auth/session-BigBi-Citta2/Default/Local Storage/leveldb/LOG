@@ -1,0 +1,4 @@
+2023/02/03-15:32:25.180 14d0 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta2/Default/Local Storage/leveldb/MANIFEST-000001
+2023/02/03-15:32:25.189 14d0 Recovering log #14
+2023/02/03-15:32:25.189 14d0 (ignoring error) /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta2/Default/Local Storage/leveldb/000014.log: dropping 3588 bytes; Corruption: missing start of fragmented record(2)
+2023/02/03-15:32:25.189 14d0 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/.wwebjs_auth/session-BigBi-Citta2/Default/Local Storage/leveldb/000014.log 
