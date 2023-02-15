@@ -1,6 +1,7 @@
 const { Client, LocalAuth, Buttons, List, MessageMedia, MessageAck, LegacySessionAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 const fs = require('fs');
+const puppeteer = require('puppeteer');
 
 //!============================= MANUTENÇÃO =============================
 //! - SOMENTE FUNÇÕES GLOBAIS 
@@ -17,10 +18,10 @@ class Chatbot {
         this.whatsapp = new Client({
 
             // Se o codigo travar e não gerar o QRCODE, mude o nome do ClientID
-            authStrategy: new LocalAuth({ clientId: "Night-Wolf" })
+            authStrategy: new LocalAuth({ clientId: "Night-Wolf-Padawan" })
         });
 
-        const wpp = this.whatsapp;
+
     }
 
 
@@ -38,27 +39,40 @@ class Chatbot {
     }
 
     //! Métodos
-    conectandoWpp = () => {
+    async conectandoWpp() {
 
 
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             console.log("\n\n====================================")
-            console.log("\t CHATBOT GROUNDON V5.3.{} \nby:pvpeterparker")
+            console.log("\t CHATBOT GROUNDON V6.1.{1} \nby:pvpeterparker")
             console.log("====================================\n")
             console.log("\nIniciando o Chatbot...")
             console.log('Gerando QR code...');
             console.log("====================================")
+            const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
 
+            // Gerando QR Code
             this.whatsapp.on('qr', qr => {
                 qrcode.generate(qr, { small: true });
             });
 
+            //inicializando o whatsapp web
+            try {
+                this.whatsapp.initialize();
 
+            } catch (error) {
+                console.log("Erro ao conectar com o Whatsapp Web")
+                reject(error)
+            }
+
+            // Conectando com o Whatsapp Web
             this.whatsapp.on('ready', () => {
                 console.log('whatsapp pronto! Pode usar agora :)');
                 resolve(this.whatsapp);
+
             });
-            this.whatsapp.initialize();
+
+
         });
     };
 

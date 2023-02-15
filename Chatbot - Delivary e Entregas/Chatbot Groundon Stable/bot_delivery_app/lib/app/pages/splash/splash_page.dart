@@ -2,6 +2,7 @@ import 'package:bot_delivery_frontend/app/core/ui/helpers/size_extensions.dart';
 import 'package:bot_delivery_frontend/app/core/ui/styles/app_styles.dart';
 import 'package:bot_delivery_frontend/app/core/ui/styles/colors_app.dart';
 import 'package:bot_delivery_frontend/app/core/ui/widgets/delivery_button.dart';
+import 'package:bot_delivery_frontend/app/pages/servidor/servidorPage.dart';
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatelessWidget {
@@ -45,18 +46,14 @@ class SplashPage extends StatelessWidget {
                 ),
                 Align(
                   alignment: Alignment.center,
-                  
 
-                    //como posso colocar mais um botão aqui
-                    //como posso colocar mais um botão aqui
-                    //como posso colocar mais um botão aqui
-                    //como posso colocar mais um botão aqui
-                    //como posso colocar mais um botão aqui
+                  //como posso colocar mais um botão aqui
+                  //como posso colocar mais um botão aqui
+                  //como posso colocar mais um botão aqui
+                  //como posso colocar mais um botão aqui
+                  //como posso colocar mais um botão aqui
 
-
-
-                    
-
+                  //navegação para a pagina de login
                   child: DeliveryButton(
                     width: context.percent_width(.10),
                     height: 35,
@@ -66,9 +63,27 @@ class SplashPage extends StatelessWidget {
                       Navigator.pushNamed(context, '/home');
                       Navigator.of(context).pushNamed('/productDetail');
                     },
-                    //onPressed: btn_onPressed,
                   ),
                 ),
+
+                // Navegação para o servidor em docker
+
+                const SizedBox(height: 15),
+                DeliveryButton(
+                    label_text: 'Navegar para a pagina do Servidor com Docker',
+                    btn_onPressed: () {
+                      // Navigator.pushNamed(context, '/servidorPage');
+                      // Navigator.of(context).pushNamed('/servidorPage');
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SevidorPage(
+                            title: 'Servidor em Docker',
+                          ),
+                        ),
+                      );
+                    })
               ],
             )));
   }

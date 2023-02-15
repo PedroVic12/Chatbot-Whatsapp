@@ -2,8 +2,8 @@ import 'package:bot_delivery_frontend/app/core/provider/application_binding.dart
 import 'package:bot_delivery_frontend/app/core/ui/theme/theme_config.dart';
 import 'package:bot_delivery_frontend/app/pages/home/product_detail/product_detail_router.dart';
 import 'package:bot_delivery_frontend/app/pages/home/widgets/home_router.dart';
-import 'package:flutter/material.dart';
 import 'package:bot_delivery_frontend/app/pages/splash/splash_page.dart';
+import 'package:flutter/material.dart';
 
 class DeliveryApp extends StatelessWidget {
   const DeliveryApp({super.key});
@@ -19,6 +19,7 @@ class DeliveryApp extends StatelessWidget {
           '/': (context) => const SplashPage(),
           '/home': (context) => HomeRouter.page,
           '/productDetail': (context) => HomeRouter.page,
+          '/SevidorPage': (context) => HomeRouter.page,
         },
       ),
     );

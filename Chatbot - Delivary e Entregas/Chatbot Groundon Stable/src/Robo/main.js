@@ -59,7 +59,7 @@ chatbot.conectandoWpp()
     })
     .catch((error) => {
         // Código a ser executado após a promise ser rejeitada
-        console.log("Ops Deu Problema ao conectar! :(")
+        console.log("Ops! Deu Problema ao conectar! :(")
         console.log(error)
     })
 chatbot.contarNumeroPedidos()

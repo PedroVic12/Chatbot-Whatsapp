@@ -1,6 +1,9 @@
 {
   "name": "Robo",
   "version": "1.0.0",
+  "scripts": {
+    "start": "node main.js"
+  },
   "dependencies": {
     "exceljs": "^4.3.0",
     "faker-js": "^1.0.0",
