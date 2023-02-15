@@ -18,7 +18,7 @@ RUN apt-get install -y libglib2.0-0
 #RUN npm install
 
 
-# Instala as dependências necessárias para o Puppeteer
+#! Instala as dependências necessárias para o Puppeteer
 RUN apt-get install -y wget gnupg \
     && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
     && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
@@ -27,25 +27,44 @@ RUN apt-get install -y wget gnupg \
     --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
+#! instala o Puppeteer
+# RUN apt-get install -y libgbm1
+# RUN npm install puppeteer
+
 # Create a non-root user
-RUN adduser --disabled-password myuser
-USER myuser
+# RUN adduser --disabled-password myuser
+# USER myuser
 
 # Copie os arquivos do seu projeto para o diretório de trabalho
 COPY . .
 
-# Defina a porta na qual a aplicação será executada
-EXPOSE 7000
-
 # Adicione o script como um comando
 COPY start.sh .
+USER root
 RUN chmod +x start.sh
+
+# Defina a porta na qual a aplicação será executada
+EXPOSE 7000
 
 # Defina o comando que será executado quando o container for iniciado
 CMD "./start.sh"
 
 # Defina o comando que será executado quando o container for iniciado
 #CMD ["npm", "start"]
+
+
+#! Codigo de teste
+# Excluir o diretório node_modules e o arquivo package-lock.json:
+# rm -rf node_modules package-lock.json
+
+# Limpar o cache do npm:
+# npm cache clean --force
+
+# Instalar as dependências novamente:
+# npm install
+
+# Instalar o Puppeteer novamente:
+# npm install puppeteer
 
 #! Comandos docker
 # Rodar o o docker >>> systemctl start docker

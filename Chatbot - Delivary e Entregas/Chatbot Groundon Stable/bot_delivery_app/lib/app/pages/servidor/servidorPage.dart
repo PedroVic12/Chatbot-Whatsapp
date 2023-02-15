@@ -14,7 +14,7 @@ class _SevidorPageState extends State<SevidorPage> {
   late String _data;
 
   Future<http.Response> fetchData() {
-    return http.get("http://localhost:7000/" as Uri);
+    return http.get(Uri.parse("http://localhost:7000/"));
   }
 
   @override
@@ -37,7 +37,19 @@ class _SevidorPageState extends State<SevidorPage> {
         child: Column(
           children: [
             Text('Servidor Rodando na porta 7000'),
-            Text(_data ?? 'Loading...'),
+            FutureBuilder<http.Response>(
+              future: fetchData(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Erro ao obter dados do servidor');
+                } else {
+                  _data = snapshot.data!.body;
+                  return Text(_data);
+                }
+              },
+            ),
           ],
         ),
       ),

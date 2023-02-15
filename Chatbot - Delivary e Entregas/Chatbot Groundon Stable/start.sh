@@ -10,8 +10,11 @@ echo "Executar o Docker";
 echo "Instalando as dependências";
 npm install
 
+npm install puppeteer
+
+
 clear 
 
 echo "Executar o Node";
-npm start
+npm start --no-sandbox --disable-setuid-sandbox
 

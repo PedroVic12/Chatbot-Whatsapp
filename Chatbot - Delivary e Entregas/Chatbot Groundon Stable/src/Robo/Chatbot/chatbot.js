@@ -49,7 +49,7 @@ class Chatbot {
             console.log("\nIniciando o Chatbot...")
             console.log('Gerando QR code...');
             console.log("====================================")
-            const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+            const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
 
             // Gerando QR Code
             this.whatsapp.on('qr', qr => {
