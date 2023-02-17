@@ -1,0 +1,56 @@
+# Use uma imagem base
+FROM ubuntu:20.04
+
+# Definir variáveis de ambiente
+ENV DEBIAN_FRONTEND noninteractive
+
+
+# Define o diretório de trabalho para o main.js
+WORKDIR /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/Groundon 8 - AWS/src/Chatbot-JS
+
+# Atualizando o servidor
+RUN apt-get update && apt-get upgrade -y
+
+# instala o NodeJs mais recente
+RUN apt-get install -y curl
+RUN apt-get install -y git
+RUN curl -fsSL https://deb.nodesource.com/setup_19.x | bash -
+RUN apt-get install -y nodejs 
+RUN apt-get install -y libglib2.0-0
+RUN apt-get install -y libnss3
+
+
+#RUN npm init -y && npm set init.author.name "Peter Parker" && npm set init.license "ISC" && npm set init.version "1.0.0" && npm set init.main "main.js"
+RUN npm init -y
+
+
+# Copia os arquivos para o diretório de trabalho
+COPY main.js .
+COPY Chatbot Chatbot
+COPY start-chatbot.sh .
+
+RUN chmod +x start-chatbot.sh
+
+#! instala o npm e tzdata
+RUN npm install -g npm@latest
+
+#Instala o puppeteer --> emulador do navegador
+RUN apt-get install -yq libgconf-2-4
+RUN npm install puppeteer
+
+# Instala as dependências
+RUN npm install whatsapp-web.js
+RUN npm install whatsapp-web.js@1.20.0-alpha.0
+RUN npm install qrcode-terminal
+RUN npm i git+https://github.com/pedroslopez/whatsapp-web.js/tree/fix-buttons-list
+RUN npm install exceljs
+
+# Defina a porta na qual a aplicação será executada
+EXPOSE 7000
+
+# Defina o comando que será executado quando o container for iniciado
+CMD "./start-chatbot.sh"
+
+
+#! buildando o docker --> sudo docker build -t servidor_groundon .
+#! executando --> sudo docker run -p 7000:7000 servidor_groundon
