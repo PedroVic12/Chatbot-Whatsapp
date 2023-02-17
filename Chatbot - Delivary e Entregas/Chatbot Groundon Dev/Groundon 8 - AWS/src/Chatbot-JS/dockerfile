@@ -11,6 +11,9 @@ WORKDIR /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Ent
 # Atualizando o servidor
 RUN apt-get update && apt-get upgrade -y
 
+RUN apt-get update -y
+
+
 # instala o NodeJs mais recente
 RUN apt-get install -y curl
 RUN apt-get install -y git
@@ -18,7 +21,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_19.x | bash -
 RUN apt-get install -y nodejs 
 RUN apt-get install -y libglib2.0-0
 RUN apt-get install -y libnss3
-
+RUN apt-get install -y chromium-browser
 
 #RUN npm init -y && npm set init.author.name "Peter Parker" && npm set init.license "ISC" && npm set init.version "1.0.0" && npm set init.main "main.js"
 RUN npm init -y
