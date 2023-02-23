@@ -11,9 +11,6 @@ WORKDIR /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Ent
 # Atualizando o servidor
 RUN apt-get update && apt-get upgrade -y
 
-RUN apt-get update -y
-
-
 # instala o NodeJs mais recente
 RUN apt-get install -y curl
 RUN apt-get install -y git
