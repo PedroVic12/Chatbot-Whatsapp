@@ -1,0 +1,6 @@
+2023/02/17-19:10:43.853 e789 Creating DB /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/Groundon 8 - AWS/.wwebjs_auth/session-Night-Wolf-Padawan/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb since it was missing.
+2023/02/17-19:10:43.857 e789 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/Groundon 8 - AWS/.wwebjs_auth/session-Night-Wolf-Padawan/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/02/17-19:10:44.002 e789 Level-0 table #5: started
+2023/02/17-19:10:44.004 e789 Level-0 table #5: 7189 bytes OK
+2023/02/17-19:10:44.006 e789 Delete type=0 #3
+2023/02/17-19:10:44.006 e789 Manual compaction at level-0 from '\x00\x01\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x02\x00\x00\x00' @ 0 : 0; will stop at (end)

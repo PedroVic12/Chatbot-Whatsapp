@@ -49,6 +49,7 @@ const estagio4 = new Estagio4(chatbot, estagio2);
 const estagio5 = new Estagio5(chatbot, carrinho)
 const estagio7 = new Estagio7(chatbot)
 
+//const browser = puppeteer.launch({ args: ['--no-sandbox'] });
 
 //! Talvez seja necessário um código para autenticar
 chatbot.conectandoWpp()
