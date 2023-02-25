@@ -12,8 +12,8 @@ class Estagio1 {
 
     boasVindas(message) {
 
-        this.chatbot.enviarMensagem(message, `Bem-vindo a Lanchonete *Night Wolf |  O louco Rebelde!* Obrigado por escolher a nossa lanchonete. \n Eu sou o Robô Groundon e estou aqui para ajudá-lo. `);
-        this.chatbot.enviarMensagem(message, "Antes de começarmos, por favor, digite seu *nome*:")
+        this.chatbot.enviarMensagem(message, `Bem-vindo ao Deposito de Bebidas *Night Wolf* Obrigado por escolher a nossos Serviços. \n Eu sou o Robô Groundon e estou aqui para ajudá-lo. `);
+        this.chatbot.enviarMensagem(message, "Antes de começarmos, por favor, digite seu *NOME*:")
 
     }
 

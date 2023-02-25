@@ -93,7 +93,7 @@ class Chatbot {
             let telefone = message.from.split('@')[0]
 
             //Arquivo de Log (precisa da interface bonita)
-            this.delay(3000)
+            this.delay(1000)
             console.log("\n\n")
             console.log("=====================================")
             console.log("|  INFORMAÇÕES DO CLIENTE  |")
@@ -107,7 +107,7 @@ class Chatbot {
             console.log("|Ultima Mensagem recebida = " + ultima_mensagem);
 
             const todaConversa = this.verConversa()
-            console.log("Conversa = ", todaConversa)
+            console.log("\nConversa = ", todaConversa)
 
             //Mostrando onde o seu código está
             console.log("\n--> Fluxo Atual =  " + this.numero_estagio + "|")

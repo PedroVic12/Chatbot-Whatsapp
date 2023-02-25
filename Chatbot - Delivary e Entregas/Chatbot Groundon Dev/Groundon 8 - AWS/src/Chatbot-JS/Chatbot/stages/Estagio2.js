@@ -15,7 +15,7 @@ class Estagio2 {
 
         try {
             const nome_cliente = this.getNomeCliente(message)
-            this.chatbot.enviarBotao(message, `Vamos lá, ${nome_cliente} !Escolha uma opção abaixo do que voce deseja`,
+            this.chatbot.enviarBotao(message, `Vamos lá, ${nome_cliente}! Escolha uma opção abaixo do que voce deseja`,
                 [
                     { body: "Ver Cardápio" },
                     { body: "Fazer Pedido" },
@@ -69,7 +69,7 @@ class Estagio2 {
 
 
         } catch (error) {
-            console.log(error);
+            console.log('ERRO AO CADASTRAR O CLIENTE NA BASE DE DADOS', error);
 
         }
 
@@ -100,7 +100,7 @@ class Estagio2 {
 
 
 
-        //colocar a variavel dados para o excel
+        //!colocar a variavel dados para o excel
         this.chatbot.enviarMensagem(message, `Dados do Cliente: ${JSON.stringify(dados)}`)
         // excel = new BancoDeDados(this.chatbot)
         // excel.adicionarCliente(nome_cliente, telefone_cliente)

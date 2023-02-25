@@ -1,6 +1,6 @@
-Resumo do Pedido de : *Pedor* 
+Resumo do Pedido de : *Pedro Victor* 
  Telefone = 5521999289987 
  Itens do Pedido =Guaraná 
  *Valor total do pedido:* R$ 3.99 
  Forma de Pagamento = Cartão 
- Endereço de Entrega = Iralanda
+ Endereço de Entrega = Campo Grande

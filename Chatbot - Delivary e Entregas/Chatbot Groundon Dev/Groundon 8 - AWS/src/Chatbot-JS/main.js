@@ -5,6 +5,17 @@
  Use variáveis em vez de escrever o mesmo valor várias vezes: ao invés de escrever o mesmo valor várias vezes, crie uma variável e atribua-lhe esse valor. Depois, basta chamar a variável sempre que precisar desse valor.
 
  Use a sintaxe de funções arrow: a sintaxe de funções arrow é mais curta que a sintaxe de funções convencional, o que pode ajudar a reduzir o tamanho do seu código.
+
+ Ao invés de importar todos os estágios separadamente, crie um arquivo que exporte todos eles de uma só vez. Dessa forma, você poderá importar apenas um objeto contendo todos os estágios, o que deixará o código mais limpo e fácil de entender.
+
+Considere usar classes ao invés de funções para os estágios. Dessa forma, você poderá encapsular o comportamento e o estado de cada estágio em um objeto, o que deixará o código mais organizado e mais fácil de testar.
+
+Considere separar o código de cada estágio em um arquivo separado. Dessa forma, cada estágio ficará em um arquivo próprio e você poderá importá-los facilmente conforme necessário.
+
+Considere usar o padrão de projeto "Chain of Responsibility" para lidar com as mensagens do usuário. Esse padrão permite que você encadeie objetos que possam lidar com a mensagem do usuário de forma mais flexível e escalável.
+
+Considere usar ferramentas de linting, como o ESLint, para manter o código mais consistente e livre de erros comuns.
+
  */
 //! ============== MANUTENÇÃO ==============
 
@@ -72,6 +83,7 @@ chatbot.recebeMensagem()
 chatbot.whatsapp.on('message', message => {
 
     chatbot.armazenarConversa(message);
+    const flag_impressora = false;
 
     //! ===================== Estágio 1 - Apresentação =====================
     if (chatbot.numero_estagio === 1) {
@@ -117,8 +129,10 @@ chatbot.whatsapp.on('message', message => {
     //!=====================  Estágio 3 - Responde as funcionalidades do Botão =====================
     else if (chatbot.numero_estagio === 3) {
         if (message.body === 'Ver Cardápio' && message.type !== 'location') {
-            //estagio3.mostrarCardapioNoChat(message)
             chatbot.enviarMensagem(message, 'Vou mostrar o cardapio em PDF!')
+            chatbot.delay(3000).then(
+                estagio3.mostrarMenuPrincipal(message)
+            )
         }
         if (message.body === 'Fazer Pedido' && message.type !== 'location') {
             chatbot.avancarEstagio().then(
@@ -130,6 +144,9 @@ chatbot.whatsapp.on('message', message => {
         }
         if (message.body === 'Ver nossa Localização' && message.type !== 'location') {
             estagio3.mostrarLocal(message)
+            chatbot.delay(3000).then(
+                estagio3.mostrarMenuPrincipal(message)
+            )
         }
     }
 
@@ -137,6 +154,8 @@ chatbot.whatsapp.on('message', message => {
 
     //!=====================  Estagio 4 - Cliente Escolhe os Produtos da Loja =====================
     else if (chatbot.numero_estagio === 4) {
+
+        //TODO MODIFICAR AQUI PARA UMA LISTA DOS PRODUTOS DO CLIENTE E PEGAR NA NOVA BASE DE DADOS
 
         if (message.body === 'Sanduíches' && message.type !== 'location') {
             const cardapio_sanduiche = Sanduiches.getAllSanduiches()
@@ -227,17 +246,51 @@ chatbot.whatsapp.on('message', message => {
     //!=====================   Estagio 9 - Mostra todas as infromações finais =====================
 
     else if (chatbot.numero_estagio === 9) {
+
+        //TODO --> Procurar uma api que pegue o endereço certinho indepedendente do que o cliente digitar
+
+        // TODO REFATORAR O ESTAGIO 9 E 10
+
         chatbot.enviarMensagem(message, "🤖 Seu pedido está sendo preparado!!!!!")
 
-        // TODO armazenar na base de dados todas as informalçoes do cliente
+        //pegando a forma de pagamento
         const cliente_forma_pagamento = cliente.pegandoFormaPagamentoCliente(message)
         cliente.setFormaPagamento(cliente_forma_pagamento)
-        chatbot.enviarMensagem(message, `Forma de Pagamento Escolhida =  ${cliente.forma_pagamento}`)
+        chatbot.delay(2000).then(
+            chatbot.enviarMensagem(message, `Forma de Pagamento Escolhida =  ${cliente.forma_pagamento}`)
+
+        )
 
 
-        // Todo Enviar Nota Fiscal
-        chatbot.enviarMensagem(message, `${cliente.gerarNotaFiscal()}`)
-        chatbot.gerarNotaFiscalTxt(cliente.gerarNotaFiscal())
+
+
+
+
+        // TODO armazenar na base de dados todas as informalçoes do cliente
+        // Todo Enviar Nota Fiscal COM ARDUINO E ATIVAR O CODIGO EM C++
+        //! ERRO AQUI AI TER A NOTA FISCAL ARQUIVO NÃO EXISTE
+        chatbot.delay(2000).then(
+            chatbot.enviarMensagem(message, `Nota Fiscal do seu pedido: \n ${cliente.gerarNotaFiscal()}`)
+        )
+
+
+        // Imprimindo na impressora
+        flag_impressora = true
+        if (flag_impressora) {
+            chatbot.delay(2000).then(
+                chatbot.enviarMensagem(message, "🤖 Imprimindo Nota Fiscal")
+            )
+            chatbot.delay(2000).then(() => {
+                const { exec } = require('child_process');
+                exec('./NomeDoExecutavel', (err, stdout, stderr) => {
+                    if (err) {
+                        console.error(`Erro ao imprimir: ${err}`);
+                        return;
+                    }
+                    console.log(`Saída do comando: ${stdout}`);
+                });
+            });
+        }
 
 
         chatbot.avancarEstagio().then(
