@@ -1,0 +1,12 @@
+2023/02/24-19:08:02.236 4fde Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/Groundon 8 - AWS/src/Chatbot-JS/.wwebjs_auth/session-Night-Wolf-Padawan2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/02/24-19:08:02.236 4fde Recovering log #7
+2023/02/24-19:08:02.340 4fde Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/Groundon 8 - AWS/src/Chatbot-JS/.wwebjs_auth/session-Night-Wolf-Padawan2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000007.log 
+2023/02/24-19:08:14.150 5039 Level-0 table #12: started
+2023/02/24-19:08:14.360 5039 Level-0 table #12: 1136291 bytes OK
+2023/02/24-19:08:14.398 5039 Delete type=0 #7
+2023/02/24-19:08:14.578 5039 Compacting 1@1 + 1@2 files
+2023/02/24-19:08:14.734 5039 Generated table #13@1: 20427 keys, 786976 bytes
+2023/02/24-19:08:14.734 5039 Compacted 1@1 + 1@2 files => 786976 bytes
+2023/02/24-19:08:14.921 5039 compacted to: files[ 0 0 1 0 0 0 0 ]
+2023/02/24-19:08:14.921 5039 Delete type=2 #12
+2023/02/24-19:08:14.921 5039 Delete type=2 #9

@@ -1,0 +1,44 @@
+{
+    "Vodka": {
+        "0": "Leonoff",
+        "1": "Natasha",
+        "2": "Orloff",
+        "3": "Skyy",
+        "4": "Smirnoff"
+    },
+    "Pre\u00e7o": {
+        "0": 15,
+        "1": 12,
+        "2": 35,
+        "3": 12,
+        "4": 25
+    },
+    "Whisky": {
+        "0": "Chanceler",
+        "1": "Bells",
+        "2": "White House",
+        "3": null,
+        "4": null
+    },
+    "Pre\u00e7o.1": {
+        "0": 15.0,
+        "1": 12.0,
+        "2": 30.0,
+        "3": null,
+        "4": null
+    },
+    "Gin": {
+        "0": "Rocks Seco",
+        "1": "Rocks Doce",
+        "2": "Gordon",
+        "3": null,
+        "4": null
+    },
+    "Pre\u00e7o.2": {
+        "0": 15.0,
+        "1": 30.0,
+        "2": 45.0,
+        "3": null,
+        "4": null
+    }
+}

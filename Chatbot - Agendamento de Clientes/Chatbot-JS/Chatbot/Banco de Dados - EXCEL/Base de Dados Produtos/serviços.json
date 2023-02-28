@@ -1,0 +1,50 @@
+[
+    {
+        "cortes_de_cabelo": "Corte Masculino",
+        "preco": 40.0,
+        "pintar_cabelo": "Loiro",
+        "preco.1": 120.0,
+        "maquiagens": "MAquiagem Social Comum",
+        "preco.2": 60.0,
+        "penteados": "Social Comum",
+        "preco.3": 40,
+        "cilios": "Volume Brasileiro",
+        "preco.4": 60.0
+    },
+    {
+        "cortes_de_cabelo": "Corte Feminino",
+        "preco": 50.0,
+        "pintar_cabelo": "Castanho",
+        "preco.1": 80.0,
+        "maquiagens": "MAquiagem Social Comum",
+        "preco.2": 130.0,
+        "penteados": "Social Com Enchimentos",
+        "preco.3": 90,
+        "cilios": "Fio a Fio",
+        "preco.4": 60.0
+    },
+    {
+        "cortes_de_cabelo": NaN,
+        "preco": NaN,
+        "pintar_cabelo": "As Pontas",
+        "preco.1": 60.0,
+        "maquiagens": NaN,
+        "preco.2": NaN,
+        "penteados": "Tran\u00e7a Embutida",
+        "preco.3": 20,
+        "cilios": "Posti\u00e7os",
+        "preco.4": 120.0
+    },
+    {
+        "cortes_de_cabelo": NaN,
+        "preco": NaN,
+        "pintar_cabelo": NaN,
+        "preco.1": NaN,
+        "maquiagens": NaN,
+        "preco.2": NaN,
+        "penteados": "Tran\u00e7a Lateral",
+        "preco.3": 25,
+        "cilios": NaN,
+        "preco.4": NaN
+    }
+]
