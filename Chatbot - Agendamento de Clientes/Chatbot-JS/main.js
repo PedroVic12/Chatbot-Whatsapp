@@ -99,13 +99,12 @@ chatbot.whatsapp.on('message', message => {
         const nome_cliente = estagio2.getNomeCliente(message)
         cliente.setNome(nome_cliente)
 
-        // Pegando o numeo de telefone
+        // Pegando o numero de telefone
         const numero_telefone = estagio2.getTelefoneCliente(message)
         cliente.setPhoneNumber(numero_telefone)
 
         //Checa o cliente na base de dados e responde
         estagio2.adicionandoClienteNaBasedeDados(message)
-        chatbot.gerarTxtUmItem(nome_cliente)
 
 
         //TODO checar cliente na base de dados

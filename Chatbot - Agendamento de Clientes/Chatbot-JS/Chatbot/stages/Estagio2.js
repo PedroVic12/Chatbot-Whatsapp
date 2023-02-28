@@ -20,9 +20,9 @@ class Estagio2 {
             const nome_cliente = this.getNomeCliente(message)
             this.chatbot.enviarBotao(message, `Vamos lá, ${nome_cliente}! Escolha uma opção abaixo do que voce deseja`,
                 [
-                    { body: "Ver Cardápio" },
-                    { body: "Fazer Pedido" },
-                    { body: "Ver nossa Localização" }
+                    { body: "Consultar os Preços" },
+                    { body: "Agendar um Serviço" },
+                    { body: "Cancelar Agendamento" }
                 ], '🤖 Chatbot Groundon', `Horário de Atendimento = ${this.chatbot.getHoras()} `
             );
         }
@@ -61,8 +61,9 @@ class Estagio2 {
 
     adicionandoClienteNaBasedeDados(message) {
         let data = this.chatbot.getDataAtual()
-        this.chatbot.gerarArquivoTxt(` Números de Pedido == ${this.chatbot.numero_pedido_dia} em |${data}|  `)
-        this.chatbot.enviarMensagem(message, ` Números de Pedido == ${this.chatbot.numero_pedido_dia} em | ${data} | `)
+        
+        
+
 
         // TODO Verificar na Base de dados com try e catch com uma função
         try {
