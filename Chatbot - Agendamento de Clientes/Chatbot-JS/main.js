@@ -108,7 +108,6 @@ chatbot.whatsapp.on('message', message => {
 
 
         //TODO checar cliente na base de dados
-
         //let base_de_dados = estagio2.adicionandoClienteNaBasedeDados(message)
 
         // If cliente ja tem na base de dados, então uma forma de abordagem diferente
@@ -127,21 +126,29 @@ chatbot.whatsapp.on('message', message => {
 
     //!=====================  Estágio 3 - Responde as funcionalidades do Botão =====================
     else if (chatbot.numero_estagio === 3) {
-        if (message.body === 'Ver Cardápio' && message.type !== 'location') {
+
+
+        //TODO Enviar o pdf os serviços
+
+        if (message.body === 'Consultar os Preços' && message.type !== 'location') {
             chatbot.enviarMensagem(message, 'Vou mostrar o cardapio em PDF!')
             chatbot.delay(3000).then(
                 estagio3.mostrarMenuPrincipal(message)
             )
         }
-        if (message.body === 'Fazer Pedido' && message.type !== 'location') {
+
+        if (message.body === 'Agendar um Serviço' && message.type !== 'location') {
             chatbot.avancarEstagio().then(
                 chatbot.enviarMensagem(message, 'processando...')
             ).then(
+                // TODO Mostrar os Serviços em forma de lista
                 chatbot.mostrarProdutosBotao(message)
             )
 
         }
-        if (message.body === 'Ver nossa Localização' && message.type !== 'location') {
+
+        // TODO pegar um evento no calendario e remover de acordo com o cliente
+        if (message.body === 'Cancelar Agendamento' && message.type !== 'location') {
             estagio3.mostrarLocal(message)
             chatbot.delay(3000).then(
                 estagio3.mostrarMenuPrincipal(message)
@@ -156,17 +163,17 @@ chatbot.whatsapp.on('message', message => {
 
         //TODO MODIFICAR AQUI PARA UMA LISTA DOS PRODUTOS DO CLIENTE E PEGAR NA NOVA BASE DE DADOS
 
-        if (message.body === 'Sanduíches' && message.type !== 'location') {
+        if (message.body === 'Corte de Cabelo' && message.type !== 'location') {
             const cardapio_sanduiche = Sanduiches.getAllSanduiches()
             estagio4.enviarListaSanduiches(message, cardapio_sanduiche)
         }
 
-        if (message.body === 'Salgados' && message.type !== 'location') {
+        if (message.body === 'Maquiagem' && message.type !== 'location') {
             const cardapio_salgados = Salgados.getAllSalgados()
             estagio4.enviarListaSalgados(message, cardapio_salgados)
         }
 
-        if (message.body === 'Bebidas' && message.type !== 'location') {
+        if (message.body === 'Colocar Cilios' && message.type !== 'location') {
             const cardapio_bebidas = Bebidas.getAllBebidas()
             estagio4.enviarListaBebidas(message, cardapio_bebidas)
         }
@@ -175,12 +182,17 @@ chatbot.whatsapp.on('message', message => {
 
     }
 
-    //!=====================  Estagio 5 - Pega o pedido e adiciona no carrinho =====================
+    //!=====================  Estagio 5 - Pega o pedido e adiciona no Google Agenda =====================
 
     else if (chatbot.numero_estagio === 5) {
 
+
+
+
         //Escolhe o Produto
         cliente.realizaPedido(message)
+
+        //TODO colocar o evento no google agenda
 
         //Coloca no carrinho
         estagio5.setItensCarrinho();
@@ -218,7 +230,7 @@ chatbot.whatsapp.on('message', message => {
         const endereco_cliente = estagio7.PegandoEnderecoCliente(message)
         cliente.setEndereco(endereco_cliente)
 
-        //TODO --> Procurar uma api que pegue o endereço certinho indepedendente do que o cliente digitar
+        //TODO Confirmar o agendamento do cliente
 
         chatbot.mostrarBotaoConfirmaPedido(message, `Voce confirma ?\n *Nome Cliente: ${cliente.getNome()}* \n *Endereço de entrega: ${cliente.getEndereco()}* `)
 
