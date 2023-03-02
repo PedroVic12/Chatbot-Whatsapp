@@ -6,12 +6,6 @@
 
  Use a sintaxe de funções arrow: a sintaxe de funções arrow é mais curta que a sintaxe de funções convencional, o que pode ajudar a reduzir o tamanho do seu código.
 
- Ao invés de importar todos os estágios separadamente, crie um arquivo que exporte todos eles de uma só vez. Dessa forma, você poderá importar apenas um objeto contendo todos os estágios, o que deixará o código mais limpo e fácil de entender.
-
-Considere usar classes ao invés de funções para os estágios. Dessa forma, você poderá encapsular o comportamento e o estado de cada estágio em um objeto, o que deixará o código mais organizado e mais fácil de testar.
-
-Considere separar o código de cada estágio em um arquivo separado. Dessa forma, cada estágio ficará em um arquivo próprio e você poderá importá-los facilmente conforme necessário.
-
 Considere usar o padrão de projeto "Chain of Responsibility" para lidar com as mensagens do usuário. Esse padrão permite que você encadeie objetos que possam lidar com a mensagem do usuário de forma mais flexível e escalável.
 
 Considere usar ferramentas de linting, como o ESLint, para manter o código mais consistente e livre de erros comuns.
@@ -21,8 +15,7 @@ Considere usar ferramentas de linting, como o ESLint, para manter o código mais
 
 //! Importações e variáveis GLOBAIS
 // Documentação:  https://wwebjs.dev/guide/#replying-to-messages
-const Groundon = require('./Chatbot/chatbot');
-const BancoDeDados = require("./Chatbot/Banco de Dados - EXCEL/Banco");
+const Kyogre = require('./Chatbot/chatbot');
 
 const Estagio1 = require('./Chatbot/stages/Estagio1')
 const Estagio2 = require('./Chatbot/stages/Estagio2')
@@ -36,28 +29,19 @@ const Estagio9 = require('./Chatbot/stages/Estagio9')
 const Estagio10 = require('./Chatbot/stages/Estagio10')
 
 
-const Bebidas = require('./Chatbot/Cardapio - LOJA/Bebidas.js');
-const Salgados = require("./Chatbot/Cardapio - LOJA/Salgados.js")
-const Sanduiches = require("./Chatbot/Cardapio - LOJA/Sanduiche.js");
-
-const Carrinho = require("./Chatbot/Pedido/Carrinho");
-const Cliente = require("./Chatbot/Pedido/Cliente");
-
+const ClienteAtual = require("./Chatbot/Cliente/Cliente");
 const { List } = require('whatsapp-web.js');
 
 //!Inicializando o BOT
-const chatbot = new Groundon();
-const Banco = new BancoDeDados(chatbot)
-
-const carrinho = new Carrinho(chatbot)
-const cliente = new Cliente(chatbot, carrinho)
+const chatbot = new Kyogre();
+const Cliente = new ClienteAtual(chatbot)
 
 
 const estagio1 = new Estagio1(chatbot);
 const estagio2 = new Estagio2(chatbot);
 const estagio3 = new Estagio3(chatbot);
 const estagio4 = new Estagio4(chatbot, estagio2);
-const estagio5 = new Estagio5(chatbot, carrinho)
+const estagio5 = new Estagio5(chatbot)
 const estagio7 = new Estagio7(chatbot)
 
 //const browser = puppeteer.launch({ args: ['--no-sandbox'] });
@@ -97,26 +81,22 @@ chatbot.whatsapp.on('message', message => {
     else if (chatbot.numero_estagio === 2) {
         //Pegando os dados do cliente
         const nome_cliente = estagio2.getNomeCliente(message)
-        cliente.setNome(nome_cliente)
+        Cliente.setNome(nome_cliente)
 
         // Pegando o numero de telefone
         const numero_telefone = estagio2.getTelefoneCliente(message)
-        cliente.setPhoneNumber(numero_telefone)
-
-        //Checa o cliente na base de dados e responde
-        estagio2.adicionandoClienteNaBasedeDados(message)
+        Cliente.setPhoneNumber(numero_telefone)
 
 
         //TODO checar cliente na base de dados
-        //let base_de_dados = estagio2.adicionandoClienteNaBasedeDados(message)
+        try {
+            estagio2.verificarClienteBaseDados(message, Cliente.getNome().toUpperCase(), Cliente.getPhoneNumber())
 
-        // If cliente ja tem na base de dados, então uma forma de abordagem diferente
-        // if (nome_cliente in base_de_dados){
-        //
-        // }
+        } catch (error) {
+            console.log('Erro ao verifciar o cliente na base de dados -->\n', error)
+        }
 
-
-        chatbot.enviarMensagem(message, `✅ Prazer em te conhecer, ${nome_cliente}!`);
+        chatbot.enviarMensagem(message, `✅ Prazer em te conhecer, ${Cliente.getNome()}!`);
         chatbot.avancarEstagio().then(
             estagio2.mostrarMenuPrincipal(message)
         )
@@ -129,26 +109,24 @@ chatbot.whatsapp.on('message', message => {
 
 
         //TODO Enviar o pdf os serviços
-
-        if (message.body === 'Consultar os Preços' && message.type !== 'location') {
-            chatbot.enviarMensagem(message, 'Vou mostrar o cardapio em PDF!')
+        if (message.body === 'Consultar os Preços') {
+            chatbot.enviarMensagem(message, 'Vou mostrar os serviços em PDF!')
             chatbot.delay(3000).then(
-                estagio3.mostrarMenuPrincipal(message)
+                estagio3.mostrarMenuPrincipalEstagio3(message)
             )
         }
 
-        if (message.body === 'Agendar um Serviço' && message.type !== 'location') {
+        if (message.body === 'Agendar um Serviço') {
             chatbot.avancarEstagio().then(
                 chatbot.enviarMensagem(message, 'processando...')
             ).then(
-                // TODO Mostrar os Serviços em forma de lista
-                chatbot.mostrarProdutosBotao(message)
+                chatbot.mostrarServicosLista(message)
             )
 
         }
 
         // TODO pegar um evento no calendario e remover de acordo com o cliente
-        if (message.body === 'Cancelar Agendamento' && message.type !== 'location') {
+        if (message.body === 'Cancelar Agendamento') {
             estagio3.mostrarLocal(message)
             chatbot.delay(3000).then(
                 estagio3.mostrarMenuPrincipal(message)
@@ -186,17 +164,15 @@ chatbot.whatsapp.on('message', message => {
 
     else if (chatbot.numero_estagio === 5) {
 
+        chatbot.enviarMensagem(message, 'Cliente escolha o horário disponivel do serviço:')
+
+        //Escolhe o Serviço
+        Cliente.realizaPedido(message)
+
+        //Coloca no Google Agenda
 
 
-
-        //Escolhe o Produto
-        cliente.realizaPedido(message)
-
-        //TODO colocar o evento no google agenda
-
-        //Coloca no carrinho
-        estagio5.setItensCarrinho();
-        estagio5.verCarrinho(message)
+        // Coloca na base de dados
 
         chatbot.avancarEstagio().then(
             chatbot.mostrarProdutosLista(message)
@@ -205,6 +181,10 @@ chatbot.whatsapp.on('message', message => {
 
     //!=====================   Estagio 6 -Menu de listas para escolha de fluxo ===================
     else if (chatbot.numero_estagio === 6) {
+
+
+        chatbot.enviarMensagem(message, 'Seu pedido foi cadastrado com sucesso e agendando no Google Agenda!')
+
 
         if (message.body === 'Continuar Pedido\nEscolha as opções de comida novamente' && message.type !== 'location') {
 
@@ -228,11 +208,11 @@ chatbot.whatsapp.on('message', message => {
     else if (chatbot.numero_estagio === 7) {
 
         const endereco_cliente = estagio7.PegandoEnderecoCliente(message)
-        cliente.setEndereco(endereco_cliente)
+        Cliente.setEndereco(endereco_cliente)
 
         //TODO Confirmar o agendamento do cliente
 
-        chatbot.mostrarBotaoConfirmaPedido(message, `Voce confirma ?\n *Nome Cliente: ${cliente.getNome()}* \n *Endereço de entrega: ${cliente.getEndereco()}* `)
+        chatbot.mostrarBotaoConfirmaPedido(message, `Voce confirma ?\n *Nome Cliente: ${Cliente.getNome()}* \n *Endereço de entrega: ${Cliente.getEndereco()}* `)
 
         chatbot.avancarEstagio().then(
             chatbot.enviarMensagem(message, 'Avançando...')
@@ -265,10 +245,10 @@ chatbot.whatsapp.on('message', message => {
         chatbot.enviarMensagem(message, "🤖 Seu pedido está sendo preparado!!!!!")
 
         //pegando a forma de pagamento
-        const cliente_forma_pagamento = cliente.pegandoFormaPagamentoCliente(message)
-        cliente.setFormaPagamento(cliente_forma_pagamento)
+        const cliente_forma_pagamento = Cliente.pegandoFormaPagamentoCliente(message)
+        Cliente.setFormaPagamento(cliente_forma_pagamento)
         chatbot.delay(2000).then(
-            chatbot.enviarMensagem(message, `Forma de Pagamento Escolhida =  ${cliente.forma_pagamento}`)
+            chatbot.enviarMensagem(message, `Forma de Pagamento Escolhida =  ${Cliente.forma_pagamento}`)
 
         )
 
@@ -281,7 +261,7 @@ chatbot.whatsapp.on('message', message => {
         // Todo Enviar Nota Fiscal COM ARDUINO E ATIVAR O CODIGO EM C++
         //! ERRO AQUI AI TER A NOTA FISCAL ARQUIVO NÃO EXISTE
         chatbot.delay(2000).then(
-            chatbot.enviarMensagem(message, `Nota Fiscal do seu pedido: \n ${cliente.gerarNotaFiscal()}`)
+            chatbot.enviarMensagem(message, `Nota Fiscal do seu pedido: \n ${Cliente.gerarNotaFiscal()}`)
         )
 
 

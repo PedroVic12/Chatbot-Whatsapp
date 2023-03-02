@@ -48,7 +48,7 @@ class Chatbot {
         return new Promise(async (resolve, reject) => {
 
             console.log("\n\n====================================")
-            console.log("\t CHATBOT KYOGRE V1.1.{1} \nby:pvpeterparker")
+            console.log("\t CHATBOT KYOGRE - Atendimentos! V1.2.{1} \nby:pvpeterparker")
             console.log("====================================\n")
             console.log("\nIniciando o Chatbot...")
             console.log('Gerando QR code...');
@@ -156,55 +156,7 @@ class Chatbot {
 
     }
 
-    gerarTxtUmItem(texto) {
-        // Caminho do arquivo
-        const caminho = "/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/Teoria do Caos/arquivos txt/nome_cliente.txt";
 
-        // Usando o método writeFile para escrever o conteúdo no arquivo
-        fs.writeFile(caminho, texto, (erro) => {
-            if (erro) {
-                console.error(erro);
-            } else {
-                console.log("Nome enviado para o Python!");
-            }
-        });
-    }
-
-    gerarNotaFiscalTxt(texto) {
-        // Caminho do arquivo
-        const caminho = "/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/Teoria do Caos/arquivos txt/nota_fiscal.txt";
-
-        // Usando o método writeFile para escrever o conteúdo no arquivo
-        fs.writeFile(caminho, texto, (erro) => {
-            if (erro) {
-                console.error(erro);
-            } else {
-                console.log("Nota Fiscal Criada!!");
-            }
-        });
-    }
-
-    gerarArquivoTxt(txt) {
-
-        // Caminho do arquivo
-        const caminho = "/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/Teoria do Caos/arquivo.txt";
-
-        // Usando o método writeFile para escrever o conteúdo no arquivo
-        fs.writeFile(caminho, txt, (erro) => {
-            if (erro) {
-                console.error(erro);
-            } else {
-                console.log("Arquivo criado com sucesso!");
-            }
-        });
-
-
-        // pega as datas se os segundos do dia
-
-        // se os segundos do mesmo dia for diferente
-
-        // aumenta o numero de pedidos
-    }
 
     //!========================================================================================================================================================================================================
     //! Funções anonimas ASSÍNCRONAS
@@ -250,28 +202,29 @@ class Chatbot {
     //!========================================================================================================================================================================================================
     //!Funções para enviar Listas
 
-    enviarLista_old(message, itens_list) {
+    enviarLista_oldMethod(message, itens_list) {
         let _itens = new List("listBody", "BtnText", itens_list, "🤖 Chatbot Groundon", "footer");
         return this.whatsapp.sendMessage(message.from, _itens);
     }
 
     enviarLista(message, listBody, BtnText, itens_list) {
-        let _itens = new List(listBody, BtnText, itens_list, "🤖 Chatbot Groundon", "footer");
+        // método customizavel de enviar lista
+        let _itens = new List(listBody, BtnText, itens_list, "🤖 Chatbot Kyogre", "footer");
         return this.whatsapp.sendMessage(message.from, _itens);
     }
 
-    mostrarProdutosLista(message) {
+    mostrarServicosLista(message) {
 
         let itens_lista_wpp = [{
-            title: "==> Continue Seu Pedido",
+            title: "==> Aqui esta os nossos serviços <==",
             rows:
-                [{ title: "Continuar Pedido", description: "Escolha as opções de comida novamente" },
-                { title: "Reiniciar Pedido", description: "Cancelar o pedido e voltar para o estágio inicial" },
-                { title: "Finalizar Pedido", description: "Se preparar para a entrega!" }
+                [{ title: "Corte de Cabelo", description: "description text " },
+                { title: "Fazer as Unhas", description: "description text " },
+                { title: "Maquiagem", description: "description text " }
                 ]
         }]
 
-        this.enviarLista(message, "Escolha umas opções abaixo", "Continuar Pedido", itens_lista_wpp)
+        return this.enviarLista(message, "Escolha umas opções abaixo", "Agendar um Serviço", itens_lista_wpp)
     }
 
     //!====================================================================
@@ -280,30 +233,10 @@ class Chatbot {
         let botoes = opcoes.map(opcao => {
             return { body: opcao };
         });
-    
+
         this.enviarBotao(message, titulo, botoes);
     }
-    
-    mostrarFormasDePagamento(message) {
-        this.enviarBotao(message, `Escolha uma forma de pagamento:`,
-            [
-                { body: "Dinheiro" },
-                { body: "Cartão" },
-                { body: "Pix" }
-            ]
-        );
-    }
 
-    mostrarProdutosBotao(message) {
-
-        this.enviarBotao(message, `Escolha uma opção abaixo do que voce deseja`,
-            [
-                { body: "Sanduíches" },
-                { body: "Bebidas" },
-                { body: "Salgados" }
-            ]
-        );
-    }
 
     mostrarBotaoConfirmaPedido(message, txt) {
         this.enviarBotao(message, txt,
@@ -315,24 +248,6 @@ class Chatbot {
     }
 
 
-    promiseBotao(message) {
-        return new Promise((resolve, reject) => {
-            try {
-                this.enviarBotao(message, `Escolha uma opção abaixo do que voce deseja`,
-                    [
-                        { body: "Sanduíches" },
-                        { body: "Bebidas" },
-                        { body: "Salgados" }
-                    ]
-                );
-                resolve();
-            } catch (error) {
-                reject(error);
-            }
-        });
-
-
-    }
 
     enviarBotao(message, text, buttons, _title, _footer) {
         const botoes = new Buttons(text, buttons, _title, _footer)

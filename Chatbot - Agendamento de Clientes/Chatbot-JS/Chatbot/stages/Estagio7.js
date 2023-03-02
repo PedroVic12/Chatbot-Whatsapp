@@ -1,7 +1,5 @@
 const Chatbot = require("../chatbot");
-const BancoDeDados = require("../Banco de Dados - EXCEL/Banco")
-const Cliente = require("../Pedido/Cliente")
-const Carrinho = require("../Pedido/Carrinho")
+const Cliente = require("../Cliente/Cliente");
 
 class Estagio7 {
     //!Herança implícita da classe Chatbot
@@ -10,6 +8,22 @@ class Estagio7 {
 
     }
 
+    adicionandoClienteNaBasedeDados(message) {
+        let data = this.chatbot.getDataAtual()
+
+        // TODO Verificar na Base de dados com try e catch com uma função
+        try {
+            let excel_janeiro = "/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/Chatbot/Banco de Dados - EXCEL/Janeiro/base_de_dados_janeiro.xlsx"
+            let dados_excel = Banco.lerDadosExcel(excel_janeiro)
+            chatbot.enviarMensagem(message, "Base de Dados Atual " + dados_excel)
+
+
+        } catch (error) {
+            console.log('ERRO AO CADASTRAR O CLIENTE NA BASE DE DADOS', error);
+
+        }
+
+    }
 
     PegandoEnderecoCliente(message) {
         const address_user = this.chatbot.getLastMessage(message)

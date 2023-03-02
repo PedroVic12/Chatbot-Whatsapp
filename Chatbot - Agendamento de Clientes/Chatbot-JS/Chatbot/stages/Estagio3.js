@@ -1,4 +1,5 @@
 const Chatbot = require("../chatbot")
+const Cliente = require("../Cliente/Cliente")
 
 class Estagio3 {
     constructor(Chatbot) {
@@ -23,16 +24,15 @@ class Estagio3 {
 
     }
 
-    mostrarMenuPrincipal = (message) => {
+    mostrarMenuPrincipalEstagio3 = (message) => {
 
         try {
-            const nome_cliente = this.getNomeCliente(message)
-            this.chatbot.enviarBotao(message, `Vamos lá, ${nome_cliente}! Escolha uma opção abaixo do que voce deseja`,
+            this.chatbot.enviarBotao(message, `Escolha uma opção abaixo do que voce deseja`,
                 [
-                    { body: "Ver Cardápio" },
-                    { body: "Fazer Pedido" },
-                    { body: "Ver nossa Localização" }
-                ], '🤖 Chatbot Groundon', `Horário de Atendimento = ${this.chatbot.getHoras()} `
+                    { body: "Consultar os Preços" },
+                    { body: "Agendar um Serviço" },
+                    { body: "Cancelar Agendamento" }
+                ], '🤖 Chatbot Kyogre', `Horário de Atendimento = ${this.chatbot.getHoras()} `
             );
         }
 

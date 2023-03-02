@@ -1,6 +1,5 @@
 const Chatbot = require("../chatbot");
-const Cliente = require("../Pedido/Cliente.js");
-const Carrinho = require("../Pedido/Carrinho")
+const Cliente = require("../Cliente/Cliente");
 
 class Estagio6 {
     constructor(Chatbot, Carrinho) {

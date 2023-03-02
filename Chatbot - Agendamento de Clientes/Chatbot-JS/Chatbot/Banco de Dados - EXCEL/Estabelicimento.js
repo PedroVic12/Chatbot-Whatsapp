@@ -8,7 +8,7 @@ class Servico {
     }
 }
 
-class SalaoDeBeleza {
+class Estabelicimento {
     constructor() {
         this.servicosPorCategoria = {};
     }
@@ -53,4 +53,4 @@ async function main() {
     console.log(salaoDeBeleza.servicosPorCategoria);
 }
 
-main();
+//main();

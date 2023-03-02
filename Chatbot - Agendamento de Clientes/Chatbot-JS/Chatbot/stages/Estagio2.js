@@ -1,46 +1,17 @@
 const Chatbot = require("../chatbot");
-const BancoDeDados = require("../Banco de Dados - EXCEL/Banco")
-const Cliente = require("../Pedido/Cliente")
+const Cliente = require("../Cliente/Cliente")
+const BancoClientes = require("../Banco de Dados - EXCEL/BancoClientes")
 
 
 //! Verificar se o Cliente esta na Base de Dados
-
 class Estagio2 {
     //Herança implícita da classe Chatbot
     constructor(Chatbot) {
         this.chatbot = Chatbot;
-        this.NomeCliente = ""
-
-    }
-
-
-    mostrarMenuPrincipal = (message) => {
-
-        try {
-            const nome_cliente = this.getNomeCliente(message)
-            this.chatbot.enviarBotao(message, `Vamos lá, ${nome_cliente}! Escolha uma opção abaixo do que voce deseja`,
-                [
-                    { body: "Consultar os Preços" },
-                    { body: "Agendar um Serviço" },
-                    { body: "Cancelar Agendamento" }
-                ], '🤖 Chatbot Groundon', `Horário de Atendimento = ${this.chatbot.getHoras()} `
-            );
-        }
-
-        catch (err) {
-            console.log(err);
-        }
-
-    }
-
-    getNameByJavaMethod(message) {
-        this.NomeCliente = message.body
-        return this.NomeCliente
     }
 
     getNomeCliente(message) {
         try {
-
             const name_user = message.body
             return name_user
 
@@ -59,68 +30,55 @@ class Estagio2 {
     }
 
 
-    adicionandoClienteNaBasedeDados(message) {
-        let data = this.chatbot.getDataAtual()
-        
-        
+    // Verificar se o Cliente esta na Base de Dados
+    async verificarClienteBaseDados(message, _NomeCliente, _TelefoneCliente) {
+
+        //Lendo a planilha
+        const filePath = '/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/Chatbot/Banco de Dados - EXCEL/Base de Dados Clientes/base-clientes.xlsx';
+        const banco_clientes = new BancoClientes();
+        let planilha_excel = await banco_clientes.loadWorkbook(filePath);
+
+        //verificar na coluna nome se o cliente esta cadastrado
+        const colunaNome = planilha_excel.getColumn(2);
+        const nomes_planilha = colunaNome.values;
+        const cliente_existe = nomes_planilha.some(cell => cell.toUpperCase() === _NomeCliente.toUpperCase());
+
+        //verificar na coluna telefone se o cliente esta cadastrado
+        const colunaTelefone = planilha_excel.getColumn(3);
+        const telefones_planilha = colunaTelefone.values;
+        const telefone_existe = telefones_planilha.some(cell => cell === _TelefoneCliente);
+
+        if (cliente_existe && telefone_existe) {
+            this.chatbot.enviarMensagem(message, `Cliente ${_NomeCliente} já existe na base de dados. \nUm prazer ter voce de volta :)`);
+        } else {
+            this.chatbot.enviarMensagem(message, `Cliente ${_NomeCliente} não existe na base de dados. :( `);
+        }
+
+        //TODO voce quis dizer: Pedro Victor invez de pedrov12 com o numero tal?
+
+    }
 
 
-        // TODO Verificar na Base de dados com try e catch com uma função
+
+    mostrarMenuPrincipal = (message) => {
+
         try {
-            let excel_janeiro = "/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/src/Robo/Chatbot/Banco de Dados - EXCEL/Janeiro/base_de_dados_janeiro.xlsx"
-            let dados_excel = Banco.lerDadosExcel(excel_janeiro)
-            chatbot.enviarMensagem(message, "Base de Dados Atual " + dados_excel)
+            const nome_cliente = this.getNomeCliente(message)
 
-
-        } catch (error) {
-            console.log('ERRO AO CADASTRAR O CLIENTE NA BASE DE DADOS', error);
-
+            this.chatbot.enviarBotao(message, `Vamos lá, ${nome_cliente}! Escolha uma opção abaixo do que voce deseja`,
+                [
+                    { body: "Consultar os Preços" },
+                    { body: "Agendar um Serviço" },
+                    { body: "Cancelar Agendamento" }
+                ], '🤖 Chatbot Kyogre', `Horário de Atendimento = ${this.chatbot.getHoras()} `
+            );
         }
 
-
-
-    }
-
-
-
-
-    infoCliente(message) {
-
-        //let data_atual = new Date();
-
-        let horario_pedido = this.chatbot.getHoras()
-        let nome_cliente = message._data.notifyName;
-        //let nome_cliente2 = this.getNome()
-        let telefone_cliente = message.from.split('@')[0]
-
-        // cliente_atual = new Cliente(this.chatbot, nome_cliente, telefone_cliente)
-
-        dados = {
-            "Nome": nome_cliente,
-            "Numero do Pedido": this.numero_pedido_dia,
-            "horario do pedido": horario_pedido,
-            "Telefone": telefone_cliente
+        catch (err) {
+            console.log(err);
         }
 
-
-
-        //!colocar a variavel dados para o excel
-        this.chatbot.enviarMensagem(message, `Dados do Cliente: ${JSON.stringify(dados)}`)
-        // excel = new BancoDeDados(this.chatbot)
-        // excel.adicionarCliente(nome_cliente, telefone_cliente)
-
-        // se o cliente estiver na base de dados, enviar uma mensagem que o cliente ja esta cadastrado
-        //this.chatbot.enviarMensagem(message, `Cliente ${ nome_cliente2 } já cadastrado!`)
-
-        // se o cliente não estiver na base de dados, cadastrar o cliente
-        //this.chatbot.enviarMensagem(message, `Cliente atual = ${ cliente_atual } `)
-
     }
-
-
-
-
-
 
 
 

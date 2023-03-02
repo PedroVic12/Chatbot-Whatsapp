@@ -1,7 +1,5 @@
 const Chatbot = require("../chatbot");
-const BancoDeDados = require("../Banco de Dados - EXCEL/Banco")
-const Cliente = require("../Pedido/Cliente")
-const Carrinho = require("../Pedido/Carrinho")
+const Cliente = require("../Cliente/Cliente");
 
 class Estagio8 {
     //Herança implícita da classe Chatbot

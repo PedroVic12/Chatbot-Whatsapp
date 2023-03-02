@@ -13,7 +13,9 @@ class Estagio1 {
 
     boasVindas(message) {
 
-        this.chatbot.enviarMensagem(message, `Bem-vindo ao Deposito de Bebidas *Night Wolf* Obrigado por escolher a nossos Serviços. \n Eu sou o Robô Groundon e estou aqui para ajudá-lo. `);
+        const nome_estabelicimento = 'Salão de Beleza Tom e Fábio'
+
+        this.chatbot.enviarMensagem(message, `Bem-vindo ao Salão *${nome_estabelicimento}* Obrigado por escolher a nossos Serviços. \n Eu sou o Robô Kyogre e estou aqui para ajudá-lo. `);
         this.chatbot.enviarMensagem(message, "Antes de começarmos, por favor, digite seu *NOME*:")
 
     }

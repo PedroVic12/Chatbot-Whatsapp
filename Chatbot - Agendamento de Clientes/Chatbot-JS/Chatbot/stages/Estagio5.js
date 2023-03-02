@@ -1,11 +1,9 @@
 const Chatbot = require("../chatbot");
-const Cliente = require("../Pedido/Cliente.js");
-const Carrinho = require("../Pedido/Carrinho")
+const Cliente = require("../Cliente/Cliente");
 
 class Estagio5 {
-    constructor(Chatbot, Carrinho) {
+    constructor(Chatbot) {
         this.chatbot = Chatbot;
-        this.carrinho = Carrinho;
     }
 
     //TODO Mostrar o Carrinho

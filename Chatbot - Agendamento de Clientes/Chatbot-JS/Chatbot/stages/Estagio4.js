@@ -1,8 +1,8 @@
 const Chatbot = require("../chatbot");
 const Estagio2 = require("./Estagio2");
-const Cliente = require("../Pedido/Cliente");
-const Sanduiches = require("../Cardapio - LOJA/Sanduiche.js");
-const Salgados = require("../Cardapio - LOJA/Salgados.js");
+const Cliente = require("../Cliente/Cliente");
+const Salao = require("../Banco de Dados - EXCEL/Estabelicimento");
+
 
 
 class Estagio4 {
@@ -11,6 +11,25 @@ class Estagio4 {
         this.estagio2 = Estagio2;
     }
 
+
+
+    mostrarServicosLista(message) {
+
+        //TODO LER O EXCELK E ORGANIAR OS DADOS EM UM ARRAY DE OBJETOS
+
+        let itens_lista_wpp = [{
+            title: "==> Aqui esta os nossos serviços <==",
+            rows:
+
+                //TODO PEGAR OS DADOS DO ARQUIVO JSON E COLOCAR NA LISTA ---> UMA CATEGORIA TEM VARIOS SERVIÇOS!
+                [{ title: "Corte de Cabelo", description: "SERVIÇO 1, SERVIÇO2..." },
+                { title: "Fazer as Unhas", description: "SERVIÇO 1, SERVIÇO2..." },
+                { title: "Maquiagem", description: "SERVIÇO 1, SERVIÇO2..." }
+                ]
+        }]
+
+        return this.enviarLista(message, "Escolha umas opções abaixo", "Agendar um Serviço", itens_lista_wpp)
+    }
 
     //! MÉTODOS PARA SER IMPLEMENTADOS NO FUTURO
     enviarListaBebidas(message, array) {
