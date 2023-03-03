@@ -67,7 +67,11 @@ class Cliente {
         const servico_cliente = texto.substring(0, texto.indexOf("\n"));
         this.setServicoEscolhido(servico_cliente)
 
-        this.chatbot.enviarMensagem(message, `Você escolheu o serviço de *${this.capitalizeString(this.getServicoEscolhido())}*!`)
+        const cliente_service = this.capitalizeString(this.getServicoEscolhido())
+
+        this.chatbot.enviarMensagem(message, `Você escolheu o serviço de *${cliente_service}*!`)
+
+        return cliente_service
     }
 
 

@@ -20,7 +20,7 @@ class Estabelicimento {
         try {
             await workbook.xlsx.readFile(path);
             const worksheet = workbook.getWorksheet(1);
-            console.log('Planilha carregada com sucesso!');
+            console.log('Planilha de Produtos carregada com sucesso!');
             return worksheet;
         } catch (error) {
             console.log('Erro ao carregar planilha: ' + error);

@@ -1,110 +1,59 @@
 const Chatbot = require("../chatbot");
 const Estagio2 = require("./Estagio2");
 const Cliente = require("../Cliente/Cliente");
-const Salao = require("../Banco de Dados - EXCEL/Estabelicimento");
-
+const Estabelicimento = require("../Banco de Dados - EXCEL/Estabelicimento");
+const ServicoCliente = require("../Banco de Dados - EXCEL/Servicos_Cliente");
 
 
 class Estagio4 {
-    constructor(Chatbot, Estagio2) {
+    constructor(Chatbot) {
         this.chatbot = Chatbot;
-        this.estagio2 = Estagio2;
     }
 
-    mostrarListasSalao(message) {
-        const caminhoPlanilha = '/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/Chatbot/Banco de Dados - EXCEL/Base de Dados Produtos/servicos-salao.xlsx';
-        const salaoDeBeleza = new Salao();
-        salaoDeBeleza.carregarServicos(caminhoPlanilha);
 
-        let itens_lista_wpp = [{
-            title: "==> Aqui estão os nossos serviços <==",
+
+    async pegarDadosServico(_categoriaEscolhida) {
+        const caminhoPlanilha = '/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/Chatbot/Banco de Dados - EXCEL/Base de Dados Produtos/servicos-salao.xlsx';
+        const salaoDeBeleza = new Estabelicimento();
+        await salaoDeBeleza.carregarServicos(caminhoPlanilha);
+        salaoDeBeleza.nome_servico = _categoriaEscolhida;
+
+        // Itera sobre as categorias de serviços
+        for (const categoria in salaoDeBeleza.servicosPorCategoria) {
+            if (categoria === _categoriaEscolhida) {
+                // Itera sobre os serviços associados a cada categoria
+                const servicos = salaoDeBeleza.servicosPorCategoria[categoria];
+                for (const servico of servicos) {
+                    console.log(`- ${servico.nome} (R$ ${servico.preco} reais)`);
+                    return { nome: servico.nome, preco: servico.preco };
+                }
+            }
+        }
+
+    }
+
+
+    enviarListaServicoEscolhido(message, objetoServicoEscolhido) {
+        const servicos = JSON.parse(objetoServicoEscolhido);
+        const itensListaWpp = [{
+            title: "==> Aqui estão nossos serviços <==",
             rows: []
         }];
 
-        // Itera sobre as categorias de serviços
-        const categorias = salaoDeBeleza.servicosPorCategoria;
-        for (const categoria in categorias) {
-            const servicos = categorias[categoria];
-            const servicosList = servicos.map(servico => servico.nome).join(", ");
-            itens_lista_wpp[0].rows.push({ title: categoria, description: servicosList });
-        }
-
-        return this.enviarLista(message, "Escolha uma opção abaixo", "Agendar um Serviço", itens_lista_wpp);
-    }
-
-
-
-    mostrarServicosLista(message) {
-
-        //TODO LER O EXCELK E ORGANIAR OS DADOS EM UM ARRAY DE OBJETOS
-
-        let itens_lista_wpp = [{
-            title: "==> Aqui esta os nossos serviços <==",
-            rows:
-
-                //TODO PEGAR OS DADOS DO ARQUIVO JSON E COLOCAR NA LISTA ---> UMA CATEGORIA TEM VARIOS SERVIÇOS!
-                [{ title: "Corte de Cabelo", description: "SERVIÇO 1, SERVIÇO2..." },
-                { title: "Fazer as Unhas", description: "SERVIÇO 1, SERVIÇO2..." },
-                { title: "Maquiagem", description: "SERVIÇO 1, SERVIÇO2..." }
-                ]
-        }]
-
-        return this.enviarLista(message, "Escolha umas opções abaixo", "Agendar um Serviço", itens_lista_wpp)
-    }
-
-    //! MÉTODOS PARA SER IMPLEMENTADOS NO FUTURO
-    enviarListaBebidas(message, array) {
-
-        //Pega as bebidas do cardapio
-        const bebidas_array = []
-
-        // Percorre todas as bebidas e adiciona a lista
-        array.forEach(bebida => {
-            bebidas_array.push({ title: bebida.nome, description: `R$ ${bebida.preco}` });
+        servicos.forEach(servico => {
+            itensListaWpp[0].rows.push({
+                title: servico.nome,
+                description: `Descrição do serviço: R$ ${servico.preco} reais`
+            });
         });
 
-        // Guarda o array para colocar dentro da lista do wpp para enviar para o usuario
-        let itens_lista_wpp = [{
-            title: "==> ESCOLHA AS BEBIDAS MAIS CARAS", rows: bebidas_array
-        }]
-
-        //Envia a Lista formatada
-        return this.chatbot.enviarLista(message, `Escolha os itens do seu pedido`, "Escolher Bebidas", itens_lista_wpp)
-
+        return this.chatbot.enviarLista(message, "Escolha uma opção abaixo", "Serviços disponíveis", itensListaWpp);
     }
 
-    enviarListaSalgados(message, array) {
 
-        const salgados_array = []
 
-        // Percorre todas as bebidas e adiciona a lista
-        array.forEach(salgado => {
-            salgados_array.push({ title: salgado.nome, description: `R$ ${salgado.preco}` });
-        })
 
-        // Guarda o array para colocar dentro da lista do wpp
-        let itens_lista_wpp = [{
-            title: "==> ESCOLHA os Salgados MAIS CAROS ", rows: salgados_array
-        }]
 
-        return this.chatbot.enviarLista(message, `Escolha os itens do seu pedido`, "ESCOLHER SALGADOS", itens_lista_wpp)
-    }
-
-    enviarListaSanduiches(message, array) {
-
-        const sanduiche_array = []
-
-        // Percorre todas as bebidas e adiciona a lista
-        array.forEach(sanduiche => {
-            sanduiche_array.push({ title: sanduiche.nome, description: `R$ ${sanduiche.preco}` })
-        })
-
-        // Guarda o array para colocar dentro da lista do wpp
-        let itens_lista_wpp = [{
-            title: "==> ESCOLHA os Sanduíches MAIS CAROS ", rows: sanduiche_array
-        }]
-        return this.chatbot.enviarLista(message, `Escolha os itens do seu pedido`, "ESCOLHER SANDUICHES", itens_lista_wpp)
-    }
 
 
 }
