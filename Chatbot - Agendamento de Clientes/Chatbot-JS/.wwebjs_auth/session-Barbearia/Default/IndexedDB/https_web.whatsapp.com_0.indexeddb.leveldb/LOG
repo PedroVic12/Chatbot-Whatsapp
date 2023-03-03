@@ -1,3 +1,16 @@
-2023/03/01-21:29:45.597 1ee29 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/.wwebjs_auth/session-Barbearia/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/03/01-21:29:45.597 1ee29 Recovering log #24
-2023/03/01-21:29:45.652 1ee29 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/.wwebjs_auth/session-Barbearia/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000024.log 
+2023/03/02-22:04:13.415 1a758 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/.wwebjs_auth/session-Barbearia/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/03/02-22:04:13.416 1a758 Recovering log #117
+2023/03/02-22:04:13.473 1a758 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/.wwebjs_auth/session-Barbearia/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000117.log 
+2023/03/02-22:11:19.355 1a752 Level-0 table #124: started
+2023/03/02-22:11:19.451 1a752 Level-0 table #124: 1234627 bytes OK
+2023/03/02-22:11:19.482 1a752 Delete type=0 #117
+2023/03/02-22:11:26.346 1a758 Compacting 1@1 + 3@2 files
+2023/03/02-22:11:26.528 1a758 Generated table #125@1: 87380 keys, 2237545 bytes
+2023/03/02-22:11:26.629 1a758 Generated table #126@1: 41886 keys, 2238439 bytes
+2023/03/02-22:11:26.722 1a758 Generated table #127@1: 60212 keys, 920483 bytes
+2023/03/02-22:11:26.722 1a758 Compacted 1@1 + 3@2 files => 5396467 bytes
+2023/03/02-22:11:26.755 1a758 compacted to: files[ 0 0 3 0 0 0 0 ]
+2023/03/02-22:11:26.756 1a758 Delete type=2 #119
+2023/03/02-22:11:26.756 1a758 Delete type=2 #121
+2023/03/02-22:11:26.756 1a758 Delete type=2 #124
+2023/03/02-22:11:26.756 1a758 Delete type=2 #120

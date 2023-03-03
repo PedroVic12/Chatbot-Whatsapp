@@ -195,4 +195,7 @@ async function main() {
     // await agendamentoManager.saveWorkbook(filePath);
 }
 
-main();
+//main();
+
+
+module.exports = AgendamentoManager;

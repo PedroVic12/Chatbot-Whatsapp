@@ -88,7 +88,7 @@ chatbot.whatsapp.on('message', message => {
         Cliente.setPhoneNumber(numero_telefone)
 
 
-        //TODO checar cliente na base de dados
+        // Verificando o clienete na base de dados
         try {
             estagio2.verificarClienteBaseDados(message, Cliente.getNome().toUpperCase(), Cliente.getPhoneNumber())
 
@@ -110,17 +110,24 @@ chatbot.whatsapp.on('message', message => {
 
         //TODO Enviar o pdf os serviços
         if (message.body === 'Consultar os Preços') {
-            chatbot.enviarMensagem(message, 'Vou mostrar os serviços em PDF!')
-            chatbot.delay(3000).then(
-                estagio3.mostrarMenuPrincipalEstagio3(message)
-            )
+            chatbot.enviarMensagem(message, 'Vou mostrar os serviços em PDF!');
+
+            chatbot.enviarArquivo(message, 'Chatbot/Banco de Dados - EXCEL/Teoria do Caos/tabela_precos.png')
+                .then(() => {
+                    return chatbot.delay(3000); // espera 3 segundos para exibir os botões
+                })
+                .then(() => {
+                    return estagio3.mostrarMenuPrincipalEstagio3(message);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
         }
+
 
         if (message.body === 'Agendar um Serviço') {
             chatbot.avancarEstagio().then(
-                chatbot.enviarMensagem(message, 'processando...')
-            ).then(
-                chatbot.mostrarServicosLista(message)
+                chatbot.mostrarListasServicos(message)
             )
 
         }
@@ -139,19 +146,26 @@ chatbot.whatsapp.on('message', message => {
     //!=====================  Estagio 4 - Cliente Escolhe os Produtos da Loja =====================
     else if (chatbot.numero_estagio === 4) {
 
-        //TODO MODIFICAR AQUI PARA UMA LISTA DOS PRODUTOS DO CLIENTE E PEGAR NA NOVA BASE DE DADOS
+        chatbot.enviarMensagem(message, '*Escolha uma opção do menu:*')
 
-        if (message.body === 'Corte de Cabelo' && message.type !== 'location') {
-            const cardapio_sanduiche = Sanduiches.getAllSanduiches()
-            estagio4.enviarListaSanduiches(message, cardapio_sanduiche)
+        //Escolhe o Serviço
+        Cliente.realizaPedido(message)
+
+
+        if (message.body === 'Cabelo\nCorte de Cabelo, Penteado, Coloração') {
+
+
+            chatbot.enviarMensagem(message, 'WORKS!')
+
+            //TODO mandar os serviços de cabelo com os preços
         }
 
-        if (message.body === 'Maquiagem' && message.type !== 'location') {
+        if (message.body === 'Maquiagem') {
             const cardapio_salgados = Salgados.getAllSalgados()
             estagio4.enviarListaSalgados(message, cardapio_salgados)
         }
 
-        if (message.body === 'Colocar Cilios' && message.type !== 'location') {
+        if (message.body === 'Colocar Cilios') {
             const cardapio_bebidas = Bebidas.getAllBebidas()
             estagio4.enviarListaBebidas(message, cardapio_bebidas)
         }
@@ -165,9 +179,6 @@ chatbot.whatsapp.on('message', message => {
     else if (chatbot.numero_estagio === 5) {
 
         chatbot.enviarMensagem(message, 'Cliente escolha o horário disponivel do serviço:')
-
-        //Escolhe o Serviço
-        Cliente.realizaPedido(message)
 
         //Coloca no Google Agenda
 

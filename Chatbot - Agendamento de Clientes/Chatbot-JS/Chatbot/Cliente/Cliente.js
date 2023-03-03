@@ -11,11 +11,11 @@ class Cliente {
         this.telefone = 21;
 
         // Atributos Dinamicos
-        this.servico_escolhido = ''
+        this.servico_escolhido = 'servico_escolhido';
         this.pedido_cliente = {
             nome: this.getNome(),
             telefone: this.getPhoneNumber(),
-            servico: this.servico_escolhido
+            servico: this.getServicoEscolhido(),
         };
     }
 
@@ -38,12 +38,12 @@ class Cliente {
     }
     //! Getters e Setters
 
-    setEndereco(address) {
-        this.endereco_cliente = address
+    setServicoEscolhido(_service) {
+        this.servico_escolhido = _service
     }
 
-    getEndereco() {
-        return this.endereco_cliente
+    getServicoEscolhido() {
+        return this.servico_escolhido
     }
 
     //! Getters e Setters
@@ -63,7 +63,11 @@ class Cliente {
 
     realizaPedido(message) {
 
+        const texto = this.chatbot.getLastMessage(message)
+        const servico_cliente = texto.substring(0, texto.indexOf("\n"));
+        this.setServicoEscolhido(servico_cliente)
 
+        this.chatbot.enviarMensagem(message, `Você escolheu o serviço de *${this.capitalizeString(this.getServicoEscolhido())}*!`)
     }
 
 

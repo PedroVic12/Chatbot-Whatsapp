@@ -2,6 +2,9 @@ const { Client, LocalAuth, Buttons, List, MessageMedia, MessageAck, LegacySessio
 const qrcode = require('qrcode-terminal');
 const fs = require('fs');
 const puppeteer = require('puppeteer');
+const EstabelicimentoSalao = require("/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/Chatbot/Banco de Dados - EXCEL/Estabelicimento.js");
+const Excel = require('exceljs');
+
 
 //!============================= MANUTENÇÃO =============================
 //! - SOMENTE FUNÇÕES GLOBAIS 
@@ -47,12 +50,12 @@ class Chatbot {
 
         return new Promise(async (resolve, reject) => {
 
-            console.log("\n\n====================================")
-            console.log("\t CHATBOT KYOGRE - Atendimentos! V1.2.{1} \nby:pvpeterparker")
-            console.log("====================================\n")
+            console.log("\n\n================================================")
+            console.log("\t CHATBOT KYOGRE - Atendimentos! V1.3.{1} \nby:pvpeterparker")
+            console.log("================================================\n")
             console.log("\nIniciando o Chatbot...")
             console.log('Gerando QR code...');
-            console.log("====================================")
+            console.log("================================================")
 
             // Gerando QR Code
             this.whatsapp.on('qr', qr => {
@@ -161,13 +164,12 @@ class Chatbot {
     //!========================================================================================================================================================================================================
     //! Funções anonimas ASSÍNCRONAS
     //!========================================================================================================================================================================================================
-    delay(t, v) {
+    async delay(t, v) {
         return new Promise(function (resolve) {
-            setTimeout(() => {
-                resolve.bind(null, v)
-            }, t);
-        })
+            setTimeout(resolve.bind(null, v), t);
+        });
     }
+
     getDataAtual() {
         let dia_trabalho = new Date()
         let mes = dia_trabalho.getMonth() + 1
@@ -198,6 +200,25 @@ class Chatbot {
         return lastMessage
     }
 
+    async enviarArquivo(message, path) {
+        const fileData = fs.readFileSync(path);
+        const base64Data = Buffer.from(fileData).toString('base64');
+        const media = new MessageMedia('image/png', base64Data, 'tabela_precos.png');
+
+        try {
+            return await this.whatsapp.sendMessage(message.from, media, { caption: 'Esta é a tabela de Preços!' });
+        } catch (error) {
+            return this.enviarMensagem(message, "Erro ao enviar o arquivo");
+        }
+    }
+
+
+
+
+
+
+
+
 
     //!========================================================================================================================================================================================================
     //!Funções para enviar Listas
@@ -213,19 +234,113 @@ class Chatbot {
         return this.whatsapp.sendMessage(message.from, _itens);
     }
 
-    mostrarServicosLista(message) {
+    sendListServices(message) {
 
         let itens_lista_wpp = [{
             title: "==> Aqui esta os nossos serviços <==",
             rows:
-                [{ title: "Corte de Cabelo", description: "description text " },
-                { title: "Fazer as Unhas", description: "description text " },
-                { title: "Maquiagem", description: "description text " }
+                [{ title: "Item 1", description: "description text " },
+                { title: "item 2", description: "description text " },
+                { title: "Item 3", description: "description text " }
                 ]
         }]
 
         return this.enviarLista(message, "Escolha umas opções abaixo", "Agendar um Serviço", itens_lista_wpp)
     }
+
+    //! Funç~oes para mostrar a lista de serviços da planilha
+    async carregarServicosPlanilha(path) {
+
+        const workbook = new Excel.Workbook();
+        await workbook.xlsx.readFile(path);
+
+        const worksheet = workbook.getWorksheet(1);
+        const servicos_planilha = {};
+
+        worksheet.eachRow((row, rowNumber) => {
+            if (rowNumber === 1) {
+                // ignora o cabeçalho da planilha
+                return;
+            }
+
+            const nome_servico = row.getCell('A').value;
+            const categoria = row.getCell('B').value;
+
+            if (!servicos_planilha[categoria]) {
+                servicos_planilha[categoria] = [];
+            }
+
+            servicos_planilha[categoria].push(nome_servico);
+        });
+
+        return servicos_planilha;
+    }
+
+    showServicesList(message) {
+        const servicos = {
+            "Cabelo": ["Corte de Cabelo", "Coloração", "Hidratação"],
+            "Maquiagem": ["Maquiagem para festas", "Maquiagem para noivas"],
+            "Unhas": ["Manicure", "Pedicure", "Alongamento de unhas"]
+        };
+
+        const itensLista = [];
+        for (const categoria in servicos) {
+            const servicosList = servicos[categoria].join(", ");
+            itensLista.push({ title: categoria, description: servicosList });
+        }
+
+        const lista = [{
+            title: "==> Aqui estão os nossos serviços <==",
+            rows: itensLista
+        }];
+
+        return this.enviarLista(message, "Escolha uma opção abaixo", "Agendar um Serviço", lista);
+    }
+
+
+    async mostrarListasServicos(message) {
+        const servicos = await this.carregarServicosPlanilha('/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/Chatbot/Banco de Dados - EXCEL/Base de Dados Produtos/servicos-salao.xlsx');
+
+        const categorias = {};
+
+        // Percorre o objeto de serviços
+        for (const nomeServico in servicos) {
+            const categoria = servicos[nomeServico][0];
+
+            if (!categorias[categoria]) {
+                categorias[categoria] = [];
+            }
+
+            categorias[categoria].push(nomeServico);
+        }
+
+        const itensLista = [];
+        for (const categoria in categorias) {
+            const servicosList = categorias[categoria].join(", ");
+            itensLista.push({ title: categoria, description: servicosList });
+        }
+
+        const lista = [{
+            title: "==> Aqui estão os nossos serviços <==",
+            rows: itensLista
+        }];
+
+        return this.enviarLista(message, "Escolha uma opção abaixo", "Agendar um Serviço", lista);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     //!====================================================================
     //!Funções para enviar Botões

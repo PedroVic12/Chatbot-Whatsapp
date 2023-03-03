@@ -11,6 +11,27 @@ class Estagio4 {
         this.estagio2 = Estagio2;
     }
 
+    mostrarListasSalao(message) {
+        const caminhoPlanilha = '/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/Chatbot/Banco de Dados - EXCEL/Base de Dados Produtos/servicos-salao.xlsx';
+        const salaoDeBeleza = new Salao();
+        salaoDeBeleza.carregarServicos(caminhoPlanilha);
+
+        let itens_lista_wpp = [{
+            title: "==> Aqui estão os nossos serviços <==",
+            rows: []
+        }];
+
+        // Itera sobre as categorias de serviços
+        const categorias = salaoDeBeleza.servicosPorCategoria;
+        for (const categoria in categorias) {
+            const servicos = categorias[categoria];
+            const servicosList = servicos.map(servico => servico.nome).join(", ");
+            itens_lista_wpp[0].rows.push({ title: categoria, description: servicosList });
+        }
+
+        return this.enviarLista(message, "Escolha uma opção abaixo", "Agendar um Serviço", itens_lista_wpp);
+    }
+
 
 
     mostrarServicosLista(message) {
