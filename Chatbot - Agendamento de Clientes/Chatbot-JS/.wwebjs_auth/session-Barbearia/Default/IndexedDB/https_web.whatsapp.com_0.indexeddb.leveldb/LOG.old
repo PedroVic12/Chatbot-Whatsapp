@@ -1,3 +1,6 @@
-2023/03/03-18:29:22.602 c54b Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/.wwebjs_auth/session-Barbearia/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/03/03-18:29:22.603 c54b Recovering log #154
-2023/03/03-18:29:22.654 c54b Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/.wwebjs_auth/session-Barbearia/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000154.log 
+2023/03/03-18:32:44.733 c79c Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/.wwebjs_auth/session-Barbearia/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/03/03-18:32:44.733 c79c Recovering log #154
+2023/03/03-18:32:44.820 c79c Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/.wwebjs_auth/session-Barbearia/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000154.log 
+2023/03/03-18:33:18.622 c7ca Level-0 table #161: started
+2023/03/03-18:33:18.688 c7ca Level-0 table #161: 1209627 bytes OK
+2023/03/03-18:33:18.719 c7ca Delete type=0 #154

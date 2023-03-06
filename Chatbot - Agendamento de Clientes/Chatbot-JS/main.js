@@ -175,21 +175,10 @@ async function mainFunction() {
             if (message.body === 'Cabelo\nCorte de Cabelo, Penteado, Coloração') {
                 servicoEscolhidoCliente.pegarDadosServico(pedido_cliente)
                     .then(servico_escolhido => {
-
                         const services_json = JSON.stringify(servico_escolhido)
-
                         chatbot.enviarMensagem(message, `Debug: ${services_json}`);
-
-
-                        try {
-                            estagio4.enviarListaServicoEscolhido(message, services_json)
-
-                        } catch (error) {
-                            console.log('Erro ao enviar a lista de serviços -->\n', error)
-                        }
-
+                        estagio4.enviarListaServicoEscolhido(message, services_json)
                         chatbot.enviarMensagem(message, 'WORKS!');
-                        //TODO mandar os serviços de cabelo com os preços
                     })
                     .catch(erro => {
                         console.error(erro);
@@ -229,7 +218,7 @@ async function mainFunction() {
         //!=====================   Estagio 6 -Menu de listas para escolha de fluxo ===================
         else if (chatbot.numero_estagio === 6) {
 
-
+            // TODO CONFIRMAR TUDO COM O CLIENTE SOBRE O AGENDAMENTO
             chatbot.enviarMensagem(message, 'Seu pedido foi cadastrado com sucesso e agendando no Google Agenda!')
 
 
