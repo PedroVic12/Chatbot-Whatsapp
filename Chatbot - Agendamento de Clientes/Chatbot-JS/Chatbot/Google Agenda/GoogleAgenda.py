@@ -4,8 +4,8 @@ from google.oauth2 import service_account
 from googleapiclient.errors import HttpError
 from googleapiclient.discovery import build
 
-SCOPES = ['https://www.googleapis.com/auth/calendar.events']
-SERVICE_ACCOUNT_FILE = '/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/Chatbot/Google Agenda/credencials/chabot-370717-ecc506aa3bca.json'
+SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
+SERVICE_ACCOUNT_FILE = 'Chatbot/Google Agenda/credencials/client_secret_618403188001-9bbh1s1iib6fg5vpkbj2suuqdf2qhui1.apps.googleusercontent.com.json'
 CALENDAR_ID = 'c_4d13ef860af70d745b52aa97c9e21722cc879cb28c62e2b57239da42f7a278cb@group.calendar.google.com'
 
 

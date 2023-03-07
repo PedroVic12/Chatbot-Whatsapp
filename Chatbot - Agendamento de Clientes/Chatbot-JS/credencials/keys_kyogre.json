@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "chabot-370717",
+  "private_key_id": "bd7b74cc8cbe2c4cdc2f2f0eb4bfe9a2ec3bbaf0",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC9tSCcWUV7qQN4\ntiXhmqUvfchbwzJcqvUcGM2fEK76SsDItRqRucJx0RRNr6m+EtL4oom1SzswbKdM\nWTaOFQPLhxBnX6y2RI2xTjGqPrmlviCxyvDU6k7VYTU5kTGrmDI9UMSyXZs8sLfV\n4b2HxLrCcnmpmXIsUeR1baGxa9wERpcN36Nkrho/HoyPqeq+xbRu+EycAmGMCzPk\n7fpGpha6VNlCGYXSoC6jIj6GcHlBb5h/cDTIJtamCZlaZk5XW5eY+eQ8Ahl4KDdh\nx71UsEHPKlacYoCttrcDofPbghrlN6DE0uqh2UkXFA7+1JR+qVRw6Qurb+2jx6Oy\n8SXK0ccBAgMBAAECggEARTxqSvWf0Mp17GPZ/nUQzXzkF21tn3l7XIZG4UNXAR0w\nL/A84qt/pkdu2A2A71Byc/DqPmLXFszI4Cn9KazMxkake33lDF6Hsgq+QIqE+dMi\nnpDZBXQAUosYQErX7G7vAwbLyucz5Vn/tg0dvYPUv2vFMFtC2p8GuL7K0PRzB5HU\nqH3rQX76BcsIsBT7BsasezNF5IgyzkgvtCMsmmRK+lZMMaAw+d9FU0WiJf5cQ0u0\n6uIRrJNYLJfQtMd+kAerCxOoT4LZrAj97903zH5x4HLI/8H7S2SwfCmNDhSw08b4\nsoOGPxD9k03NeEsg2/1UeBpgXpZjG0G5BPYtvXARWwKBgQDpM/HJt2B9fGrP/qcA\nZOLyButk6kV9/D5vvFmjbAGL0o66NejBBIQ9aHMGDBdB/yzi+lC5bpoMTJtbg+sN\nlh/OkV6hK0t1e0hl+5qJFHGeFIQuAVKVXoeoGyUn8ds6Bl66QJkBC0WA4uUZD2bT\n8GRL4vVFEvvbtvzIi/QkL1o0hwKBgQDQQK67Y2r0VyWcirM9tXKp+8gHuaK84ve7\nz+KIbKNndKIgcJjAt0Qq3q6KtTLsTy9OvO8ZJ0nVxoVtKl/3oa8Wic52Bp/G6Fga\npDGK3OFzJ5UkMhOYWKPd6q0FoJXKwieW2qlP3X4ujbiGCMRdWoYfzVpq/oJcoAbh\nhiLOogkSNwKBgQDMmAcD+v8LeNFZA8hOXzSANDPmyGYJXvkEHJHj/0jn++W+VreK\nR8Ug/vcTEh6BhzdBN20FEpTSP495XaYluFTVbNJBwfMk8fEVkAUHSMlZcBR7LCvg\n4htQD+isP9Me+CG5dB0IPnRO3EE0mD+Vp2zG6ypV3I7cN5FU/PxHlsekFwKBgB5N\nSx95F9b110Mv62TPQh/5wuFc4ZEadXGejhfLtvsWvYB64b8o64JRZJRKSV6ZJwkN\n9Lx0OwogGMoJoG0n2ZIt+xyxWg5XQHqf6ZWLDkLzP4BEyRUh0LY5r3NiKmmWVqxc\npMY6NGIRvQfDvs7WnS2Dc+Sdo9pWbqniGq52ZVuBAoGBANpirm6HmEiWNAFDQt/5\n4nKwczXUEy2KmjFxfKfqonn65Flf5YQfhocP2PWBZDtnEkiLTprpwHOdcUvh+eI7\nVV6YN5+3DGZDwFgcfMS9v37ITeppLTlmbm/Thoatj9OK7ZILbd3kraqqVQG/3Nzn\nzP57EA0tKhFOTPSKOsvTJlq3\n-----END PRIVATE KEY-----\n",
+  "client_email": "bot-kyogre-atendimento@chabot-370717.iam.gserviceaccount.com",
+  "client_id": "103770546846004341374",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/bot-kyogre-atendimento%40chabot-370717.iam.gserviceaccount.com"
+}
