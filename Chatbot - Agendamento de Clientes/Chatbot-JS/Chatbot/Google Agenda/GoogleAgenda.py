@@ -4,9 +4,9 @@ from google.oauth2 import service_account
 from googleapiclient.errors import HttpError
 from googleapiclient.discovery import build
 
-SCOPES = ['https://www.googleapis.com/auth/calendar']
-SERVICE_ACCOUNT_FILE = '/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/chabot-370717-ecc506aa3bca.json'
-CALENDAR_ID = 'primary'
+SCOPES = ['https://www.googleapis.com/auth/calendar.events']
+SERVICE_ACCOUNT_FILE = '/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/Chatbot/Google Agenda/credencials/chabot-370717-ecc506aa3bca.json'
+CALENDAR_ID = 'c_4d13ef860af70d745b52aa97c9e21722cc879cb28c62e2b57239da42f7a278cb@group.calendar.google.com'
 
 
 class AgendaGoogle:
@@ -35,11 +35,24 @@ class AgendaGoogle:
                 calendarId=CALENDAR_ID, body=evento).execute()
             return evento_criado['id']
         except HttpError as error:
-            print(f'Ocorreu um erro: {error}')
+            print(f'\n\n -->Ocorreu um erro: {error}')
             return None
 
     def remover_evento(self, evento_id):
-        try:
-            self.service.events().delete(calendarId=CALENDAR_ID, eventId=evento_id).execute()
-        except HttpError as error:
-            print(f'Ocorreu um erro: {error}')
+        if evento_id:
+            try:
+                self.service.events().delete(calendarId=CALENDAR_ID, eventId=evento_id).execute()
+            except HttpError as error:
+                print(f'Ocorreu um erro: {error}')
+        else:
+            print('ID do evento não pode ser None')
+
+
+if __name__ == '__main__':
+    agenda = AgendaGoogle('America/Sao_Paulo')
+    inicio = datetime.datetime(2021, 10, 1, 10, 0, 0, tzinfo=pytz.UTC)
+    fim = datetime.datetime(2021, 10, 1, 11, 0, 0, tzinfo=pytz.UTC)
+    evento_id = agenda.criar_evento(
+        inicio, fim, 'Teste', 'Teste de criação de evento')
+    print(evento_id)
+    agenda.remover_evento(evento_id)
