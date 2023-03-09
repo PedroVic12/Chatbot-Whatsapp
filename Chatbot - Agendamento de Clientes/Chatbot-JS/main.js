@@ -51,18 +51,25 @@ const estagio7 = new Estagio7(chatbot)
 
 //const browser = puppeteer.launch({ args: ['--no-sandbox'] });
 
+const stageMap = new Map(); // Cria um Map vazio para armazenar o estágio atual de cada número de telefone
+
 function iniciaConversaCliente(message) {
     const phoneNumber = message.from.split('@')[0];
-    const numero_estagios = 10
-    const currentStage = stageMap.get(phoneNumber) || 0;
-    if (currentStage === 0) {
+    const numero_estagios = 10;
+    const currentStage = stageMap.get(phoneNumber) || 1;
+
+    console.log(`Debug -> ${currentStage}`);
+
+    if (currentStage === 1) {
         stageMap.set(phoneNumber, 1);
         estagio1.boasVindas(message);
     } else if (currentStage < numero_estagios) {
         chatbot.avancarEstagio();
+        let estagios;
         estagios[currentStage](message);
     }
 }
+
 
 
 
@@ -91,11 +98,11 @@ async function mainFunction() {
 
         chatbot.armazenarConversa(message);
         let flag_impressora = false;
-        //iniciaConversaCliente(message)
 
         //! ===================== Estágio 1 - Apresentação =====================
         if (chatbot.numero_estagio === 1) {
-            estagio1.boasVindas(message);
+            iniciaConversaCliente(message)
+            // estagio1.boasVindas(message);
             chatbot.avancarEstagio()
 
         }
@@ -219,7 +226,7 @@ async function mainFunction() {
                 chatbot.enviarMensagem(message, `Seu pedido atualizado é \n\n*Serviços = ${Cliente.getPedidoCliente()}*\n\n*Preço = ${Cliente.getPrecoTotal()}*`);
             });
 
-            chatbot.delay(3000).then(
+            chatbot.delay(7000).then(
                 chatbot.avancarEstagio()
             ).finally(
                 chatbot.mostrarBotaoConfirmaPedido(message, 'Você deseja fazer outro agendamento?')
@@ -265,10 +272,11 @@ async function mainFunction() {
                     chatbot.mostrarListasServicos(message)
                 )
             } else if (message.body === 'Não'){
-                chatbot.avancarEstagio().then(
-                    //TODO MOSTRAR OS HORARIOS DISPONIVEIS COM O GOOGLE AGENDA
-                    chatbot.enviarMensagem(message, 'Cliente escolha o horário disponivel do serviço:')
-                )
+                //TODO MOSTRAR OS HORARIOS DISPONIVEIS COM O GOOGLE AGENDA
+
+                chatbot.enviarMensagem(message, 'Cliente escolha o horário disponivel do serviço:')
+
+                chatbot.avancarEstagio()
             }
 
 
@@ -281,8 +289,8 @@ async function mainFunction() {
         else if (chatbot.numero_estagio === 7) {
 
             //Pega o horario do cliente
-            const horario = chatbot.getLastMessage()
-            chatbot.enviarMensagem(message,`Horario do cliente --> ${horario}`)
+            const horario_agendamento = chatbot.getLastMessage(message)
+            chatbot.enviarMensagem(message,`Horario do cliente --> ${horario_agendamento}`)
             //cliente.setHorario
 
 

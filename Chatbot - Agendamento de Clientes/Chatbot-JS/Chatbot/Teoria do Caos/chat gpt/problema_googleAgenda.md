@@ -1,0 +1,1 @@
+esse é o meu codigo atual usando a api do google agenda, como posso fazer métodos para buscar os dias e horarios diposniveis para eu fazer o agendamento de cliente usando meu chatbot do whatssapp escrito em nodejs?

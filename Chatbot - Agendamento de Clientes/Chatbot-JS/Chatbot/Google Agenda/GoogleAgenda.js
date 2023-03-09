@@ -5,6 +5,7 @@ const { authenticate } = require('@google-cloud/local-auth');
 const { google } = require('googleapis');
 const moment = require('moment-timezone');
 
+
 //const calendar = google.calendar({ version: 'v3' }); eu ja tenho o this.calendar
 
 //! Rodar no terminal
@@ -26,6 +27,45 @@ class GoogleAgenda {
         this.authClient = null;
         this.calendar = null;
     }
+
+    async gerarEventosDisponiveis(date, time, title) {
+        const availableEvents = [];
+
+        const dateTime = moment.utc(`${date}T${time}:00.000Z`);
+        const startDateTime = dateTime.clone().tz('America/Sao_Paulo');
+        const endDateTime = startDateTime.clone().add(1, 'hour');
+
+        while (startDateTime.isBefore(endDateTime)) {
+            const endOfTimeSlot = startDateTime.clone().add(30, 'minutes');
+            const event = {
+                summary: title || 'Disponível',
+                start: {
+                    dateTime: startDateTime.toISOString(),
+                    timeZone: 'America/Sao_Paulo',
+                },
+                end: {
+                    dateTime: endOfTimeSlot.toISOString(),
+                    timeZone: 'America/Sao_Paulo',
+                },
+            };
+
+            try {
+                const { data } = await this.calendar.events.insert({
+                    calendarId: ID_CALENDARIO,
+                    resource: event,
+                });
+                availableEvents.push(data);
+            } catch (err) {
+                console.log(`Error creating event: ${err}`);
+            }
+
+            startDateTime = endOfTimeSlot;
+        }
+
+        return availableEvents;
+    }
+
+
 
 
     //! Métodos para ver os horarios e datas disponiveis no Google Calendar
@@ -51,7 +91,7 @@ class GoogleAgenda {
 
             try {
                 const { data } = await this.calendar.events.insert({
-                    calendarId: 'primary',
+                    calendarId: ID_CALENDARIO,
                     resource: event,
                 });
                 availableEvents.push(data);
@@ -66,11 +106,13 @@ class GoogleAgenda {
     }
 
 
-    async getAvailableTimeSlots(date) {
+    async getAvailableTimeSlots() {
+        const date = moment('2022-03-10T15:30:00-03:00');
+
         const dayStart = date.startOf('day');
         const dayEnd = date.endOf('day');
         const events = await this.calendar.events.list({
-            calendarId: this.calendarId,
+            calendarId: ID_CALENDARIO,
             timeMin: dayStart.toISOString(),
             timeMax: dayEnd.toISOString(),
             singleEvents: true,
@@ -257,7 +299,50 @@ async function main() {
         }
 
 
-        // Cria o evento
+
+        // const startTime = "12/03/2023 16:00";
+        // const endTime = "12/03/2023 17:00";
+        // const title = "Disponível";
+
+        // const startDateTime = parseDateTime(startTime);
+        // const endDateTime = parseDateTime(endTime);
+
+        // await createAvailableEvents(startDateTime, endDateTime, title);
+
+
+        //! Testes!
+        const data_cliente = '12/03/2023';
+        const hora_marcada = '16:00';
+        const duracao = 30;
+
+        agenda.gerarEventosDisponiveis(data_cliente, hora_marcada, duracao)
+            .then((eventos) => {
+                console.log('Eventos gerados:');
+                console.log(eventos);
+            })
+            .catch((err) => {
+                console.error('Erro ao gerar eventos:', err);
+            });
+
+
+        // para criar eventos disponíveis
+        // agenda.createAvailableEvents('2022-03-10T09:00:00-03:00', '2022-03-10T18:00:00-03:00', 'Disponível')
+        //     .then(availableEvents => {
+        //         console.log('Eventos criados:', availableEvents);
+        //     })
+        //     .catch(err => {
+        //         console.log('Erro:', err);
+        //     });
+
+        // para obter os horários disponíveis
+        agenda.getAvailableTimeSlots()
+            .then(availableIntervals => {
+                console.log('Intervalos disponíveis:', availableIntervals);
+            })
+            .catch(err => {
+                console.log('Erro:', err);
+            });
+
 
         // Define as informações do evento
         const summary = 'Reunião com o time de desenvolvimento';
@@ -265,6 +350,7 @@ async function main() {
         const data = '2023-02-28';
         const hora = 10;
 
+        // Cria o evento
         // try {
         //     await agenda.criarEvento('2023-03-10', 14, 'FESTA PRE ANIVERSÁRIO', 'FAZER PUTARIA ACONTECER');
         //     console.log(`Evento criado com sucesso: ${summary} `);
@@ -277,5 +363,7 @@ async function main() {
     });
 
 }
+
+main()
 
 
