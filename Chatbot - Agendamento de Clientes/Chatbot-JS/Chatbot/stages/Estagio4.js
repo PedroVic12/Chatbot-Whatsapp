@@ -35,6 +35,8 @@ class Estagio4 {
 
     enviarListaServicoEscolhido(message, objetoServicoEscolhido) {
         const servicos = JSON.parse(objetoServicoEscolhido);
+
+
         const itensListaWpp = [{
             title: "==> Aqui estão nossos serviços <==",
             rows: []
@@ -43,7 +45,7 @@ class Estagio4 {
         servicos.forEach(servico => {
             itensListaWpp[0].rows.push({
                 title: servico.nome,
-                description: `Descrição do serviço: R$ ${servico.preco} reais`
+                description: `Preço: R$ ${servico.preco} reais`
             });
         });
 

@@ -10,7 +10,7 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
 # If modifying these scopes, delete the file token.json.
-SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
+SCOPES = ['https://www.googleapis.com/auth/calendar']
 
 
 class GoogleAgenda:
@@ -86,11 +86,11 @@ class GoogleAgenda:
 
 
 if __name__ == '__main__':
-    calendar_id = 'c_4d13ef860af70d745b52aa97c9e21722cc879cb28c62e2b57239da42f7a278cb@group.calendar.google.com'
+    calendar_id = '/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/credencials/cliend_id.json'
     calendar = GoogleAgenda(calendar_id)
     calendar.autenticarApi()
     calendar.check_permissions()
 
     # Funções de eventos
     calendar.list_events()
-    #calendar.criarEvento('2021-09-01', '10:00', 'Reunião com os desenvolvedores', 'Vai trabalhar vagabundo!')
+    #calendar.criarEvento('2023-03-10', '10:00', 'Reunião com os desenvolvedores', 'Vai trabalhar vagabundo!')

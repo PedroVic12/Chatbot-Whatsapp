@@ -1,12 +1,5 @@
 const Excel = require('exceljs');
-
-class Servico {
-    constructor(categoria, nome, preco) {
-        this.categoria = categoria;
-        this.nome = nome;
-        this.preco = preco;
-    }
-}
+const Servico = require('./Servico')
 
 class Estabelicimento {
     constructor() {
@@ -20,7 +13,7 @@ class Estabelicimento {
         try {
             await workbook.xlsx.readFile(path);
             const worksheet = workbook.getWorksheet(1);
-            console.log('Planilha de Produtos carregada com sucesso!');
+            console.log('Planilha de Produtos da Loja carregada com sucesso!');
             return worksheet;
         } catch (error) {
             console.log('Erro ao carregar planilha: ' + error);

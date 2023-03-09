@@ -1,5 +1,5 @@
 const Chatbot = require("../chatbot");
-
+const ServicosCliente = require('../Banco de Dados - EXCEL/Servicos_Cliente');
 
 class Cliente {
     constructor(Chatbot) {
@@ -11,16 +11,24 @@ class Cliente {
         this.telefone = 21;
 
         // Atributos Dinamicos
-        this.servico_escolhido = 'servico_escolhido';
+        this.categoria_escolhida = 'categoria de serviço';
+
         this.pedido_cliente = {
             nome: this.getNome(),
             telefone: this.getPhoneNumber(),
-            servico: this.getServicoEscolhido(),
+            servico: [],
+            total: 0
         };
+
     }
 
 
     //! Getters e Setters
+
+    getPrecoTotal(){
+        return this.pedido_cliente.total
+    }
+
     setNome(name) {
         this.nome = name;
     }
@@ -36,48 +44,93 @@ class Cliente {
     getPhoneNumber() {
         return this.telefone;
     }
-    //! Getters e Setters
 
+
+    //! Getters e Setters
     setServicoEscolhido(_service) {
-        this.servico_escolhido = _service
+        this.pedido_cliente.servico.push(_service)
     }
 
-    getServicoEscolhido() {
-        return this.servico_escolhido
+    getPedidoCliente() {
+        return this.pedido_cliente.servico
     }
 
-    //! Getters e Setters
-    pegandoFormaPagamentoCliente(message) {
-        const formaPagamento = this.chatbot.getLastMessage(message)
-        return formaPagamento
+    setCategoriaEscolhida(_categoria) {
+        this.categoria_escolhida = _categoria
     }
 
-    setFormaPagamento(variable_payament) {
-        this.forma_pagamento = variable_payament
+    getCategoriaEscolhida() {
+        return this.categoria_escolhida
     }
 
 
-    capitalizeString(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
+
+    //! Métodos realizados pelo cliente
+    realizaPedidoCategoria(message) {
+
+        //Pegando resposta do cliente
+        const categoria_cliente = this.chatbot.getLastMessage(message)
+        const categoriaEscolhida = this.chatbot.getFirstItemString(categoria_cliente)
+
+        //Adicionando ao objeto Cliente
+        this.setCategoriaEscolhida(categoriaEscolhida)
+        this.chatbot.enviarMensagem(message, `Você escolheu a Categoria de Serviço de *${categoriaEscolhida}*!`)
+
+        return categoriaEscolhida
     }
 
-    realizaPedido(message) {
+    realizaPedidoServico(message) {
 
-        const texto = this.chatbot.getLastMessage(message)
-        const servico_cliente = texto.substring(0, texto.indexOf("\n"));
+        //Pegando resposta do cliente
+        const pedido_cliente = this.chatbot.getLastMessage(message)
+        const servico_cliente = this.chatbot.getFirstItemString(pedido_cliente)
+
+        //Adicionando ao objeto Cliente
         this.setServicoEscolhido(servico_cliente)
+        this.chatbot.enviarMensagem(message, `Você escolheu o Serviço de *${servico_cliente}*!`)
 
-        const cliente_service = this.capitalizeString(this.getServicoEscolhido())
+        return servico_cliente
+    }
 
-        this.chatbot.enviarMensagem(message, `Você escolheu o serviço de *${cliente_service}*!`)
 
-        return cliente_service
+
+    async adicionarPedidoCarrinho(_nomeDoServico) {
+
+        // Carregando a planilha de serviços
+        let baseDeDadosProdutos = new ServicosCliente()
+        let objectCategory = await baseDeDadosProdutos.carregarPlanilhaServicos(this.categoria_escolhida)
+        console.log(objectCategory)
+
+
+        // Pegando o nome do serviço e o preço da Categoria Escolhida
+        const produto_cliente = baseDeDadosProdutos.getPedidoServiceByName(_nomeDoServico, objectCategory)
+
+        // Atualizando no carrinho
+        this.pedido_cliente.total = this.pedido_cliente.total + produto_cliente.preco
     }
 
 
 
 }
 
+async function main() {
+    let pedro = new Cliente(Chatbot)
+
+    // user informa o que deseja
+    let category_user = 'Cabelo'
+    pedro.setCategoriaEscolhida(category_user)
+    console.log(`Categoria escolhida = ${pedro.getCategoriaEscolhida()}`)
+
+    //User informa o tipo de serviço que ele deseja
+    let service_user = 'Corte de Cabelo'
+    pedro.setServicoEscolhido(service_user)
+    console.log(`Serviço Escolhido = ${pedro.getPedidoCliente()}\n\n`)
+
+    // Adicionando no carrinho
+    await pedro.adicionarPedidoCarrinho(service_user)
+    console.log(`\n\nSeu Pedido Atual é: ${pedro.getPedidoCliente()} com o Preço Total de ${pedro.getPrecoTotal()} reais`)
+}
 
 
+//main()
 module.exports = Cliente;

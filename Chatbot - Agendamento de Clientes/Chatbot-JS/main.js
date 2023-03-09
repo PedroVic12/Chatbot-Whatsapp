@@ -15,6 +15,7 @@ Considere usar ferramentas de linting, como o ESLint, para manter o código mais
 
 //! Importações e variáveis GLOBAIS
 // Documentação:  https://wwebjs.dev/guide/#replying-to-messages
+
 const Kyogre = require('./Chatbot/chatbot');
 
 const Estagio1 = require('./Chatbot/stages/Estagio1')
@@ -30,11 +31,15 @@ const Estagio10 = require('./Chatbot/stages/Estagio10')
 
 const ServicoCliente = require('./Chatbot/Banco de Dados - EXCEL/Servicos_Cliente')
 const ClienteAtual = require("./Chatbot/Cliente/Cliente");
+const GoogleAgenda = require('./Chatbot/Google Agenda/GoogleAgenda')
+const BancoDeDadosClientes = require('./Chatbot/Banco de Dados - EXCEL/BancoClientes')
 const { List } = require('whatsapp-web.js');
 
 //!Inicializando o BOT
 const chatbot = new Kyogre();
 const Cliente = new ClienteAtual(chatbot)
+const googleAgenda = new GoogleAgenda()
+const Database = new BancoDeDadosClientes()
 
 
 const estagio1 = new Estagio1(chatbot);
@@ -46,7 +51,7 @@ const estagio7 = new Estagio7(chatbot)
 
 //const browser = puppeteer.launch({ args: ['--no-sandbox'] });
 
-function iniciaConversaClinte(message) {
+function iniciaConversaCliente(message) {
     const phoneNumber = message.from.split('@')[0];
     const numero_estagios = 10
     const currentStage = stageMap.get(phoneNumber) || 0;
@@ -85,8 +90,8 @@ async function mainFunction() {
     chatbot.whatsapp.on('message', message => {
 
         chatbot.armazenarConversa(message);
-        const flag_impressora = false;
-        //iniciaConversaClinte(message)
+        let flag_impressora = false;
+        //iniciaConversaCliente(message)
 
         //! ===================== Estágio 1 - Apresentação =====================
         if (chatbot.numero_estagio === 1) {
@@ -115,6 +120,7 @@ async function mainFunction() {
                 console.log('Erro ao verifciar o cliente na base de dados -->\n', error)
             }
 
+            // Mostrando o menu principal
             chatbot.enviarMensagem(message, `✅ Prazer em te conhecer, ${Cliente.getNome()}!`);
             chatbot.avancarEstagio().then(
                 estagio2.mostrarMenuPrincipal(message)
@@ -127,7 +133,6 @@ async function mainFunction() {
         else if (chatbot.numero_estagio === 3) {
 
 
-            //TODO Enviar o pdf os serviços
             if (message.body === 'Consultar os Preços') {
                 chatbot.enviarMensagem(message, 'Vou mostrar os serviços em PDF!');
 
@@ -162,30 +167,31 @@ async function mainFunction() {
 
 
 
-        //!=====================  Estagio 4 - Cliente Escolhe os Produtos da Loja =====================
+        //!=====================  Estagio 4 - Cliente Escolhe a Categoria do Serviço =====================
         else if (chatbot.numero_estagio === 4) {
 
             //Escolhe o Serviço
-            const pedido_cliente = Cliente.realizaPedido(message)
-            console.log('Pedido do cliente -->', pedido_cliente)
-            const servicoEscolhidoCliente = new ServicoCliente()
+            const categoria_cliente = Cliente.realizaPedidoCategoria(message)
+            const BaseDeDadosProdutos = new ServicoCliente()
 
 
             //TODO modificar aqui os nomes de acordo com a base de dados
             if (message.body === 'Cabelo\nCorte de Cabelo, Penteado, Coloração') {
-                servicoEscolhidoCliente.pegarDadosServico(pedido_cliente)
-                    .then(servico_escolhido => {
-                        const services_json = JSON.stringify(servico_escolhido)
-                        chatbot.enviarMensagem(message, `Debug: ${services_json}`);
-                        estagio4.enviarListaServicoEscolhido(message, services_json)
-                        chatbot.enviarMensagem(message, 'WORKS!');
+                BaseDeDadosProdutos.carregarPlanilhaServicos(categoria_cliente)
+                    .then(categoria_escolhida => {
+                        const services_json = JSON.stringify(categoria_escolhida)
+                        //chatbot.enviarMensagem(message, `Debug: ${services_json}`);
+                        chatbot.delay(3000).then(
+                            estagio4.enviarListaServicoEscolhido(message, services_json)
+                        )
                     })
                     .catch(erro => {
                         console.error(erro);
-                    });
+                    })
             }
 
 
+            //TODO PREENCHER O RESTO DAS OPÇÕES
             // if (message.body === 'Maquiagem') {
             //     const cardapio_salgados = Salgados.getAllSalgados()
             //     estagio4.enviarListaSalgados(message, cardapio_salgados)
@@ -198,76 +204,122 @@ async function mainFunction() {
 
             chatbot.avancarEstagio()
 
+
         }
 
-        //!=====================  Estagio 5 - Pega o pedido e adiciona no Google Agenda =====================
+        //!=====================  Estagio 5 - Pega o pedido e adiciona no Carrinho do Pedido =====================
 
         else if (chatbot.numero_estagio === 5) {
 
-            chatbot.enviarMensagem(message, 'Cliente escolha o horário disponivel do serviço:')
+            // Escolhe o serviço da categoria desejada --> Categoria: Cabelo --> Serviço: Corte
+            const servico_escolhido = Cliente.realizaPedidoServico(message);
 
-            //Coloca no Google Agenda
+            chatbot.delay(1000).then(async () => {
+                await Cliente.adicionarPedidoCarrinho(servico_escolhido);
+                chatbot.enviarMensagem(message, `Seu pedido atualizado é \n\n*Serviços = ${Cliente.getPedidoCliente()}*\n\n*Preço = ${Cliente.getPrecoTotal()}*`);
+            });
 
+            chatbot.delay(3000).then(
+                chatbot.avancarEstagio()
+            ).finally(
+                chatbot.mostrarBotaoConfirmaPedido(message, 'Você deseja fazer outro agendamento?')
+            )
 
-            // Coloca na base de dados
+            // chatbot.avancarEstagio().then(() => {
+            //     chatbot.mostrarBotaoConfirmaPedido(message, 'Você deseja fazer outro agendamento?');
+            // });
 
-            chatbot.avancarEstagio()
+            //TODO ARRUMAR UM JEITO DE PEGAR O DIA DA SEMANA
+            // googleAgenda.authorize().then(async () => {
+            //     const dayOfWeek = 4; // segunda-feira
+            //     // const eventosDia = await googleAgenda.getEvents(dayOfWeek);
+            //     // const availableTimes = googleAgenda.getAvailableTimes();
+            //     // chatbot.enviarMensagem(message, `Horários disponíveis para ${dayOfWeek}: ${availableTimes}`)
+            //     chatbot.enviarMensagem(message,'Google Agenda autorizado!')
+            // });
+            //
+            //
 
         }
 
-        //!=====================   Estagio 6 -Menu de listas para escolha de fluxo ===================
+        //!=====================   Estagio 6 -Cliente Escolhe se deseja continuar ou não ===================
         else if (chatbot.numero_estagio === 6) {
 
-            // TODO CONFIRMAR TUDO COM O CLIENTE SOBRE O AGENDAMENTO
-            chatbot.enviarMensagem(message, 'Seu pedido foi cadastrado com sucesso e agendando no Google Agenda!')
+            // TODO Rever se esse codigo pode ser reaproveitado
+            // if (message.body === 'Fazer Outro Agendamento\nEscolha mais opções') {
+            //     chatbot.voltarEstagio(4).then(
+            //         chatbot.mostrarProdutosBotao(message)
+            //     )
+            // }
+            // if (message.body === 'Confirmar Agendamento') {
+            //     chatbot.avancarEstagio().then(
+            //         chatbot.enviarMensagem(message, "🤖 Por favor, envie sua localização através do Whatsapp para realizar a entrega")
+            //     )
+            // }
+            // if (message.body === 'Reiniciar Agendamento') {
+            //     chatbot.numero_estagio === 1;
+            // }
 
-
-            if (message.body === 'Continuar Pedido\nEscolha as opções de comida novamente' && message.type !== 'location') {
-
+            if (message.body === 'Sim'){
                 chatbot.voltarEstagio(4).then(
-                    chatbot.mostrarProdutosBotao(message)
+                    chatbot.mostrarListasServicos(message)
                 )
-            }
-
-            if (message.body === 'Finalizar Pedido\nSe preparar para a entrega!' && message.type !== 'location') {
+            } else if (message.body === 'Não'){
                 chatbot.avancarEstagio().then(
-                    chatbot.enviarMensagem(message, "🤖 Por favor, envie sua localização através do Whatsapp para realizar a entrega")
+                    //TODO MOSTRAR OS HORARIOS DISPONIVEIS COM O GOOGLE AGENDA
+                    chatbot.enviarMensagem(message, 'Cliente escolha o horário disponivel do serviço:')
                 )
             }
 
-            if (message.body === 'Reiniciar Pedido' && message.type !== 'location') {
-                chatbot.numero_estagio === 1;
-            }
+
+
+
+
         }
         //!=====================   Estagio 7 - Pega localização do cliente =====================
 
         else if (chatbot.numero_estagio === 7) {
 
-            const endereco_cliente = estagio7.PegandoEnderecoCliente(message)
-            Cliente.setEndereco(endereco_cliente)
+            //Pega o horario do cliente
+            const horario = chatbot.getLastMessage()
+            chatbot.enviarMensagem(message,`Horario do cliente --> ${horario}`)
+            //cliente.setHorario
 
-            //TODO Confirmar o agendamento do cliente
 
-            chatbot.mostrarBotaoConfirmaPedido(message, `Voce confirma ?\n *Nome Cliente: ${Cliente.getNome()}* \n *Endereço de entrega: ${Cliente.getEndereco()}* `)
+            //Coloca no Google Agenda
 
-            chatbot.avancarEstagio().then(
-                chatbot.enviarMensagem(message, 'Avançando...')
-            )
+            // Coloca na base de dados
+            chatbot.enviarMensagem(message, `Debug =  ${Cliente.getNome()} | ${Cliente.getPhoneNumber()} | ${Cliente.getPedidoCliente()} | ${horario}`)
+
+            // try {
+            //     Database.addAgendamento({
+            //
+            //
+            //     })
+            //
+            // } catch (error) {
+            //     chatbot.enviarMensagem(message, 'Erro ao adicionar o agendamento na base de dados :( \n')
+            // }
+            //
+
+
+            chatbot.avancarEstagio()
+
         }
 
         //!=====================   Estagio 8 - Mostar as formas de Pagamento =====================
         else if (chatbot.numero_estagio === 8) {
 
-            if (message.body === 'Sim' && message.type !== 'location') {
-                chatbot.avancarEstagio().then(
-                    chatbot.mostrarFormasDePagamento(message)
-                )
-            }
 
-            else {
-                chatbot.numero_estagio === 7
-            }
+            // TODO CONFIRMAR TUDO COM O CLIENTE SOBRE O AGENDAMENTO
+            chatbot.enviarMensagem(message, 'Seu pedido foi cadastrado com sucesso e agendando no Google Agenda!')
 
+            //TODO Confirmar o agendamento do cliente
+            chatbot.mostrarBotaoConfirmaPedido(message, `Voce confirma ?\n *Nome Cliente: ${Cliente.getNome()}* \n *Endereço de entrega: ${Cliente.getEndereco()}* `)
+
+            chatbot.avancarEstagio().then(
+                chatbot.enviarMensagem(message, 'Avançando...')
+            )
 
         }
         //!=====================   Estagio 9 - Mostra todas as infromações finais =====================

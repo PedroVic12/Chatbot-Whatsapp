@@ -15,7 +15,7 @@ class Agendamento {
     }
 }
 
-class AgendamentoManager {
+class BancoDeDadosClientes {
     constructor() {
         this.agendamentos_salvos = [];
         this.workbook = new Excel.Workbook();
@@ -156,14 +156,14 @@ class AgendamentoManager {
 }
 
 
-module.exports = AgendamentoManager;
+module.exports = BancoDeDadosClientes;
 
 //funcao main
 async function main() {
 
     //Lendo a planilha
     const filePath = '/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/Chatbot/Banco de Dados - EXCEL/Base de Dados Clientes/base-clientes.xlsx';
-    const agendamentoManager = new AgendamentoManager();
+    const agendamentoManager = new BancoDeDadosClientes();
     await agendamentoManager.loadWorkbook(filePath);
 
 
@@ -198,4 +198,3 @@ async function main() {
 //main();
 
 
-module.exports = AgendamentoManager;

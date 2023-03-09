@@ -1,26 +1,33 @@
-2023/03/06-11:51:05.453 3b81 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/.wwebjs_auth/session-Barbearia/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/03/06-11:51:05.453 3b81 Recovering log #160
-2023/03/06-11:51:05.454 3b81 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/.wwebjs_auth/session-Barbearia/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000160.log 
-2023/03/06-11:51:06.749 3b7e Compacting 1@1 + 3@2 files
-2023/03/06-11:51:06.943 3b7e Generated table #163@1: 87170 keys, 2237145 bytes
-2023/03/06-11:51:07.045 3b7e Generated table #164@1: 40003 keys, 2264847 bytes
-2023/03/06-11:51:07.194 3b7e Generated table #165@1: 91120 keys, 1772924 bytes
-2023/03/06-11:51:07.194 3b7e Compacted 1@1 + 3@2 files => 6274916 bytes
-2023/03/06-11:51:07.224 3b7e compacted to: files[ 0 0 3 0 0 0 0 ]
-2023/03/06-11:51:07.224 3b7e Delete type=2 #161
-2023/03/06-11:51:07.224 3b7e Delete type=2 #158
-2023/03/06-11:51:07.224 3b7e Delete type=2 #157
-2023/03/06-11:51:07.224 3b7e Delete type=2 #156
-2023/03/06-11:54:10.307 3b9e Level-0 table #167: started
-2023/03/06-11:54:10.413 3b9e Level-0 table #167: 1162392 bytes OK
-2023/03/06-11:54:10.653 3b9e Delete type=0 #160
-2023/03/06-11:54:10.817 3b9d Compacting 1@1 + 3@2 files
-2023/03/06-11:54:10.991 3b9d Generated table #168@1: 86878 keys, 2237159 bytes
-2023/03/06-11:54:11.092 3b9d Generated table #169@1: 42065 keys, 2267798 bytes
-2023/03/06-11:54:11.267 3b9d Generated table #170@1: 98064 keys, 2022317 bytes
-2023/03/06-11:54:11.267 3b9d Compacted 1@1 + 3@2 files => 6527274 bytes
-2023/03/06-11:54:11.324 3b9d compacted to: files[ 0 0 3 0 0 0 0 ]
-2023/03/06-11:54:11.324 3b9d Delete type=2 #167
-2023/03/06-11:54:11.324 3b9d Delete type=2 #165
-2023/03/06-11:54:11.324 3b9d Delete type=2 #164
-2023/03/06-11:54:11.324 3b9d Delete type=2 #163
+2023/03/08-20:49:38.526 c374 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/.wwebjs_auth/session-Barbearia/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/03/08-20:49:38.527 c374 Recovering log #248
+2023/03/08-20:49:38.671 c374 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/.wwebjs_auth/session-Barbearia/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000248.log 
+2023/03/08-20:49:51.310 c3a9 Level-0 table #256: started
+2023/03/08-20:49:51.405 c3a9 Level-0 table #256: 1221601 bytes OK
+2023/03/08-20:49:51.441 c3a9 Delete type=0 #248
+2023/03/08-20:50:01.945 c371 Compacting 1@1 + 4@2 files
+2023/03/08-20:50:02.145 c371 Generated table #257@1: 85290 keys, 2233565 bytes
+2023/03/08-20:50:02.280 c371 Generated table #258@1: 75331 keys, 2352633 bytes
+2023/03/08-20:50:02.388 c371 Generated table #259@1: 17471 keys, 2169406 bytes
+2023/03/08-20:50:02.562 c371 Generated table #260@1: 110910 keys, 1821375 bytes
+2023/03/08-20:50:02.563 c371 Compacted 1@1 + 4@2 files => 8576979 bytes
+2023/03/08-20:50:02.596 c371 compacted to: files[ 0 0 4 0 0 0 0 ]
+2023/03/08-20:50:02.596 c371 Delete type=2 #251
+2023/03/08-20:50:02.596 c371 Delete type=2 #250
+2023/03/08-20:50:02.596 c371 Delete type=2 #253
+2023/03/08-20:50:02.596 c371 Delete type=2 #252
+2023/03/08-20:50:02.596 c371 Delete type=2 #256
+2023/03/09-00:28:37.387 11a3b Level-0 table #262: started
+2023/03/09-00:28:37.478 11a3b Level-0 table #262: 1197301 bytes OK
+2023/03/09-00:28:37.511 11a3b Delete type=0 #255
+2023/03/09-00:28:37.629 11a3c Compacting 1@1 + 4@2 files
+2023/03/09-00:28:37.820 11a3c Generated table #263@1: 85511 keys, 2234718 bytes
+2023/03/09-00:28:37.947 11a3c Generated table #264@1: 78208 keys, 2360153 bytes
+2023/03/09-00:28:38.088 11a3c Generated table #265@1: 17526 keys, 2172419 bytes
+2023/03/09-00:28:38.221 11a3c Generated table #266@1: 112000 keys, 1946075 bytes
+2023/03/09-00:28:38.221 11a3c Compacted 1@1 + 4@2 files => 8713365 bytes
+2023/03/09-00:28:38.251 11a3c compacted to: files[ 0 0 4 0 0 0 0 ]
+2023/03/09-00:28:38.252 11a3c Delete type=2 #258
+2023/03/09-00:28:38.252 11a3c Delete type=2 #259
+2023/03/09-00:28:38.252 11a3c Delete type=2 #257
+2023/03/09-00:28:38.252 11a3c Delete type=2 #260
+2023/03/09-00:28:38.252 11a3c Delete type=2 #262

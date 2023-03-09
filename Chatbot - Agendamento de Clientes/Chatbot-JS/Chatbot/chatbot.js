@@ -51,7 +51,7 @@ class Chatbot {
         return new Promise(async (resolve, reject) => {
 
             console.log("\n\n================================================")
-            console.log("\t CHATBOT KYOGRE - Atendimentos! V1.3.{1} \nby:pvpeterparker")
+            console.log("\t CHATBOT KYOGRE - Atendimentos! V2.1.{3} \nby:pvpeterparker")
             console.log("================================================\n")
             console.log("\nIniciando o Chatbot...")
             console.log('Gerando QR code...');
@@ -113,7 +113,7 @@ class Chatbot {
             console.log("\nConversa = ", todaConversa)
 
             //Mostrando onde o seu código está
-            console.log("\n--> Fluxo Atual =  " + this.numero_estagio + "|")
+            console.log("\n>>> Fluxo Atual =  " + this.numero_estagio + "|")
             console.log("=====================================")
         });
 
@@ -142,14 +142,12 @@ class Chatbot {
 
     }
 
-    voltarEstagio(num_estagio) {
+    voltarEstagio(num_estagio_desejado) {
 
         return new Promise((resolve, reject) => {
-
             try {
-
-                this.numero_estagio = num_estagio;
-
+                this.numero_estagio = num_estagio_desejado;
+                console.log(`Voltando para o estagio: ${this.numero_estagio}`)
                 resolve()
 
             } catch (error) {
@@ -162,7 +160,7 @@ class Chatbot {
 
 
     //!========================================================================================================================================================================================================
-    //! Funções anonimas ASSÍNCRONAS
+    //! Funções anonimas ASSÍNCRONAS para Produtividade no meu codigo
     //!========================================================================================================================================================================================================
     async delay(t, v) {
         return new Promise(function (resolve) {
@@ -189,8 +187,19 @@ class Chatbot {
         return this.numero_pedido_dia
     }
 
+    getFirstItemString(_string){
+        let my_string = _string.substring(0,_string.indexOf('\n'));
+        my_string = this.capitalizeString(my_string);
+        return my_string;
+    }
+
+    capitalizeString(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+
     //!========================================================================================================================================================================================================
-    //! Funções para a conversa de fluxo
+    //! Funções para a conversa com o Usuário
     //!========================================================================================================================================================================================================
 
     enviarMensagem(message, text) {
@@ -251,7 +260,7 @@ class Chatbot {
         return this.enviarLista(message, "Escolha umas opções abaixo", "Agendar um Serviço", itens_lista_wpp)
     }
 
-    //! Funç~oes para mostrar a lista de serviços da planilha
+    //! Funçoes para mostrar a lista de serviços da planilha
     async carregarServicosPlanilha(path) {
 
         const workbook = new Excel.Workbook();

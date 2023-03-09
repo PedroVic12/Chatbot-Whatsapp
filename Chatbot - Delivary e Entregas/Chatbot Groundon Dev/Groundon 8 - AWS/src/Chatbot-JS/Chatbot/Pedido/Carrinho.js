@@ -45,7 +45,6 @@ class Carrinho {
             }
         })
 
-        //console.log('JUSTIN BIEBER AINDA VOU SER VOCE')
     }
 
     verCarrinho() {

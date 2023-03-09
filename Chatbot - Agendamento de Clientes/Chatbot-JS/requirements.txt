@@ -1,3 +1,9 @@
 pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
 
 pip install google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client
+
+npm install googleapis@105 @ google-cloud/local-auth@2.1.0 - -save
+
+npm install moment-timezone
+
+nom install fs

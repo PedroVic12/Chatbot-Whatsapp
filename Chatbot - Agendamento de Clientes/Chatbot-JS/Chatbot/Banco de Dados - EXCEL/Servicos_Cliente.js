@@ -1,15 +1,28 @@
 const Excel = require('exceljs');
 const Estabelicimento = require('./Estabelicimento');
-
+const Servico = require('./Servico')
 
 class ServicoCliente {
     constructor(nome_servico) {
         this.nome_servico = nome_servico;
+        this.preco_servico = null;
     }
 
     get getNomeServico() {
         return this.nome_servico;
     }
+
+    getPedidoServiceByName(nomeServico, array_obj_service) {
+        const servico = array_obj_service.find(servico => servico.nome === nomeServico);
+
+        if (servico) {
+            return { nome: servico.nome, preco: servico.preco };
+        } else {
+            return null;
+        }
+    }
+
+
 
 
     async getServicosPreco(_categoriaEscolhida) {
@@ -42,10 +55,10 @@ class ServicoCliente {
     }
 
 
-    async pegarDadosServico(_categoriaEscolhida) {
-        const caminhoPlanilha = '/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/Chatbot/Banco de Dados - EXCEL/Base de Dados Produtos/servicos-salao.xlsx';
+    async carregarPlanilhaServicos(_categoriaEscolhida) {
+        const caminhoPlanilhaServicos = '/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/Chatbot/Banco de Dados - EXCEL/Base de Dados Produtos/servicos-salao.xlsx';
         const salaoDeBeleza = new Estabelicimento();
-        await salaoDeBeleza.carregarServicos(caminhoPlanilha);
+        await salaoDeBeleza.carregarServicos(caminhoPlanilhaServicos);
         salaoDeBeleza.nome_servico = _categoriaEscolhida;
 
         const servicosEncontrados = [];
@@ -71,12 +84,17 @@ class ServicoCliente {
 
 
 async function main() {
-    const cabeloServices = new ServicoCliente();
+    const databaseServices = new ServicoCliente();
 
+    //Cliente escolhe o Serviço
     const escolha_cliente = 'Cabelo'
+    const categoriaEscolhidaObject = await databaseServices.carregarPlanilhaServicos(escolha_cliente); // Vai carregar toda planilha!
+    console.log(categoriaEscolhidaObject);
 
-    const teste_objeto = await cabeloServices.pegarDadosServico(escolha_cliente);
-    console.log(teste_objeto);
+    //Cliente escolhe o Trabalho e a gente pega o preço correspondente
+    const servicoEscolhaCliente = 'Corte de Cabelo'
+    const pedido = databaseServices.getPedidoServiceByName(servicoEscolhaCliente, categoriaEscolhidaObject)
+    console.log(`\nPedido do Cliente --> ${pedido.nome} | ${pedido.preco} Reais`)
 }
 
 //main();
