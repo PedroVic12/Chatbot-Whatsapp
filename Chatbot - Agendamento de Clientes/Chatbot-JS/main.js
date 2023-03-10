@@ -232,9 +232,7 @@ async function mainFunction() {
                 chatbot.mostrarBotaoConfirmaPedido(message, 'Você deseja fazer outro agendamento?')
             )
 
-            // chatbot.avancarEstagio().then(() => {
-            //     chatbot.mostrarBotaoConfirmaPedido(message, 'Você deseja fazer outro agendamento?');
-            // });
+
 
             //TODO ARRUMAR UM JEITO DE PEGAR O DIA DA SEMANA
             // googleAgenda.authorize().then(async () => {
@@ -252,7 +250,7 @@ async function mainFunction() {
         //!=====================   Estagio 6 -Cliente Escolhe se deseja continuar ou não ===================
         else if (chatbot.numero_estagio === 6) {
 
-            // TODO Rever se esse codigo pode ser reaproveitado
+            // TODO Rever se esse código pode ser reaproveitado
             // if (message.body === 'Fazer Outro Agendamento\nEscolha mais opções') {
             //     chatbot.voltarEstagio(4).then(
             //         chatbot.mostrarProdutosBotao(message)
@@ -267,11 +265,11 @@ async function mainFunction() {
             //     chatbot.numero_estagio === 1;
             // }
 
-            if (message.body === 'Sim'){
+            if (message.body === 'Sim') {
                 chatbot.voltarEstagio(4).then(
                     chatbot.mostrarListasServicos(message)
                 )
-            } else if (message.body === 'Não'){
+            } else if (message.body === 'Não') {
                 //TODO MOSTRAR OS HORARIOS DISPONIVEIS COM O GOOGLE AGENDA
 
                 chatbot.enviarMensagem(message, 'Cliente escolha o horário disponivel do serviço:')
@@ -290,7 +288,7 @@ async function mainFunction() {
 
             //Pega o horario do cliente
             const horario_agendamento = chatbot.getLastMessage(message)
-            chatbot.enviarMensagem(message,`Horario do cliente --> ${horario_agendamento}`)
+            chatbot.enviarMensagem(message, `Horario do cliente --> ${horario_agendamento}`)
             //cliente.setHorario
 
 
@@ -323,7 +321,7 @@ async function mainFunction() {
             chatbot.enviarMensagem(message, 'Seu pedido foi cadastrado com sucesso e agendando no Google Agenda!')
 
             //TODO Confirmar o agendamento do cliente
-            chatbot.mostrarBotaoConfirmaPedido(message, `Voce confirma ?\n *Nome Cliente: ${Cliente.getNome()}* \n *Endereço de entrega: ${Cliente.getEndereco()}* `)
+            chatbot.mostrarBotaoConfirmaPedido(message, `Voce confirma ?\n *Nome Cliente: ${Cliente.getNome()}* \n *Endereço de entrega: ${Cliente.categoria_escolhida}* `)
 
             chatbot.avancarEstagio().then(
                 chatbot.enviarMensagem(message, 'Avançando...')

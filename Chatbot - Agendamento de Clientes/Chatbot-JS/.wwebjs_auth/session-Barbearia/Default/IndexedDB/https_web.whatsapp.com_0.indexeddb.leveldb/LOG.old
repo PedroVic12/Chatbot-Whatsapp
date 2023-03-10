@@ -1,17 +1,20 @@
-2023/03/09-11:04:09.927 3699 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/.wwebjs_auth/session-Barbearia/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/03/09-11:04:09.927 3699 Recovering log #290
-2023/03/09-11:04:09.929 3699 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/.wwebjs_auth/session-Barbearia/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000290.log 
-2023/03/09-11:04:10.869 3697 Compacting 1@1 + 5@2 files
-2023/03/09-11:04:11.011 3697 Generated table #293@1: 84138 keys, 2232058 bytes
-2023/03/09-11:04:11.221 3697 Generated table #294@1: 89458 keys, 2338864 bytes
-2023/03/09-11:04:11.365 3697 Generated table #295@1: 22336 keys, 2236327 bytes
-2023/03/09-11:04:11.490 3697 Generated table #296@1: 99592 keys, 2248848 bytes
-2023/03/09-11:04:11.548 3697 Generated table #297@1: 15893 keys, 256123 bytes
-2023/03/09-11:04:11.548 3697 Compacted 1@1 + 5@2 files => 9312220 bytes
-2023/03/09-11:04:11.615 3697 compacted to: files[ 0 0 5 0 0 0 0 ]
-2023/03/09-11:04:11.615 3697 Delete type=2 #284
-2023/03/09-11:04:11.615 3697 Delete type=2 #291
-2023/03/09-11:04:11.615 3697 Delete type=2 #285
-2023/03/09-11:04:11.615 3697 Delete type=2 #288
-2023/03/09-11:04:11.615 3697 Delete type=2 #287
-2023/03/09-11:04:11.615 3697 Delete type=2 #286
+2023/03/09-15:55:06.019 8a92 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/.wwebjs_auth/session-Barbearia/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/03/09-15:55:06.020 8a92 Recovering log #290
+2023/03/09-15:55:06.158 8a92 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/.wwebjs_auth/session-Barbearia/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000290.log 
+2023/03/09-16:25:38.247 e0bb Level-0 table #300: started
+2023/03/09-16:25:38.295 e0bb Level-0 table #300: 1234260 bytes OK
+2023/03/09-16:25:38.301 e0bb Delete type=0 #290
+2023/03/09-16:25:48.984 d7bd Compacting 1@1 + 5@2 files
+2023/03/09-16:25:49.145 d7bd Generated table #301@1: 84782 keys, 2234670 bytes
+2023/03/09-16:25:49.279 d7bd Generated table #302@1: 92319 keys, 2316367 bytes
+2023/03/09-16:25:49.365 d7bd Generated table #303@1: 22710 keys, 2265285 bytes
+2023/03/09-16:25:49.502 d7bd Generated table #304@1: 93405 keys, 2241279 bytes
+2023/03/09-16:25:49.542 d7bd Generated table #305@1: 23115 keys, 374522 bytes
+2023/03/09-16:25:49.542 d7bd Compacted 1@1 + 5@2 files => 9432123 bytes
+2023/03/09-16:25:49.553 d7bd compacted to: files[ 0 0 5 0 0 0 0 ]
+2023/03/09-16:25:49.555 d7bd Delete type=2 #297
+2023/03/09-16:25:49.555 d7bd Delete type=2 #295
+2023/03/09-16:25:49.558 d7bd Delete type=2 #294
+2023/03/09-16:25:49.560 d7bd Delete type=2 #293
+2023/03/09-16:25:49.560 d7bd Delete type=2 #300
+2023/03/09-16:25:49.560 d7bd Delete type=2 #296

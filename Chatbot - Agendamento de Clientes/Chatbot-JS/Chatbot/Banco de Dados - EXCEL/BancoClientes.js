@@ -86,22 +86,24 @@ class BancoDeDadosClientes {
 
 
     //! MÉTODOS DE CRUD
-    addAgendamento(agendamento) {
+    async addAgendamento(agendamento) {
 
         const CAMINHO_PLANILHA_ATUAL = '/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Agendamento de Clientes/Chatbot-JS/Chatbot/Banco de Dados - EXCEL/Base de Dados Clientes/base-clientes.xlsx'
 
         // Adiciona o agendamento no array de agendamentos
         this.agendamentos_salvos.push(agendamento);
 
+        console.log('=====================================')
+        console.log(agendamento)
+        console.log('=====================================')
 
         // Obtém a última linha preenchida na planilha
-        // Adiciona uma nova linha na planilha e preenche com as informações do agendamento
         const lastRow = this.worksheet.lastRow;
 
         // Adiciona uma nova linha na planilha e preenche com as informações do agendamento
         const newRowNumber = lastRow ? lastRow.number + 1 : 1;
 
-        // Colocando uma nova linha na planilha coms as informações
+        // Colocando uma nova linha na planilha com as informações
         const newRow = this.worksheet.addRow([
             agendamento.data_atendimento,
             agendamento.nome,
@@ -119,7 +121,9 @@ class BancoDeDadosClientes {
         //this.limparPlanilha();
 
         // Salva a planilha
-        this.saveWorkbook(CAMINHO_PLANILHA_ATUAL);
+        await this.saveWorkbook(CAMINHO_PLANILHA_ATUAL);
+
+        console.log('\n\n>>>Agendamento do cliente atualizado com sucesso!')
 
     }
 
@@ -168,16 +172,8 @@ async function main() {
 
 
     //Adicionando um agendamento
-    // agendamentoManager.addAgendamento({
-    //     data_atendimento: '20/03/2021',
-    //     nome: 'Anakin Skywalker',
-    //     telefone: '11999999999',
-    //     servico: 'Fazer Moicano',
-    //     categoria_servico: 'Cabelo',
-    //     preco: '200',
-    //     data_agendada: '2021-06-01',
-    //     hora_agendada: '15:00'
-    // })
+    agendamento_cliente = new Agendamento('09/03/2023', 'Pedro Victor', 521999289987, 'Fazer Moicano e Pintar de loiro', 'Cabelo', 200, '2023-12-03', '16:00')
+    agendamentoManager.addAgendamento(agendamento_cliente)
 
     //Lendo os agendamentos
     const agendamentos = await agendamentoManager.readAgendamentos();
@@ -188,8 +184,8 @@ async function main() {
     // console.log(agendamentoManager.agendamentos);
 
     // //Atualizando um agendamento de acordo com o cliente deseja
-    // agendamentoManager.updateAgendamento(0, new Agendamento('Pedro', '11999999999', 'Corte', '50', '2021-06-01', '10:00'));
-    // console.log(agendamentoManager.agendamentos);
+    //agendamentoManager.updateAgendamento(0, new Agendamento('Pedro', '11999999999', 'Corte', '50', '2021-06-01', '10:00'));
+    //console.log(agendamentoManager.agendamentos);
 
     // //Salvando a planilha
     // await agendamentoManager.saveWorkbook(filePath);
