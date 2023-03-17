@@ -1,0 +1,1 @@
+print('Sevidor Kyogre running...')
