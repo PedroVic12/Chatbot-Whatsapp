@@ -7,18 +7,6 @@ void main() {
   runApp(const MyApp());
 }
 
-/* TODO
-* - Verificar com o Backend com Python e MongoDB
-* - Arrumar a navegação do app com Getx
-* - Arrumar imagens e textos do aplicativo
-* - Estudar paleta de cores correta
-* - Implementar Funcionalidades no Botão
-* - Gerar comprovante de Agendamento de Consulta
-* - Fazer animações
-* - SplashScreen
-* - Integração com Calendario
-* */
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
