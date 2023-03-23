@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kyogre/views/pages/CartPage.dart';
 import 'package:kyogre/views/pages/HomePage.dart';
+import 'package:kyogre/views/pages/ItemDetailPage.dart';
+import 'package:kyogre/views/pages/UI/AgendamentoPage.dart';
+import 'package:kyogre/views/pages/UI/TelaConfirmacao.dart';
+
+import 'views/pages/UI/ServicesPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,12 +31,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      //! Mudar aqui para uma navegação com o Get
-      home: const MyHomePage(),
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.red,
+        ),
+        //! Mudar aqui para uma navegação com o Get
+        home: ItemDetailPage());
   }
 }
