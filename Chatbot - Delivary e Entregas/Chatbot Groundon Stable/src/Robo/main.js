@@ -50,6 +50,10 @@ const estagio5 = new Estagio5(chatbot, carrinho)
 const estagio7 = new Estagio7(chatbot)
 
 
+
+
+
+
 //! Talvez seja necessário um código para autenticar
 chatbot.conectandoWpp()
     .then(() => {
