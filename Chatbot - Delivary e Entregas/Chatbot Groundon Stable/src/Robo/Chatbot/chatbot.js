@@ -18,7 +18,7 @@ class Chatbot {
         this.whatsapp = new Client({
 
             // Se o codigo travar e não gerar o QRCODE, mude o nome do ClientID
-            authStrategy: new LocalAuth({ clientId: "Night-Wolf-Padawan" })
+            authStrategy: new LocalAuth({ clientId: "Citta1" })
         });
 
 
@@ -41,14 +41,14 @@ class Chatbot {
     //! Métodos
     async conectandoWpp() {
 
-        // const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
-        // console.log(browser.version)
+        const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+        console.log(browser.version)
 
 
         return new Promise(async (resolve, reject) => {
 
             console.log("\n\n====================================")
-            console.log("\t CHATBOT GROUNDON V6.1.{1} \nby:pvpeterparker")
+            console.log("\t CHATBOT GROUNDON V7.1.{1} \nby:pvpeterparker")
             console.log("====================================\n")
             console.log("\nIniciando o Chatbot...")
             console.log('Gerando QR code...');
