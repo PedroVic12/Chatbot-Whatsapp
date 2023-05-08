@@ -6,8 +6,8 @@ class Estagio3 {
     }
 
 
-    mostrarCardapioPDF(message){
-        this.chatbot.enviarMensagem(message, "https://www.zdgdelivery.com.br/wp-content/uploads/2019/05/Menu-ZDG-1.pdf")
+    mostrarCardapioPDF(message) {
+        this.chatbot.enviarMensagem(message, "Chatbot/Cardapio - LOJA/cardapio.png")
     }
 
 

@@ -23,7 +23,7 @@ class Lanchonete {
     }
 
 
-
+}
 let citta = new Lanchonete();
 teste = citta.verBebidas()
 console.log(teste)
