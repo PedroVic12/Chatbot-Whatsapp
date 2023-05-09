@@ -90,7 +90,7 @@ chatbot.whatsapp.on('message', message => {
         const nome_cliente = estagio2.getNomeCliente(message)
         cliente.setNome(nome_cliente)
 
-        // Pegando o numeo de telefone
+        // Pegando o numero de telefone
         const numero_telefone = estagio2.getTelefoneCliente(message)
         cliente.setPhoneNumber(numero_telefone)
 
@@ -188,7 +188,7 @@ chatbot.whatsapp.on('message', message => {
 
         if (message.body === 'Finalizar Pedido\nSe preparar para a entrega!' && message.type !== 'location') {
             chatbot.avancarEstagio().then(
-                chatbot.enviarMensagem(message, "🤖 Por favor, envie sua localização através do Whatsapp para realizar a entrega")
+                chatbot.enviarMensagem(message, "🤖 Por favor, digite seu endereço de entrega.")
             )
         }
 
