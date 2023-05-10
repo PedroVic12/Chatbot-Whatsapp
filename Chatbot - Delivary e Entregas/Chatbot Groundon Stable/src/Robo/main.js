@@ -239,8 +239,13 @@ chatbot.whatsapp.on('message', message => {
 
 
         // Todo Enviar Nota Fiscal
-        chatbot.enviarMensagem(message, `${cliente.gerarNotaFiscal()}`)
-        chatbot.gerarNotaFiscalTxt(cliente.gerarNotaFiscal())
+        try {
+            chatbot.enviarMensagem(message, `${cliente.gerarNotaFiscal()}`)
+            chatbot.gerarNotaFiscalTxt(cliente.gerarNotaFiscal())
+        } catch (error) {
+            console.log('Nao foi possivel gerar nota fiscal')
+        }
+       
 
 
         chatbot.avancarEstagio().then(
