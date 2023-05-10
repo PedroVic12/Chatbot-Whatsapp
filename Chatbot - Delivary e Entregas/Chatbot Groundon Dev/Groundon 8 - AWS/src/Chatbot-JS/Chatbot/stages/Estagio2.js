@@ -18,7 +18,7 @@ class Estagio2 {
             this.chatbot.enviarBotao(message, `Vamos lá, ${nome_cliente}! Escolha uma opção abaixo do que voce deseja`,
                 [
                     { body: "Ver Cardápio" },
-                    { body: "Fazer Pedido" },
+                    { body: "FAZER PEDIDO" },
                     { body: "Ver nossa Localização" }
                 ], '🤖 Chatbot Groundon', `Horário de Atendimento = ${this.chatbot.getHoras()} `
             );
@@ -58,7 +58,14 @@ class Estagio2 {
 
     adicionandoClienteNaBasedeDados(message) {
         let data = this.chatbot.getDataAtual()
-        this.chatbot.gerarArquivoTxt(` Números de Pedido == ${this.chatbot.numero_pedido_dia} em |${data}|  `)
+
+        try {
+            this.chatbot.gerarArquivoTxt(` Números de Pedido == ${this.chatbot.numero_pedido_dia} em |${data}|  `)
+
+        } catch (error) {
+            console.log('Nao foi possivel gerar o arquivo TXT.')
+        }
+
         this.chatbot.enviarMensagem(message, ` Números de Pedido == ${this.chatbot.numero_pedido_dia} em | ${data} | `)
 
         // TODO Verificar na Base de dados com try e catch com uma função

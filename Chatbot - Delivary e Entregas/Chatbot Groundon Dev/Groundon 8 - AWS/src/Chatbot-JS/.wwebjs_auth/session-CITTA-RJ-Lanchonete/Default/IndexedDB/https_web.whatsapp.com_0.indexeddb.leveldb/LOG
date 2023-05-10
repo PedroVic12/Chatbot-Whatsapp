@@ -1,0 +1,16 @@
+2023/05/09-22:32:32.393 2ded0 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/Groundon 8 - AWS/src/Chatbot-JS/.wwebjs_auth/session-CITTA-RJ-Lanchonete/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/05/09-22:32:32.393 2ded0 Recovering log #37
+2023/05/09-22:32:32.558 2ded0 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/Groundon 8 - AWS/src/Chatbot-JS/.wwebjs_auth/session-CITTA-RJ-Lanchonete/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000037.log 
+2023/05/09-22:36:19.825 2ded3 Level-0 table #44: started
+2023/05/09-22:36:19.877 2ded3 Level-0 table #44: 1166318 bytes OK
+2023/05/09-22:36:19.880 2ded3 Delete type=0 #37
+2023/05/09-22:37:26.831 2e271 Compacting 1@1 + 3@2 files
+2023/05/09-22:37:26.960 2e271 Generated table #45@1: 27613 keys, 2200231 bytes
+2023/05/09-22:37:27.067 2e271 Generated table #46@1: 74639 keys, 2220887 bytes
+2023/05/09-22:37:27.147 2e271 Generated table #47@1: 39472 keys, 763920 bytes
+2023/05/09-22:37:27.147 2e271 Compacted 1@1 + 3@2 files => 5185038 bytes
+2023/05/09-22:37:27.148 2e271 compacted to: files[ 0 0 3 0 0 0 0 ]
+2023/05/09-22:37:27.149 2e271 Delete type=2 #41
+2023/05/09-22:37:27.149 2e271 Delete type=2 #39
+2023/05/09-22:37:27.149 2e271 Delete type=2 #44
+2023/05/09-22:37:27.149 2e271 Delete type=2 #40

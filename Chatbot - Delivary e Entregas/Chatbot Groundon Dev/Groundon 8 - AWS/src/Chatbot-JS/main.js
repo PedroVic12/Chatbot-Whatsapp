@@ -78,9 +78,11 @@ chatbot.contarNumeroPedidos()
 chatbot.recebeMensagem()
 
 
-
 //Evento Listener para o Robo receber as mensagens
 chatbot.whatsapp.on('message', message => {
+
+    const GROUNDON_INICIADO = true
+
 
     chatbot.armazenarConversa(message);
     const flag_impressora = false;
@@ -103,12 +105,19 @@ chatbot.whatsapp.on('message', message => {
         const numero_telefone = estagio2.getTelefoneCliente(message)
         cliente.setPhoneNumber(numero_telefone)
 
-        //Checa o cliente na base de dados e responde
-        estagio2.adicionandoClienteNaBasedeDados(message)
-        chatbot.gerarTxtUmItem(nome_cliente)
 
 
         //TODO checar cliente na base de dados
+
+
+        //Checa o cliente na base de dados e responde
+        //try {
+        //    estagio2.adicionandoClienteNaBasedeDados(message)
+        //    chatbot.gerarTxtUmItem(nome_cliente)
+        //} catch (error) {
+        //    console.log('Nao foi possivel cadastrar o cliente na base de dados')
+        //}
+
 
         //let base_de_dados = estagio2.adicionandoClienteNaBasedeDados(message)
 
@@ -117,8 +126,10 @@ chatbot.whatsapp.on('message', message => {
         //
         // }
 
+        chatbot.delay(3000).then(
+            chatbot.enviarMensagem(message, `✅ Prazer em te conhecer, ${nome_cliente}!`)
+        );
 
-        chatbot.enviarMensagem(message, `✅ Prazer em te conhecer, ${nome_cliente}!`);
         chatbot.avancarEstagio().then(
             estagio2.mostrarMenuPrincipal(message)
         )
@@ -134,7 +145,7 @@ chatbot.whatsapp.on('message', message => {
                 estagio3.mostrarMenuPrincipal(message)
             )
         }
-        if (message.body === 'Fazer Pedido' && message.type !== 'location') {
+        if (message.body === 'FAZER PEDIDO') {
             chatbot.avancarEstagio().then(
                 chatbot.enviarMensagem(message, 'processando...')
             ).then(
