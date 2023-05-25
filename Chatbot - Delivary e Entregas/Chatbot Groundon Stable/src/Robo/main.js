@@ -95,8 +95,8 @@ chatbot.whatsapp.on('message', message => {
         cliente.setPhoneNumber(numero_telefone)
 
         //Checa o cliente na base de dados e responde
-        estagio2.adicionandoClienteNaBasedeDados(message)
-        chatbot.gerarTxtUmItem(nome_cliente)
+        //estagio2.adicionandoClienteNaBasedeDados(message)
+        //chatbot.gerarTxtUmItem(nome_cliente)
 
 
         //TODO checar cliente na base de dados
@@ -110,6 +110,13 @@ chatbot.whatsapp.on('message', message => {
 
 
         chatbot.enviarMensagem(message, `✅ Prazer em te conhecer, ${nome_cliente}!`);
+
+
+        //Mostra o menu principal
+
+
+        
+
         chatbot.avancarEstagio().then(
             estagio2.mostrarMenuPrincipal(message)
         )

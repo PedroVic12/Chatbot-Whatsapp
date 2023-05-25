@@ -11,22 +11,40 @@ class Estagio2 {
     }
 
 
+
+    testeListaSubBotao(message, array) {
+
+        //Pega as bebidas do cardapio
+        const bebidas_array = []
+
+        // Percorre todas as bebidas e adiciona a lista
+        array.forEach(bebida => {
+            bebidas_array.push({ title: bebida.nome, description: `R$ ${bebida.preco}` });
+        });
+
+        // Guarda o array para colocar dentro da lista do wpp para enviar para o usuario
+        let itens_lista_wpp = [{
+            title: "==> ESCOLHA AS BEBIDAS MAIS CARAS", rows: bebidas_array
+        }]
+
+        //Envia a Lista formatada
+        return this.chatbot.enviarLista(message, `Escolha os itens do seu pedido`, "Escolher Bebidas", itens_lista_wpp)
+
+    }
+
+
     mostrarMenuPrincipal = (message) => {
 
-        try {
-            const nome_cliente = this.getNomeCliente(message)
-            this.chatbot.enviarBotao(message, `Vamos lá, ${nome_cliente}! Escolha uma opção abaixo do que voce deseja`,
-                [
-                    { body: "Ver Cardápio" },
-                    { body: "FAZER PEDIDO" },
-                    { body: "Ver nossa Localização" }
-                ], '🤖 Chatbot Groundon', `Horário de Atendimento = ${this.chatbot.getHoras()} `
-            );
-        }
 
-        catch (err) {
-            console.log(err);
-        }
+        const nome_cliente = this.getNomeCliente(message)
+        this.chatbot.enviarBotao(message, `Vamos lá, ${nome_cliente}! Escolha uma opção abaixo do que voce deseja`,
+            [
+                { body: "Ver Cardápio" },
+                { body: "FAZER PEDIDO" },
+                { body: "Ver nossa Localização" }
+            ], '🤖 Chatbot Groundon', `Horário de Atendimento = ${this.chatbot.getHoras()} `
+        );
+
 
     }
 

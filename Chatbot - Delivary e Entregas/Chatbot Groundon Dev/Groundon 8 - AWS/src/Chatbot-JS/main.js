@@ -130,8 +130,17 @@ chatbot.whatsapp.on('message', message => {
             chatbot.enviarMensagem(message, `✅ Prazer em te conhecer, ${nome_cliente}!`)
         );
 
-        chatbot.avancarEstagio().then(
+
+        // Mostra o menu principal
+        chatbot.delay(300).then(
             estagio2.mostrarMenuPrincipal(message)
+        )
+
+
+
+
+        chatbot.avancarEstagio().then(
+            chatbot.enviarMensagem(message, 'O que deseja fazer?')
         )
     }
 

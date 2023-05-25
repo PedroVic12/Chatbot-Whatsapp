@@ -48,7 +48,7 @@ class Chatbot {
         return new Promise(async (resolve, reject) => {
 
             console.log("\n\n====================================")
-            console.log("\t CHATBOT GROUNDON V6.1.{1} \nby:pvpeterparker")
+            console.log("\t CHATBOT GROUNDON V7.2.{1} \nby:pvpeterparker")
             console.log("====================================\n")
             console.log("\nIniciando o Chatbot...")
             console.log('Gerando QR code...');
