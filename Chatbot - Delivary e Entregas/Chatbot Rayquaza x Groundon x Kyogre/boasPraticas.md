@@ -1,3 +1,37 @@
+# Boas Práticas
+
+Algumas boas práticas ao trabalhar com classes, estruturas e o padrão MVC em JavaScript são:
+
+Separe claramente as responsabilidades: A classe Model deve lidar com a lógica de negócio e armazenar o estado dos dados. A classe View deve cuidar da exibição dos dados e interações com o usuário. A classe Controller deve atuar como intermediário entre o Model e a View, controlando o fluxo de dados e as ações do usuário.
+
+Mantenha a coesão: Cada classe deve ter uma única responsabilidade e manter suas funções coesas. Evite sobrecarregar as classes com funcionalidades não relacionadas à sua finalidade principal.
+
+Promova o encapsulamento: Proteja as propriedades e métodos internos das classes, expondo apenas o necessário para interagir com outras partes do aplicativo. Use modificadores de acesso (como private, protected e public) para controlar a visibilidade dos membros da classe.
+
+Use funções para evitar repetição de código: ao invés de escrever o mesmo código várias vezes, crie uma função que realize essa tarefa e chame-a sempre que necessário.
+
+Use variáveis em vez de escrever o mesmo valor várias vezes: ao invés de escrever o mesmo valor várias vezes, crie uma variável e atribua-lhe esse valor. Depois, basta chamar a variável sempre que precisar desse valor.
+
+Use a sintaxe de funções arrow: a sintaxe de funções arrow é mais curta que a sintaxe de funções convencional, o que pode ajudar a reduzir o tamanho do seu código.
+
+Ao invés de importar todos os estágios separadamente, crie um arquivo que exporte todos eles de uma só vez. Dessa forma, você poderá importar apenas um objeto contendo todos os estágios, o que deixará o código mais limpo e fácil de entender.
+
+Considere usar classes ao invés de funções para os estágios. Dessa forma, você poderá encapsular o comportamento e o estado de cada estágio em um objeto, o que deixará o código mais organizado e mais fácil de testar.
+
+Considere separar o código de cada estágio em um arquivo separado. Dessa forma, cada estágio ficará em um arquivo próprio e você poderá importá-los facilmente conforme necessário.
+
+Considere usar o padrão de projeto "Chain of Responsibility" para lidar com as mensagens do usuário. Esse padrão permite que você encadeie objetos que possam lidar com a mensagem do usuário de forma mais flexível e escalável.
+
+Considere usar ferramentas de linting, como o ESLint, para manter o código mais consistente e livre de erros comuns.
+
+Implemente o princípio da responsabilidade única: Cada classe deve ter uma única responsabilidade bem definida. Isso ajuda a evitar classes excessivamente complexas e facilita a manutenção do código.
+
+Utilize estruturas de dados eficientes: Em C++, você pode aproveitar as estruturas de dados de baixo nível para otimizar o desempenho. No caso de um bot de entrega, escolha as estruturas de dados adequadas para manipular listas de destinos, locais, pedidos e outras informações relevantes.
+
+Siga os princípios do SOLID: Esses princípios (Single Responsibility, Open-Closed, Liskov Substitution, Interface Segregation, Dependency Inversion) fornecem diretrizes valiosas para escrever código modular e extensível.
+
+## Padrão de projeto
+
 Separação de responsabilidades (SoC - Separation of Concerns): Mantenha cada parte do seu código responsável por uma única tarefa. Divida seu código em módulos ou pacotes com responsabilidades claramente definidas, como componentes de interface do usuário, camada de acesso a dados, lógica de negócios, etc. Isso tornará seu código mais organizado e fácil de manter.
 
 Padrão de projeto MVC (Model-View-Controller): Considere adotar o padrão MVC para separar as responsabilidades entre o modelo de dados, a interface do usuário e a lógica de controle. Isso ajuda a manter uma estrutura clara e modular para o seu aplicativo.
@@ -14,6 +48,9 @@ Documentação adequada: Comente seu código e forneça documentação adequada 
 
 Padronização de código: Adote um estilo de codificação consistente em todo o seu projeto. Isso pode incluir a formatação do código, a convenção de nomenclatura e o uso consistente de padrões de codificação recomendados pela comunidade.
 
+## Boas Práticas Orientação a objetos
+
+Modularidade e organização do código: Mesmo em JavaScript, você pode aplicar os princípios de modularidade e organização de código comuns em linguagens de baixo nível. Separe funcionalidades em módulos, utilize classes e estruturas para encapsular dados e comportamentos relacionados e siga uma estrutura de diretórios lógica para organizar seu projeto.
 
 Abstração de dados: Crie classes ou funções que encapsulem a lógica e os dados do seu chatbot. Isso ajudará a manter seu código organizado e modular. Por exemplo, você pode ter uma classe Chatbot que lida com as interações do usuário e mantém o estado do chatbot.
 
