@@ -1,4 +1,4 @@
-const Rayquaza = require("../models/core/Rayquaza");
+const Rayquaza = require("../models/core/Groundon");
 
 
 //Apresentação, Consulta No Banco de dados, iniciar Atendimento

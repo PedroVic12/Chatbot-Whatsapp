@@ -1,6 +1,5 @@
-//import Rayquaza from './src/Chatbot JS/models/domain/Rayquaza';
 
-const Rayquaza = require('./src/Chatbot JS/models/core/Rayquaza')
+const Groundon = require('./src/Chatbot JS/models/core/Groundon')
 /**
 const BancoDeDados = require("./Chatbot/Banco de Dados - EXCEL/Banco");
 
@@ -34,17 +33,17 @@ const ClienteOld = require('./src/Chatbot JS/models/Cliente')
 const Estagio2 = require('./src/Chatbot JS/views/Estagio2')
 
 //!Inicializando o BOT
-const rayquaza_bot = new Rayquaza();
+const bot_groundon = new Groundon();
 
 const teste = new TesteEstagio()
-const estagio1 = new Estagio1(rayquaza_bot)
-const estagio2 = new Estagio2(rayquaza_bot)
+const estagio1 = new Estagio1(bot_groundon)
+const estagio2 = new Estagio2(bot_groundon)
 
-const carrinho_loja = new Carrinho(rayquaza_bot)
-const cliente = new ClienteOld(rayquaza_bot, carrinho_loja)
+const carrinho_loja = new Carrinho(bot_groundon)
+const cliente = new ClienteOld(bot_groundon, carrinho_loja)
 
 //! Talvez seja necessário um código para autenticar
-rayquaza_bot.conectandoWpp()
+bot_groundon.conectandoWpp()
     .then(() => {
         console.log('✅ Conectado com sucesso!\n\n')
 
@@ -53,30 +52,30 @@ rayquaza_bot.conectandoWpp()
         console.log("Ops! Deu Problema ao conectar! :(")
         console.log(error)
     })
-rayquaza_bot.contarNumeroPedidos()
-rayquaza_bot.recebeMensagem()
+bot_groundon.contarNumeroPedidos()
+bot_groundon.recebeMensagem()
 
 
-//Evento Listener para o Robo receber as mensagens
-rayquaza_bot.whatsapp.on('message', message => {
+//!Evento Listener para o Robo receber as mensagens
+bot_groundon.whatsapp.on('message', message => {
 
     const GROUNDON_INICIADO = true
-    rayquaza_bot.armazenarConversa(message);
+    bot_groundon.armazenarConversa(message);
 
     //! ===================== Estágio 1 - Apresentação =====================
-    if (rayquaza_bot.numero_estagio === 1) {
-        rayquaza_bot.enviarMensagem(message, 'Ola mundo!')
+    if (bot_groundon.numero_estagio === 1) {
+        bot_groundon.enviarMensagem(message, 'Ola mundo!')
 
         //teste.boasVindas(message)
         estagio1.boasVindas(message)
 
-        rayquaza_bot.avancarEstagio()
+        bot_groundon.avancarEstagio()
 
     }
 
 
     //!=====================  Estágio 2 - Mostrar Menu Principal =====================
-    else if (rayquaza_bot.numero_estagio === 2) {
+    else if (bot_groundon.numero_estagio === 2) {
         //Pegando os dados do cliente
         const nome_cliente = estagio2.getNomeCliente(message)
         cliente.setNome(nome_cliente)
@@ -86,23 +85,41 @@ rayquaza_bot.whatsapp.on('message', message => {
         cliente.setPhoneNumber(numero_telefone)
 
 
-        rayquaza_bot.delay(3000).then(
-            rayquaza_bot.enviarMensagem(message, `✅ Prazer em te conhecer, ${nome_cliente}!`)
+        bot_groundon.delay(3000).then(
+            bot_groundon.enviarMensagem(message, `✅ Prazer em te conhecer, ${nome_cliente}!`)
         );
 
 
         // Mostra o menu principal
-        rayquaza_bot.delay(300).then(
+        bot_groundon.delay(300).then(
             estagio2.mostrarMenuPrincipal(message)
         )
 
 
-        rayquaza_bot.avancarEstagio().then(
-            rayquaza_bot.enviarMensagem(message, 'O que deseja fazer?')
+        bot_groundon.avancarEstagio().then(
+            bot_groundon.enviarMensagem(message, 'O que deseja fazer?')
         )
     }
 
+    if (bot_groundon.numero_estagio === 3) {
 
+
+        //!Tentativa de conexão com o servidor python
+
+        chatbot.enviarMensagem(message, `Nota Fiscal do seu pedido: \n ${cliente.gerarNotaFiscal()}`)
+
+        // Verifique se a mensagem contém o comando para fazer um pedido
+        if (message.body === 'fazerPedido') {
+            // Gere o JSON do pedido
+            const pedido = bot_groundon.gerarJson(message);
+
+            // Envie o pedido para o servidor FastAPI
+            bot_groundon.enviarPedido(pedido);
+        }
+
+        bot_groundon.avancarEstagio()
+
+    }
 
 
 })

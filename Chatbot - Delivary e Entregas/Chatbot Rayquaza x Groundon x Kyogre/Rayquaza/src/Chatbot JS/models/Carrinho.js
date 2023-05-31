@@ -1,4 +1,4 @@
-const Chatbot = require("./core/Rayquaza");
+const Chatbot = require("./core/Groundon");
 
 class CarrinhoNew {
     constructor(nome_produto, preco_produto, tipo_produto) {

@@ -16,7 +16,7 @@ class Cliente {
 
 }
 
-const Chatbot = require("./core/Rayquaza");
+const Chatbot = require("./core/Groundon");
 const Carrinho = require("./Carrinho")
 
 
