@@ -1,3 +1,4 @@
+import 'package:delivery_kyogre_getx/views/HomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'controllers/PedidoController.dart';
@@ -15,7 +16,7 @@ class MeuApp extends StatelessWidget {
       title: 'Meu App',
       initialRoute: '/',
       getPages: [
-        GetPage(name: '/', page: () => PedidoPage()),
+        GetPage(name: '/', page: () => HomePage(nomeCliente: 'Pedro Victor',endereco: 'Niteroi',horarioPedido: '13:40')),
         // Defina mais rotas aqui, se necessário
       ],
     );

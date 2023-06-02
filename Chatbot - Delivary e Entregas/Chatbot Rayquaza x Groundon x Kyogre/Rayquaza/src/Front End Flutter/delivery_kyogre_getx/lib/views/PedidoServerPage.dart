@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/io.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class PedidoPage extends StatelessWidget {
   final WebSocketChannel channel =
@@ -31,6 +32,6 @@ class PedidoPage extends StatelessWidget {
   @override
   void dispose() {
     channel.sink.close();
-    super.dispose();
+    //super.dispose();
   }
 }

@@ -20,7 +20,7 @@ class PedidoPage extends StatelessWidget {
           itemBuilder: (context, index) {
             // Implemente aqui a exibição de cada pedido na lista
             return ListTile(
-              title: Text(pedido_controller.pedidos[index].descricao),
+              title: Text(pedido_controller.pedidos[index]),
               // ...
             );
           },
