@@ -1,24 +1,50 @@
 import 'package:delivery_kyogre_getx/views/HomePage.dart';
+import 'package:delivery_kyogre_getx/pikachu/layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'controllers/PedidoController.dart';
 import 'views/PedidoPage.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+//TODO -> Menu controller 1:08
+
+
 
 void main() {
-  Get.put(PedidoController());
-  runApp(MeuApp());
+  Get.put(MenuController());
+  //Get.put(NavigationController());
+  runApp(MyApp());
 }
 
-class MeuApp extends StatelessWidget {
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Meu App',
-      initialRoute: '/',
+      //initialRoute: authenticationPageRoute,
+      //unknownRoute: GetPage(name: '/not-found', page: () => PageNotFound(), transition: Transition.fadeIn),
       getPages: [
-        GetPage(name: '/', page: () => HomePage(nomeCliente: 'Pedro Victor',endereco: 'Niteroi',horarioPedido: '13:40')),
-        // Defina mais rotas aqui, se necessário
+        GetPage(name: '/', page: () {
+          return Layout();
+        }),
+        //GetPage(name: authenticationPageRoute, page: () => AuthenticationPage()),
       ],
+      debugShowCheckedModeBanner: false,
+      title: 'Dashboard',
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.blueAccent,
+        textTheme: GoogleFonts.mulishTextTheme(Theme.of(context).textTheme).apply(
+            bodyColor: Colors.black
+        ),
+        pageTransitionsTheme: PageTransitionsTheme(
+            builders: {
+              TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),
+              TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+            }
+        ),
+        primarySwatch: Colors.blue,
+      ),
+      home: Layout(),
     );
   }
 }
