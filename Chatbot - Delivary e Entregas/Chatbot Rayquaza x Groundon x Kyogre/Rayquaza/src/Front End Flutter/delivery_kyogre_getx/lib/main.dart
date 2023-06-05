@@ -8,7 +8,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 //TODO -> Menu controller 1:08
 
+// TODO -> Ler Json do pedido
 
+// TODO -> receber informações do backend em python
+
+// TODO -> Apresentar pedido na tela quando receber o pedido
 
 void main() {
   Get.put(MenuController());
