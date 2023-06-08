@@ -25,7 +25,7 @@ class MenuControler extends GetxController{
 
   isActive(String itemName) => activeItem.value ==itemName;
 
-  isPassandoNaTela(String itemName) => hoverItem.value = ItemName;
+  isPassandoNaTela(String itemName) => hoverItem.value = itemName;
 
   Widget returnIconFor(String itemName){
     switch (itemName){
@@ -50,7 +50,7 @@ class MenuControler extends GetxController{
   Widget _customIcon(IconData icon, String itemName){
     if (isActive(itemName)) return Icon(icon, size: 22, color: Colors.black);
 
-    return Icon(icon, color: isPassandoNaTela(itemName) ? Colors.deepPurpleAccent: CupertinoColors.inactiveGray)
+    return Icon(icon, color: isPassandoNaTela(itemName) ? Colors.deepPurpleAccent: CupertinoColors.inactiveGray);
   }
 
 }

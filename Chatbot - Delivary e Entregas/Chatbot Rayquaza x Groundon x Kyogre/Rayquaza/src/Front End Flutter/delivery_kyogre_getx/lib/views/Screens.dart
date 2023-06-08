@@ -1,3 +1,6 @@
+import 'package:delivery_kyogre_getx/app/widgets/side_menu.dart';
+import 'package:delivery_kyogre_getx/views/Dashboard/overview_cards_large.dart';
+import 'package:delivery_kyogre_getx/views/Dashboard/overview_cards_small.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -8,16 +11,17 @@ class LargeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
+
+        //!
+        //Expanded(child: SideMenu()),
+        //Expanded(flex: 5,child: localNavigator()),
+
         Expanded(child: Container(
-          child: Text('Ola mundo'),
+          child: OverViewCardsLarge(),
           color: CupertinoColors.destructiveRed,
         )),
 
-        Expanded(
-            flex: 5, child: Container(
-          child: Text('Ola mundo'),
-          color: Colors.blue,
-        ))
+
       ],
     );
   }
@@ -31,7 +35,7 @@ class SmallScreen extends StatelessWidget {
     return Container(
       color: Colors.green,
       constraints: BoxConstraints.expand(),
-      child: Text('Ola mundo'),
+      child: OverViewCardsSmallScreen(),
     );
   }
 }

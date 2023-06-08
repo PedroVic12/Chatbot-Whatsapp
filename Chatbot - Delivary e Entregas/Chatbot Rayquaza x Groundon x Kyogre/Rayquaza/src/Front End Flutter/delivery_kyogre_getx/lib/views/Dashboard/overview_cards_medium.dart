@@ -16,6 +16,8 @@ class OverviewCardsMediumScreen extends StatelessWidget {
             InfoCard(
               title: "Rides in progress",
               value: "7",
+              onTap: (){},
+              isActive: true,
             ),
             SizedBox(
               width: _width / 64,
@@ -23,6 +25,8 @@ class OverviewCardsMediumScreen extends StatelessWidget {
             InfoCard(
               title: "Packages delivered",
               value: "17",
+              onTap: (){},
+              isActive: true,
             ),
 
           ],
@@ -36,6 +40,8 @@ class OverviewCardsMediumScreen extends StatelessWidget {
             InfoCard(
               title: "Cancelled delivery",
               value: "3",
+              onTap: (){},
+              isActive: true,
 
             ),
             SizedBox(
@@ -44,6 +50,8 @@ class OverviewCardsMediumScreen extends StatelessWidget {
             InfoCard(
               title: "Scheduled deliveries",
               value: "32",
+              onTap: (){},
+              isActive: true,
             ),
 
           ],

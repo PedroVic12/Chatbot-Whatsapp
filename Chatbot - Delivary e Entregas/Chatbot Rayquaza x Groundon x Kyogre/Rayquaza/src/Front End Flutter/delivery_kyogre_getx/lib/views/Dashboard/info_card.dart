@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 class InfoCard extends StatelessWidget {
   final String title;
   final String value;
+  final bool isActive;
+  final Function onTap;
 
   //TODO -> COLOCAR FUNCAO ONTAP E MUDAR DE COR COMO EU QUISER
 
-  const InfoCard({required this.title, required this.value});
+  const InfoCard({required this.title, required this.value,  this.isActive = false, required this.onTap});
 
   @override
   Widget build(BuildContext context) {

@@ -2,18 +2,15 @@
 import 'package:delivery_kyogre_getx/pikachu/ResponsiveWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:io/ansi.dart';
-
 import '../../../../app/widgets/CustomText.dart';
 
 AppBar topNavigationBar(BuildContext context, GlobalKey <ScaffoldState> key) =>
     AppBar(
-
       leading: !ResponsiveWidget.isSmallScreen(context) ? 
       Row(
         children: [
           Container(
-            padding: EdgeInsets.only(left: 15),
+            padding: EdgeInsets.only(left: 10),
             //child: Image.asset('', width: 28),
             child: Text('Logo da Citta-RJ aqui')
           )
@@ -26,7 +23,7 @@ AppBar topNavigationBar(BuildContext context, GlobalKey <ScaffoldState> key) =>
       title: Row(
         children: [
           Visibility(child: CustomText(
-            text: 'Meu Dashboard',
+            text: 'Meu Dashboard Small Screen',
             color: CupertinoColors.inactiveGray,
             size: 20,
             weight: FontWeight.bold,

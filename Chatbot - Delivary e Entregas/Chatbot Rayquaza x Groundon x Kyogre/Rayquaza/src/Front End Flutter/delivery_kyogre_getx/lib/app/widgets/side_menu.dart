@@ -23,14 +23,19 @@ class SideMenu extends StatelessWidget {
               children: [
                 SizedBox(height: 40,),
                 Row(
+
                   children: [
+                    Text('Print'),
+
                     SizedBox(
                       width: _width /48,
-                      
+
                     ),
                     
                     Padding(padding: EdgeInsets.all(12),
-                    child: Image.asset('citta_logo.png'),),
+                    //child: Image.asset('citta_logo.png'),),
+                      child: Text('-> Logo da citta'),
+                    ),
 
                     Flexible(child: CustomText(
                       text: 'DashBoard',

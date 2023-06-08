@@ -16,7 +16,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   Get.put(MenuController());
-  //Get.put(NavigationC    ontroller());
+  //Get.put(NavigationController());
   runApp(MyApp());
 }
 
@@ -27,6 +27,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       //initialRoute: authenticationPageRoute,
       //unknownRoute: GetPage(name: '/not-found', page: () => PageNotFound(), transition: Transition.fadeIn),
+
+
+      // Navegação Padrão
       getPages: [
         GetPage(name: '/', page: () {
           return Layout();

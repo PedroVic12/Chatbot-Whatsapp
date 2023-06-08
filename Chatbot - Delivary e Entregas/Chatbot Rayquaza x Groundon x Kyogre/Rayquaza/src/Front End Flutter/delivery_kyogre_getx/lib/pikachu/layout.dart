@@ -1,3 +1,4 @@
+import 'package:delivery_kyogre_getx/app/widgets/side_menu.dart';
 import 'package:delivery_kyogre_getx/pikachu/ResponsiveWidget.dart';
 import 'package:delivery_kyogre_getx/views/Screens.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,16 +13,24 @@ class Layout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
         key: scaffoldKey,
         appBar: topNavigationBar(context,scaffoldKey),
-        drawer: Drawer(),
+
+        //Menu Lateral de Navega~ao
+        drawer: Drawer(
+          child: SideMenu(),
+        ),
+
+        // Responsividade
         body: ResponsiveWidget(
         largeScreen: LargeScreen(),
-        smallScreen: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Text('Ola Alienigena'),
+
+        // tela Default
+        smallScreen:
         //child: localNavigator(),
-    ),)
+        SmallScreen()
+        )
     );
   }
 }
