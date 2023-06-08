@@ -45,7 +45,7 @@ class OverViewCardsLarge extends StatelessWidget {
                     firstCard,
                     SizedBox(width: _cardWidth / 64),
                     InfoCard(
-                      title: "Pedidos Recibidos",
+                      title: "Pedidos Recebidos",
                       value: "7",
                       onTap: () {},
                       isActive: true,
@@ -79,6 +79,7 @@ class OverViewCardsLarge extends StatelessWidget {
     );
   }
 
+
   List<Widget> processJsonData(dynamic jsonData) {
     List<Widget> infoCards = [];
 
@@ -87,19 +88,18 @@ class OverViewCardsLarge extends StatelessWidget {
         String title = data['title'];
         String value = data['value'];
 
-        // Exibir os dados no terminal
-        print('Title: $title, Value: $value');
-
         InfoCard infoCard = InfoCard(
           title: title,
           value: value,
           onTap: () {},
           isActive: true,
         );
+
         infoCards.add(infoCard);
       }
     }
 
     return infoCards;
   }
+
 }

@@ -20,7 +20,7 @@ class LargeScreen extends StatelessWidget {
             child: Container(
           child: OverViewCardsLarge(),
           constraints: BoxConstraints.expand(),
-          color: CupertinoColors.destructiveRed,
+          color: CupertinoColors.activeBlue,
         )),
 
 
