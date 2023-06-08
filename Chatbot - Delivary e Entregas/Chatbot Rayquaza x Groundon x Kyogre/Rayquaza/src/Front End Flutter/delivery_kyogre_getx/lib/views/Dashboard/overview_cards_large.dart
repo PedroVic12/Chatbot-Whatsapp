@@ -7,7 +7,8 @@ Future<dynamic> readJsonFile(String filePath) async {
   File file = File(filePath);
   if (await file.exists()) {
     String contents = await file.readAsString();
-    return json.decode(contents);
+    dynamic jsonData = json.decode(contents);
+    return jsonData;
   } else {
     throw Exception('File not found: $filePath');
   }
@@ -23,51 +24,50 @@ class OverViewCardsLarge extends StatelessWidget {
         double _cardWidth = constraints.maxWidth / 4;
 
         return FutureBuilder<dynamic>(
-          future: readJsonFile('lib/pikachu/rayquaza_db/pedido_data.json'), // Corrija o caminho do arquivo JSON aqui
+          future: readJsonFile('lib/pikachu/rayquaza_db/pedido_data.json'),
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              // Dados do arquivo JSON
-              dynamic jsonData = snapshot.data;
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasData) {
+                // Dados do arquivo JSON
+                dynamic jsonData = snapshot.data;
 
-              // Criação do primeiro InfoCard com os dados do JSON
-              String title = jsonData['title'].toString();
-              String value = jsonData['value'].toString();
-              InfoCard infoCard = InfoCard(
-                title: title,
-                value: value,
-                onTap: () {},
-                isActive: true,
-              );
+                // Processar e exibir os dados do JSON no terminal
+                processJsonData(jsonData);
 
-              return Row(
-                children: [
-                  infoCard,
-                  SizedBox(
-                    width: _cardWidth / 64,
-                  ),
-                  InfoCard(
-                    title: "Packages delivered",
-                    value: "17",
-                    onTap: () {},
-                    isActive: true,
-                  ),
-                  InfoCard(
-                    title: "Cancelled delivery",
-                    value: "3",
-                    onTap: () {},
-                    isActive: true,
-                  ),
-                  SizedBox(
-                    width: _cardWidth / 64,
-                  ),
-                  InfoCard(
-                    title: "Scheduled deliveries",
-                    value: "32",
-                    onTap: () {},
-                    isActive: true,
-                  ),
-                ],
-              );
+                // Processar os dados do JSON
+                List<Widget> infoCards = processJsonData(jsonData);
+
+                // Exibir apenas o primeiro InfoCard com os dados do JSON
+                Widget firstCard = infoCards.isNotEmpty ? infoCards[0] : SizedBox();
+
+                return Row(
+                  children: [
+                    firstCard,
+                    SizedBox(width: _cardWidth / 64),
+                    InfoCard(
+                      title: "Pedidos Recibidos",
+                      value: "7",
+                      onTap: () {},
+                      isActive: true,
+                    ),
+                    InfoCard(
+                      title: "Cancelled delivery",
+                      value: "3",
+                      onTap: () {},
+                      isActive: true,
+                    ),
+                    SizedBox(width: _cardWidth / 64),
+                    InfoCard(
+                      title: "Scheduled deliveries",
+                      value: "32",
+                      onTap: () {},
+                      isActive: true,
+                    ),
+                  ],
+                );
+              } else {
+                return Text('No data available');
+              }
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else {
@@ -77,5 +77,29 @@ class OverViewCardsLarge extends StatelessWidget {
         );
       },
     );
+  }
+
+  List<Widget> processJsonData(dynamic jsonData) {
+    List<Widget> infoCards = [];
+
+    if (jsonData is List) {
+      for (var data in jsonData) {
+        String title = data['title'];
+        String value = data['value'];
+
+        // Exibir os dados no terminal
+        print('Title: $title, Value: $value');
+
+        InfoCard infoCard = InfoCard(
+          title: title,
+          value: value,
+          onTap: () {},
+          isActive: true,
+        );
+        infoCards.add(infoCard);
+      }
+    }
+
+    return infoCards;
   }
 }
