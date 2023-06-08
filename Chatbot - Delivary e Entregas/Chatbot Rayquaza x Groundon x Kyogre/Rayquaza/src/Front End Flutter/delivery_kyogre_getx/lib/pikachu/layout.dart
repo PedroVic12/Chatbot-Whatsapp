@@ -1,6 +1,5 @@
 import 'package:delivery_kyogre_getx/pikachu/ResponsiveWidget.dart';
 import 'package:delivery_kyogre_getx/views/Screens.dart';
-import 'package:delivery_kyogre_getx/pikachu/local_navigator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +19,8 @@ class Layout extends StatelessWidget {
         largeScreen: LargeScreen(),
         smallScreen: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: localNavigator(),
+        child: Text('Ola Alienigena'),
+        //child: localNavigator(),
     ),)
     );
   }

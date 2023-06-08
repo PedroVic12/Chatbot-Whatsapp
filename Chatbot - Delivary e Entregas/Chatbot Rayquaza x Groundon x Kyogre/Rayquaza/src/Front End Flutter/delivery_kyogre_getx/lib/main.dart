@@ -16,7 +16,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   Get.put(MenuController());
-  //Get.put(NavigationController());
+  //Get.put(NavigationC    ontroller());
   runApp(MyApp());
 }
 
