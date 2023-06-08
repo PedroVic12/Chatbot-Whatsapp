@@ -4,6 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../../app/widgets/CustomText.dart';
 
+
+//! TODO -> DEBUGAR AQUI A APP BAR ESTA NAS DUAS TELAS
+
 AppBar topNavigationBar(BuildContext context, GlobalKey <ScaffoldState> key) =>
     AppBar(
       leading: !ResponsiveWidget.isSmallScreen(context) ? 

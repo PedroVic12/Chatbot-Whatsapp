@@ -10,14 +10,16 @@ class LargeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
 
-        //!
-        //Expanded(child: SideMenu()),
-        //Expanded(flex: 5,child: localNavigator()),
+        Expanded(child: SideMenu()),
 
-        Expanded(child: Container(
+        Expanded(
+            flex: 3,
+            child: Container(
           child: OverViewCardsLarge(),
+          constraints: BoxConstraints.expand(),
           color: CupertinoColors.destructiveRed,
         )),
 

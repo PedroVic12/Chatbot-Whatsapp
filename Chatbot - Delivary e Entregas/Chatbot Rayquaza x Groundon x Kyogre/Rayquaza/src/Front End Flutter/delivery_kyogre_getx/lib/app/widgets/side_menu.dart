@@ -14,7 +14,7 @@ class SideMenu extends StatelessWidget {
     double _width = MediaQuery.of(context).size.width;
 
     return Container(
-      color: Colors.lightBlueAccent,
+      color: Colors.purple,
       child: ListView(
         children: [
           if(ResponsiveWidget.isSmallScreen(context))
@@ -32,13 +32,13 @@ class SideMenu extends StatelessWidget {
 
                     ),
                     
-                    Padding(padding: EdgeInsets.all(12),
+                    Padding(padding: EdgeInsets.all(6),
                     //child: Image.asset('citta_logo.png'),),
                       child: Text('-> Logo da citta'),
                     ),
 
                     Flexible(child: CustomText(
-                      text: 'DashBoard',
+                      text: 'Teste de Drawer',
                       size: 20,
                       weight: FontWeight.bold,
                       color: CupertinoColors.activeOrange,
