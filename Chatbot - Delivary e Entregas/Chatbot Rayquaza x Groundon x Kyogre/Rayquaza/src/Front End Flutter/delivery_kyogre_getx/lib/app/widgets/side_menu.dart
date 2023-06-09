@@ -21,7 +21,7 @@ class SideMenu extends StatelessWidget {
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(height: 40,),
+                SizedBox(height: 40),
                 Row(
 
                   children: [

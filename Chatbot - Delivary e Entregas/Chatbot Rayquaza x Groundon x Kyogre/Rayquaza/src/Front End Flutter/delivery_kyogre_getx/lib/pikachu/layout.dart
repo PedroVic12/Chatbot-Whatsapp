@@ -15,7 +15,7 @@ class Layout extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
         key: scaffoldKey,
-        appBar: topNavigationBar(context,scaffoldKey),
+        //appBar: topNavigationBar(context,scaffoldKey),
 
         //Menu Lateral de Navega~ao
         drawer: Drawer(
@@ -24,7 +24,7 @@ class Layout extends StatelessWidget {
 
         // Responsividade
         body: ResponsiveWidget(
-        largeScreen: LargeScreen(),
+        largeScreen: LargePage(),
 
         // tela Default
         smallScreen:

@@ -16,6 +16,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   Get.put(MenuController());
+  Get.put(PedidoController());
+
   //Get.put(NavigationController());
   runApp(MyApp());
 }
@@ -31,10 +33,9 @@ class MyApp extends StatelessWidget {
 
       // Navegação Padrão
       getPages: [
-        GetPage(name: '/', page: () {
-          return Layout();
-        }),
-        //GetPage(name: authenticationPageRoute, page: () => AuthenticationPage()),
+        GetPage(name: '/', page: () => Layout()),
+        GetPage(name: '/pedido', page: () => PedidoPage()),
+
       ],
       debugShowCheckedModeBanner: false,
       title: 'Dashboard',
