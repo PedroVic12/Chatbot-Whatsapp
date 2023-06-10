@@ -55,9 +55,16 @@ class PedidoController extends GetxController {
       throw Exception('Failed to fetch pedidos');
     }
   }
+  void removePedido(dynamic pedido) {
+
+    //TODO remover arquivo json
+
+    // Todo salvar todos os pedidos numa tabela do dia
+
+    pedidos.remove(pedido);
+  }
 
   void aceitarPedido(dynamic pedido) {
-    pedidos.remove(pedido);
     pedidosAceitos.add(pedido);
   }
 
@@ -100,6 +107,10 @@ class PedidoController extends GetxController {
   }
 
 }
+
+
+
+
 class DashboardPage extends StatelessWidget {
   final PedidoController pedidoController = Get.put(PedidoController());
 
@@ -110,7 +121,7 @@ class DashboardPage extends StatelessWidget {
       body: Row(
         children: [
           Expanded(
-            flex: 3,
+            flex: 1,
             child: Container(
               padding: EdgeInsets.all(8.0),
               child: Column(
@@ -133,57 +144,77 @@ class DashboardPage extends StatelessWidget {
                         itemBuilder: (context, index) {
                           final pedido = pedidoController.pedidos[index];
 
-                          return GestureDetector(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: Text('Detalhes do Pedido'),
-                                  content: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text('Itens do Pedido:'),
-                                      ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount: pedido['itensPedido'].length,
-                                        itemBuilder: (context, index) {
-                                          final item = pedido['itensPedido'][index];
-                                          return ListTile(
-                                            title: Text(item['nome']),
-                                            subtitle: Text(item['descricao']),
-                                            trailing: Text('R\$ ${item['preco']}'),
-                                          );
+                          return Dismissible(
+                            key: UniqueKey(),
+                            background: Container(
+                              color: Colors.red,
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: Padding(
+                                  padding: EdgeInsets.only(right: 16.0),
+                                  child: Icon(
+                                    Icons.delete,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            direction: DismissDirection.endToStart,
+                            onDismissed: (direction) {
+                              pedidoController.removePedido(pedido);
+                            },
+                            child: GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: Text('Detalhes do Pedido'),
+                                    content: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text('Itens do Pedido:'),
+                                        ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: pedido['itensPedido'].length,
+                                          itemBuilder: (context, index) {
+                                            final item = pedido['itensPedido'][index];
+                                            return ListTile(
+                                              title: Text(item['nome']),
+                                              subtitle: Text(item['descricao']),
+                                              trailing: Text('R\$ ${item['preco']}'),
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                    actions: [
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          pedidoController.aceitarPedido(pedido);
+                                          Navigator.pop(context);
                                         },
+                                        child: Text('Aceitar Pedido'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text('Fechar'),
                                       ),
                                     ],
                                   ),
-                                  actions: [
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        pedidoController.aceitarPedido(pedido);
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text('Aceitar Pedido'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text('Fechar'),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                            child: CardPedido(
-                              nome: pedido['nome'],
-                              telefone: pedido['telefone'],
-                              itensPedido: (pedido['carrinho']['itensPedido'] as List<dynamic>)
-                                  .map((item) => item as Map<String, dynamic>)
-                                  .toList(),
-                              totalPrecoPedido: pedido['carrinho']['totalPrecoPedido'].toDouble(),
-                              formaPagamento: pedido['forma_pagamento'],
-                              enderecoEntrega: pedido['endereco_cliente'],
+                                );
+                              },
+                              child: CardPedido(
+                                nome: pedido['nome'],
+                                telefone: pedido['telefone'],
+                                itensPedido: (pedido['carrinho']['itensPedido'] as List<dynamic>)
+                                    .map((item) => item as Map<String, dynamic>)
+                                    .toList(),
+                                totalPrecoPedido: pedido['carrinho']['totalPrecoPedido'].toDouble(),
+                                formaPagamento: pedido['forma_pagamento'],
+                                enderecoEntrega: pedido['endereco_cliente'],
+                              ),
                             ),
                           );
                         },
