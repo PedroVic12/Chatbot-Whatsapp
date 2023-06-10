@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-class PedidoController extends GetxController {
+class MeuPedidoController extends GetxController {
   String jsonUrl = 'https://seu_chatbot.com/cliente.json';// Substitua pela URL correta do seu chatbot
 
   List<String> pedidos = ['Arroz', 'Frango', 'Guaravita'];

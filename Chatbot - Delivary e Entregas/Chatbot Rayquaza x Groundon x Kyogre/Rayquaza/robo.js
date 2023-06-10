@@ -95,6 +95,9 @@ bot_groundon.whatsapp.on('message', message => {
             estagio2.mostrarMenuPrincipal(message)
         )
 
+        if (message.body === '!pedido') {
+            bot_groundon.gerarPedidoJson('Peter Parker')
+        }
 
         bot_groundon.avancarEstagio().then(
             bot_groundon.enviarMensagem(message, 'O que deseja fazer?')

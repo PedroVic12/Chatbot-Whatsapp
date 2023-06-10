@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../controllers/PedidoController.dart';
 
 class PedidoPage extends StatelessWidget {
-  final PedidoController pedido_controller = Get.find<PedidoController>();
+  final MeuPedidoController pedido_controller = Get.find<MeuPedidoController>();
 
   @override
   Widget build(BuildContext context) {

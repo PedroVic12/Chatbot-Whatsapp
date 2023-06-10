@@ -1,4 +1,4 @@
-import 'package:delivery_kyogre_getx/views/Dashboard/PedidoCard.dart';
+import 'package:delivery_kyogre_getx/views/Dashboard/CardPedido.dart';
 import 'package:delivery_kyogre_getx/views/Dashboard/info_card.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';

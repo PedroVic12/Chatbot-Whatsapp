@@ -1,3 +1,4 @@
+import 'package:delivery_kyogre_getx/views/Dashboard/Dashboard.dart';
 import 'package:delivery_kyogre_getx/views/HomePage.dart';
 import 'package:delivery_kyogre_getx/pikachu/layout.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(name: '/', page: () => Layout()),
         GetPage(name: '/pedido', page: () => PedidoPage()),
+        GetPage(name: '/dash', page: () => DashboardPage()),
 
       ],
       debugShowCheckedModeBanner: false,

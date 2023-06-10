@@ -1,47 +1,76 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi.responses import HTMLResponse
+from fastapi import HTTPException
+import os
+import json
+import requests
+import uvicorn
+import glob
 
 app = FastAPI()
 
 
-class Pedido(BaseModel):
-    nome_cliente: str
-    endereco_entrega: str
-    itens: list
-
-
 class Rayquaza:
     def __init__(self):
-        self.app = app
+        self.repository_path = "src/Server Python/repository"
 
-    def configurar_rotas(self):
-        @self.app.post("/enviar-pedido")
-        def enviar_pedido(pedido: Pedido):
-            """
-            A rota /enviar-pedido é usada para receber um pedido do aplicativo Flutter. Ela espera receber um objeto JSON seguindo a estrutura definida na classe Pedido. Você pode acessar os dados do pedido recebido na função enviar_pedido() e executar a lógica necessária para processá-lo
-            """
-            # TODO Lógica para processar o pedido recebido
+    def process_json_file(self, json_file):
+        # Implemente aqui a lógica para processar os dados do JSON e fazer a solicitação POST
+        # Neste exemplo, apenas exibimos os dados do JSON
+        with open(json_file, "r") as file:
+            json_data = json.load(file)
+            print(json_data)
 
-            # TODO Aqui você pode salvar as informações em um banco de dados, enviar para o chatbot, etc.
+        # Faça a solicitação POST para enviar os dados para a rota /pedidos
+        response = requests.post(
+            "http://localhost:8000/pedidos", json=json_data)
+        if response.status_code != 200:
+            raise HTTPException(
+                status_code=response.status_code, detail=response.text)
 
-            return {"message": "Pedido recebido com sucesso"}
+    def check_json_files(self):
+        # Obtém a lista de todos os arquivos JSON na pasta "repository"
+        json_files = glob.glob(os.path.join(self.repository_path, "*.json"))
 
-        @self.app.post("/receber-informacoes")
-        def receber_informacoes(informacoes: dict):
-            """
-            A rota /receber-informacoes é usada para receber informações do aplicativo Flutter. Ela espera receber um objeto JSON genérico. Na função receber_informacoes(), você pode acessar os dados recebidos e executar qualquer ação necessária com base nessas informações.
-            """
-            # TODO Lógica para processar as informações recebidas
+        if json_files:
+            for json_file in json_files:
+                try:
+                    self.process_json_file(json_file)
+                except Exception as e:
+                    print(f"Erro ao processar o arquivo JSON: {json_file}")
+                    print(e)
 
-            # TODO Aqui você pode realizar qualquer ação com base nas informações recebidas do aplicativo Flutter
-            return {"message": "Informações recebidas com sucesso"}
+    def run(self):
+        # Rota para a página inicial
+        @app.get("/")
+        async def get():
+            return HTMLResponse("<h1>Rayquaza Server esta Online!</h1>")
 
-    def executar_servidor(self, host="localhost", port=8000):
-        self.configurar_rotas()
-        import uvicorn
-        uvicorn.run(self.app, host=host, port=port)
+        # Rota para receber os pedidos via POST
+        @app.post("/pedidos")
+        async def pedidos(pedidos: dict):
+            # Implemente aqui a lógica para processar os pedidos recebidos
+            # Neste exemplo, apenas exibimos os pedidos recebidos
+            print("Pedidos recebidos:", pedidos)
+            return {"message": "Pedidos recebidos com sucesso"}
+
+        @app.get("/pedidos")
+        async def visualizar_pedidos():
+            # Implemente aqui a lógica para visualizar os dados de todos os arquivos JSON
+            json_files = glob.glob("src/Server Python/repository/*.json")
+            json_data_list = []
+
+            for json_file in json_files:
+                with open(json_file, "r") as file:
+                    json_data = json.load(file)
+                    json_data_list.append(json_data)
+
+            return json_data_list
+
+        uvicorn.run(app, host="0.0.0.0", port=8000)
 
 
-if __name__ == "__main__":
-    rayquaza = Rayquaza()
-    rayquaza.executar_servidor()
+# Exemplo de uso da classe Rayquaza
+rayquaza = Rayquaza()
+rayquaza.check_json_files()
+rayquaza.run()

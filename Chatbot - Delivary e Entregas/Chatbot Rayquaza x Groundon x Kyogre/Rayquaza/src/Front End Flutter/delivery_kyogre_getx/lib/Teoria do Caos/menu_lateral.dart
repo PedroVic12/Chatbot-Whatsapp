@@ -27,7 +27,8 @@ class MenuLateral extends StatelessWidget {
   final List<ItemMenuLateral> _menuItems = [
     ItemMenuLateral(title: 'Página 1', icon: Icons.home, route: '/'),
     ItemMenuLateral(title: 'Pedido Page Server', icon: Icons.pageview, route: '/pedido'),
-    // Adicione mais itens de menu conforme necessário
+    ItemMenuLateral(title: 'DashBoard Page', icon: Icons.account_balance_wallet_sharp, route: '/dash'),
+  // Adicione mais itens de menu conforme necessário
   ];
 
   @override

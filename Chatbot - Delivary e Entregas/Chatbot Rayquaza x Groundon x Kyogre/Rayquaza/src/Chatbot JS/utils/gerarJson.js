@@ -1,20 +1,46 @@
 const fs = require('fs');
 
-// Dados do cliente (exemplo)
-const cliente = {
-    nome: 'John Doe',
-    email: 'johndoe@example.com',
-    telefone: '123456789'
-};
+function gerarPedidoJson(nomeCliente) {
+    const pedido = {
+        nome: nomeCliente,
+        telefone: "21999289987",
+        carrinho: {
+            itensPedido: [
+                {
+                    nome: "Big Mac",
+                    quantidade: 2
+                },
+                {
+                    nome: "Coca Cola",
+                    quantidade: 1
+                },
+                {
+                    nome: "Açaí",
+                    quantidade: 1
+                }
+            ],
+            totalPrecoPedido: 100.0
+        },
+        forma_pagamento: "Dinheiro",
+        endereco_cliente: "Niterói"
+    };
 
-// Convertendo os dados do cliente para JSON
-const jsonData = JSON.stringify(cliente);
+    const caminho = "src/Server Python/repository";
+    const nomeArquivo = `${caminho}/pedido_${nomeCliente.replace(' ', '_').toLowerCase()}.json`;
+    const conteudoArquivo = JSON.stringify(pedido, null, 2);
 
-// Escrevendo o JSON em um arquivo
-fs.writeFile('cliente.json', jsonData, 'utf8', (err) => {
-    if (err) {
-        console.error(err);
-        return;
-    }
-    console.log('Arquivo JSON gerado com sucesso.');
-});
+    fs.writeFile(nomeArquivo, conteudoArquivo, (err) => {
+        if (err) {
+            console.error(`Erro ao criar o arquivo ${nomeArquivo}: ${err}`);
+        } else {
+            console.log(`Arquivo ${nomeArquivo} criado com sucesso.`);
+        }
+    });
+}
+
+function main() {
+    const nomeCliente = "João da Silva";
+    gerarPedidoJson(nomeCliente);
+}
+
+main();
