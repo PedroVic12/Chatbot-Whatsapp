@@ -217,7 +217,7 @@ class Groundon {
                 totalPrecoPedido: 100.0
             },
             forma_pagamento: "Dinheiro",
-            endereco_cliente: "Niteroi"
+            endereco_cliente: "Copacabana"
         };
 
         const caminho = "src/Server Python/repository";

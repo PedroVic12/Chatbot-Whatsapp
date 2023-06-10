@@ -108,7 +108,7 @@ bot_groundon.whatsapp.on('message', message => {
         //!Tentativa de conexão com o servidor python
 
         if (message.body === '!pedido') {
-            bot_groundon.gerarPedidoJson('Pedro Victor')
+            bot_groundon.gerarPedidoJson('Pedro Victor Veras')
         }
 
         //bot_groundon.avancarEstagio()
