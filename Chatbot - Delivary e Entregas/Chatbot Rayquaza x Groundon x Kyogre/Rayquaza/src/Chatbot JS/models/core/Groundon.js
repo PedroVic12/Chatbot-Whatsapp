@@ -45,7 +45,7 @@ class Groundon {
         // const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
         // console.log(browser.version)
 
-        const wppIsOn = false;
+        //const wppIsOn = false;
 
         return new Promise(async (resolve, reject) => {
 

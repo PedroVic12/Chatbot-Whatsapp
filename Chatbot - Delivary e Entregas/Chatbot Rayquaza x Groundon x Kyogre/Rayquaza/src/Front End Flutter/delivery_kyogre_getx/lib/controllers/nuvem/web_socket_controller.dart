@@ -5,7 +5,7 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 class WebSocketController extends GetxController {
   final String serverUrl = 'http://localhost:8000';
 
-  IO.Socket socket;
+  late IO.Socket socket;
 
   @override
   void onInit() {

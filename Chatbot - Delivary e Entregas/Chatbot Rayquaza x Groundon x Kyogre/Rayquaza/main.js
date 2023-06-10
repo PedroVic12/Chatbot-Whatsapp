@@ -10,7 +10,7 @@ const Sanduiches = require("./Chatbot/Cardapio - LOJA/Sanduiche.js");
 
 //! Importações e variáveis GLOBAIS
 // Documentação:  https://wwebjs.dev/guide/#replying-to-messages
-const Groundon = require('./Chatbot/chatbot');
+const Groundon = require('./src/Chatbot JS/chatbot');
 
 const Estagio1 = require('./Chatbot/stages/Estagio1')
 const Estagio2 = require('./Chatbot/stages/Estagio2')
