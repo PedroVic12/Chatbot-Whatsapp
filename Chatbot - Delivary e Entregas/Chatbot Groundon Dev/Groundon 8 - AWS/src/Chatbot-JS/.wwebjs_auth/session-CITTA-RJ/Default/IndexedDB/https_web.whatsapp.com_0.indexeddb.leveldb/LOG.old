@@ -1,34 +1,5 @@
-2023/06/10-08:59:44.053 1b832 Creating DB /home/pedrov/Documentos/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/Groundon 8 - AWS/src/Chatbot-JS/.wwebjs_auth/session-CITTA-RJ/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb since it was missing.
-2023/06/10-08:59:44.074 1b832 Reusing MANIFEST /home/pedrov/Documentos/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/Groundon 8 - AWS/src/Chatbot-JS/.wwebjs_auth/session-CITTA-RJ/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/06/10-08:59:44.137 1b83d Manual compaction at level-0 from '\x00\x01\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x02\x00\x00\x00' @ 0 : 0; will stop at (end)
-2023/06/10-08:59:44.935 1b82f Level-0 table #5: started
-2023/06/10-08:59:44.949 1b82f Level-0 table #5: 21675 bytes OK
-2023/06/10-08:59:44.961 1b82f Delete type=0 #3
-2023/06/10-08:59:44.961 1b82f Manual compaction at level-0 from '\x00\x06\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x07\x00\x00\x00' @ 0 : 0; will stop at (end)
-2023/06/10-09:00:17.949 1b830 Level-0 table #7: started
-2023/06/10-09:00:17.991 1b830 Level-0 table #7: 1202834 bytes OK
-2023/06/10-09:00:18.003 1b830 Delete type=0 #4
-2023/06/10-09:00:18.006 1b830 Compacting 1@1 + 1@2 files
-2023/06/10-09:00:18.050 1b830 Generated table #8@1: 15716 keys, 885894 bytes
-2023/06/10-09:00:18.050 1b830 Compacted 1@1 + 1@2 files => 885894 bytes
-2023/06/10-09:00:18.060 1b830 compacted to: files[ 0 0 1 0 0 0 0 ]
-2023/06/10-09:00:18.060 1b830 Delete type=2 #7
-2023/06/10-09:00:18.060 1b830 Delete type=2 #5
-2023/06/10-09:00:22.654 1b836 Level-0 table #10: started
-2023/06/10-09:00:22.687 1b836 Level-0 table #10: 1188580 bytes OK
-2023/06/10-09:00:22.692 1b836 Delete type=0 #6
-2023/06/10-09:00:22.704 1b83d Compacting 1@1 + 1@2 files
-2023/06/10-09:00:22.778 1b83d Generated table #11@1: 20942 keys, 1491220 bytes
-2023/06/10-09:00:22.778 1b83d Compacted 1@1 + 1@2 files => 1491220 bytes
-2023/06/10-09:00:22.789 1b83d compacted to: files[ 0 0 1 0 0 0 0 ]
-2023/06/10-09:00:23.925 1b870 Level-0 table #13: started
-2023/06/10-09:00:23.984 1b870 Level-0 table #13: 913538 bytes OK
-2023/06/10-09:00:23.996 1b870 Delete type=2 #8
-2023/06/10-09:00:23.996 1b870 Delete type=2 #10
-2023/06/10-09:00:23.996 1b870 Delete type=0 #9
-2023/06/10-09:00:24.031 1b870 Compacting 1@1 + 1@2 files
-2023/06/10-09:00:24.112 1b870 Generated table #14@1: 30732 keys, 1863623 bytes
-2023/06/10-09:00:24.112 1b870 Compacted 1@1 + 1@2 files => 1863623 bytes
-2023/06/10-09:00:24.123 1b870 compacted to: files[ 0 0 1 0 0 0 0 ]
-2023/06/10-09:00:24.124 1b870 Delete type=2 #11
-2023/06/10-09:00:24.124 1b870 Delete type=2 #13
+2023/06/10-09:16:54.081 9082 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/Groundon 8 - AWS/src/Chatbot-JS/.wwebjs_auth/session-CITTA-RJ/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/06/10-09:16:54.084 9082 Recovering log #218
+2023/06/10-09:16:54.187 9082 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/Groundon 8 - AWS/src/Chatbot-JS/.wwebjs_auth/session-CITTA-RJ/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000218.log 
+2023/06/10-09:16:54.187 9082 Delete type=2 #219
+2023/06/10-09:16:54.187 9082 Delete type=2 #217

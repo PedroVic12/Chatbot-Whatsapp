@@ -18,7 +18,7 @@ class Chatbot {
         this.whatsapp = new Client({
 
             // Se o código travar e não gerar o QRCODE, mude o nome do ClientID
-            authStrategy: new LocalAuth({ clientId: "Citta1" })
+            authStrategy: new LocalAuth({ clientId: "Citta2" })
         });
 
 

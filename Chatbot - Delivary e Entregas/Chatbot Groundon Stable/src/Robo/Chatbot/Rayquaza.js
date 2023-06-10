@@ -75,6 +75,7 @@ chatbot.whatsapp.on('message', message => {
 
     //! ===================== Estágio 1 - Apresentação =====================
     if (chatbot.numero_estagio === 1) {
+        chatbot.enviarMensagem(message, 'Fala viado')
         estagio1.boasVindas(message)
         chatbot.avancarEstagio()
 
@@ -106,7 +107,7 @@ chatbot.whatsapp.on('message', message => {
 
         chatbot.enviarMensagem(message, `✅ Prazer em te conhecer, ${nome_cliente}!`);
         chatbot.avancarEstagio().then(
-            estagio2.mostrarMenuPrincipal(message)
+            // estagio2.mostrarMenuPrincipal(message)
         )
     }
 

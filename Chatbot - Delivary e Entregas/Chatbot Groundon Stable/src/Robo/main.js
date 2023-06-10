@@ -67,7 +67,10 @@ chatbot.conectandoWpp()
         console.log(error)
     })
 chatbot.contarNumeroPedidos()
+
+
 chatbot.recebeMensagem()
+
 
 
 

@@ -89,6 +89,8 @@ chatbot.whatsapp.on('message', message => {
 
     //! ===================== Estágio 1 - Apresentação =====================
     if (chatbot.numero_estagio === 1) {
+        chatbot.enviarMensagem(message, 'Ola mundo 2')
+
         estagio1.boasVindas(message)
         chatbot.avancarEstagio()
 
@@ -118,8 +120,6 @@ chatbot.whatsapp.on('message', message => {
         chatbot.delay(300).then(
             estagio2.mostrarMenuPrincipal(message)
         )
-
-
 
 
         chatbot.avancarEstagio().then(

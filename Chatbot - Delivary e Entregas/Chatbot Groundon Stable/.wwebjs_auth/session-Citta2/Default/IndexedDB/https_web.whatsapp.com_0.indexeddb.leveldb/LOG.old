@@ -1,0 +1,15 @@
+2023/06/10-09:37:39.459 cf56 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Stable/.wwebjs_auth/session-Citta2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/06/10-09:37:39.459 cf56 Recovering log #73
+2023/06/10-09:37:39.600 cf56 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Stable/.wwebjs_auth/session-Citta2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000073.log 
+2023/06/10-09:37:39.600 cf56 Delete type=2 #74
+2023/06/10-09:37:39.600 cf56 Delete type=2 #72
+2023/06/10-09:37:39.600 cf56 Delete type=2 #71
+2023/06/10-09:37:58.026 cf57 Level-0 table #79: started
+2023/06/10-09:37:58.069 cf57 Level-0 table #79: 998235 bytes OK
+2023/06/10-09:37:58.081 cf57 Delete type=0 #73
+2023/06/10-09:37:58.489 cfda Compacting 1@1 + 2@2 files
+2023/06/10-09:37:58.729 cfda Generated table #80@1: 41050 keys, 2206725 bytes
+2023/06/10-09:37:58.889 cfda Generated table #81@1: 61686 keys, 2215135 bytes
+2023/06/10-09:37:58.903 cfda Generated table #82@1: 7921 keys, 162914 bytes
+2023/06/10-09:37:58.904 cfda Compacted 1@1 + 2@2 files => 4584774 bytes
+2023/06/10-09:37:58.912 cfda compacted to: files[ 0 0 3 0 0 0 0 ]
