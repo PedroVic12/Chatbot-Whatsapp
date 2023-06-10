@@ -1,10 +1,10 @@
 {
-  "nome": "Peter Parker",
+  "nome": "antonio",
   "telefone": "21999289987",
   "carrinho": {
     "itensPedido": [
       {
-        "nome": "Big Mac",
+        "nome": "X Tudo",
         "quantidade": 2
       },
       {
@@ -12,12 +12,12 @@
         "quantidade": 1
       },
       {
-        "nome": "Açai",
+        "nome": "Acai",
         "quantidade": 1
       }
     ],
     "totalPrecoPedido": 100
   },
   "forma_pagamento": "Dinheiro",
-  "endereco_cliente": "Niteroi"
+  "endereco_cliente": "Copacabana"
 }

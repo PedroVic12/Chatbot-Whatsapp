@@ -12,21 +12,26 @@ app = FastAPI()
 
 class Rayquaza:
     def __init__(self):
-        self.repository_path = "src/Server Python/repository"
+        self.repository_path = "repository"
 
     def process_json_file(self, json_file):
         # Implemente aqui a lógica para processar os dados do JSON e fazer a solicitação POST
         # Neste exemplo, apenas exibimos os dados do JSON
         with open(json_file, "r") as file:
             json_data = json.load(file)
-            print(json_data)
+            print('\nRequisição =', json_data)
 
-        # Faça a solicitação POST para enviar os dados para a rota /pedidos
-        response = requests.post(
-            "http://localhost:8000/pedidos", json=json_data)
-        if response.status_code != 200:
-            raise HTTPException(
-                status_code=response.status_code, detail=response.text)
+        try:
+            # Faça a solicitação POST para enviar os dados para a rota /pedidos
+            response = requests.post(
+                "http://localhost:5000/pedidos", json=json_data)
+
+            if response.status_code != 200:
+                raise HTTPException(
+                    status_code=response.status_code, detail=response.text)
+
+        except Exception as e:
+            print('Falha ao fazer a solicitação POST:', str(e))
 
     def check_json_files(self):
         # Obtém a lista de todos os arquivos JSON na pasta "repository"
@@ -67,7 +72,7 @@ class Rayquaza:
 
             return json_data_list
 
-        uvicorn.run(app, host="0.0.0.0", port=8000)
+        uvicorn.run(app, host="0.0.0.0", port=5000)
 
 
 # Exemplo de uso da classe Rayquaza

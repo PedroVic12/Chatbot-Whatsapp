@@ -34,9 +34,10 @@ class PedidoController extends GetxController {
 
   Future<void> fetchPedidos() async {
     try {
-      final response = await http.get(Uri.parse('http://localhost:8000/pedidos'));
+      final response = await http.get(Uri.parse('http://localhost:5000/pedidos'));
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
+          //print(jsonData);
         if (jsonData is List<dynamic>) {
           final int previousLength = pedidos.length;
           pedidos.assignAll(jsonData);

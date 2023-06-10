@@ -108,12 +108,23 @@ bot_groundon.whatsapp.on('message', message => {
         //!Tentativa de conexão com o servidor python
 
         if (message.body === '!pedido') {
-            bot_groundon.gerarPedidoJson('Pedro Victor Veras')
+            bot_groundon.gerarPedidoJson(nome_cliente)
         }
+
+        bot_groundon.avancarEstagio()
+
+    }
+    if (bot_groundon.numero_estagio === 4) {
+
+
+        //!Tentativa de conexão com o servidor python
+
+        bot_groundon.enviarMensagem(message, 'Teste')
 
         //bot_groundon.avancarEstagio()
 
     }
+
 
 
 })
