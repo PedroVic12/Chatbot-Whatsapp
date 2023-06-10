@@ -1,6 +1,12 @@
 const fs = require('fs');
 
-function gerarPedidoJson(nomeCliente) {
+const criarDiretorioSeNaoExistir = (caminho) => {
+    if (!fs.existsSync(caminho)) {
+        fs.mkdirSync(caminho, { recursive: true });
+    }
+};
+
+const gerarPedidoJson = (nomeCliente) => {
     const pedido = {
         nome: nomeCliente,
         telefone: "21999289987",
@@ -15,17 +21,17 @@ function gerarPedidoJson(nomeCliente) {
                     quantidade: 1
                 },
                 {
-                    nome: "Açaí",
+                    nome: "Acai",
                     quantidade: 1
                 }
             ],
             totalPrecoPedido: 100.0
         },
         forma_pagamento: "Dinheiro",
-        endereco_cliente: "Niterói"
+        endereco_cliente: "Niteroi"
     };
 
-    const caminho = "src/Server Python/repository";
+    const caminho = "/home/pedrov/Documentos/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Server Python/repository";
     const nomeArquivo = `${caminho}/pedido_${nomeCliente.replace(' ', '_').toLowerCase()}.json`;
     const conteudoArquivo = JSON.stringify(pedido, null, 2);
 
@@ -36,11 +42,12 @@ function gerarPedidoJson(nomeCliente) {
             console.log(`Arquivo ${nomeArquivo} criado com sucesso.`);
         }
     });
-}
+};
 
-function main() {
-    const nomeCliente = "João da Silva";
+const main = () => {
+    const nomeCliente = "Elon Musk";
+    criarDiretorioSeNaoExistir("src/Server Python/repository");
     gerarPedidoJson(nomeCliente);
-}
+};
 
 main();

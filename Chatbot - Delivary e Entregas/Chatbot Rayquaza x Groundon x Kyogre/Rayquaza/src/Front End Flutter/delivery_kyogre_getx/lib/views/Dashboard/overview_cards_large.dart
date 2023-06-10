@@ -73,7 +73,7 @@ class _OverViewCardsLargeState extends State<OverViewCardsLarge> {
                             children: [
                               Container(
                                 width: _cardWidth , // Defina a largura desejada para o CardPedido
-                                child: infoCards[0],
+                                //child: infoCards[0],
                               ),
                               InfoCard(
                                 title: "Pedidos Recebidos",

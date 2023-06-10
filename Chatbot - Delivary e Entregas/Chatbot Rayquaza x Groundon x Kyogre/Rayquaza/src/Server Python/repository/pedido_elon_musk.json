@@ -1,5 +1,5 @@
 {
-  "nome": "João da Silva",
+  "nome": "Elon Musk",
   "telefone": "21999289987",
   "carrinho": {
     "itensPedido": [
@@ -12,12 +12,12 @@
         "quantidade": 1
       },
       {
-        "nome": "Açaí",
+        "nome": "Acai",
         "quantidade": 1
       }
     ],
     "totalPrecoPedido": 100
   },
   "forma_pagamento": "Dinheiro",
-  "endereco_cliente": "Niterói"
+  "endereco_cliente": "Niteroi"
 }

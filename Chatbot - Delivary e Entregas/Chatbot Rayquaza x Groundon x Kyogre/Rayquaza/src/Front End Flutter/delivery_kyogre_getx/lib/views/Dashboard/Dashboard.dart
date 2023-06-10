@@ -1,19 +1,35 @@
+import 'package:delivery_kyogre_getx/Teoria%20do%20Caos/nightWolfAppBar.dart';
 import 'package:delivery_kyogre_getx/views/Dashboard/CardPedido.dart';
 import 'package:delivery_kyogre_getx/views/Dashboard/info_card.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
+import 'dart:async';
 
 import '../../Teoria do Caos/animation_page.dart';
 
 class PedidoController extends GetxController {
   final pedidos = <dynamic>[].obs;
+  final pedidosAceitos = <dynamic>[].obs;
+  Timer? timer;
 
   @override
   void onInit() {
-    fetchPedidos();
+    startFetchingPedidos();
     super.onInit();
+  }
+
+  void startFetchingPedidos() {
+    timer = Timer.periodic(Duration(seconds: 5), (Timer timer) {
+      fetchPedidos();
+    });
+  }
+
+  @override
+  void onClose() {
+    timer?.cancel();
+    super.onClose();
   }
 
   Future<void> fetchPedidos() async {
@@ -22,7 +38,14 @@ class PedidoController extends GetxController {
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
         if (jsonData is List<dynamic>) {
-          pedidos.value = jsonData;
+          final int previousLength = pedidos.length;
+          pedidos.assignAll(jsonData);
+          final int newLength = pedidos.length;
+
+          if (newLength > previousLength) {
+            final novoPedido = pedidos[newLength - 1];
+            showNovoPedidoAlertDialog(novoPedido);
+          }
         }
       } else {
         throw Exception('Failed to fetch pedidos');
@@ -32,65 +55,163 @@ class PedidoController extends GetxController {
       throw Exception('Failed to fetch pedidos');
     }
   }
-}
 
+  void aceitarPedido(dynamic pedido) {
+    pedidos.remove(pedido);
+    pedidosAceitos.add(pedido);
+  }
+
+  void showNovoPedidoAlertDialog(dynamic pedido) {
+    Future.delayed(Duration.zero, () {
+      final context = Get.context;
+      if (context != null) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Novo Pedido Recebido'),
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Nome: ${pedido['nome'] ?? ''}'),
+                  Text('Endereço de Entrega: ${pedido['endereco_cliente'] ?? ''}'),
+                ],
+              ),
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    aceitarPedido(pedido);
+                    Navigator.pop(context);
+                  },
+                  child: Text('Aceitar Pedido'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text('Fechar'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    });
+  }
+
+}
 class DashboardPage extends StatelessWidget {
   final PedidoController pedidoController = Get.put(PedidoController());
-
-  bool showPedidoAnimation = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('DashBoard de Pedidos'),
-      ),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          double _cardWidth = constraints.maxWidth / 4;
+      appBar: NightWolfAppBar(),
+      body: Row(
+        children: [
+          Expanded(
+            flex: 3,
+            child: Container(
+              padding: EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                    ),
+                    onPressed: () {
+                      pedidoController.fetchPedidos();
+                    },
+                    child: Text('Atualizar Pedidos'),
+                  ),
+                  SizedBox(height: 8.0),
+                  Expanded(
+                    child: Obx(
+                          () => ListView.builder(
+                        itemCount: pedidoController.pedidos.length,
+                        itemBuilder: (context, index) {
+                          final pedido = pedidoController.pedidos[index];
 
-          return Obx(
-                () => Container(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (showPedidoAnimation) PedidoChegandoAnimation(),
-                    SizedBox(height: _cardWidth / 64),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        for (var pedido in pedidoController.pedidos)
-                          Container(
-                            width: _cardWidth,
+                          return GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text('Detalhes do Pedido'),
+                                  content: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Itens do Pedido:'),
+                                      ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: pedido['itensPedido'].length,
+                                        itemBuilder: (context, index) {
+                                          final item = pedido['itensPedido'][index];
+                                          return ListTile(
+                                            title: Text(item['nome']),
+                                            subtitle: Text(item['descricao']),
+                                            trailing: Text('R\$ ${item['preco']}'),
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        pedidoController.aceitarPedido(pedido);
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Aceitar Pedido'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Fechar'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
                             child: CardPedido(
                               nome: pedido['nome'],
                               telefone: pedido['telefone'],
                               itensPedido: (pedido['carrinho']['itensPedido'] as List<dynamic>)
                                   .map((item) => item as Map<String, dynamic>)
                                   .toList(),
-                              totalPrecoPedido: pedido['carrinho']['totalPrecoPedido'],
+                              totalPrecoPedido: pedido['carrinho']['totalPrecoPedido'].toDouble(),
                               formaPagamento: pedido['forma_pagamento'],
                               enderecoEntrega: pedido['endereco_cliente'],
                             ),
-                          ),
-                      ],
-                    ),
-                    SizedBox(height: _cardWidth / 64),
-                    Center(
-                      child: InfoCard(
-                        title: "Pedidos Recebidos",
-                        value: pedidoController.pedidos.length.toString(),
-                        onTap: () {},
-                        isActive: true,
+                          );
+                        },
                       ),
                     ),
-                  ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Container(
+              width: 200.0,
+              padding: EdgeInsets.all(8.0),
+              child: Obx(
+                    () => InfoCard(
+                  title: "Pedidos Recebidos",
+                  value: pedidoController.pedidos.length.toString(),
+                  onTap: () {
+                    pedidoController.fetchPedidos();
+                  },
+                  isActive: true,
                 ),
               ),
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }
