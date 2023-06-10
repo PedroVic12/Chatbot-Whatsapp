@@ -1,0 +1,55 @@
+2023/06/10-08:54:23.414 1ad3d Creating DB /home/pedrov/Documentos/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/Groundon 8 - AWS/.wwebjs_auth/session-CITTA-RJ-Lanchonete/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb since it was missing.
+2023/06/10-08:54:23.432 1ad3d Reusing MANIFEST /home/pedrov/Documentos/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/Groundon 8 - AWS/.wwebjs_auth/session-CITTA-RJ-Lanchonete/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/06/10-08:54:23.511 1ad3d Manual compaction at level-0 from '\x00\x01\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x02\x00\x00\x00' @ 0 : 0; will stop at (end)
+2023/06/10-08:54:24.444 1acf4 Level-0 table #5: started
+2023/06/10-08:54:24.450 1acf4 Level-0 table #5: 22954 bytes OK
+2023/06/10-08:54:24.456 1acf4 Delete type=0 #3
+2023/06/10-08:54:24.456 1acf4 Manual compaction at level-0 from '\x00\x07\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x08\x00\x00\x00' @ 0 : 0; will stop at (end)
+2023/06/10-08:55:55.515 1afb5 Level-0 table #7: started
+2023/06/10-08:55:55.551 1afb5 Level-0 table #7: 1314686 bytes OK
+2023/06/10-08:55:55.557 1afb5 Delete type=0 #4
+2023/06/10-08:55:56.350 1ad3d Compacting 1@1 + 1@2 files
+2023/06/10-08:55:56.391 1ad3d Generated table #8@1: 12613 keys, 1012059 bytes
+2023/06/10-08:55:56.391 1ad3d Compacted 1@1 + 1@2 files => 1012059 bytes
+2023/06/10-08:55:56.401 1ad3d compacted to: files[ 0 0 1 0 0 0 0 ]
+2023/06/10-08:55:59.916 1afb5 Level-0 table #10: started
+2023/06/10-08:55:59.943 1afb5 Level-0 table #10: 1084699 bytes OK
+2023/06/10-08:55:59.952 1afb5 Delete type=2 #7
+2023/06/10-08:55:59.952 1afb5 Delete type=0 #6
+2023/06/10-08:55:59.952 1afb5 Delete type=2 #5
+2023/06/10-08:56:00.044 1afb5 Compacting 1@1 + 1@2 files
+2023/06/10-08:56:00.095 1afb5 Generated table #11@1: 21261 keys, 1497106 bytes
+2023/06/10-08:56:00.095 1afb5 Compacted 1@1 + 1@2 files => 1497106 bytes
+2023/06/10-08:56:00.102 1afb5 compacted to: files[ 0 0 1 0 0 0 0 ]
+2023/06/10-08:56:01.299 1afb5 Level-0 table #13: started
+2023/06/10-08:56:01.357 1afb5 Level-0 table #13: 922925 bytes OK
+2023/06/10-08:56:01.364 1afb5 Delete type=2 #8
+2023/06/10-08:56:01.364 1afb5 Delete type=2 #10
+2023/06/10-08:56:01.364 1afb5 Delete type=0 #9
+2023/06/10-08:56:01.382 1acf1 Compacting 1@1 + 1@2 files
+2023/06/10-08:56:01.445 1acf1 Generated table #14@1: 31364 keys, 1871909 bytes
+2023/06/10-08:56:01.445 1acf1 Compacted 1@1 + 1@2 files => 1871909 bytes
+2023/06/10-08:56:01.452 1acf1 compacted to: files[ 0 0 1 0 0 0 0 ]
+2023/06/10-08:56:03.668 1afb6 Level-0 table #16: started
+2023/06/10-08:56:03.694 1afb6 Level-0 table #16: 938857 bytes OK
+2023/06/10-08:56:03.703 1afb6 Delete type=2 #11
+2023/06/10-08:56:03.703 1afb6 Delete type=0 #12
+2023/06/10-08:56:03.703 1afb6 Delete type=2 #13
+2023/06/10-08:56:04.718 1acf1 Compacting 1@1 + 1@2 files
+2023/06/10-08:56:04.828 1acf1 Generated table #17@1: 34139 keys, 2205651 bytes
+2023/06/10-08:56:04.836 1acf1 Generated table #18@1: 5349 keys, 120121 bytes
+2023/06/10-08:56:04.836 1acf1 Compacted 1@1 + 1@2 files => 2325772 bytes
+2023/06/10-08:56:04.846 1acf1 compacted to: files[ 0 0 2 0 0 0 0 ]
+2023/06/10-08:56:38.804 1acf1 Level-0 table #20: started
+2023/06/10-08:56:38.856 1acf1 Level-0 table #20: 1098290 bytes OK
+2023/06/10-08:56:38.863 1acf1 Delete type=0 #15
+2023/06/10-08:56:38.863 1acf1 Delete type=2 #14
+2023/06/10-08:56:38.863 1acf1 Delete type=2 #16
+2023/06/10-08:56:38.878 1acf1 Compacting 1@1 + 2@2 files
+2023/06/10-08:56:38.959 1acf1 Generated table #21@1: 33660 keys, 2205281 bytes
+2023/06/10-08:56:38.984 1acf1 Generated table #22@1: 19761 keys, 647407 bytes
+2023/06/10-08:56:38.984 1acf1 Compacted 1@1 + 2@2 files => 2852688 bytes
+2023/06/10-08:56:38.991 1acf1 compacted to: files[ 0 0 2 0 0 0 0 ]
+2023/06/10-08:56:38.991 1acf1 Delete type=2 #18
+2023/06/10-08:56:38.991 1acf1 Delete type=2 #20
+2023/06/10-08:56:38.991 1acf1 Delete type=2 #17

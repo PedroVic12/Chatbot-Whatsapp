@@ -1,8 +1,8 @@
 const { Client, LocalAuth, Buttons, List, MessageMedia, LegacySessionAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 const fetch = require('node-fetch');
+const fs = require('fs');
 
-//const fs = require('fs');
 //const puppeteer = require('puppeteer');
 
 class Groundon {
@@ -220,7 +220,8 @@ class Groundon {
             endereco_cliente: "Niterói"
         };
 
-        const nomeArquivo = `pedido_${nomeCliente.replace(' ', '_').toLowerCase()}.json`;
+        const caminho = "src/Server Python/repository";
+        const nomeArquivo = `${caminho}/pedido_${nomeCliente.replace(' ', '_').toLowerCase()}.json`;
         const conteudoArquivo = JSON.stringify(pedido, null, 2);
 
         fs.writeFile(nomeArquivo, conteudoArquivo, (err) => {

@@ -95,9 +95,7 @@ bot_groundon.whatsapp.on('message', message => {
             estagio2.mostrarMenuPrincipal(message)
         )
 
-        if (message.body === '!pedido') {
-            bot_groundon.gerarPedidoJson('Peter Parker')
-        }
+
 
         bot_groundon.avancarEstagio().then(
             bot_groundon.enviarMensagem(message, 'O que deseja fazer?')
@@ -109,18 +107,11 @@ bot_groundon.whatsapp.on('message', message => {
 
         //!Tentativa de conexão com o servidor python
 
-        chatbot.enviarMensagem(message, `Nota Fiscal do seu pedido: \n ${cliente.gerarNotaFiscal()}`)
-
-        // Verifique se a mensagem contém o comando para fazer um pedido
-        if (message.body === 'fazerPedido') {
-            // Gere o JSON do pedido
-            const pedido = bot_groundon.gerarJson(message);
-
-            // Envie o pedido para o servidor FastAPI
-            bot_groundon.enviarPedido(pedido);
+        if (message.body === '!pedido') {
+            bot_groundon.gerarPedidoJson('Pedro Victor')
         }
 
-        bot_groundon.avancarEstagio()
+        //bot_groundon.avancarEstagio()
 
     }
 

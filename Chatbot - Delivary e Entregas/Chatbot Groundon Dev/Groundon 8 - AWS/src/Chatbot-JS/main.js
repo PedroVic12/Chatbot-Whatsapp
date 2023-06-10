@@ -109,23 +109,6 @@ chatbot.whatsapp.on('message', message => {
 
         //TODO checar cliente na base de dados
 
-
-        //Checa o cliente na base de dados e responde
-        //try {
-        //    estagio2.adicionandoClienteNaBasedeDados(message)
-        //    chatbot.gerarTxtUmItem(nome_cliente)
-        //} catch (error) {
-        //    console.log('Nao foi possivel cadastrar o cliente na base de dados')
-        //}
-
-
-        //let base_de_dados = estagio2.adicionandoClienteNaBasedeDados(message)
-
-        // If cliente ja tem na base de dados, então uma forma de abordagem diferente
-        // if (nome_cliente in base_de_dados){
-        //
-        // }
-
         chatbot.delay(3000).then(
             chatbot.enviarMensagem(message, `✅ Prazer em te conhecer, ${nome_cliente}!`)
         );

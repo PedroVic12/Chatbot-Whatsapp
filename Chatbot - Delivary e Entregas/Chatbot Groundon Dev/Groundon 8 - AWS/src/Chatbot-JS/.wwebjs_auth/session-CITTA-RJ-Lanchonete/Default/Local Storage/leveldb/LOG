@@ -1,3 +1,6 @@
-2023/06/10-04:31:56.594 d1f1 Reusing MANIFEST /home/pedrov/Documentos/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/Groundon 8 - AWS/src/Chatbot-JS/.wwebjs_auth/session-CITTA-RJ-Lanchonete/Default/Local Storage/leveldb/MANIFEST-000001
-2023/06/10-04:31:56.596 d1f1 Recovering log #3
-2023/06/10-04:31:56.597 d1f1 Reusing old log /home/pedrov/Documentos/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/Groundon 8 - AWS/src/Chatbot-JS/.wwebjs_auth/session-CITTA-RJ-Lanchonete/Default/Local Storage/leveldb/000003.log 
+2023/06/10-08:58:36.402 1b528 Reusing MANIFEST /home/pedrov/Documentos/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/Groundon 8 - AWS/src/Chatbot-JS/.wwebjs_auth/session-CITTA-RJ-Lanchonete/Default/Local Storage/leveldb/MANIFEST-000001
+2023/06/10-08:58:36.403 1b528 Recovering log #3
+2023/06/10-08:58:36.403 1b528 Reusing old log /home/pedrov/Documentos/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Groundon Dev/Groundon 8 - AWS/src/Chatbot-JS/.wwebjs_auth/session-CITTA-RJ-Lanchonete/Default/Local Storage/leveldb/000003.log 
+2023/06/10-08:59:36.666 1b52f Level-0 table #5: started
+2023/06/10-08:59:36.673 1b52f Level-0 table #5: 15292 bytes OK
+2023/06/10-08:59:36.679 1b52f Delete type=0 #3
