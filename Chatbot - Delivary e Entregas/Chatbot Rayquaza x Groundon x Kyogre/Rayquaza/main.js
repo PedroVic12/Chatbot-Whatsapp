@@ -10,12 +10,12 @@ const Sanduiches = require("./Chatbot/Cardapio - LOJA/Sanduiche.js");
 
 //! Importações e variáveis GLOBAIS
 // Documentação:  https://wwebjs.dev/guide/#replying-to-messages
-const Groundon = require('./src/Chatbot JS/chatbot');
+const Groundon = require('./src/Chatbot JS/models/core/Groundon');
 
-const Estagio1 = require('./Chatbot/stages/Estagio1')
-const Estagio2 = require('./Chatbot/stages/Estagio2')
-const Estagio3 = require('./Chatbot/stages/Estagio3')
-const Estagio4 = require('./Chatbot/stages/Estagio4')
+const Estagio1 = require('./src/Chatbot JS/views/Estagio1')
+const Estagio2 = require('./src/Chatbot JS/views/Estagio2')
+const Estagio3 = require('./src/Chatbot JS/views/Estagio3')
+const Estagio4 = require('./src/Chatbot JS/views/Estagio4')
 const Estagio5 = require('./Chatbot/stages/Estagio5')
 
 const Carrinho = require("./Chatbot/Pedido/Carrinho");
@@ -253,35 +253,11 @@ chatbot.whatsapp.on('message', message => {
         )
 
 
-
-
-
-
-        // TODO armazenar na base de dados todas as informalçoes do cliente
-        // Todo Enviar Nota Fiscal COM ARDUINO E ATIVAR O CODIGO EM C++
-        //! ERRO AQUI AI TER A NOTA FISCAL ARQUIVO NÃO EXISTE
         chatbot.delay(2000).then(
             chatbot.enviarMensagem(message, `Nota Fiscal do seu pedido: \n ${cliente.gerarNotaFiscal()}`)
         )
 
 
-        // Imprimindo na impressora
-        flag_impressora = true
-        if (flag_impressora) {
-            chatbot.delay(2000).then(
-                chatbot.enviarMensagem(message, "🤖 Imprimindo Nota Fiscal")
-            )
-            chatbot.delay(2000).then(() => {
-                const { exec } = require('child_process');
-                exec('./NomeDoExecutavel', (err, stdout, stderr) => {
-                    if (err) {
-                        console.error(`Erro ao imprimir: ${err}`);
-                        return;
-                    }
-                    console.log(`Saída do comando: ${stdout}`);
-                });
-            });
-        }
 
 
         chatbot.avancarEstagio().then(

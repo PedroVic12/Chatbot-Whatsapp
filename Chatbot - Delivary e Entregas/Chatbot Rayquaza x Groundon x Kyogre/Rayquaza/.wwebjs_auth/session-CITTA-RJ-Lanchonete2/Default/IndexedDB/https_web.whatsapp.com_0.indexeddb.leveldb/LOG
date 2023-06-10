@@ -1,3 +1,12 @@
-2023/06/10-08:53:01.198 1a771 Reusing MANIFEST /home/pedrov/Documentos/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/.wwebjs_auth/session-CITTA-RJ-Lanchonete2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/06/10-08:53:01.199 1a771 Recovering log #164
-2023/06/10-08:53:01.301 1a771 Reusing old log /home/pedrov/Documentos/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/.wwebjs_auth/session-CITTA-RJ-Lanchonete2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000164.log 
+2023/06/10-10:04:01.066 1070d Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/.wwebjs_auth/session-CITTA-RJ-Lanchonete2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/06/10-10:04:01.067 1070d Recovering log #170
+2023/06/10-10:04:01.213 1070d Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/.wwebjs_auth/session-CITTA-RJ-Lanchonete2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000170.log 
+2023/06/10-10:04:32.792 107fb Level-0 table #175: started
+2023/06/10-10:04:32.853 107fb Level-0 table #175: 1167038 bytes OK
+2023/06/10-10:04:32.855 107fb Delete type=0 #170
+2023/06/10-10:04:33.205 107fb Compacting 1@1 + 1@2 files
+2023/06/10-10:04:33.325 107fb Generated table #176@1: 29932 keys, 1104083 bytes
+2023/06/10-10:04:33.325 107fb Compacted 1@1 + 1@2 files => 1104083 bytes
+2023/06/10-10:04:33.326 107fb compacted to: files[ 0 0 1 0 0 0 0 ]
+2023/06/10-10:04:33.326 107fb Delete type=2 #175
+2023/06/10-10:04:33.326 107fb Delete type=2 #172

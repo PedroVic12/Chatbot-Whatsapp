@@ -202,7 +202,7 @@ class Groundon {
             carrinho: {
                 itensPedido: [
                     {
-                        nome: "Big Mac",
+                        nome: "X Tudo",
                         quantidade: 2
                     },
                     {
@@ -210,14 +210,14 @@ class Groundon {
                         quantidade: 1
                     },
                     {
-                        nome: "Açaí",
+                        nome: "Acai",
                         quantidade: 1
                     }
                 ],
                 totalPrecoPedido: 100.0
             },
             forma_pagamento: "Dinheiro",
-            endereco_cliente: "Niterói"
+            endereco_cliente: "Niteroi"
         };
 
         const caminho = "src/Server Python/repository";

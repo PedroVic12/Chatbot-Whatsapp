@@ -44,7 +44,6 @@ class Estagio2 {
             ], '🤖 Chatbot Groundon', `Horário de Atendimento = ${this.chatbot.getHoras()} `
         );
 
-
     }
 }
 
