@@ -55,6 +55,9 @@ class PedidoController extends GetxController {
       throw Exception('Failed to fetch pedidos');
     }
   }
+
+
+  
   void removePedido(dynamic pedido) {
 
     //TODO remover arquivo json
