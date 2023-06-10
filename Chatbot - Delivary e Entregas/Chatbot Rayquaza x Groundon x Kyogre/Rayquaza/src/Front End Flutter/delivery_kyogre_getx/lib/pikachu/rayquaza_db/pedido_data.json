@@ -1,25 +1,23 @@
 {
-  "order_id": "123456",
-  "customer_name": "John Doe",
-  "total_amount": 50.99,
-  "items": [
-    {
-      "item_id": "1",
-      "item_name": "Product A",
-      "quantity": 2,
-      "price": 10.99
-    },
-    {
-      "item_id": "2",
-      "item_name": "Product B",
-      "quantity": 1,
-      "price": 29.99
-    },
-    {
-      "item_id": "3",
-      "item_name": "Product C",
-      "quantity": 3,
-      "price": 5.99
-    }
-  ]
+  "nome": "Anakin Skywalker",
+  "telefone": "21999289987",
+  "carrinho": {
+    "itensPedido": [
+      {
+        "nome": "Cheese Burguer",
+        "quantidade": 2
+      },
+      {
+        "nome": "Guaraviton",
+        "quantidade": 1
+      },
+      {
+        "nome": "Tapioca",
+        "quantidade": 1
+      }
+    ],
+    "totalPrecoPedido": 100.0
+  },
+  "forma_pagamento": "Dinheiro",
+  "endereco_cliente": "Niteroi"
 }

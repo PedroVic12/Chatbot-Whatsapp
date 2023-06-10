@@ -45,7 +45,7 @@ class Groundon {
         // const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
         // console.log(browser.version)
 
-        //const wppIsOn = false;
+        const wppIsOn = false;
 
         return new Promise(async (resolve, reject) => {
 
@@ -72,7 +72,7 @@ class Groundon {
 
             // Conectando com o Whatsapp Web
             this.whatsapp.on('ready', () => {
-                wppIsOn = true
+                //wppIsOn = true
                 console.log('whatsapp pronto! Pode usar agora :)');
                 resolve(this.whatsapp);
 

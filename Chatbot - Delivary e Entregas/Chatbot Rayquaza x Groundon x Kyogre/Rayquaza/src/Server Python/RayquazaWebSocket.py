@@ -36,6 +36,7 @@ class Rayquaza:
                 json_filename = os.path.join("repository", json_files[0])
                 with open(json_filename, "r") as file:
                     json_data = json.load(file)
+                    print(json_data)
 
                 # Envia os dados do JSON para o cliente
                 await websocket.send_json(json_data)
