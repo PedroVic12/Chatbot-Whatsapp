@@ -1,6 +1,5 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
-from fastapi import HTTPException
 import os
 import json
 import requests
@@ -30,6 +29,8 @@ class Rayquaza:
                 raise HTTPException(
                     status_code=response.status_code, detail=response.text)
 
+            return 'Post de Pedidos concluído!'
+
         except Exception as e:
             print('Falha ao fazer a solicitação POST:', str(e))
 
@@ -49,7 +50,7 @@ class Rayquaza:
         # Rota para a página inicial
         @app.get("/")
         async def get():
-            return HTMLResponse("<h1>Rayquaza Server esta Online!</h1>")
+            return HTMLResponse("<h1>Rayquaza Server está Online!</h1>")
 
         # Rota para receber os pedidos via POST
         @app.post("/pedidos")
@@ -58,6 +59,9 @@ class Rayquaza:
             # Neste exemplo, apenas exibimos os pedidos recebidos
             print("Pedidos recebidos:", pedidos)
             return {"message": "Pedidos recebidos com sucesso"}
+
+        # Chamar a função check_json_files antes de definir a rota GET para visualizar os pedidos
+        self.check_json_files()
 
         @app.get("/pedidos")
         async def visualizar_pedidos():
@@ -77,5 +81,4 @@ class Rayquaza:
 
 # Exemplo de uso da classe Rayquaza
 rayquaza = Rayquaza()
-rayquaza.check_json_files()
 rayquaza.run()
