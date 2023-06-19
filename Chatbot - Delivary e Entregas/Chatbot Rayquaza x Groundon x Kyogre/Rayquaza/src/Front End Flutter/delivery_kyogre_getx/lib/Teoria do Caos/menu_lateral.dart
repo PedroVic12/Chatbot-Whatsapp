@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+
+// TODO -> Navigator Getx
+// TODO -> CRUD with listview (Contact List APP)
+// TODO -> Backend and database Usage
+// TODO -> Layouts in Flutter
+
+
+// TODO -> Gestao de Pedidos com Tabelas
 class ItemMenuLateral {
   final String title;
   final IconData icon;
@@ -28,7 +36,7 @@ class MenuLateral extends StatelessWidget {
     ItemMenuLateral(title: 'Página 1', icon: Icons.home, route: '/'),
     ItemMenuLateral(title: 'Pedido Page Server', icon: Icons.pageview, route: '/pedido'),
     ItemMenuLateral(title: 'DashBoard Page', icon: Icons.account_balance_wallet_sharp, route: '/dash'),
-  // Adicione mais itens de menu conforme necessário
+  //TODO Adicione mais itens de menu conforme necessário
   ];
 
   @override

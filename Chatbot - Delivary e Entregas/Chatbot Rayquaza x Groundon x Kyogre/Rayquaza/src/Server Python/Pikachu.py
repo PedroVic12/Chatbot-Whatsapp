@@ -10,6 +10,7 @@ import time
 app = FastAPI()
 
 
+#! Controle dos Arquivos de Pedidos em JSON
 class PedidoController:
     def __init__(self, repository_path):
         self.repository_path = repository_path
@@ -77,24 +78,33 @@ class RayquazaApp:
         self.pedido_controller = PedidoController("Server Python/repository")
         self.pedido_view = PedidoView(self.pedido_controller.repository_path)
 
+    #! Rotas
+
     def configure_routes(self):
+
+        # Rotas GET
         @self.app.get("/")
         def get():
             return HTMLResponse("<h1>Rayquaza Server está Online!</h1>")
 
+        @self.app.get("/pedidos")
+        def visualizar_pedidos():
+            pedidos = self.pedido_view.get_all()
+            print("\nPedidos Recebido! ", pedidos)
+            return pedidos
+
+        # Rotas POST
         @self.app.post("/pedidos")
         def pedidos(pedidos: dict):
             model = PedidoModel(pedidos)
             print('\nNovo Pedido Salvo!')
             return model.process()
 
-        @self.app.get("/pedidos")
-        def visualizar_pedidos():
-            pedidos = self.pedido_view.get_all()
-            print('Pedido Recebido!')
-            # print("Pedidos:", pedidos)
-            # return pedidos
+        # Rotas PUT
 
+        # Rotas DELETE
+
+        # TODO Parametro de rota do pedido para ser removida
         @self.app.delete("/deletarPedido/{pedido_id}")
         def delete_pedido(pedido_id: int):
             # Lógica para excluir o arquivo JSON correspondente ao pedido
@@ -106,6 +116,8 @@ class RayquazaApp:
             else:
                 raise HTTPException(
                     status_code=404, detail=f"Pedido {pedido_id} não encontrado")
+
+    #! Funções Servidor Rayquaza
 
     def run(self):
         self.pedido_controller.check_json_files()
