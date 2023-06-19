@@ -6,8 +6,17 @@ const criarDiretorioSeNaoExistir = (caminho) => {
     }
 };
 
+const gerarIdPedidoAleatorio = () => {
+    const maximo = 9999; // Valor máximo do id_pedido
+    return Math.floor(Math.random() * maximo);
+};
+
 const gerarPedidoJson = (nomeCliente) => {
+    const idPedido = gerarIdPedidoAleatorio();
+    const nomeArquivo = `pedido_${idPedido}.json`;
+
     const pedido = {
+        id: idPedido,
         nome: nomeCliente,
         telefone: "21999289987",
         carrinho: {
@@ -31,15 +40,15 @@ const gerarPedidoJson = (nomeCliente) => {
         endereco_cliente: "Niteroi"
     };
 
-    const caminho = "/home/pedrov/Documentos/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Server Python/repository";
-    const nomeArquivo = `${caminho}/pedido_${nomeCliente.replace(' ', '_').toLowerCase()}.json`;
+    const caminho = "src/Server Python/repository";
+    const nomeArquivoCompleto = `${caminho}/${nomeArquivo}`;
     const conteudoArquivo = JSON.stringify(pedido, null, 2);
 
-    fs.writeFile(nomeArquivo, conteudoArquivo, (err) => {
+    fs.writeFile(nomeArquivoCompleto, conteudoArquivo, (err) => {
         if (err) {
-            console.error(`Erro ao criar o arquivo ${nomeArquivo}: ${err}`);
+            console.error(`Erro ao criar o arquivo ${nomeArquivoCompleto}: ${err}`);
         } else {
-            console.log(`Arquivo ${nomeArquivo} criado com sucesso.`);
+            console.log(`Arquivo ${nomeArquivoCompleto} criado com sucesso.`);
         }
     });
 };

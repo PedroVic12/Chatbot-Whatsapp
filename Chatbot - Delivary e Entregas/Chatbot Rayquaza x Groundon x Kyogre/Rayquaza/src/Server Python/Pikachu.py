@@ -5,6 +5,7 @@ import json
 import requests
 import uvicorn
 import glob
+import time
 
 app = FastAPI()
 
@@ -19,6 +20,7 @@ class PedidoController:
             print('\nRequisição =', json_data)
 
         try:
+            time.sleep(2)
             response = requests.post(
                 "http://localhost:5000/pedidos", json=json_data)
 
@@ -37,7 +39,7 @@ class PedidoController:
         if json_files:
             for json_file in json_files:
                 try:
-                    print("Processando arquivo JSON:", json_file)
+                    print("\n\nProcessando arquivo JSON:", json_file)
                     self.process_json_file(json_file)
                 except Exception as e:
                     print(f"Erro ao processar o arquivo JSON: {json_file}")
@@ -72,31 +74,47 @@ class PedidoView:
 class RayquazaApp:
     def __init__(self):
         self.app = FastAPI()
-        self.pedido_controller = PedidoController("repository")
+        self.pedido_controller = PedidoController("Server Python/repository")
         self.pedido_view = PedidoView(self.pedido_controller.repository_path)
 
     def configure_routes(self):
         @self.app.get("/")
-        async def get():
+        def get():
             return HTMLResponse("<h1>Rayquaza Server está Online!</h1>")
 
         @self.app.post("/pedidos")
-        async def pedidos(pedidos: dict):
+        def pedidos(pedidos: dict):
             model = PedidoModel(pedidos)
+            print('\nNovo Pedido Salvo!')
             return model.process()
 
         @self.app.get("/pedidos")
-        async def visualizar_pedidos():
+        def visualizar_pedidos():
             pedidos = self.pedido_view.get_all()
-            print("Pedidos:", pedidos)
-            return pedidos
+            print('Pedido Recebido!')
+            # print("Pedidos:", pedidos)
+            # return pedidos
+
+        @self.app.delete("/deletarPedido/{pedido_id}")
+        def delete_pedido(pedido_id: int):
+            # Lógica para excluir o arquivo JSON correspondente ao pedido
+            file_path = f"Server Python/repository/pedido_{pedido_id}.json"
+
+            if os.path.exists(file_path):
+                os.remove(file_path)
+                return {"message": f"Pedido {pedido_id} excluído com sucesso"}
+            else:
+                raise HTTPException(
+                    status_code=404, detail=f"Pedido {pedido_id} não encontrado")
 
     def run(self):
-        self.configure_routes()
         self.pedido_controller.check_json_files()
+        self.configure_routes()
+        time.sleep(2)
+        print('\n\nLigando o servidor...')
         uvicorn.run(self.app, host="0.0.0.0", port=5000)
 
 
-# Exemplo de uso da classe RayquazaApp
-rayquaza_app = RayquazaApp()
-rayquaza_app.run()
+if __name__ == '__main__':
+    rayquaza_app = RayquazaApp()
+    rayquaza_app.run()

@@ -6,11 +6,13 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'dart:async';
+import 'dart:io';
 
 import '../../Teoria do Caos/animation_page.dart';
 
 class PedidoController extends GetxController {
   final pedidos = <dynamic>[].obs;
+
   final pedidosAceitos = <dynamic>[].obs;
   Timer? timer;
 
@@ -58,15 +60,38 @@ class PedidoController extends GetxController {
   }
 
 
-  
-  void removePedido(dynamic pedido) {
 
-    //TODO remover arquivo json
+  void removePedido(dynamic pedido) async {
+    final pedidoId = pedido['id'];
 
-    // Todo salvar todos os pedidos numa tabela do dia
+    // Faça a solicitação DELETE para excluir o pedido do servidor
+    final response = await http.delete(Uri.parse('http://localhost:5000/deletarPedido/$pedidoId'));
 
-    pedidos.remove(pedido);
+    if (response.statusCode == 200) {
+
+      // Agora você pode remover o pedido localmente
+      pedidos.remove(pedido);
+
+      // Exiba uma Snackbar informando que o pedido foi removido com sucesso
+      Get.snackbar(
+        'Sucesso',
+        'Pedido removido com sucesso.',
+        snackPosition: SnackPosition.TOP,
+        duration: Duration(seconds: 3),
+      );
+    } else {
+      // Exiba uma Snackbar informando o erro
+      Get.snackbar(
+        'Erro',
+        'Falha ao remover o pedido.',
+        snackPosition: SnackPosition.TOP,
+        duration: const Duration(seconds: 3),
+      );
+    }
   }
+
+
+
 
   void aceitarPedido(dynamic pedido) {
     pedidosAceitos.add(pedido);
