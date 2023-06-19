@@ -1,11 +1,11 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:delivery_kyogre_getx/views/Dashboard/Pedido/PedidoControler.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/PedidoController.dart';
 
 class PedidoPage extends StatelessWidget {
-  final MeuPedidoController pedido_controller = Get.find<MeuPedidoController>();
+  final PedidoController pedido_controller = Get.find<PedidoController>();
 
   @override
   Widget build(BuildContext context) {

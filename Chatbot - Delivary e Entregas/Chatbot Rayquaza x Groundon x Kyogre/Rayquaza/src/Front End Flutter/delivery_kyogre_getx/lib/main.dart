@@ -1,9 +1,10 @@
+import 'package:delivery_kyogre_getx/Kyogre/UI/GridView.dart';
 import 'package:delivery_kyogre_getx/views/Dashboard/Dashboard.dart';
+import 'package:delivery_kyogre_getx/views/Dashboard/Pedido/PedidoControler.dart';
 import 'package:delivery_kyogre_getx/views/HomePage.dart';
 import 'package:delivery_kyogre_getx/pikachu/layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'controllers/PedidoController.dart';
 import 'views/PedidoPage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/', page: () => Layout()),
         GetPage(name: '/pedido', page: () => PedidoPage()),
         GetPage(name: '/dash', page: () => DashboardPage()),
-
+        GetPage(name: '/layoutDesign', page: ()=> CartaoGridView()),
       ],
       debugShowCheckedModeBanner: false,
       title: 'Dashboard',
