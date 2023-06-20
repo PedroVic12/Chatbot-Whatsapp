@@ -5,6 +5,7 @@ import 'package:delivery_kyogre_getx/views/HomePage.dart';
 import 'package:delivery_kyogre_getx/pikachu/layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'Teoria do Caos/RestAPI/RestApiHttp.dart';
 import 'views/PedidoPage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
       // Navegação Padrão
       getPages: [
         GetPage(name: '/', page: () => Layout()),
-        GetPage(name: '/pedido', page: () => PedidoPage()),
+        GetPage(name: '/pedido', page: () => RestApiPage()), //! Change Here
         GetPage(name: '/dash', page: () => DashboardPage()),
         GetPage(name: '/layoutDesign', page: ()=> CartaoGridView()),
       ],

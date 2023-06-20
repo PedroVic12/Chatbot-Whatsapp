@@ -40,7 +40,7 @@ const gerarPedidoJson = (nomeCliente) => {
         endereco_cliente: "Niteroi"
     };
 
-    const caminho = "src/Server Python/repository";
+    const caminho = "/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Server Python/repository";
     const nomeArquivoCompleto = `${caminho}/${nomeArquivo}`;
     const conteudoArquivo = JSON.stringify(pedido, null, 2);
 
@@ -55,7 +55,7 @@ const gerarPedidoJson = (nomeCliente) => {
 
 const main = () => {
     const nomeCliente = "Elon Musk";
-    criarDiretorioSeNaoExistir("src/Server Python/repository");
+    criarDiretorioSeNaoExistir("./Server Python/repository");
     gerarPedidoJson(nomeCliente);
 };
 

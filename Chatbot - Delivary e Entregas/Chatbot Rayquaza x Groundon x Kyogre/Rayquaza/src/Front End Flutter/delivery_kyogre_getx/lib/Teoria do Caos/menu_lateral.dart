@@ -37,6 +37,8 @@ class MenuLateral extends StatelessWidget {
     ItemMenuLateral(title: 'Pedido Page Server', icon: Icons.pageview, route: '/pedido'),
     ItemMenuLateral(title: 'DashBoard Page', icon: Icons.account_balance_wallet_sharp, route: '/dash'),
     ItemMenuLateral(title: 'Grid Style', icon: Icons.abc_outlined, route: '/layoutDesign')
+
+
     //TODO Adicione mais itens de menu conforme necessário
   ];
 
