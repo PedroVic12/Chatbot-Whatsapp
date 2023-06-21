@@ -44,6 +44,7 @@ dependencies:
   flutter_animation_progress_bar: ^2.3.1
   flutter_svg: ^2.0.5
   socket_io_client: ^2.0.2
+  awesome_dialog: ^3.1.0
 
 dev_dependencies:
   flutter_test:

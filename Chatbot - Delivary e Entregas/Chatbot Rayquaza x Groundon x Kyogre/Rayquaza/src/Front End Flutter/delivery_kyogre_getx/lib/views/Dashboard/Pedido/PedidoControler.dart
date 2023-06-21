@@ -17,6 +17,8 @@ class PedidoController extends GetxController {
   }
 
   void startFetchingPedidos() {
+
+    // Requisição Get a cada 5 segundos (loop)
     timer = Timer.periodic(Duration(seconds: 5), (Timer timer) {
       fetchPedidos();
     });
@@ -34,9 +36,9 @@ class PedidoController extends GetxController {
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
         //print(jsonData);
-        if (jsonData is List<dynamic>) {
+        if (jsonData['results'] is List<dynamic>) {
           final int previousLength = pedidos.length;
-          pedidos.assignAll(jsonData);
+          pedidos.assignAll(jsonData['results']);
           final int newLength = pedidos.length;
 
           if (newLength > previousLength) {

@@ -57,7 +57,7 @@ class Rayquaza:
         async def pedidos(pedidos: dict):
             # Implemente aqui a lógica para processar os pedidos recebidos
             # Neste exemplo, apenas exibimos os pedidos recebidos
-            print("Pedidos recebidos:", pedidos)
+            print("\n>>> Pedidos recebidos:", pedidos)
             return {"message": "Pedidos recebidos com sucesso"}
 
         # Chamar a função check_json_files antes de definir a rota GET para visualizar os pedidos

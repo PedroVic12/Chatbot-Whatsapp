@@ -1,6 +1,7 @@
 import 'package:delivery_kyogre_getx/Kyogre/UI/GridView.dart';
 import 'package:delivery_kyogre_getx/Teoria%20do%20Caos/nightWolfAppBar.dart';
 import 'package:delivery_kyogre_getx/app/widgets/CustomText.dart';
+import 'package:delivery_kyogre_getx/app/widgets/Pedido/AlertaPedidoWidget.dart';
 import 'package:delivery_kyogre_getx/views/Dashboard/CardPedido.dart';
 import 'package:delivery_kyogre_getx/views/Dashboard/Pedido/PedidoControler.dart';
 import 'package:delivery_kyogre_getx/views/Dashboard/info_card.dart';
@@ -29,6 +30,7 @@ class DashboardPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  AlertaPedidoChegando(),
 
                   CustomText(text: 'Pedidos para serem Aceitos'),
 
@@ -133,8 +135,9 @@ class DashboardPage extends StatelessWidget {
           ),
 
           Column(
-            children: [
+            children:  [
               CustomText(text: 'Pedidos sendo processados'),
+
             ],
           ),
 

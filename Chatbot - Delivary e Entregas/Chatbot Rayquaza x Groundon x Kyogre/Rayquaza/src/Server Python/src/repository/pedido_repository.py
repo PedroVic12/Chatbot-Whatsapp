@@ -52,5 +52,5 @@ class PedidoModel:
         self.pedido = pedido
 
     def process(self):
-        print("Pedidos recebidos:", self.pedido)
+        print("\n\n>>>Pedidos recebidos:\n" + self.pedido + '\n')
         return {"message": "Pedidos recebidos com sucesso"}
