@@ -53,7 +53,7 @@ class RayquazaApp:
         def visualizar_pedidos(page: int = 1, limit: int = 10):
             pedidos = self.pedido_repository.get_all()
             paginacao_result = self.paginacao(pedidos, page, limit)
-            print("\nPedidos Recebidos:", paginacao_result['results'])
+            print("\n>>> Pedidos Recebidos:\n", paginacao_result['results'])
             return paginacao_result
 
         # Métodos POST

@@ -1,11 +1,12 @@
-import 'package:delivery_kyogre_getx/app/widgets/side_menu.dart';
-import 'package:delivery_kyogre_getx/views/Dashboard/overview_cards_large.dart';
-import 'package:delivery_kyogre_getx/views/Dashboard/overview_cards_small.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../Teoria do Caos/menu_lateral.dart';
-import '../Teoria do Caos/nightWolfAppBar.dart';
+import '../../../Teoria do Caos/menu_lateral.dart';
+import '../../../Teoria do Caos/nightWolfAppBar.dart';
+import '../Dashboard/OverViewCards/overview_cards_large.dart';
+import '../Dashboard/OverViewCards/overview_cards_small.dart';
+
 
 
 class LargePage extends StatelessWidget {
@@ -34,7 +35,7 @@ class LargePage extends StatelessWidget {
                   child: Container(
                     child: OverViewCardsLarge(),
                     constraints: BoxConstraints.expand(),
-                    color: CupertinoColors.activeBlue,
+                    color: CupertinoColors.systemYellow,
                   )),
 
             ],
@@ -60,7 +61,7 @@ class LargeScreen extends StatelessWidget {
               child: Container(
                 child: OverViewCardsLarge(),
                 constraints: BoxConstraints.expand(),
-                color: CupertinoColors.activeBlue,
+                color: CupertinoColors.activeOrange,
               )),
 
         ],
@@ -76,7 +77,7 @@ class SmallScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.green,
+      color: CupertinoColors.activeGreen,
       constraints: BoxConstraints.expand(),
       child: OverViewCardsSmallScreen(),
     );

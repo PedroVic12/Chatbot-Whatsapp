@@ -1,4 +1,4 @@
-import 'package:delivery_kyogre_getx/views/Dashboard/info_card.dart';
+import 'package:delivery_kyogre_getx/views/pages/Dashboard/InfoCard/info_card.dart';
 import 'package:flutter/material.dart';
 
 

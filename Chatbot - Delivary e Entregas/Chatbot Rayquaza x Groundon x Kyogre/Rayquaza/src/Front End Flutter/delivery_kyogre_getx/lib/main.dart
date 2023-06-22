@@ -1,19 +1,16 @@
 import 'package:delivery_kyogre_getx/Kyogre/UI/GridView.dart';
-import 'package:delivery_kyogre_getx/views/Dashboard/Dashboard.dart';
-import 'package:delivery_kyogre_getx/views/Dashboard/Pedido/PedidoControler.dart';
-import 'package:delivery_kyogre_getx/views/HomePage.dart';
 import 'package:delivery_kyogre_getx/pikachu/layout.dart';
+import 'package:delivery_kyogre_getx/views/pages/Dashboard/DashBoardPage.dart';
+import 'package:delivery_kyogre_getx/views/pages/Dashboard/Dashboard.dart';
+import 'package:delivery_kyogre_getx/views/pages/Dashboard/Pedido/PedidoControler.dart';
+import 'Teoria do Caos/RestAPI/RestApiHttp.dart';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'Teoria do Caos/RestAPI/RestApiHttp.dart';
-import 'views/PedidoPage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 //TODO -> Menu controller 1:08
-
-// TODO -> Ler Json do pedido
-
-// TODO -> receber informações do backend em python
 
 // TODO -> Apresentar pedido na tela quando receber o pedido
 
@@ -34,7 +31,7 @@ class MyApp extends StatelessWidget {
       //unknownRoute: GetPage(name: '/not-found', page: () => PageNotFound(), transition: Transition.fadeIn),
 
 
-      // Navegação Padrão
+      // TODO Navegação Padrão
       getPages: [
         GetPage(name: '/', page: () => Layout()),
         GetPage(name: '/pedido', page: () => RestApiPage()), //! Change Here
@@ -54,7 +51,7 @@ class MyApp extends StatelessWidget {
               TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
             }
         ),
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.blueGrey,
       ),
       home: Layout(),
     );

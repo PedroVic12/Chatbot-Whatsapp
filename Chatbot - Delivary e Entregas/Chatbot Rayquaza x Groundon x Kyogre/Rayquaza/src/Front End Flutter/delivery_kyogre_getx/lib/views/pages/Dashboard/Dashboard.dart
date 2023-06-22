@@ -2,9 +2,10 @@ import 'package:delivery_kyogre_getx/Kyogre/UI/GridView.dart';
 import 'package:delivery_kyogre_getx/Teoria%20do%20Caos/nightWolfAppBar.dart';
 import 'package:delivery_kyogre_getx/app/widgets/CustomText.dart';
 import 'package:delivery_kyogre_getx/app/widgets/Pedido/AlertaPedidoWidget.dart';
-import 'package:delivery_kyogre_getx/views/Dashboard/CardPedido.dart';
-import 'package:delivery_kyogre_getx/views/Dashboard/Pedido/PedidoControler.dart';
-import 'package:delivery_kyogre_getx/views/Dashboard/info_card.dart';
+import 'package:delivery_kyogre_getx/views/pages/Dashboard/Pedido/CardPedido.dart';
+import 'package:delivery_kyogre_getx/views/pages/Dashboard/Pedido/PedidoControler.dart';
+import 'package:delivery_kyogre_getx/views/pages/Dashboard/InfoCard/info_card.dart';
+
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -12,9 +13,8 @@ import 'package:get/get.dart';
 import 'dart:async';
 import 'dart:io';
 
-import '../../Teoria do Caos/animation_page.dart';
 
-class DashboardPage extends StatelessWidget {
+class Dashboard extends StatelessWidget {
   final PedidoController pedidoController = Get.put(PedidoController());
 
   @override

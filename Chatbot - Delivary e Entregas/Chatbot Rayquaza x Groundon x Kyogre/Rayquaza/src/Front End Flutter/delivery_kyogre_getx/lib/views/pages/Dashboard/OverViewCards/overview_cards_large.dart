@@ -1,10 +1,10 @@
-import 'package:delivery_kyogre_getx/views/Dashboard/CardPedido.dart';
-import 'package:delivery_kyogre_getx/views/Dashboard/info_card.dart';
+import 'package:delivery_kyogre_getx/Teoria%20do%20Caos/animation_page.dart';
+import 'package:delivery_kyogre_getx/views/pages/Dashboard/Pedido/CardPedido.dart';
+import 'package:delivery_kyogre_getx/views/pages/Dashboard/InfoCard/info_card.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:convert';
 
-import '../../Teoria do Caos/animation_page.dart';
 
 Future<dynamic> readJsonFile(String filePath) async {
   File file = File(filePath);

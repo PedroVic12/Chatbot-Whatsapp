@@ -1,3 +1,4 @@
+import 'package:delivery_kyogre_getx/views/pages/Dashboard/Widgets/AlertaPedido.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -6,9 +7,10 @@ import 'dart:convert';
 
 class PedidoController extends GetxController {
   final pedidos = <dynamic>[].obs;
-
-  final pedidosAceitos = <dynamic>[].obs;
+  final pedidosAceitos = <Pedido>[].obs;
   Timer? timer;
+
+  final filaDeliveryController = Get.put(FilaDeliveryController());
 
   @override
   void onInit() {
@@ -17,8 +19,7 @@ class PedidoController extends GetxController {
   }
 
   void startFetchingPedidos() {
-
-    // Requisição Get a cada 5 segundos (loop)
+    // Requisição GET a cada 5 segundos (loop)
     timer = Timer.periodic(Duration(seconds: 5), (Timer timer) {
       fetchPedidos();
     });
@@ -35,7 +36,6 @@ class PedidoController extends GetxController {
       final response = await http.get(Uri.parse('http://localhost:5000/pedidos'));
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
-        //print(jsonData);
         if (jsonData['results'] is List<dynamic>) {
           final int previousLength = pedidos.length;
           pedidos.assignAll(jsonData['results']);
@@ -55,8 +55,6 @@ class PedidoController extends GetxController {
     }
   }
 
-
-
   void removePedido(dynamic pedido) async {
     final pedidoId = pedido['id'];
 
@@ -64,7 +62,6 @@ class PedidoController extends GetxController {
     final response = await http.delete(Uri.parse('http://localhost:5000/deletarPedido/$pedidoId'));
 
     if (response.statusCode == 200) {
-
       // Agora você pode remover o pedido localmente
       pedidos.remove(pedido);
 
@@ -86,11 +83,14 @@ class PedidoController extends GetxController {
     }
   }
 
-
-
-
   void aceitarPedido(dynamic pedido) {
-    pedidosAceitos.add(pedido);
+    final pedidoAceito = Pedido(
+      pedido: pedido,
+      horaAceite: DateTime.now(),
+    );
+    pedidosAceitos.add(pedidoAceito);
+    filaDeliveryController.inserirPedido(pedidoAceito);
+    Get.back(); // Voltar para a página anterior
   }
 
   void showNovoPedidoAlertDialog(dynamic pedido) {
@@ -100,35 +100,55 @@ class PedidoController extends GetxController {
         showDialog(
           context: context,
           builder: (context) {
-            return AlertDialog(
-              title: Text('Novo Pedido Recebido'),
-              content: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Nome: ${pedido['nome'] ?? ''}'),
-                  Text('Endereço de Entrega: ${pedido['endereco_cliente'] ?? ''}'),
-                ],
+            return Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Center(
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: AlertaPedidoWidget(
+                    nomeCliente: pedido['nome'] ?? '',
+                    enderecoPedido: pedido['endereco_cliente'] ?? '',
+                    itensPedido: pedido['itens_pedido'] != null ? List<String>.from(pedido['itens_pedido']) : [],
+                    btnOkOnPress: () {
+                      aceitarPedido(pedido);
+                    },
+                  ),
+                ),
               ),
-              actions: [
-                ElevatedButton(
-                  onPressed: () {
-                    aceitarPedido(pedido);
-                    Navigator.pop(context);
-                  },
-                  child: Text('Aceitar Pedido'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text('Fechar'),
-                ),
-              ],
             );
           },
         );
       }
     });
   }
+}
 
+class FilaDeliveryController extends GetxController {
+  final _filaPedidos = <Pedido>[].obs;
+
+  List<Pedido> get filaPedidos => _filaPedidos.toList();
+
+  void inserirPedido(Pedido pedido) {
+    _filaPedidos.add(pedido);
+  }
+
+  Pedido? removerPedido() {
+    if (_filaPedidos.isNotEmpty) {
+      final pedido = _filaPedidos[0];
+      _filaPedidos.removeAt(0);
+      return pedido;
+    }
+    return null;
+  }
+
+  bool buscarPedido(Pedido pedido) {
+    return _filaPedidos.contains(pedido);
+  }
+}
+
+class Pedido {
+  dynamic pedido;
+  DateTime horaAceite;
+
+  Pedido({required this.pedido, required this.horaAceite});
 }
