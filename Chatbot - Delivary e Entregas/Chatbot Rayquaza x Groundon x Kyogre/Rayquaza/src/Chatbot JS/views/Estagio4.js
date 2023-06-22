@@ -1,12 +1,15 @@
-const Chatbot = require("../models/core/Groundon");
+const Groundon = require("../Robo_Groundon");
 const Estagio2 = require("./Estagio2");
-const Cliente = require("../models/Cliente");
-const Sanduiches = require("../old files/Sanduiche");
+
+
+const Cliente = require("../Pedido/Cliente");
+const Sanduiches = require("../Cardapio - LOJA/Sanduiche.js");
+const Salgados = require("../Cardapio - LOJA/Salgados.js");
 
 
 class Estagio4 {
-    constructor(Chatbot, Estagio2) {
-        this.chatbot = Chatbot;
+    constructor(Groundon, Estagio2) {
+        this.chatbot = Groundon;
         this.estagio2 = Estagio2;
     }
 
