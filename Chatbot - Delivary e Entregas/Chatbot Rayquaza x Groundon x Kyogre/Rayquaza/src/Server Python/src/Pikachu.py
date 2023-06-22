@@ -57,6 +57,7 @@ class RayquazaApp:
             return paginacao_result
 
         # Métodos POST
+
         @self.app.post("/pedidos")
         def criar_pedido(pedido: dict):
             self.validar_entrada(pedido)
