@@ -27,9 +27,8 @@ const estagio5 = new Estagio5(chatbot, carrinho)
 const Carrinho = require("./src/Chatbot JS/models/Carrinho")
 const Cliente = require("./src/Chatbot JS/models/Cliente")
 const Estagio1 = require('./src/Chatbot JS/views/Estagio1')
-const TesteEstagio = require('./src/Chatbot JS/views/teste')
-const ClienteOld = require('./src/Chatbot JS/models/Cliente')
 const Estagio2 = require('./src/Chatbot JS/views/Estagio2')
+const TesteEstagio = require('./src/Chatbot JS/views/teste')
 
 //!Inicializando o BOT
 const bot_groundon = new Groundon();
@@ -39,7 +38,7 @@ const estagio1 = new Estagio1(bot_groundon)
 const estagio2 = new Estagio2(bot_groundon)
 
 const carrinho_loja = new Carrinho(bot_groundon)
-const cliente = new ClienteOld(bot_groundon, carrinho_loja)
+const cliente = new Cliente(bot_groundon, carrinho_loja)
 
 //! Talvez seja necessário um código para autenticar
 bot_groundon.conectandoWpp()

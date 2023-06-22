@@ -1,26 +1,8 @@
-
-class Cliente {
-    //classe cliente com os parametros nome, telefone, pedido
-
-    constructor(nome, telefone, pedido) {
-        this.nome = nome;
-        this.telefone = telefone;
-        this.pedido = pedido;
-    }
-
-    //função para retornar o nome do cliente
-    getNome() {
-
-    }
-
-
-}
-
 const Chatbot = require("./core/Groundon");
 const Carrinho = require("./Carrinho")
 
 
-class ClienteOld {
+class Cliente {
     constructor(Chatbot, Carrinho) {
         //herança
         this.chatbot = Chatbot;
@@ -137,32 +119,11 @@ class ClienteOld {
     //! Métodos para pegar o endereço pela api do google
 
 
-    async getAddressFromCoordinates(message) {
-        //! Docs --> https://developers.google.com/maps/documentation/urls/get-started?hl=pt-br
-        // Necessario fazer requisição
-        try {
-            // Pegando dados da localização atual do WhatsApp
-            const latitude = message.location.latitude;
-            const longitude = message.location.longitude;
 
-            // Obtendo o endereço
-            const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=YOUR_API_KEY`);
-            const data = await response.json();
-            if (data.results && data.results.length > 0) {
-                const address = data.results[0].formatted_address;
-                this.chatbot.enviarMensagem(message, `Endereço de entrega = ${address}`);
-            } else {
-                this.chatbot.enviarMensagem(message, `Não foi possível obter o endereço`);
-            }
-        } catch (error) {
-            console.error(error);
-        }
-        // TODO armazena no banco de dados
-    }
 
 
 }
 
 
 
-module.exports = ClienteOld;
+module.exports = Cliente;
