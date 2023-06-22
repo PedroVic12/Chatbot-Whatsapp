@@ -1,10 +1,10 @@
-const Rayquaza = require("../models/core/Groundon");
+const Groundon = require("../models/core/Groundon");
 
 
 class Estagio2 {
     //Herança implícita da classe Chatbot
-    constructor(Chatbot) {
-        this.chatbot = Chatbot;
+    constructor(Groundon) {
+        this.chatbot = Groundon;
         this.NomeCliente = ""
 
     }

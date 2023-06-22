@@ -154,10 +154,37 @@ class Groundon {
         return this.whatsapp.sendMessage(message.from, _itens);
     }
 
-    enviarLista(message, listBody, BtnText, itens_list) {
-        let _itens = new List(listBody, BtnText, itens_list, "🤖 Chatbot Groundon", "footer");
-        return this.whatsapp.sendMessage(message.from, _itens);
+    enviarLista(message, sections, buttonText, title, footer) {
+        if (sections && buttonText && title && footer) {
+            const formattedSections = this.formatSections(sections);
+            const lista = new List(formattedSections, buttonText, title, footer);
+            return this.whatsapp.sendMessage(message.from, lista);
+        } else {
+            console.log('\nERRO ao enviar a lista devido a parâmetros ausentes ou inválidos');
+        }
     }
+
+    formatSections(sections) {
+        const formattedSections = sections.map(section => {
+            const formattedRows = section.rows.map(row => {
+                return {
+                    rowId: row.id,
+                    title: row.title,
+                    description: row.description || ''
+                };
+            });
+
+            return {
+                title: section.title,
+                rows: formattedRows
+            };
+        });
+
+        return formattedSections;
+    }
+
+
+
 
 
     // TODO BOTOES NAO FUNCIONAM
@@ -173,13 +200,22 @@ class Groundon {
             { body: 'Salgados' }
         ];
 
+        const formattedButtons = this._format(buttons);
+
         this.enviarBotao(
             message,
             'Escolha uma opção abaixo do que você deseja',
-            buttons,
+            formattedButtons,
             '🤖 Chatbot Groundon',
             'footer'
         );
+    }
+
+    _format(buttons) {
+        return buttons.map(button => ({
+            buttonText: { displayText: button.body },
+            type: 1
+        }));
     }
 
     mostrarBotaoConfirmaPedido(message, txt) {

@@ -1,4 +1,5 @@
-const Groundon = require('./src/Chatbot JS/models/core/Groundon')
+const { Client, LocalAuth, Buttons, List, MessageMedia, LegacySessionAuth } = require('whatsapp-web.js');
+
 /**
 const BancoDeDados = require("./Chatbot/Banco de Dados - EXCEL/Banco");
 
@@ -23,7 +24,7 @@ const estagio5 = new Estagio5(chatbot, carrinho)
 
  */
 
-
+const Groundon = require('./src/Chatbot JS/models/core/Groundon')
 const Carrinho = require("./src/Chatbot JS/models/Carrinho")
 const Cliente = require("./src/Chatbot JS/models/Cliente")
 const Estagio1 = require('./src/Chatbot JS/views/Estagio1')
@@ -62,12 +63,12 @@ bot_groundon.whatsapp.on('message', message => {
 
     //! ===================== Estágio 1 - Apresentação =====================
     if (bot_groundon.numero_estagio === 1) {
-        bot_groundon.enviarMensagem(message, 'Ola mundo!')
 
         //teste.boasVindas(message)
         estagio1.boasVindas(message)
 
         bot_groundon.avancarEstagio()
+
 
     }
 
@@ -91,10 +92,54 @@ bot_groundon.whatsapp.on('message', message => {
 
         // TODO -> Mostra o menu principal
         //Menu principal tem que ser em formato de listas
-        bot_groundon.delay(300).then(
-            estagio2.mostrarMenuPrincipal(message)
-        )
+        try {
 
+            const sections = [
+                {
+                    title: 'Título da Seção',
+                    rows: [
+                        { id: 'item1', title: 'Item 1', description: 'Descrição do item 1' },
+                        { id: 'item2', title: 'Item 2', description: 'Descrição do item 2' },
+                    ]
+                },
+
+                {
+                    title: 'Seção 2',
+                    rows: [
+                        { id: 'item3', title: 'Item 3', description: 'Descrição do item 3' },
+                        { id: 'item4', title: 'Item 4', description: 'Descrição do item 4' }
+                    ]
+                }
+            ];
+
+            bot_groundon.enviarLista(message, sections, 'Botão', 'Título', 'Rodapé');
+        } catch (error) {
+            console.log('\n\nErro ao tentar enviar a lista', error);
+        }
+
+
+        const productsList = new List(
+            "Here's our list of products at 50% off",
+            "View all products",
+            [
+                {
+                    title: "Products list",
+                    rows: [
+                        { id: "apple", title: "Apple" },
+                        { id: "mango", title: "Mango" },
+                        { id: "banana", title: "Banana" },
+                    ],
+                },
+            ],
+            "Please select a product"
+        );
+
+        try {
+            bot_groundon.enviarMensagem(message, productsList)
+
+        } catch (error) {
+            console.log('ERROR FRACASSADO')
+        }
 
 
         bot_groundon.avancarEstagio().then(
@@ -106,34 +151,14 @@ bot_groundon.whatsapp.on('message', message => {
     if (bot_groundon.numero_estagio === 3) {
 
 
-
-        if (message.body === 'Ver Cardápio' && message.type !== 'location') {
-            chatbot.enviarMensagem(message, 'Vou mostrar o cardapio em PDF!')
-            chatbot.delay(3000).then(
-                estagio3.mostrarMenuPrincipal(message)
-            )
-        }
-        if (message.body === 'FAZER PEDIDO') {
-            chatbot.avancarEstagio().then(
-                chatbot.enviarMensagem(message, 'processando...')
-            ).then(
-                chatbot.mostrarProdutosBotao(message)
-            )
-
-        }
-        if (message.body === 'Ver nossa Localização' && message.type !== 'location') {
-            estagio3.mostrarLocal(message)
-            chatbot.delay(3000).then(
-                estagio3.mostrarMenuPrincipal(message)
-            )
-        }
-
-
         //!Tentativa de conexão com o servidor python
-
         if (message.body === '!pedido') {
             bot_groundon.gerarPedidoJson(nome_cliente)
+            bot_groundon.enviarMensagem(message, 'Json gerado!')
+
         }
+
+
 
         bot_groundon.avancarEstagio()
 
@@ -142,22 +167,23 @@ bot_groundon.whatsapp.on('message', message => {
     //!=====================  Estagio 4 - Cliente Escolhe os Produtos da Loja =====================
     if (bot_groundon.numero_estagio === 4) {
 
+        bot_groundon.enviarMensagem(message, 'Teste')
 
         //TODO MODIFICAR AQUI PARA UMA LISTA DOS PRODUTOS DO CLIENTE E PEGAR NA NOVA BASE DE DADOS
 
         if (message.body === 'Sanduíches' && message.type !== 'location') {
-            const cardapio_sanduiche = Sanduiches.getAllSanduiches()
-            estagio4.enviarListaSanduiches(message, cardapio_sanduiche)
+            // const cardapio_sanduiche = Sanduiches.getAllSanduiches()
+            //estagio4.enviarListaSanduiches(message, cardapio_sanduiche)
         }
 
         if (message.body === 'Salgados' && message.type !== 'location') {
-            const cardapio_salgados = Salgados.getAllSalgados()
-            estagio4.enviarListaSalgados(message, cardapio_salgados)
+            //const cardapio_salgados = Salgados.getAllSalgados()
+            //estagio4.enviarListaSalgados(message, cardapio_salgados)
         }
 
         if (message.body === 'Bebidas' && message.type !== 'location') {
-            const cardapio_bebidas = Bebidas.getAllBebidas()
-            estagio4.enviarListaBebidas(message, cardapio_bebidas)
+            //const cardapio_bebidas = Bebidas.getAllBebidas()
+            //estagio4.enviarListaBebidas(message, cardapio_bebidas)
         }
 
         chatbot.avancarEstagio()
