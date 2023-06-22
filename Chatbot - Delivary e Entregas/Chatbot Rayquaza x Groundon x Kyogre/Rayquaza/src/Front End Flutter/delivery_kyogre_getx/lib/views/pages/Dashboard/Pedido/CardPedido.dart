@@ -7,6 +7,8 @@ class CardPedido extends StatelessWidget {
   final double totalPrecoPedido;
   final String formaPagamento;
   final String enderecoEntrega;
+  final VoidCallback onTap;
+  final VoidCallback onEnviarEntrega;
 
   const CardPedido({
     required this.nome,
@@ -15,34 +17,60 @@ class CardPedido extends StatelessWidget {
     required this.totalPrecoPedido,
     required this.formaPagamento,
     required this.enderecoEntrega,
+    required this.onTap,
+    required this.onEnviarEntrega,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Resumo do Pedido de: $nome',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 5),
             ),
-            SizedBox(height: 8),
-            Text('Telefone: $telefone'),
-            SizedBox(height: 8),
-            Text('Itens do Pedido: ${getItensPedidoText()}'),
-            SizedBox(height: 8),
-            Text('Total a pagar: R\$ ${totalPrecoPedido.toStringAsFixed(2)}'),
-            SizedBox(height: 8),
-            Text('Forma de Pagamento: $formaPagamento'),
-            SizedBox(height: 8),
-            Text('Endereço de Entrega: $enderecoEntrega'),
           ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Resumo do Pedido de: $nome',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 8),
+              Text('Telefone: $telefone'),
+              SizedBox(height: 8),
+              Text('Itens do Pedido: ${getItensPedidoText()}'),
+              SizedBox(height: 8),
+              Text('Total a pagar: R\$ ${totalPrecoPedido.toStringAsFixed(2)}'),
+              SizedBox(height: 8),
+              Text('Forma de Pagamento: $formaPagamento'),
+              SizedBox(height: 8),
+              Text('Endereço de Entrega: $enderecoEntrega'),
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: onEnviarEntrega,
+                child: Text('Enviar para Entrega'),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blueGrey,
+                ),
+              ),
+
+            ],
+          ),
         ),
       ),
     );

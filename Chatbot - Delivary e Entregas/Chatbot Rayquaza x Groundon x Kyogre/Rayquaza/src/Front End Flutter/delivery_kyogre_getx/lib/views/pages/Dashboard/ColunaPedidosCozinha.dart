@@ -6,44 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 
-class AlertaPedido extends StatelessWidget {
-  final String nomeCliente;
-  final String enderecoPedido;
-
-  const AlertaPedido({
-    required this.nomeCliente,
-    required this.enderecoPedido,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final FilaDeliveryController filaController =
-    Get.find<FilaDeliveryController>();
-
-    return Obx(
-          () => filaController.filaPedidos.isEmpty
-          ? SizedBox()
-          : ElevatedButton(
-        onPressed: () {
-          final pedido = filaController.removerPedido();
-
-          AwesomeDialog(
-            context: context,
-            dialogType: DialogType.info,
-            animType: AnimType.rightSlide,
-            showCloseIcon: true,
-            title: 'Pedido de $nomeCliente chegando!',
-            desc: 'Endereço Pedido: $enderecoPedido copiar IFOOD',
-            btnCancelOnPress: () {},
-            btnOkOnPress: () {},
-          ).show();
-        },
-        child: Text('Mostrar Alerta'),
-      ),
-    );
-  }
-}
-
 class ColunaPedidosParaAceitar extends StatefulWidget {
   const ColunaPedidosParaAceitar({
     Key? key,
@@ -76,17 +38,13 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomText(text: 'Pedidos para serem Aceitos'),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-              ),
-              onPressed: () {
-                widget.pedidoController.fetchPedidos();
-              },
-              child: Text('Atualizar Pedidos'),
+
+            Center(
+              child: CustomText(text: 'Pedidos Sendo preparados Na Cozinha',weight: FontWeight.bold, size: 20),
+
             ),
-            SizedBox(height: 8.0),
+
+            SizedBox(height: 10.0),
             Expanded(
               child: Obx(
                     () => ListView.builder(
@@ -114,31 +72,37 @@ class _ColunaPedidosParaAceitarState extends State<ColunaPedidosParaAceitar> {
                           widget.pedidoController.removePedido(pedido);
                         });
                       },
-                      child: GestureDetector(
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertaPedidoWidget(
-                              nomeCliente: pedido['nome'],
-                              enderecoPedido: pedido['endereco_cliente'],
-                              itensPedido: pedido['itensPedido'],
-                            ),
-                          );
-                        },
-                        child: CardPedido(
-                          nome: pedido['nome'],
-                          telefone: pedido['telefone'],
-                          itensPedido: (pedido['carrinho']['itensPedido']
-                          as List<dynamic>)
-                              .map((item) => item as Map<String, dynamic>)
-                              .toList(),
-                          totalPrecoPedido:
-                          pedido['carrinho']['totalPrecoPedido']
-                              .toDouble(),
-                          formaPagamento: pedido['forma_pagamento'],
-                          enderecoEntrega: pedido['endereco_cliente'],
+                      child: Padding(
+                        padding: EdgeInsets.all(12),
+                        child: GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertaPedidoWidget(
+                                nomeCliente: pedido['nome'],
+                                enderecoPedido: pedido['endereco_cliente'],
+                                itensPedido: pedido['itensPedido'],
+                              ),
+                            );
+                          },
+                          child: CardPedido(
+                            nome: pedido['nome'],
+                            telefone: pedido['telefone'],
+                            itensPedido: (pedido['carrinho']['itensPedido']
+                            as List<dynamic>)
+                                .map((item) => item as Map<String, dynamic>)
+                                .toList(),
+                            totalPrecoPedido:
+                            pedido['carrinho']['totalPrecoPedido']
+                                .toDouble(),
+                            formaPagamento: pedido['forma_pagamento'],
+                            enderecoEntrega: pedido['endereco_cliente'],
+                            onTap: (){},
+                            onEnviarEntrega: (){},
+
+                          ),
                         ),
-                      ),
+                      )
                     );
                   },
                 ),

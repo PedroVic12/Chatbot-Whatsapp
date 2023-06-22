@@ -168,6 +168,10 @@ class _OverViewCardsLargeState extends State<OverViewCardsLarge> {
         totalPrecoPedido: totalPrecoPedido,
         formaPagamento: formaPagamento,
         enderecoEntrega: enderecoEntrega,
+
+        // TODO
+        onTap: (){},
+        onEnviarEntrega: (){},
       );
       infoCards.add(pedidoCard);
     }

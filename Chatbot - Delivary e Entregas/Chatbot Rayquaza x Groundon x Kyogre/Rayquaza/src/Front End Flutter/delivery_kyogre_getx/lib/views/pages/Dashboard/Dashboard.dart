@@ -122,6 +122,8 @@ class Dashboard extends StatelessWidget {
                                 totalPrecoPedido: pedido['carrinho']['totalPrecoPedido'].toDouble(),
                                 formaPagamento: pedido['forma_pagamento'],
                                 enderecoEntrega: pedido['endereco_cliente'],
+                                onTap: () {  },
+                                onEnviarEntrega: () {  },
                               ),
                             ),
                           );
