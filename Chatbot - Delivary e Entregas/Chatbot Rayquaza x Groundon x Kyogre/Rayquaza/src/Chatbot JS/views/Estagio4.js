@@ -1,16 +1,23 @@
-const Groundon = require("../Robo_Groundon");
+const Groundon = require("../models/core/Groundon");
 const Estagio2 = require("./Estagio2");
-
-
-const Cliente = require("../Pedido/Cliente");
-const Sanduiches = require("../Cardapio - LOJA/Sanduiche.js");
-const Salgados = require("../Cardapio - LOJA/Salgados.js");
-
 
 class Estagio4 {
     constructor(Groundon, Estagio2) {
         this.chatbot = Groundon;
         this.estagio2 = Estagio2;
+    }
+
+    enviarListaProdutos(message, produtos) {
+        // Cria um array para armazenar os itens da lista do WhatsApp
+        const itensListaWpp = [];
+
+        // Percorre todos os produtos e adiciona à lista
+        produtos.forEach(produto => {
+            itensListaWpp.push({ title: produto.nome, description: `R$ ${produto.preco}` });
+        });
+
+        // Envia a lista formatada para o WhatsApp
+        return this.chatbot.enviarLista(message, `Escolha os itens do seu pedido`, "Escolher Produtos", [{ title: "Produtos", rows: itensListaWpp }]);
     }
 
 

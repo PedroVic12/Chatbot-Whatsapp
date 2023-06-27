@@ -1,4 +1,4 @@
-const Groundon = require("../Robo_Groundon")
+const Groundon = require("../models/core/Groundon")
 
 class Estagio3 {
     constructor(Groundon) {
@@ -29,7 +29,7 @@ class Estagio3 {
             const nome_cliente = this.getNomeCliente(message)
             this.chatbot.enviarBotao(message, `Vamos lá, ${nome_cliente}! Escolha uma opção abaixo do que voce deseja`,
                 [
-                    
+
                     { body: "Ver Cardápio" },
                     { body: "Fazer Pedido" },
                     { body: "Ver nossa Localização" }

@@ -1,6 +1,5 @@
-const Groundon = require("../Robo_Groundon");
-const Cliente = require("../Pedido/Cliente.js");
-const Carrinho = require("../Pedido/Carrinho")
+const Groundon = require("../models/core/Groundon");
+const Carrinho = require("../models/Carrinho")
 
 class Estagio5 {
     constructor(Groundon, Carrinho) {

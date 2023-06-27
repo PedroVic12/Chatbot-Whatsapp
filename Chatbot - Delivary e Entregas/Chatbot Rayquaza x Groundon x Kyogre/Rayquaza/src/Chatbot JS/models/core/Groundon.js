@@ -15,7 +15,7 @@ class Groundon {
         this.whatsapp = new Client({
 
             // Se o código travar e não gerar o QRCODE, mude o nome do ClientID
-            authStrategy: new LocalAuth({ clientId: "CITTA-RJ-Lanchonete2" })
+            authStrategy: new LocalAuth({ clientId: "CITTA-RJ-Lanchonete-Botafogo" })
         });
 
         // Registre o evento 'message' para responder às mensagens recebidas
@@ -50,7 +50,7 @@ class Groundon {
         return new Promise(async (resolve, reject) => {
 
             console.log("\n\n====================================")
-            console.log("\t CHATBOT GROUNDON 8.1.{1} \nby:pvpeterparker")
+            console.log("\t CHATBOT GROUNDON 8.2.{1} \nby:pvpeterparker")
             console.log("====================================\n")
             console.log("\nIniciando o Chatbot...")
             console.log('Gerando QR code...');
@@ -149,26 +149,56 @@ class Groundon {
     //!Funções para enviar Listas e Botões
     //!========================================================================================================================================================================================================
 
-    enviarLista_old(message, itens_list) {
-        let _itens = new List("listBody", "BtnText", itens_list, "🤖 Chatbot Groundon", "footer");
-        return this.whatsapp.sendMessage(message.from, _itens);
+    mostrarProdutosLista(message) {
+        const sections = [
+            {
+                title: 'Sanduíches',
+                rows: [
+                    { id: 1, title: 'Hambúrguer', description: 'Descrição do hambúrguer' },
+                    { id: 2, title: 'Cheeseburger', description: 'Descrição do cheeseburger' },
+                    { id: 3, title: 'X-Burger', description: 'Descrição do x-burger' }
+                ]
+            },
+            {
+                title: 'Bebidas',
+                rows: [
+                    { id: 4, title: 'Coca Cola', description: 'Descrição da Coca Cola' },
+                    { id: 5, title: 'Guaraná', description: 'Descrição do guaraná' },
+                    { id: 6, title: 'Suco de Laranja', description: 'Descrição do suco de laranja' }
+                ]
+            },
+            {
+                title: 'Salgados',
+                rows: [
+                    { id: 7, title: 'Coxinha', description: 'Descrição da coxinha' },
+                    { id: 8, title: 'Pastel', description: 'Descrição do pastel' },
+                    { id: 9, title: 'Empada', description: 'Descrição da empada' }
+                ]
+            }
+        ];
+
+        const buttonText = 'Escolha uma opção:';
+        const title = '🤖 Chatbot Groundon';
+        const footer = 'footer';
+
+        this.enviarLista(message, sections, buttonText, title, footer);
     }
 
     enviarLista(message, sections, buttonText, title, footer) {
-        if (sections && buttonText && title && footer) {
+        if (sections && Array.isArray(sections) && buttonText && title && footer) {
             const formattedSections = this.formatSections(sections);
-            const lista = new List(formattedSections, buttonText, title, footer);
-            return this.whatsapp.sendMessage(message.from, lista);
+            const lista = new List("listBody", buttonText, formattedSections, title, footer);
+            this.whatsapp.sendMessage(message.from, lista);
         } else {
             console.log('\nERRO ao enviar a lista devido a parâmetros ausentes ou inválidos');
         }
     }
 
     formatSections(sections) {
-        const formattedSections = sections.map(section => {
+        return sections.map(section => {
             const formattedRows = section.rows.map(row => {
                 return {
-                    rowId: row.id,
+                    id: row.id,
                     title: row.title,
                     description: row.description || ''
                 };
@@ -179,10 +209,7 @@ class Groundon {
                 rows: formattedRows
             };
         });
-
-        return formattedSections;
     }
-
 
 
 
