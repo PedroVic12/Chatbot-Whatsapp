@@ -66,7 +66,6 @@ bot_groundon.whatsapp.on('message', message => {
 
         //teste.boasVindas(message)
         estagio1.boasVindas(message)
-
         bot_groundon.avancarEstagio()
 
 
