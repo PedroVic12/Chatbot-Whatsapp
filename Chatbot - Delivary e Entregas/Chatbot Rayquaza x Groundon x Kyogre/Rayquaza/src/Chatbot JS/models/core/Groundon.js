@@ -147,17 +147,110 @@ class Groundon {
     //!========================================================================================================================================================================================================
     //!Funções para enviar Listas e Botões
     //!========================================================================================================================================================================================================
-    enviarLista(message, _sections, texto_botao, titulo, footer_lista) {
+
+    enviarLista(message, listBody, BtnText, itens_list) {
+        return new Promise((resolve, reject) => {
+
+            //Enviando lista
+            try {
+                let _itens = new List(listBody, BtnText, itens_list, "🤖 Chatbot Groundon", "footer");
+
+                console.log(_itens);
+
+                this.whatsapp.sendMessage(message.from, _itens)
+                    .then(() => {
+                        console.log("Lista enviada com sucesso!");
+                        resolve(); // Resolvendo a promessa se a lista for enviada com sucesso
+                    })
+                    .catch(error => {
+                        console.log("\nErro ao enviar a lista:", error);
+                        reject(error); // Rejeitando a promessa se ocorrer um erro ao enviar a lista
+                    });
+
+                // Tratar erro
+            } catch (error) {
+                console.log("\nErro ao enviar a lista:", error);
+                reject(error); // Rejeitando a promessa se ocorrer um erro ao criar a lista
+            }
+        });
+    }
+
+    sendListProducts(message) {
+        let sections = [
+            {
+                title: 'OLA MUNDO',
+                rows: [
+                    { title: 'Product 1', description: 'Description 1' },
+                    { title: 'Product 2', description: 'Description 2' }
+                ]
+            },
+
+
+        ];
+
+
+        const lista_wpp = new List('List body', 'Button Text', sections, 'List Title', 'List Footer');
+
+        this.whatsapp.sendMessage(message.from, lista_wpp)
+    }
+
+    sendListExample(message) {
         try {
-            const formattedSections = this.formatSections(_sections);
-            const lista = new List(message.from, texto_botao, formattedSections, titulo, footer_lista);
-            console.log(lista);
 
-            this.whatsapp.sendMessage(message, lista);
+            let __sections = [
+                {
+                    title: 'Sanduíches',
+                    rows: [
+                        {
+                            title: 'Hambúrguer',
+                            description: 'Descrição do hambúrguer'
+                        }
+                    ]
+                }
+            ]
+            let _itens_list = new List('listBody', 'BtnText', __sections, "🤖 Chatbot Groundon", "footer");
 
+            console.log(_itens_list)
+
+            this.whatsapp.sendMessage(message.from, _itens_list);
+            console.log("\NLista enviada com sucesso!");
         } catch (error) {
-            console.log('Erro ao enviar a lista', error);
+            console.log("\nErro ao enviar a lista:", error);
         }
+    }
+
+    mostrarProdutosLista(message) {
+        const _sections = [
+            {
+                title: 'Sanduíches',
+                rows: [
+                    { title: 'Hambúrguer', description: 'Descrição do hambúrguer' },
+                    { title: 'Cheeseburger', description: 'Descrição do cheeseburger' },
+                    { title: 'X-Burger', description: 'Descrição do x-burger' }
+                ]
+            }
+
+        ];
+
+        const _buttonText = 'Escolha uma opção:';
+
+        this.enviarLista(message, 'Escolha uma o item', 'CLIQUE AQUI', _sections);
+    }
+
+
+    mostrarMenuFluxo(message) {
+
+        let itens_lista_wpp = [{
+            title: "==> Continue Seu Pedido",
+            rows:
+                [
+                    { title: "Continuar Pedido", description: "Escolha as opções de comida novamente" },
+                    { title: "Reiniciar Pedido", description: "Cancelar o pedido e voltar para o estágio inicial" },
+                    { title: "Finalizar Pedido", description: "Se preparar para a entrega!" }
+                ]
+        }]
+
+        this.enviarLista(message, "Escolha umas opções abaixo", "Continuar Pedido", itens_lista_wpp)
     }
 
     formatSections(sections) {
@@ -191,40 +284,7 @@ class Groundon {
         return [];
     }
 
-    mostrarProdutosLista(message) {
-        const _sections = [
-            {
-                title: 'Sanduíches',
-                rows: [
-                    { id: 1, title: 'Hambúrguer', description: 'Descrição do hambúrguer' },
-                    { id: 2, title: 'Cheeseburger', description: 'Descrição do cheeseburger' },
-                    { id: 3, title: 'X-Burger', description: 'Descrição do x-burger' }
-                ]
-            },
-            {
-                title: 'Bebidas',
-                rows: [
-                    { id: 4, title: 'Coca Cola', description: 'Descrição da Coca Cola' },
-                    { id: 5, title: 'Guaraná', description: 'Descrição do guaraná' },
-                    { id: 6, title: 'Suco de Laranja', description: 'Descrição do suco de laranja' }
-                ]
-            },
-            {
-                title: 'Salgados',
-                rows: [
-                    { id: 7, title: 'Coxinha', description: 'Descrição da coxinha' },
-                    { id: 8, title: 'Pastel', description: 'Descrição do pastel' },
-                    { id: 9, title: 'Empada', description: 'Descrição da empada' }
-                ]
-            }
-        ];
 
-        const _buttonText = 'Escolha uma opção:';
-        const _title = '🤖 Chatbot Groundon';
-        const _footer = 'footer';
-
-        this.enviarLista(message, _sections, _buttonText, _title, _footer);
-    }
 
 
 

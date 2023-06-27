@@ -75,28 +75,11 @@ bot_groundon.whatsapp.on('message', message => {
 
 
         // TODO -> Mostra o menu principal
-
-
-        // mostrarProdutosLista Promise
-        const mostrarProdutosListaPromise = new Promise((resolve, reject) => {
-            try {
-                bot_groundon.mostrarProdutosLista(message);
-                resolve();
-            } catch (error) {
-                reject(error);
-            }
-        });
-
-        // Execução sequencial das Promises
-        mostrarProdutosListaPromise
-            .then(() => {
-                console.log('mostrarProdutosLista executada com sucesso');
-            })
-            .catch(error => {
-                console.log('Ocorreu um erro:', error);
-            });
-
-
+        try {
+            bot_groundon.sendListProducts(message);
+        } catch (error) {
+            console.log('\nERROR LISTA', error);
+        }
 
         bot_groundon.avancarEstagio().then(
             bot_groundon.enviarMensagem(message, 'O que deseja fazer?')
@@ -108,8 +91,12 @@ bot_groundon.whatsapp.on('message', message => {
 
         bot_groundon.enviarMensagem(message, `Teste Estagio: ${bot_groundon.numero_estagio}`)
 
+        try {
+            bot_groundon.sendListExample(message)
 
-
+        } catch (error) {
+            console.log('\n\nERROr', error)
+        }
 
         //!Tentativa de conexão com o servidor python
         if (message.body === '!pedido') {
