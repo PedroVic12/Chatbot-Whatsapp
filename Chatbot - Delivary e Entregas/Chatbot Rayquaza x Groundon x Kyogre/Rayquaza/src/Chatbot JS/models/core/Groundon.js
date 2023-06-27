@@ -2,8 +2,7 @@ const { Client, LocalAuth, Buttons, List, MessageMedia, LegacySessionAuth } = re
 const qrcode = require('qrcode-terminal');
 const fetch = require('node-fetch');
 const fs = require('fs');
-
-//const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer');
 
 class Groundon {
     constructor() {
@@ -42,7 +41,7 @@ class Groundon {
 
     async conectandoWpp() {
 
-        // const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+        //const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
         // console.log(browser.version)
 
         const wppIsOn = false;
@@ -148,9 +147,52 @@ class Groundon {
     //!========================================================================================================================================================================================================
     //!Funções para enviar Listas e Botões
     //!========================================================================================================================================================================================================
+    enviarLista(message, _sections, texto_botao, titulo, footer_lista) {
+        try {
+            const formattedSections = this.formatSections(_sections);
+            const lista = new List(message.from, texto_botao, formattedSections, titulo, footer_lista);
+            console.log(lista);
+
+            this.whatsapp.sendMessage(message, lista);
+
+        } catch (error) {
+            console.log('Erro ao enviar a lista', error);
+        }
+    }
+
+    formatSections(sections) {
+        return sections.map(section => {
+            const formattedRows = this.formatRows(section.rows);
+
+            return {
+                title: section.title,
+                rows: formattedRows
+            };
+        });
+    }
+
+    formatRows(rows) {
+        if (rows && Array.isArray(rows)) {
+            return rows.map(row => {
+                const formattedRow = {
+                    id: row.id,
+                    title: row.title,
+                    description: row.description || ''
+                };
+
+                if (row.rows) {
+                    formattedRow.rows = this.formatRows(row.rows);
+                }
+
+                return formattedRow;
+            });
+        }
+
+        return [];
+    }
 
     mostrarProdutosLista(message) {
-        const sections = [
+        const _sections = [
             {
                 title: 'Sanduíches',
                 rows: [
@@ -177,39 +219,43 @@ class Groundon {
             }
         ];
 
-        const buttonText = 'Escolha uma opção:';
-        const title = '🤖 Chatbot Groundon';
-        const footer = 'footer';
+        const _buttonText = 'Escolha uma opção:';
+        const _title = '🤖 Chatbot Groundon';
+        const _footer = 'footer';
 
-        this.enviarLista(message, sections, buttonText, title, footer);
+        this.enviarLista(message, _sections, _buttonText, _title, _footer);
     }
 
-    enviarLista(message, sections, buttonText, title, footer) {
-        if (sections && Array.isArray(sections) && buttonText && title && footer) {
-            const formattedSections = this.formatSections(sections);
-            const lista = new List("listBody", buttonText, formattedSections, title, footer);
-            this.whatsapp.sendMessage(message.from, lista);
-        } else {
-            console.log('\nERRO ao enviar a lista devido a parâmetros ausentes ou inválidos');
-        }
+
+
+
+    sendListsTeste(message) {
+        const productsList = {
+            buttonText: "View products",
+            sections: [
+                {
+                    title: "Products list",
+                    rows: [
+                        { id: "apple", title: "Apple" },
+                        { id: "mango", title: "Mango" },
+                        { id: "banana", title: "Banana" },
+                    ],
+                },
+            ],
+            title: "Amazing deal on these products",
+            footer: "Please select a product"
+        };
+
+        this.enviarLista(
+            message,
+            productsList.sections,
+            productsList.buttonText,
+            productsList.title,
+            productsList.footer
+        );
     }
 
-    formatSections(sections) {
-        return sections.map(section => {
-            const formattedRows = section.rows.map(row => {
-                return {
-                    id: row.id,
-                    title: row.title,
-                    description: row.description || ''
-                };
-            });
 
-            return {
-                title: section.title,
-                rows: formattedRows
-            };
-        });
-    }
 
 
 

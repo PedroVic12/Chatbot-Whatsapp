@@ -28,6 +28,7 @@ const estagio5 = new Estagio5(bot_groundon, carrinho_loja)
 
 //! Talvez seja necessário um código para autenticar
 bot_groundon.conectandoWpp()
+
     .then(() => {
         console.log('✅ Conectado com sucesso!\n\n')
 
@@ -74,12 +75,27 @@ bot_groundon.whatsapp.on('message', message => {
 
 
         // TODO -> Mostra o menu principal
-        try {
-            bot_groundon.mostrarProdutosLista(message)
-            bot_groundon.enviarMensagem(message, 'Tentativa de lista')
-        } catch (error) {
-            console.log('Nao foi possivel enviar a lista', error)
-        }
+
+
+        // mostrarProdutosLista Promise
+        const mostrarProdutosListaPromise = new Promise((resolve, reject) => {
+            try {
+                bot_groundon.mostrarProdutosLista(message);
+                resolve();
+            } catch (error) {
+                reject(error);
+            }
+        });
+
+        // Execução sequencial das Promises
+        mostrarProdutosListaPromise
+            .then(() => {
+                console.log('mostrarProdutosLista executada com sucesso');
+            })
+            .catch(error => {
+                console.log('Ocorreu um erro:', error);
+            });
+
 
 
         bot_groundon.avancarEstagio().then(
@@ -92,11 +108,14 @@ bot_groundon.whatsapp.on('message', message => {
 
         bot_groundon.enviarMensagem(message, `Teste Estagio: ${bot_groundon.numero_estagio}`)
 
+
+
+
         //!Tentativa de conexão com o servidor python
         if (message.body === '!pedido') {
 
             try {
-                bot_groundon.gerarPedidoJson(nome_cliente)
+                bot_groundon.gerarPedidoJson(cliente.nome)
                 bot_groundon.enviarMensagem(message, 'Json gerado!')
 
             } catch (error) {
