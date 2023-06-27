@@ -1,5 +1,7 @@
 const Chatbot = require("./core/Groundon");
-const Carrinho = require("./Carrinho")
+const Carrinho = require("./Carrinho");
+const produtos_cardapio = require("../repository/cardapio_1.json"); // Importe o arquivo JSON do cardápio
+const fs = require('fs');
 
 
 class Cliente {
@@ -33,7 +35,6 @@ class Cliente {
     getNome() {
         return this.nome;
     }
-    //! Getters e Setters
 
     setPhoneNumber(phone_number) {
         this.telefone = phone_number;
@@ -42,7 +43,6 @@ class Cliente {
     getPhoneNumber() {
         return this.telefone;
     }
-    //! Getters e Setters
 
     setEndereco(address) {
         this.endereco_cliente = address
@@ -52,7 +52,6 @@ class Cliente {
         return this.endereco_cliente
     }
 
-    //! Getters e Setters
     pegandoFormaPagamentoCliente(message) {
         const formaPagamento = this.chatbot.getLastMessage(message)
         return formaPagamento
@@ -67,8 +66,28 @@ class Cliente {
     }
 
 
+    //Cliente + Carrinho
     verCarrinhoCliente() {
-        return this.carrinho;
+        let carrinhoString = '';
+        const produtosNoCarrinho = this.carrinho.getNomesProdutosPedido();
+        const quantidadeProdutos = {};
+
+        // Contar a quantidade de cada produto no carrinho
+        for (const produto of produtosNoCarrinho) {
+            if (quantidadeProdutos[produto]) {
+                quantidadeProdutos[produto]++;
+            } else {
+                quantidadeProdutos[produto] = 1;
+            }
+        }
+
+        // Gerar a string de exibição do carrinho
+        for (const produto in quantidadeProdutos) {
+            const quantidade = quantidadeProdutos[produto];
+            carrinhoString += `${quantidade}x ${produto}\n`;
+        }
+
+        return carrinhoString;
     }
 
 
@@ -77,48 +96,88 @@ class Cliente {
 
     //! Métodos que o usuario informa
     BotpegarNomeProduto(string) {
-        // Método que depende da função realizaPedidoNovo
         const _array = string.split("R$ ");
         return _array[0];
     }
+
     realizaPedido(message) {
         try {
-            // Pega o item escolhido
-            const produtoEscolhidoComPreco = this.chatbot.getLastMessage(message)
-            let nome_produto = this.BotpegarNomeProduto(produtoEscolhidoComPreco)
 
-            //Coloca o Produto no carrinho
-            let array_teste = []
+            //TODO ta pegando apenas o nome e nao o preco, ver como vai ficar vindo a informacao da lista do wpp
 
-            nome_produto = nome_produto.replace('\n', '')
-            array_teste.push(nome_produto)
+            const nome_produto = this.BotpegarNomeProduto(message);
+            this.carrinho.adicionarProdutos(nome_produto);
+            //this.carrinho.setItens([nome_produto]);
+            //?this.chatbot.enviarMensagem(message, `${nome_produto} adicionado ao carrinho!`);
+            console.log(`\n${nome_produto} adicionado ao carrinho!!`)
 
-            let produto_cliente = this.carrinho.getNameProductsMarket()
-            array_teste.push(produto_cliente)
-
-            //BUG NESSAS 2 LINHAS --> Ta esperando receber um array
-            this.carrinho.adicionarProdutoCarrinho(produto_cliente);
-            this.carrinho.setItens(nome_produto)
-            this.carrinho.adicionarProdutoCarrinho(nome_produto)
-            this.carrinho.adicionarProdutoCarrinho(array_teste)
-
-
-            //Ver carrinho
-            this.chatbot.enviarMensagem(message, ` adicionado ao carrinho!`)
         } catch (err) {
             console.log(err);
         }
-
     }
-
 
     gerarNotaFiscal() {
+
+        try {
+            const pedidoJson = this.gerarPedidoJson();
+            //console.log(pedidoJson);
+        } catch (err) {
+            console.log('Não foi possivel gerar json', err);
+        }
+
+
+        const totalPagar = this.carrinho.getTotalPrecoPedido();
         // Formatação Bonita
-        return `Resumo do Pedido de : *${this.nome}* \nTelefone = ${this.telefone} \nItens do Pedido = ${this.carrinho.getNomesProdutosPedido()} \n*Total a pagar =* R$ ${this.carrinho.getTotalPrecoPedido()} \n Forma de Pagamento = ${this.forma_pagamento} \n Endereço de Entrega = ${this.endereco_cliente}`
+        console.log('\n\n');
+        return `Resumo do Pedido de : *${this.nome}* \nTelefone = ${this.telefone} \nItens do Pedido = ${this.carrinho.getNomesProdutosPedido()} \n*Total a pagar =* R$ ${totalPagar} \nForma de Pagamento = ${this.forma_pagamento} \nEndereço de Entrega = ${this.endereco_cliente}`;
     }
-    //! Métodos para pegar o endereço pela api do google
 
 
+
+
+    gerarPedidoJson() {
+        const id = Math.floor(Math.random() * 9000) + 1000; // Gera um número aleatório de 4 dígitos
+
+        const itensPedido = this.carrinho.getNomesProdutosPedido().reduce((accumulator, nome) => {
+            const existingItem = accumulator.find(item => item.nome === nome);
+            const produto = produtos_cardapio.find(p => p.nome === nome);
+            const preco = produto ? produto.preco : 0;
+            if (existingItem) {
+                existingItem.quantidade++;
+                existingItem.preco += preco;
+            } else {
+                accumulator.push({ nome, quantidade: 1, preco });
+            }
+            return accumulator;
+        }, []);
+
+        const totalPrecoPedido = itensPedido.reduce((total, item) => total + item.preco, 0);
+
+        const pedidoJson = {
+            id,
+            nome: this.nome,
+            telefone: this.telefone,
+            carrinho: {
+                itensPedido,
+                totalPrecoPedido
+            },
+            forma_pagamento: this.forma_pagamento,
+            endereco_cliente: this.endereco_cliente
+        };
+
+        const pedidoJsonString = JSON.stringify(pedidoJson, null, 2);
+        const nomeArquivo = `../output/pedido_${id}.json`;
+
+        fs.writeFile(nomeArquivo, pedidoJsonString, 'utf8', (err) => {
+            if (err) {
+                console.error(`Erro ao salvar o arquivo ${nomeArquivo}:`, err);
+            } else {
+                console.log(`Arquivo ${nomeArquivo} salvo com sucesso!`);
+            }
+        });
+
+        return pedidoJsonString;
+    }
 
 
 
