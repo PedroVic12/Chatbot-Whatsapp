@@ -76,7 +76,7 @@ bot_groundon.whatsapp.on('message', message => {
         // TODO -> Mostra o menu principal
         try {
             bot_groundon.mostrarProdutosLista(message)
-
+            bot_groundon.enviarMensagem(message, 'Tentativa de lista')
         } catch (error) {
             console.log('Nao foi possivel enviar a lista', error)
         }
@@ -94,8 +94,15 @@ bot_groundon.whatsapp.on('message', message => {
 
         //!Tentativa de conexão com o servidor python
         if (message.body === '!pedido') {
-            bot_groundon.gerarPedidoJson(nome_cliente)
-            bot_groundon.enviarMensagem(message, 'Json gerado!')
+
+            try {
+                bot_groundon.gerarPedidoJson(nome_cliente)
+                bot_groundon.enviarMensagem(message, 'Json gerado!')
+
+            } catch (error) {
+                console.log('\nSEM JSON', error)
+            }
+
 
         }
 
