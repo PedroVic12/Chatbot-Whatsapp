@@ -24,6 +24,13 @@ class Groundon {
 		this.numero_estagio++;
 	}
 
+
+	// Funções de interação com o cliente
+
+	coutText(){
+		console.log('===================')
+	}
+
 	// Outros métodos relacionados à lógica de negócios do Groundon
 }
 module.exports = Groundon;

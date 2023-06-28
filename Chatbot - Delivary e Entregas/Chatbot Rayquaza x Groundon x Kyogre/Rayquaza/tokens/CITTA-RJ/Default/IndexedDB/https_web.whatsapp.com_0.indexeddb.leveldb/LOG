@@ -1,0 +1,10 @@
+2023/06/28-20:35:05.854 1552a Creating DB /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/tokens/CITTA-RJ/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb since it was missing.
+2023/06/28-20:35:05.871 1552a Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/tokens/CITTA-RJ/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/06/28-20:35:06.028 15529 Level-0 table #5: started
+2023/06/28-20:35:06.034 15529 Level-0 table #5: 7441 bytes OK
+2023/06/28-20:35:06.036 15529 Delete type=0 #3
+2023/06/28-20:35:06.036 15529 Manual compaction at level-0 from '\x00\x01\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x02\x00\x00\x00' @ 0 : 0; will stop at (end)
+2023/06/28-20:35:07.216 1552f Level-0 table #7: started
+2023/06/28-20:35:07.224 1552f Level-0 table #7: 24953 bytes OK
+2023/06/28-20:35:07.227 1552f Delete type=0 #4
+2023/06/28-20:35:07.228 15529 Manual compaction at level-0 from '\x00\x07\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x08\x00\x00\x00' @ 0 : 0; will stop at (end)
