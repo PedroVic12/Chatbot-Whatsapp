@@ -54,3 +54,5 @@ function main() {
     groundon.conectar();
     //groundon.enviarMensagem('5511999999999', 'Olá, tudo bem?');
 }
+
+main()
