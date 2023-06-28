@@ -146,3 +146,23 @@
 2023/06/27-20:08:14.127 4c7ae compacted to: files[ 0 0 1 0 0 0 0 ]
 2023/06/27-20:08:14.128 4c7ae Delete type=2 #843
 2023/06/27-20:08:14.131 4c7ae Manual compaction at level-1 from ' *\x01\x00\x00\xc8\x13\x00s\x00i\x00g\x00n\x00e\x00d\x00-\x00p\x00r\x00e\x00k\x00e\x00y\x00-\x00s\x00t\x00o\x00r\x00e' @ 2424585 : 1 .. ' '\x01\x00\x00\x00' @ 0 : 0; will stop at (end)
+2023/06/27-20:12:11.657 4cc78 Level-0 table #846: started
+2023/06/27-20:12:11.717 4cc78 Level-0 table #846: 1141981 bytes OK
+2023/06/27-20:12:11.725 4cc78 Delete type=2 #840
+2023/06/27-20:12:11.725 4cc78 Delete type=0 #841
+2023/06/27-20:12:11.725 4cc78 Delete type=2 #838
+2023/06/27-20:12:14.289 4cc55 Compacting 1@1 + 1@2 files
+2023/06/27-20:12:14.334 4cc55 Generated table #847@1: 12525 keys, 501125 bytes
+2023/06/27-20:12:14.334 4cc55 Compacted 1@1 + 1@2 files => 501125 bytes
+2023/06/27-20:12:14.336 4cc55 compacted to: files[ 0 0 1 0 0 0 0 ]
+2023/06/27-20:12:28.449 4cc76 Level-0 table #849: started
+2023/06/27-20:12:28.518 4cc76 Level-0 table #849: 1005205 bytes OK
+2023/06/27-20:12:28.521 4cc76 Delete type=0 #845
+2023/06/27-20:12:28.521 4cc76 Delete type=2 #844
+2023/06/27-20:12:28.521 4cc76 Delete type=2 #846
+2023/06/27-20:12:29.553 4cc76 Compacting 1@1 + 1@2 files
+2023/06/27-20:12:29.628 4cc76 Generated table #850@1: 22742 keys, 967742 bytes
+2023/06/27-20:12:29.628 4cc76 Compacted 1@1 + 1@2 files => 967742 bytes
+2023/06/27-20:12:29.630 4cc76 compacted to: files[ 0 0 1 0 0 0 0 ]
+2023/06/27-20:12:29.630 4cc76 Delete type=2 #849
+2023/06/27-20:12:29.630 4cc76 Delete type=2 #847
