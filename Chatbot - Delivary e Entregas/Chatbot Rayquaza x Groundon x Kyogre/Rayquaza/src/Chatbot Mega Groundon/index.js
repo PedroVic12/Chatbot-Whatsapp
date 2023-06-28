@@ -21,6 +21,11 @@ class Groundon {
         }
     }
 
+
+
+
+
+    
     START() {
         this.whatsapp.onMessage(async (message) => {
             // Implementação da lógica de cada estágio
