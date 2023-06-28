@@ -9,20 +9,25 @@ class Groundon {
     }
 
     async conectarWpp() {
-        return new Promise((resolve, reject) => {
-            venom
-                .create()
-                .then((client) => {
-                    this.whatsapp = client;
-                    resolve(client);
-                })
-                .catch((error) => {
-                    reject(error);
-                });
-        });
+        try {
+            this.whatsapp = await venom.create({
+                session: 'session-name' // nome da sessão
+            });
+
+            // Chamada para a função start fora da classe
+            start(this.whatsapp);
+        } catch (error) {
+            throw error;
+        }
     }
 
-    async receberMensagem() {
+
+
+
+
+
+
+    receberMensagem() {
         if (this.whatsapp) {
             this.whatsapp.onMessage((message) => {
                 console.log(`Mensagem recebida: ${message.body}`);
@@ -43,88 +48,83 @@ class Groundon {
         return this.conversas;
     }
 
-
-
-
     async enviarMensagem(phoneNumber, message) {
-        return this.whatsapp
-            .sendText(phoneNumber, message)
-            .then((result) => {
-                console.log(`Mensagem enviada para ${phoneNumber}: ${message}`);
-                return result;
-            })
-            .catch((error) => {
-                console.error(`Erro ao enviar mensagem para ${phoneNumber}: ${error}`);
-                throw error;
-            });
+        try {
+            const result = await this.whatsapp.sendText(phoneNumber, message);
+            console.log(`Mensagem enviada para ${phoneNumber}: ${message}`);
+            return result;
+        } catch (error) {
+            console.error(`Erro ao enviar mensagem para ${phoneNumber}: ${error}`);
+            throw error;
+        }
     }
 
-    async enviarLista(phoneNumber, listBody, btnText, items) {
-        const rows = items.map((item) => ({
+    getLastMessage() {
+        const currentStage = this.conversas[this.numero_estagio - 1];
+        if (currentStage.length > 0) {
+            return currentStage[currentStage.length - 1];
+        }
+        return null;
+    }
+
+    avancarEstagio() {
+        this.numero_estagio++;
+    }
+
+    async mostrarMenuFluxoListas(phoneNumber, title, buttonText, listItems) {
+        const rows = listItems.map((item) => ({
             title: item.title,
             description: item.description,
         }));
 
         const listMessage = {
-            buttonText: btnText,
+            buttonText: buttonText,
             sections: [
                 {
-                    title: listBody,
+                    title: title,
                     rows: rows,
                 },
             ],
         };
 
-        return this.whatsapp
-            .sendListMessage(phoneNumber, listMessage)
-            .then(() => {
-                console.log(`Lista enviada para ${phoneNumber}`);
-            })
-            .catch((error) => {
-                console.error(`Erro ao enviar lista para ${phoneNumber}: ${error}`);
-                throw error;
-            });
-    }
-
-    async enviarBotao(phoneNumber, text, buttons) {
-        const formattedButtons = buttons.map((button) => ({
-            buttonId: button.id,
-            buttonText: button.body,
-        }));
-
-        return this.whatsapp
-            .sendButtons(phoneNumber, text, formattedButtons, '🤖 Chatbot Groundon', 'footer')
-            .then(() => {
-                console.log(`Botões enviados para ${phoneNumber}`);
-            })
-            .catch((error) => {
-                console.error(`Erro ao enviar botões para ${phoneNumber}: ${error}`);
-                throw error;
-            });
+        try {
+            await this.whatsapp.sendListMessage(phoneNumber, listMessage);
+            console.log(`Lista enviada para ${phoneNumber}`);
+        } catch (error) {
+            console.error(`Erro ao enviar lista para ${phoneNumber}: ${error}`);
+            throw error;
+        }
     }
 }
 
-module.exports = Groundon;
+
+
+function start(client) {
+    client.onMessage((message) => {
+        //! ===================== Estágio 1 - Apresentação =====================
+        if (groundon.numero_estagio === 1) {
+            groundon.enviarMensagem(message.from, 'Teste');
+            console.log(groundon.verConversa());
+        }
+    });
+}
+
+
 
 
 async function main() {
     const groundon = new Groundon();
+
     try {
-        await groundon.conectarWpp().then(
-            console.log('✅ Conectado com sucesso!\n\n')
-        ).catch(
-            console.log("Ops! Deu Problema ao conectar! :(")
-        )
+        await groundon.conectarWpp();
+        console.log('✅ Conectado com sucesso!\n\n');
         await groundon.receberMensagem();
 
+
+        start(groundon.whatsapp)
+
         groundon.whatsapp.onMessage((message) => {
-            //! ===================== Estágio 1 - Apresentação =====================
-            if (groundon.numero_estagio === 1) {
-                groundon.enviarMensagem(message.from, 'Teste');
-                // groundon.enviarLista('5516999999999', 'Teste', 'Teste', [{ title: 'Teste', description: 'Teste' }]);
-                // groundon.enviarBotao('5516999999999', 'Teste', [{ id: '1', body: 'Teste' }]);
-                console.log(groundon.verConversa());
-            }
+
         });
     } catch (error) {
         console.error('Ops! Deu problema ao conectar! :(');

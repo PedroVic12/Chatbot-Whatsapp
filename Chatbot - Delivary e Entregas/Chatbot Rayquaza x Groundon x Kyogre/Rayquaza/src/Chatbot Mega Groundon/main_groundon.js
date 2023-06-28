@@ -1,39 +1,25 @@
-const venom = require('venom-bot');
 
-class Groundon {
-    constructor() {
-        this.client = null;
-    }
 
-    async conectar() {
-        try {
-            this.client = await venom.create({
-                session: 'session-name' // nome da sessão
-            });
 
-            this.client.onMessage((message) => {
-                if (message.body === 'Hi' && message.isGroupMsg === false) {
-                    this.client
-                        .sendText(message.from, 'Welcome Venom 🕷')
-                        .then((result) => {
-                            console.log('Result: ', result); // retorna o objeto de sucesso
-                        })
-                        .catch((error) => {
-                            console.error('Error when sending: ', error); // retorna o objeto de erro
-                        });
-                }
-            });
-
-            console.log('Groundon conectado com sucesso!');
-        } catch (error) {
-            console.error('Erro ao conectar o Groundon:', error);
-        }
-    }
-}
 
 function main() {
-    const groundon = new Groundon();
-    groundon.conectar();
+    const estagio1 = new Estagio1();
+    const estagio2 = new Estagio2();
+    const estagio3 = new Estagio3();
+
+    try {
+        estagio1.conectarWpp();
+        console.log('✅ Estágio 1 conectado com sucesso!\n\n');
+
+        estagio2.conectarWpp();
+        console.log('✅ Estágio 2 conectado com sucesso!\n\n');
+
+        estagio3.conectarWpp();
+        console.log('✅ Estágio 3 conectado com sucesso!\n\n');
+    } catch (error) {
+        console.error('Ops! Deu problema ao conectar! :(');
+        console.error(error);
+    }
 }
 
 main();
