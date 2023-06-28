@@ -7,22 +7,21 @@ class Groundon {
 
     async conectar() {
         try {
-            this.client = await venom.create();
+            this.client = await venom.create({
+                session: 'session-name' // nome da sessão
+            });
 
             this.client.onMessage((message) => {
-                // Trate as mensagens recebidas aqui
-                if (message.body === 'Oi' && message.isGroupMsg === false) {
-                    client
+                if (message.body === 'Hi' && message.isGroupMsg === false) {
+                    this.client
                         .sendText(message.from, 'Welcome Venom 🕷')
                         .then((result) => {
-                            console.log('Result: ', result); //return object success
+                            console.log('Result: ', result); // retorna o objeto de sucesso
                         })
-                        .catch((erro) => {
-                            console.error('Error when sending: ', erro); //return object error
+                        .catch((error) => {
+                            console.error('Error when sending: ', error); // retorna o objeto de erro
                         });
                 }
-
-                console.log('Mensagem recebida:', message.body);
             });
 
             console.log('Groundon conectado com sucesso!');
@@ -30,29 +29,11 @@ class Groundon {
             console.error('Erro ao conectar o Groundon:', error);
         }
     }
-
-    async enviarMensagem(numero, mensagem) {
-        if (!this.client) {
-            console.error('Groundon não está conectado.');
-            return;
-        }
-
-        try {
-            await this.client.sendText(numero, mensagem);
-            console.log('Mensagem enviada com sucesso:', mensagem);
-        } catch (error) {
-            console.error('Erro ao enviar a mensagem:', error);
-        }
-    }
 }
-
-module.exports = Groundon;
-
 
 function main() {
     const groundon = new Groundon();
     groundon.conectar();
-    //groundon.enviarMensagem('5511999999999', 'Olá, tudo bem?');
 }
 
-main()
+main();
