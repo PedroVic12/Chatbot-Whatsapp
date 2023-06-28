@@ -10,7 +10,7 @@ async function main() {
 	await groundonController.conectarWpp();
 
 	const groundonView = new GroundonView(groundonController.whatsapp, groundonController);
-	groundonView.startChatbot();
+	groundonView.start();
 
 
 

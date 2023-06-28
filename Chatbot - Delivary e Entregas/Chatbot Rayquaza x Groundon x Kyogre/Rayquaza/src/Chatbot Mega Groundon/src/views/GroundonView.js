@@ -5,10 +5,11 @@ class GroundonView {
 	constructor(whatsapp, groundonController) {
 		this.whatsapp = whatsapp;
 		this.groundonController = groundonController;
+		this.stack = []; // Pilha de estágios
+
 	}
 
-	// 
-	startChatbot() {
+	StartVenomBot() {
 		this.whatsapp.onMessage((message) => {
 			if (message.body === 'Hi' && message.isGroupMsg === false) {
 				this.whatsapp
@@ -24,46 +25,40 @@ class GroundonView {
 	}
 
 
-	// Funções de interação com o cliente
+	//! Funções de interação com o cliente
 	start() {
-		this.whatsapp.onMessage((message) => {
-			// Verifica o estágio atual
+		this.whatsapp.onMessage(async (message) => {
 			const numero_estagio = this.getCurrentStage();
 
-			// ===================== Estágio 1 - Apresentação =====================
 			if (numero_estagio === 1) {
 				// Lógica para o Estágio 1
+				this.enviarMensagem(message, 'Bem vindo ao Venom 🕷, homem aranha!')
+				this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 				console.log('Estágio 1:', message.body);
 
-				// Exemplo de envio de mensagem de resposta
 				const resposta = 'Olá! Recebi sua mensagem.';
-				this.enviarMensagem(message, resposta);
-			}
+				await this.enviarMensagem(message, resposta);
 
-			// Outros estágios e lógica de controle aqui
-			if (numero_estagio === 2) {
+				this.pushStage(2); // Avança para o próximo estágio
+			} else if (numero_estagio === 2) {
 				console.log('Estágio 2:', message.body);
 
 				// Lógica para o Estágio 2
 				// ...
 
-				// Exemplo de envio de mensagem de resposta
-				const resposta = 'Estamos no Estágio 2.';
-				this.enviarMensagem(message, resposta);
-			}
+				this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
-			// Exemplo: Lidar com o fluxo de estágios
-			// if (numero_estagio === 1 && message.body === 'Próximo') {
-			//   this.pushStage(2);
-			//   this.enviarMensagem(message, 'Estamos no Estágio 2.');
-			// } else if (numero_estagio === 2 && message.body === 'Voltar') {
-			//   this.popStage();
-			//   this.enviarMensagem(message, 'Voltamos ao Estágio 1.');
-			// }
+				this.pushStage(3); // Avança para o próximo estágio
+			} else if (numero_estagio === 3) {
+				this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
+				this.pushStage(4); // Avança para o próximo estágio
+			} else if (numero_estagio === 4) {
+				this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
+				this.popStage(); // Retorna ao estágio anterior
+			}
 		});
 	}
-
-	// Funções de Mensagem
+	//! Funções de Mensagem
 	async enviarMensagem(message, texto) {
 		try {
 			const result = await this.whatsapp.sendText(message.from, texto);
@@ -73,23 +68,8 @@ class GroundonView {
 		}
 	}
 
-	VenomMsgBot() {
-		this.whatsapp.onMessage((message) => {
-			if (message.body === 'Hi' && message.isGroupMsg === false) {
-				this.whatsapp
-					.sendText(message.from, 'Bem vindo ao Venom 🕷, homem aranha!')
-					.then((result) => {
-						console.log('Result: ', result); //return object success
-					})
-					.catch((erro) => {
-						console.error('Error when sending: ', erro); //return object error
-					});
-			}
-		});
-	}
 
-
-	// Funções Listas
+	//! Funções Listas
 	async enviarListas(phoneNumber, listas) {
 		try {
 			for (const lista of listas) {
@@ -120,20 +100,57 @@ class GroundonView {
 
 
 
-	// ESTRUTURA DE DADOS PILHA PARA FLUXO DOS ESTÁGIOS
-	getCurrentStage() {
-		// Obtém o estágio atual (topo da pilha) ou retorna 0 se a pilha estiver vazia
-		return this.stages.length > 0 ? this.stages[this.stages.length - 1] : 0;
-	}
-
+	//! Função para adicionar um estágio à pilha
 	pushStage(stage) {
-		// Adiciona um novo estágio à pilha
-		this.stages.push(stage);
+		this.stack.push(stage);
 	}
 
+	// Função para remover o estágio atual da pilha
 	popStage() {
-		// Remove o estágio atual (topo da pilha)
-		this.stages.pop();
+		this.stack.pop();
+	}
+
+	// Função para obter o estágio atual
+	getCurrentStage() {
+		return this.stack.length > 0 ? this.stack[this.stack.length - 1] : 1;
+	}
+
+	//!TESTE
+	async IniciarStagesMessages() {
+		this.groundon.whatsapp.onMessage((message) => {
+			this.groundon.armazenarConversa(message);
+
+			const currentStage = this.groundon.numeroEstagio;
+
+			switch (currentStage) {
+				case 1:
+					this.estagio1(message);
+					break;
+				case 2:
+					this.estagio2(message);
+					break;
+				case 3:
+					this.estagio3(message);
+					break;
+				default:
+					console.log('Estágio desconhecido');
+			}
+		});
+	}
+
+	estagio1(message) {
+		console.log('Estágio 1:', message.body);
+		// Lógica específica do Estágio 1
+	}
+
+	estagio2(message) {
+		console.log('Estágio 2:', message.body);
+		// Lógica específica do Estágio 2
+	}
+
+	estagio3(message) {
+		console.log('Estágio 3:', message.body);
+		// Lógica específica do Estágio 3
 	}
 }
 
