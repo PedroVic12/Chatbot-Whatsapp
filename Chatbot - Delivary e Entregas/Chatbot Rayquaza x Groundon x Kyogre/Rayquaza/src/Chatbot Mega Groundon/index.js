@@ -6,6 +6,8 @@ const GroundonView = require('./src/views/GroundonView');
 const BackendController = require('./src/controllers/BackendController')
 //const DialogFlow = require('./src/controllers/DialogFlowController')
 
+//! TEMPO DE CONEXÃO COM O WPP = 20 SEGUNDOS, depois disso rodar o servidor Rayquaza
+
 
 // Chatbot Groundon With Venom-Bot APIs
 async function main() {

@@ -3,6 +3,8 @@ const { WebhookClient } = require('dialogflow-fulfillment');
 const dialogflow = require('@google-cloud/dialogflow');
 const GroundonController = require('./GroundonController');
 
+//TODO -> TENTATIVA DE MANDAR LISTAR PELO DIALOGFLOW + INTEGRAÇÃO COM AS INTENTES
+
 class DialogFlow extends GroundonController {
     constructor() {
         super()
@@ -63,18 +65,14 @@ class DialogFlow extends GroundonController {
     async start_DialogFlow() {
         await this.conectarWpp();
 
-
         this.whatsapp.onMessage(async (message) => {
             if (message.body === 'lista') {
                 let texto_resposta = await this.executeQueries('chabot-370717', message.from, [message.body], 'pt-BR');
 
-                if (texto_resposta && texto_resposta.length > 0) {
-                    const fulfillmentText = texto_resposta[0].fulfillmentText;
-                    console.log('\n\nResposta da Intent', fulfillmentText);
-                    // Resto do seu código
-                }
+                const fulfillmentText = texto_resposta[0].fulfillmentText;
+                console.log('\n\nResposta da Intent:', fulfillmentText);
 
-                const args = texto_resposta.toString().split('|');
+                const args = fulfillmentText.split('|');
                 const link1 = args[0].split('>');
                 const link2 = args[1].split('>');
 
@@ -95,17 +93,31 @@ class DialogFlow extends GroundonController {
                     }
                 ];
 
-                this.whatsapp.sendListMenu(
+
+                console.log('\n\nOBJETO LISTA', list_dialog)
+
+
+
+
+                await this.whatsapp.sendListMenu(
                     message.from,
                     'SEJA BEM VINDO',
                     'venom-bot',
                     '\nSelecione uma opção: \n' + message.body + '\n',
                     'CLIQUE AQUI',
                     list_dialog
-                );
+                )
+                    .then(() => {
+                        console.log('Lista Enviada!'); //return object success
+                    })
+                    .catch((erro) => {
+                        console.error('\N\NERROR LISTA', erro); //return object error
+                    });
             }
         });
     }
+
+
 }
 
 module.exports = DialogFlow;
