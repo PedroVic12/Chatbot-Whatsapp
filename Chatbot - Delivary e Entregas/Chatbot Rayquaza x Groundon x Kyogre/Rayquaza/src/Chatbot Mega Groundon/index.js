@@ -13,12 +13,21 @@ async function main() {
 	const backendController = new BackendController();
 
 	// Connect to WhatsApp
+	let isWhatsAppConnected = false;
 	try {
-		await groundonController.conectarWpp();
+		await groundonController.conectarWpp().then(() => {
+			isWhatsAppConnected = true;
+		});
 	} catch (error) {
 		console.log('\n\nErro ao tentar conectar', error);
 	}
-	await backendController.start_backend();
+
+	// Start backend if WhatsApp is connected
+	if (isWhatsAppConnected) {
+		await backendController.start_backend();
+	} else {
+		console.log('Não foi possível iniciar o backend, pois o WhatsApp não está conectado.');
+	}
 
 	// Initialize view
 	const groundonView = new GroundonView(
@@ -27,8 +36,6 @@ async function main() {
 		backendController
 	);
 	groundonView.start();
-
-
 
 
 

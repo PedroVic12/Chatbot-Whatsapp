@@ -131,7 +131,7 @@ class GroundonView {
 						console.log(response.data);
 					})
 					.catch(error => {
-						console.error('Erro ao enviar a lista:', error);
+						console.error('\n\nErro ao enviar a lista no evento Listener:', error);
 					});
 
 

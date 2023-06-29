@@ -240,15 +240,14 @@ class BackendController extends GroundonController {
     async start_backend() {
         const port = 4000;
 
-        // Adicione um evento de escuta para verificar quando a conexão com o WhatsApp for estabelecida
-        this.whatsapp.onStateChange((state) => {
-            if (state === 'CONNECTED') {
-                // Inicie o servidor somente quando a conexão com o WhatsApp estiver estabelecida
-                this.app.listen(port, () => {
-                    console.log(`\n\nServidor Whatsapp iniciado na porta ${port}`);
-                });
-            }
-        });
+        try {
+            this.app.listen(port, () => {
+                console.log(`\n\nServidor Whatsapp iniciado na porta ${port}`);
+            });
+        } catch (error) {
+            console.log('\n\nfalha ao conectar o servidor', error)
+        }
+
     }
 }
 
