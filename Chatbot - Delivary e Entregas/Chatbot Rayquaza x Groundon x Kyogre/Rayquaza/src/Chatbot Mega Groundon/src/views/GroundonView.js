@@ -1,5 +1,5 @@
 const GroundonController = require('../controllers/GroundonController');
-
+const Groundon = require('../models/Groundon')
 
 class GroundonView {
 	constructor(whatsapp, groundonController) {
@@ -28,29 +28,98 @@ class GroundonView {
 	//! Funções de interação com o cliente
 	start() {
 		this.whatsapp.onMessage(async (message) => {
+
+			//! MensagemLog -> Controller()
+			// Verifica se o usuário já está online
+
+
+			// Lógica para processar a mensagem recebida
+			const robo_groundon = new Groundon()
+			robo_groundon.armazenarConversa(message)
+
+
+			//! Stages
 			const numero_estagio = this.getCurrentStage();
 
 			if (numero_estagio === 1) {
-				// Lógica para o Estágio 1
-				this.enviarMensagem(message, 'Bem vindo ao Venom 🕷, homem aranha!')
 				this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
-				console.log('Estágio 1:', message.body);
 
-				const resposta = 'Olá! Recebi sua mensagem.';
-				await this.enviarMensagem(message, resposta);
+				this.enviarMensagem(message, 'Bem vindo ao Venom 🕷, homem aranha!')
+				console.log('\nEstágio 1:', message.body);
+
+
 
 				this.pushStage(2); // Avança para o próximo estágio
 			} else if (numero_estagio === 2) {
-				console.log('Estágio 2:', message.body);
+				this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
 				// Lógica para o Estágio 2
-				// ...
+				console.log('\nEstágio 2:', message.body);
 
-				this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
-				this.pushStage(3); // Avança para o próximo estágio
+
+				try {
+					const minha_lista = [
+						{
+							title: "Pasta",
+							rows: [
+								{
+									title: "Ravioli Lasagna",
+									description: "Made with layers of frozen cheese",
+								}
+							]
+						},
+						{
+							title: "Dessert",
+							rows: [
+								{
+									title: "Baked Ricotta Cake",
+									description: "Sweets pecan baklava rolls",
+								},
+								{
+									title: "Lemon Meringue Pie",
+									description: "Pastry filled with lemonand meringue.",
+								}
+							]
+						}
+					];
+
+					await this.enviarLista(
+						message.from,
+						'menuTitle',
+						'menuSubTitle',
+						'menuDescription',
+						'menuId',
+						minha_lista
+					);
+
+				} catch (error) {
+					this.enviarMensagem(message, 'Nao foi possível enviar a lista')
+				}
+
+
+
+				this.pushStage(3);
 			} else if (numero_estagio === 3) {
 				this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
+
+
+				const buttons = [
+					{
+						buttonText: {
+							displayText: 'Texto do Botão 1'
+						}
+					},
+					{
+						buttonText: {
+							displayText: 'Texto do Botão 2'
+						}
+					}
+				];
+
+				await this.enviarBotoes(message.from, 'title', buttons, 'Selecione uma opção:');
+
+
 				this.pushStage(4); // Avança para o próximo estágio
 			} else if (numero_estagio === 4) {
 				this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
@@ -62,42 +131,39 @@ class GroundonView {
 	async enviarMensagem(message, texto) {
 		try {
 			const result = await this.whatsapp.sendText(message.from, texto);
-			console.log('Resultado: ', result);
+			console.log('\n\nResultado da Mensagem: ', result);
 		} catch (error) {
-			console.error('Erro ao enviar mensagem: ', error);
+			console.error('\n\nErro ao enviar mensagem: ', error);
 		}
 	}
 
 
 	//! Funções Listas
-	async enviarListas(phoneNumber, listas) {
+	async enviarLista(to, title, subTitle, description, menu, list_object) {
 		try {
-			for (const lista of listas) {
-				const listMessage = {
-					buttonText: lista.buttonText,
-					sections: [
-						{
-							title: lista.title,
-							rows: lista.items.map((item) => ({
-								title: item.title,
-								description: item.description,
-								price: item.price,
-							})),
-						},
-					],
-				};
+			await this.whatsapp.sendListMenu(to, title, subTitle, description, menu, list_object)
+				.then((result) => {
+					console.log('\n\nLISTA ENVIADA: ', result);
+				})
 
-				await this.groundonController.enviarMensagem(phoneNumber, listMessage);
-				await this.delay(1000); // Atraso entre o envio de cada lista (opcional)
-			}
 
-			console.log(`Listas enviadas para ${phoneNumber}`);
 		} catch (error) {
-			console.error(`Erro ao enviar listas para ${phoneNumber}: ${error}`);
-			throw error;
+			console.error('\nError when sending: ', error);
 		}
 	}
 
+	//! Botoes
+	async enviarBotoes(to, title, buttons, description) {
+		try {
+			await this.whatsapp.sendButtons(to, title, buttons, description)
+				.then((result) => {
+					console.log('Result: ', result); //return object success
+				})
+
+		} catch (error) {
+			console.error('\nError when sending: ', error);
+		}
+	}
 
 
 	//! Função para adicionar um estágio à pilha
