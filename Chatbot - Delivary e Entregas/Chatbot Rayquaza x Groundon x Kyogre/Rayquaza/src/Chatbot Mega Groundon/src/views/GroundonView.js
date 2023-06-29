@@ -10,20 +10,6 @@ class GroundonView {
 
 	}
 
-	StartVenomBot() {
-		this.whatsapp.onMessage((message) => {
-			if (message.body === 'Hi' && message.isGroupMsg === false) {
-				this.whatsapp
-					.sendText(message.from, 'Bem vindo ao Venom 🕷, homem aranha!')
-					.then((result) => {
-						console.log('Result: ', result); //return object success
-					})
-					.catch((erro) => {
-						console.error('Error when sending: ', erro); //return object error
-					});
-			}
-		});
-	}
 
 
 	//! Funções de interação com o cliente
@@ -128,6 +114,24 @@ class GroundonView {
 			}
 		});
 	}
+
+
+	StartVenomBot() {
+		this.whatsapp.onMessage((message) => {
+			if (message.body === 'Hi' && message.isGroupMsg === false) {
+				this.whatsapp
+					.sendText(message.from, 'Bem vindo ao Venom 🕷, homem aranha!')
+					.then((result) => {
+						console.log('Result: ', result); //return object success
+					})
+					.catch((erro) => {
+						console.error('Error when sending: ', erro); //return object error
+					});
+			}
+		});
+	}
+
+
 	//! Funções de Mensagem
 	async enviarMensagem(message, texto) {
 		try {
