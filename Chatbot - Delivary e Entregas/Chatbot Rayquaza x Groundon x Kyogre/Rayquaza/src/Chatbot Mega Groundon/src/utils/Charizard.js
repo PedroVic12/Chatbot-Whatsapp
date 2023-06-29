@@ -75,6 +75,13 @@ class CharizardBackend extends GroundonController {
                     descricao2: 'descrição 2',
                 };
 
+                const url2 = 'http://localhost:8000/send-message'
+                const body2 = {
+                    number: message.from,
+                    message: 'Eae Homem aranha, pronto para ser rico?'
+
+                };
+
                 try {
                     const response = await fetch(url, {
                         method: 'POST',
