@@ -98,7 +98,7 @@ class DataBaseController {
     }
 
     static lerComidasJSON(comidaTree, callback) {
-        fs.readFile('./cardapio_1.json', 'utf8', (err, data) => {
+        fs.readFile('src/Chatbot Mega Groundon/repository/cardapio_1.json', 'utf8', (err, data) => {
             if (err) {
                 console.error('Erro ao ler o arquivo:', err);
                 return;
