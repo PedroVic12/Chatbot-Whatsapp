@@ -13,18 +13,19 @@ class DialogFlow extends GroundonController {
     async handleWebhookRequest(request, response) {
         const agent = new WebhookClient({ request, response });
         let intentMap = new Map();
-        intentMap.set('nome_da_intencao', this.nameFunction.bind(this));
+        intentMap.set('Botoes e Listas', this.nameFunction.bind(this));
         await agent.handleRequest(intentMap);
     }
 
     async nameFunction(agent) {
         // Implemente a lógica da função aqui
-        const responseText = 'Resposta da intenção nome_da_intencao';
+        const responseText = 'Resposta da intenção {nome_da_intencao}';
         agent.add(responseText);
     }
 
     async detectIntent(projectId, sessionId, query, contexts, languageCode) {
-        const sessionClient = new dialogflow.SessionsClient({ keyFilename: 'file_name.json' });
+        const PATH_JSON = '/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/chabot-370717-db4231f86949.json'
+        const sessionClient = new dialogflow.SessionsClient({ keyFilename: PATH_JSON });
         const sessionPath = sessionClient.projectAgentSessionPath(projectId, sessionId);
 
         const request = {
@@ -65,8 +66,8 @@ class DialogFlow extends GroundonController {
 
         this.whatsapp.onMessage(async (message) => {
             if (message.body === 'lista') {
-                let texto_resposta = await this.executeQueries('chatbot-whatsapp-ae5f0', message.from, [message.body], 'pt-BR');
-                const args = texto_resposta.split('|');
+                let texto_resposta = await this.executeQueries('chabot-370717', message.from, [message.body], 'pt-BR');
+                const args = texto_resposta.toString().split('|');
                 const link1 = args[0].split('>');
                 const link2 = args[1].split('>');
 
@@ -109,3 +110,4 @@ function run_dialog() {
     dialogFlow.start_DialogFlow()
 }
 
+run_dialog()
