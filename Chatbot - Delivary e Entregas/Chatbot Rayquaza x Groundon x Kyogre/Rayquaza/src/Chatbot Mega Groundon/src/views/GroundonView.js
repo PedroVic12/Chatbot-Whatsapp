@@ -1,5 +1,6 @@
 const GroundonController = require('../controllers/GroundonController');
 const Groundon = require('../models/Groundon')
+const fs = require('fs');
 
 class GroundonView {
 	constructor(whatsapp, groundonController) {
@@ -55,6 +56,7 @@ class GroundonView {
 
 				// Lógica para o Estágio 2
 				console.log('\nEstágio 2:', message.body);
+				this.mostrarComidasLista(message)
 
 
 
@@ -98,7 +100,6 @@ class GroundonView {
 				}
 
 
-
 				this.pushStage(3);
 			} else if (numero_estagio === 3) {
 				this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
@@ -131,7 +132,7 @@ class GroundonView {
 	async enviarMensagem(message, texto) {
 		try {
 			const result = await this.whatsapp.sendText(message.from, texto);
-			console.log('\n\nResultado da Mensagem: ', result);
+			//console.log('\n\nResultado da Mensagem: ', result);
 		} catch (error) {
 			console.error('\n\nErro ao enviar mensagem: ', error);
 		}
@@ -139,6 +140,35 @@ class GroundonView {
 
 
 	//! Funções Listas
+	mostrarComidasLista(message) {
+
+		let cardapio_sanduiche = '/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/repository/cardapio_1.json'
+		fs.readFile(cardapio_sanduiche, 'utf8', (err, data) => {
+			if (err) {
+				console.error('Erro ao ler o arquivo JSON:', err);
+				return;
+			}
+
+			try {
+				const listaComidas = JSON.parse(data);
+
+				let cardapio_text = '🍔 *Cardápio* 🍔\n\n';
+
+				listaComidas.forEach((comida, index) => {
+					cardapio_text += `*${index + 1}. ${comida['Sanduíches Tradicionais']}* - R$ ${comida['Preço.4'].toFixed(2)}\n`;
+					cardapio_text += `Ingredientes: ${comida['Igredientes']}\n`;
+					cardapio_text += `📝 Para escolher este item, envie o número ${index + 1}.\n\n`;
+				});
+
+				cardapio_text += '🚫 Para cancelar, envie *cancelar*.\n';
+
+				this.enviarMensagem(message, cardapio_text);
+			} catch (error) {
+				console.error('Erro ao analisar o arquivo JSON:', error);
+			}
+		});
+
+	}
 	async enviarLista(to, title, subTitle, description, menu, list_object) {
 		try {
 			await this.whatsapp.sendListMenu(to, title, subTitle, description, menu, list_object)
@@ -148,7 +178,7 @@ class GroundonView {
 
 
 		} catch (error) {
-			console.error('\nError when sending: ', error);
+			console.error('\n\nError when sending LIST: ', error);
 		}
 	}
 
@@ -156,10 +186,6 @@ class GroundonView {
 	async enviarBotoes(to, title, buttons, description) {
 		try {
 			await this.whatsapp.sendButtons(to, title, buttons, description)
-				.then((result) => {
-					console.log('Result: ', result); //return object success
-				})
-
 		} catch (error) {
 			console.error('\nError when sending: ', error);
 		}

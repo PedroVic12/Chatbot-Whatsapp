@@ -50,8 +50,6 @@ class GroundonController {
 
 		// Realize as ações necessárias com base na mensagem
 
-		// Exemplo: Enviar uma resposta
-		await this.groundon.sendText(message.sender.id, 'Obrigado por sua mensagem!');
 
 		// Exemplo: Contar o número de usuários online
 		const onlineUserCount = this.onlineUsers.size;
