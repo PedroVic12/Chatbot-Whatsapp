@@ -4,7 +4,7 @@ const Groundon = require('./src/models/Groundon');
 const GroundonController = require('./src/controllers/GroundonController');
 const GroundonView = require('./src/views/GroundonView');
 const BackendController = require('./src/controllers/BackendController')
-const DialogFlow = require('./src/controllers/DialogFlowController')
+//const DialogFlow = require('./src/controllers/DialogFlowController')
 
 
 // Chatbot Groundon With Venom-Bot APIs
@@ -14,8 +14,8 @@ async function main() {
 	const backendController = new BackendController();
 
 	// Inicializando o DialogFlow
-	const dialogFlow = new DialogFlow();
-	dialogFlow.start_webhook();
+	//const dialogFlow = new DialogFlow();
+	//dialogFlow.start_webhook();
 
 
 
@@ -32,10 +32,10 @@ async function main() {
 	// Start backend if WhatsApp is connected
 	if (isWhatsAppConnected) {
 		await backendController.start_backend();
-		await dialogFlow.start_DialogFlow()
+		//await dialogFlow.start_DialogFlow()
 
 	} else {
-		console.log('Não foi possível iniciar o backend, pois o WhatsApp não está conectado.');
+		console.log('\n\nNão foi possível iniciar o backend, pois o WhatsApp não está conectado.');
 	}
 
 	// Initialize view
@@ -85,5 +85,5 @@ async function main() {
 }
 
 main().catch((error) => {
-	console.error('Ocorreu um erro:', error);
+	console.error('\n\nOcorreu um erro:', error);
 });

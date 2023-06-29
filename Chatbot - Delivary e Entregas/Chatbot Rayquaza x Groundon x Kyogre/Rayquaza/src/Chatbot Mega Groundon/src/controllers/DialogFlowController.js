@@ -52,7 +52,7 @@ class DialogFlow extends GroundonController {
     }
 
     start_webhook() {
-        const port = 6000;
+        const port = 5000;
         this.app.listen(port, () => {
             console.log(`DialogFlow webhook server is listening on port ${port}`);
         });
@@ -103,6 +103,9 @@ module.exports = DialogFlow;
 
 
 // Exemplo de uso
-const dialogFlow = new DialogFlow();
-dialogFlow.start_webhook();
-dialogFlow.start_DialogFlow()
+function run_dialog() {
+    const dialogFlow = new DialogFlow();
+    dialogFlow.start_webhook();
+    dialogFlow.start_DialogFlow()
+}
+
