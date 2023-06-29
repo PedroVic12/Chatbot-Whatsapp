@@ -1,11 +1,14 @@
 const GroundonController = require('../controllers/GroundonController');
 const Groundon = require('../models/Groundon')
 const fs = require('fs');
+const axios = require('axios')
+
 
 class GroundonView {
-	constructor(whatsapp, groundonController) {
+	constructor(whatsapp, groundonController, backendController) {
 		this.whatsapp = whatsapp;
 		this.groundonController = groundonController;
+		this.backendController = backendController;
 		this.stack = []; // Pilha de estágios
 
 	}
@@ -45,44 +48,46 @@ class GroundonView {
 				this.mostrarComidasLista(message)
 
 
+				async function testeSendList() {
+					try {
+						const minha_lista = [
+							{
+								title: "Pasta",
+								rows: [
+									{
+										title: "Ravioli Lasagna",
+										description: "Made with layers of frozen cheese",
+									}
+								]
+							},
+							{
+								title: "Dessert",
+								rows: [
+									{
+										title: "Baked Ricotta Cake",
+										description: "Sweets pecan baklava rolls",
+									},
+									{
+										title: "Lemon Meringue Pie",
+										description: "Pastry filled with lemonand meringue.",
+									}
+								]
+							}
+						];
 
-				try {
-					const minha_lista = [
-						{
-							title: "Pasta",
-							rows: [
-								{
-									title: "Ravioli Lasagna",
-									description: "Made with layers of frozen cheese",
-								}
-							]
-						},
-						{
-							title: "Dessert",
-							rows: [
-								{
-									title: "Baked Ricotta Cake",
-									description: "Sweets pecan baklava rolls",
-								},
-								{
-									title: "Lemon Meringue Pie",
-									description: "Pastry filled with lemonand meringue.",
-								}
-							]
-						}
-					];
+						await this.enviarLista(
+							message.from,
+							'menuTitle',
+							'menuSubTitle',
+							'menuDescription',
+							'menuId',
+							minha_lista
+						);
 
-					await this.enviarLista(
-						message.from,
-						'menuTitle',
-						'menuSubTitle',
-						'menuDescription',
-						'menuId',
-						minha_lista
-					);
+					} catch (error) {
+						this.enviarMensagem(message, 'Nao foi possível enviar a lista')
+					}
 
-				} catch (error) {
-					this.enviarMensagem(message, 'Nao foi possível enviar a lista')
 				}
 
 
@@ -90,6 +95,51 @@ class GroundonView {
 			} else if (numero_estagio === 3) {
 				this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
+				// Lógica para o Estágio 3
+
+				// Parâmetros da lista que você deseja enviar
+				const to = message.from; // Número de telefone do destinatário
+				const title = 'Título da lista';
+				const subTitle = 'Subtítulo da lista';
+				const description = 'Descrição da lista';
+				const menu = 'Menu da lista';
+				const option1 = 'Opção 1';
+				const titulo1 = 'Título 1';
+				const descricao1 = 'Descrição 1';
+				const option2 = 'Opção 2';
+				const titulo2 = 'Título 2';
+				const descricao2 = 'Descrição 2';
+
+				// Montar o objeto com os parâmetros da lista
+				const listParams = {
+					to,
+					title,
+					subTitle,
+					description,
+					menu,
+					option1,
+					titulo1,
+					descricao1,
+					option2,
+					titulo2,
+					descricao2
+				};
+
+				// Fazer a requisição ao servidor backend
+				axios.post('http://localhost:4000/send-lists', listParams)
+					.then(response => {
+						console.log(response.data);
+					})
+					.catch(error => {
+						console.error('Erro ao enviar a lista:', error);
+					});
+
+
+
+
+				this.pushStage(4);
+			} else if (numero_estagio === 4) {
+				this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
 				const buttons = [
 					{
@@ -107,8 +157,11 @@ class GroundonView {
 				await this.enviarBotoes(message.from, 'title', buttons, 'Selecione uma opção:');
 
 
-				this.pushStage(4); // Avança para o próximo estágio
-			} else if (numero_estagio === 4) {
+
+				this.pushStage(5);
+			}
+
+			else if (numero_estagio === 5) {
 				this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 				this.popStage(); // Retorna ao estágio anterior
 			}
@@ -183,6 +236,15 @@ class GroundonView {
 
 		} catch (error) {
 			console.error('\n\nError when sending LIST: ', error);
+		}
+	}
+
+	async sendListRequest(to, title, subTitle, description, menu, list_object) {
+		try {
+			await this.backendController.enviarListaRequest(to, title, subTitle, description, menu, list_object);
+		} catch (error) {
+			console.error('Erro ao enviar a lista:', error);
+			throw new Error('Erro ao enviar a lista');
 		}
 	}
 

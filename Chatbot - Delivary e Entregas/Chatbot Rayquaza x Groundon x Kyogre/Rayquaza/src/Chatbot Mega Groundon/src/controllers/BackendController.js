@@ -1,5 +1,8 @@
 const { body, validationResult } = require('express-validator');
 const express = require('express');
+const fetch = require('node-fetch');
+const fs = require('fs');
+
 const GroundonController = require('./GroundonController')
 
 
@@ -91,26 +94,34 @@ class BackendController extends GroundonController {
             res.send('Tudo certo! O servidor está em execução.');
         });
 
-        this.app.post('/send-message', [
-            body('number').notEmpty().withMessage('O campo "number" não pode estar vazio.'),
-            body('message').notEmpty().withMessage('O campo "message" não pode estar vazio.')
-        ], this.sendMessage.bind(this));
+        this.app.post(
+            '/send-message',
+            [
+                body('number').notEmpty().withMessage('O campo "number" não pode estar vazio.'),
+                body('message').notEmpty().withMessage('O campo "message" não pode estar vazio.'),
+            ],
+            this.sendMessage.bind(this)
+        );
 
-        this.app.post('/send-lists', [
-            body('to').notEmpty().withMessage('O campo "to" não pode estar vazio.'),
-            body('title').notEmpty().withMessage('O campo "title" não pode estar vazio.'),
-            body('subTitle').notEmpty().withMessage('O campo "subTitle" não pode estar vazio.'),
-            body('description').notEmpty().withMessage('O campo "description" não pode estar vazio.'),
-            body('menu').notEmpty().withMessage('O campo "menu" não pode estar vazio.'),
+        this.app.post(
+            '/send-lists',
+            [
+                body('to').notEmpty().withMessage('O campo "to" não pode estar vazio.'),
+                body('title').notEmpty().withMessage('O campo "title" não pode estar vazio.'),
+                body('subTitle').notEmpty().withMessage('O campo "subTitle" não pode estar vazio.'),
+                body('description').notEmpty().withMessage('O campo "description" não pode estar vazio.'),
+                body('menu').notEmpty().withMessage('O campo "menu" não pode estar vazio.'),
 
-            body('option1').optional(),
-            body('titulo1').optional(),
-            body('descricao1').optional(),
+                body('option1').optional(),
+                body('titulo1').optional(),
+                body('descricao1').optional(),
 
-            body('option2').optional(),
-            body('titulo2').optional(),
-            body('descricao2').optional()
-        ], this.sendLists.bind(this));
+                body('option2').optional(),
+                body('titulo2').optional(),
+                body('descricao2').optional(),
+            ],
+            this.sendLists.bind(this)
+        );
     }
 
     //! Enviar Mensagem por http
@@ -150,12 +161,12 @@ class BackendController extends GroundonController {
     //!Enviar Listas
     sendLists(request, response) {
         // Verifique se existem erros de validação nos campos do formulário
-        const errors_request = validationResult(request);
+        const errorsRequest = validationResult(request);
 
-        if (!errors_request.isEmpty()) {
+        if (!errorsRequest.isEmpty()) {
             return response.status(422).json({
                 status: false,
-                message: errors_request.errors.map(error => error.msg)
+                message: errorsRequest.errors.map((error) => error.msg),
             });
         }
 
@@ -166,73 +177,77 @@ class BackendController extends GroundonController {
         const description = request.body.description;
         const menu = request.body.menu;
 
-        //extrair lista do menu
-        const option1 = request.body.option1
-        const titulo1 = request.body.titulo1
-        const descricao1 = request.body.descricao1
+        // Extrair itens da lista do menu
+        const option1 = request.body.option1;
+        const titulo1 = request.body.titulo1;
+        const descricao1 = request.body.descricao1;
 
-        const option2 = request.body.option2
-        const titulo2 = request.body.titulo2
-        const descricao2 = request.body.descricao2
+        const option2 = request.body.option2;
+        const titulo2 = request.body.titulo2;
+        const descricao2 = request.body.descricao2;
 
-        //objeto Lista
-        const list_menu = [
+        // Objeto Lista
+        const listMenu = [
             {
                 title: option1,
                 rows: [
                     {
                         title: titulo1,
-                        description: descricao1
-                    }
-                ]
+                        description: descricao1,
+                    },
+                ],
             },
             {
                 title: option2,
                 rows: [
                     {
                         title: titulo2,
-                        description: descricao2
-                    }
-                ]
-            }
+                        description: descricao2,
+                    },
+                ],
+            },
         ];
 
         // Envie a lista usando a implementação existente
-        this.enviarListaRequest(to, title, subTitle, description, menu, list_menu)
-            .then(result => {
+        this.enviarListaRequest(to, title, subTitle, description, menu, listMenu)
+            .then((result) => {
                 response.status(200).json({
                     status: true,
                     message: 'Lista Enviada',
-                    result: result
+                    result: result,
                 });
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error('Erro ao enviar a lista:', error);
                 response.status(500).json({
                     status: false,
-                    message: 'Erro ao enviar a lista'
+                    message: 'Erro ao enviar a lista',
                 });
             });
     }
 
-    async enviarListaRequest(to, title, subTitle, description, menu, list_object) {
+    async enviarListaRequest(to, title, subTitle, description, menu, listObject) {
         // Certifique-se de que as variáveis estejam definidas e contenham os valores esperados
-        if (!to || !title || !subTitle || !description || !menu || !list_object) {
+        if (!to || !title || !subTitle || !description || !menu || !listObject) {
             throw new Error('Parâmetros ausentes ou inválidos.');
         }
 
         // Realize o envio da lista utilizando this.whatsapp.sendListMenu
-        // Certifique-se de passar os parâmetros corretamente
-        // Exemplo:
-        return this.whatsapp.sendListMenu(to, title, subTitle, description, menu, list_object);
+        return this.whatsapp.sendListMenu(to, title, subTitle, description, menu, listObject);
     }
 
-
     //! Iniciar Servidor
-    start() {
-        const port = 3000;
-        this.app.listen(port, () => {
-            console.log(`Servidor iniciado na porta ${port}`);
+    async start_backend() {
+        const port = 4000;
+
+        // Adicione um evento de escuta para verificar quando a conexão com o WhatsApp for estabelecida
+        this.whatsapp.onStateChange((state) => {
+            if (state === 'CONNECTED') {
+                // Inicie o servidor somente quando a conexão com o WhatsApp estiver estabelecida
+                this.app.listen(port, () => {
+                    console.log(`\n\nServidor Whatsapp iniciado na porta ${port}`);
+                });
+            }
         });
     }
 }
@@ -242,7 +257,7 @@ module.exports = BackendController;
 
 function main_Backend() {
     const backend = new BackendController();
-    backend.start();
+    backend.start_backend();
 }
 
-main_Backend()
+//main_Backend()

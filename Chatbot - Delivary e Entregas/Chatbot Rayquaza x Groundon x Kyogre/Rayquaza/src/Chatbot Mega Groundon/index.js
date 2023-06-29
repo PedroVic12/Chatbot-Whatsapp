@@ -8,24 +8,25 @@ const BackendController = require('./src/controllers/BackendController')
 
 // Chatbot Groundon With Venom-Bot APIs
 async function main() {
-	// Iniciando o COntroller
+	// Initialize controllers
 	const groundonController = new GroundonController();
-	const backend = new BackendController();
-	backend.start();
+	const backendController = new BackendController();
 
-	// Conectando
+	// Connect to WhatsApp
 	try {
 		await groundonController.conectarWpp();
 	} catch (error) {
-		console.log('\n\nErro ao tentar conectar', error)
+		console.log('\n\nErro ao tentar conectar', error);
 	}
+	await backendController.start_backend();
 
-	//Iniciando a View
-	const groundonView = new GroundonView(groundonController.whatsapp, groundonController);
+	// Initialize view
+	const groundonView = new GroundonView(
+		groundonController.whatsapp,
+		groundonController,
+		backendController
+	);
 	groundonView.start();
-
-
-
 
 
 
