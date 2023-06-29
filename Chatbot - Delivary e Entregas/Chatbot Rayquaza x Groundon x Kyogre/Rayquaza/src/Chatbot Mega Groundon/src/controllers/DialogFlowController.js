@@ -67,9 +67,17 @@ class DialogFlow extends GroundonController {
         this.whatsapp.onMessage(async (message) => {
             if (message.body === 'lista') {
                 let texto_resposta = await this.executeQueries('chabot-370717', message.from, [message.body], 'pt-BR');
+
+                if (texto_resposta && texto_resposta.length > 0) {
+                    const fulfillmentText = texto_resposta[0].fulfillmentText;
+                    console.log('\n\nResposta da Intent', fulfillmentText);
+                    // Resto do seu código
+                }
+
                 const args = texto_resposta.toString().split('|');
                 const link1 = args[0].split('>');
                 const link2 = args[1].split('>');
+
 
                 const list_dialog = [
                     {
