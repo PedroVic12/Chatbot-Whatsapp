@@ -1,7 +1,8 @@
 const GroundonController = require('../controllers/GroundonController');
 const Groundon = require('../models/Groundon')
 const fs = require('fs');
-const axios = require('axios')
+const axios = require('axios');
+const { addAbortSignal } = require('stream');
 
 
 class GroundonView {
@@ -40,6 +41,9 @@ class GroundonView {
 
 
 				this.pushStage(2); // Avança para o próximo estágio
+
+
+
 			} else if (numero_estagio === 2) {
 				this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
