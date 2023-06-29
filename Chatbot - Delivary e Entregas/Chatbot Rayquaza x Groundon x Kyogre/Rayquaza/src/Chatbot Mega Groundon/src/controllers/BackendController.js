@@ -1,5 +1,8 @@
 const { body, validationResult } = require('express-validator');
 const express = require('express');
+const GroundonController = require('./GroundonController')
+
+
 
 class BackendController extends GroundonController {
     constructor() {
@@ -83,28 +86,30 @@ class BackendController extends GroundonController {
     setupRoutes() {
         this.app.use(express.json());
 
+        // Rota para verificar o status do servidor
+        this.app.get('/', (req, res) => {
+            res.send('Tudo certo! O servidor está em execução.');
+        });
+
         this.app.post('/send-message', [
             body('number').notEmpty().withMessage('O campo "number" não pode estar vazio.'),
             body('message').notEmpty().withMessage('O campo "message" não pode estar vazio.')
         ], this.sendMessage.bind(this));
 
         this.app.post('/send-lists', [
-            // parametros
             body('to').notEmpty().withMessage('O campo "to" não pode estar vazio.'),
             body('title').notEmpty().withMessage('O campo "title" não pode estar vazio.'),
             body('subTitle').notEmpty().withMessage('O campo "subTitle" não pode estar vazio.'),
             body('description').notEmpty().withMessage('O campo "description" não pode estar vazio.'),
             body('menu').notEmpty().withMessage('O campo "menu" não pode estar vazio.'),
 
-            //lista de opções
-            body('option1').notEmpty(),
-            body('titulo1').notEmpty(),
-            body('descricao1').notEmpty(),
+            body('option1').optional(),
+            body('titulo1').optional(),
+            body('descricao1').optional(),
 
-            body('option2').notEmpty(),
-            body('titulo2').notEmpty(),
-            body('descricao2').notEmpty(),
-            //body('list_object').notEmpty().withMessage('O campo "list_object" não pode estar vazio.')
+            body('option2').optional(),
+            body('titulo2').optional(),
+            body('descricao2').optional()
         ], this.sendLists.bind(this));
     }
 
@@ -222,6 +227,8 @@ class BackendController extends GroundonController {
         return this.whatsapp.sendListMenu(to, title, subTitle, description, menu, list_object);
     }
 
+
+    //! Iniciar Servidor
     start() {
         const port = 3000;
         this.app.listen(port, () => {
