@@ -7,7 +7,13 @@ const GroundonView = require('./src/views/GroundonView');
 // Chatbot Groundon With Venom-Bot APIs
 async function main() {
 	const groundonController = new GroundonController();
-	await groundonController.conectarWpp();
+
+
+	try {
+		await groundonController.conectarWpp();
+	} catch (error) {
+		console.log('\n\nErro ao tentar conectar', error)
+	}
 
 	const groundonView = new GroundonView(groundonController.whatsapp, groundonController);
 	groundonView.start();
