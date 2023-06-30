@@ -1,7 +1,5 @@
 
 
-
-
 class Estagio2 extends GroundonView {
 	constructor(whatsapp) {
 		super(whatsapp);
@@ -14,18 +12,6 @@ class Estagio2 extends GroundonView {
 
 	}
 
-
-    getNomeCliente(message) {
-        try {
-            const name_user = message.body
-            this.NomeCliente = message.body
-            console.log(this.NomeCliente)
-            return name_user
-
-        } catch (err) {
-            console.log(err);
-        }
-    }
 
     getTelefoneCliente(message) {
         try {

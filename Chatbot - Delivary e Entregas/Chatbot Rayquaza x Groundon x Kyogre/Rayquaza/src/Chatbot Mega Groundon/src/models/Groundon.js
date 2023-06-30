@@ -12,7 +12,15 @@ class Groundon {
 		}
 	}
 
-	getLastMessage() {
+	// Método auxiliar para adicionar atraso (em milissegundos)
+	delay(ms) {
+		return new Promise((resolve) => setTimeout(resolve, ms));
+	}
+
+
+	
+
+	getStage() {
 		const currentStage = this.conversas[this.numero_estagio - 1];
 		if (currentStage.length > 0) {
 			return currentStage[currentStage.length - 1];

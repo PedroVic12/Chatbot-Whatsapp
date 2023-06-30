@@ -1,17 +1,21 @@
-const GroundonController = require('../controllers/GroundonController');
-const Groundon = require('../models/Groundon');
 const fs = require('fs');
 const axios = require('axios');
-const { addAbortSignal } = require('stream');
+
+const Groundon = require('../models/Groundon');
 const GroundonView = require('./GroundonView');
+
+const Cliente = require('../models/Regras de Negocio/Cliente/Cliente')
+const Widgets = require('../models/widgets/Widgets')
+
 const Estagio1 = require('./Stages/Estagio1')
-const Estagio2 = require('./Stages/Estagio2')
+const Estagio2 = require('./Stages/Estagio2');
 
 class StagesView extends GroundonView {
-    constructor(whatsapp, groundonController, backendController,Estagio1) {
+    constructor(whatsapp, groundonController, backendController) {
         super(whatsapp, groundonController, backendController);
-        this.estagio1 = Estagio1
-        this.Estagio2 = Estagio2
+        this.estagio1 = new Estagio1()
+        this.Estagio2 = new Estagio2()
+        this.Widgets = new Widgets()
     }
 
     start_chat_Groundon() {
@@ -28,6 +32,7 @@ class StagesView extends GroundonView {
             //! ===================== Estágio 1 - Apresentação =====================
 			if (numero_estagio === 1) {
 				this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
+			    console.log('\nEstágio 1:', message.body);
 
                 this.enviarMensagem(message , `Bem-vindo a Lanchonete *Citta RJ* Obrigado por escolher a nossos Serviços. \n Eu sou o Robô Groundon e estou aqui para ajudá-lo. `)
                 this.enviarMensagem(message,"Antes de começarmos, por favor, *Digite Seu Nome*:")
@@ -39,10 +44,36 @@ class StagesView extends GroundonView {
             //!=====================  Estágio 2 - Mostrar Menu Principal =====================
 			} else if (numero_estagio === 2) {
 				this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
+			    console.log('\nEstágio 2:', message.body);
+                
+                //Pega dados do CLiente
+                const cliente = new Cliente()
+                const nome_cliente = this.getLastMessage(message)
+                Cliente.setNome(nome_cliente)
 
-				//! Lógica para o Estágio 2
-				console.log('\nEstágio 2:', message.body);
+                const numero_cliente = this.Estagio2.getTelefoneCliente(message)
+                cliente.setPhoneNumber(numero_cliente)
 
+                //TODO checar cliente na base de dados
+
+                //TODO se cliente não existir, cadastrar cliente
+
+                //TODO se cliente existir, pegar dados do cliente
+
+                this.delay(3000).then(
+                    this.enviarMensagem(message, `✅ Prazer em te conhecer, ${cliente.nome}!`)
+                )
+
+                // Mostra o menu principal
+                const menu_principal = this.Widgets.menuPrincipal()
+                this.enviarMensagem(message, menu_principal)
+        
+        
+        
+        
+                this.delay(3000).then(
+                    this.enviarMensagem(message, `O que deseja fazer?`)
+                )
 
 
 				this.pushStage(3);

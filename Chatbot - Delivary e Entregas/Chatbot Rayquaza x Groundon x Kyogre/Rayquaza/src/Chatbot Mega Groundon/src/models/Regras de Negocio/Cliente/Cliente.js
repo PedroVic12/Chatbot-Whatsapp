@@ -1,30 +1,17 @@
-const Chatbot = require("./core/Groundon");
-const Carrinho = require("./Carrinho");
+const Carrinho = require("../Pedido/Carrinho");
 const produtos_cardapio = require("../repository/cardapio_1.json"); // Importe o arquivo JSON do cardápio
 const fs = require('fs');
+const Pedido = require('../Pedido/Pedido')
 
-
-class Cliente {
-    constructor(Chatbot, Carrinho) {
-        //herança
-        this.chatbot = Chatbot;
-        this.carrinho = Carrinho;
-
+class Cliente extends Pedido{
+    constructor() {
+        super()
 
         // Atributos Dinamicos
         this.nome = 'nome';
         this.telefone = 0;
         this.endereco_cliente = '';
         this.forma_pagamento = '';
-
-        this.pedido_cliente = {
-            nome: this.getNome(),
-            telefone: this.getPhoneNumber(),
-            //pedido: this.carrinho.verCarrinho(),
-            carrinho: this.verCarrinhoCliente(),
-            pagamento: this.forma_pagamento,
-            endereco: this.endereco_cliente
-        };
     }
 
 
@@ -52,10 +39,6 @@ class Cliente {
         return this.endereco_cliente
     }
 
-    pegandoFormaPagamentoCliente(message) {
-        const formaPagamento = this.chatbot.getLastMessage(message)
-        return formaPagamento
-    }
 
     setFormaPagamento(variable_payament) {
         this.forma_pagamento = variable_payament

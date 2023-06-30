@@ -1,7 +1,8 @@
 const Chatbot = require("./core/Groundon");
 const produtos_cardapio = require("../repository/cardapio_1.json"); // Importe o arquivo JSON do cardápio
+const Pedido = require("./Pedido");
 
-class Carrinho {
+class Carrinho extends Pedido{
     constructor(chatbot, produtos_cardapio) {
         this.chatbot = chatbot;
         this.pedido = null;
