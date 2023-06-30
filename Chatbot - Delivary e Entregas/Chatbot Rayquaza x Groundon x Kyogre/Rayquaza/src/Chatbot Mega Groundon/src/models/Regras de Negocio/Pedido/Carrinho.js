@@ -4,13 +4,21 @@ const produtos_cardapio = require("../repository/cardapio_1.json"); // Importe o
 class Carrinho {
     constructor(chatbot, produtos_cardapio) {
         this.chatbot = chatbot;
+        this.pedido = null;
+
         this.carrinho_loja = {
             nomeProdutos: [],
             total: 0
         };
         this.produtos_cardapio = produtos_cardapio;
     }
-
+    adicionarPedido(pedido) {
+        this.pedido = pedido;
+      }
+    
+      limparCarrinho() {
+        this.pedido = null;
+      }
     //Getters e Setters
     getNomesProdutosPedido() {
         return this.carrinho_loja.nomeProdutos;

@@ -14,8 +14,9 @@ async function main() {
 	const groundonController = new GroundonController();
 	const backendController = new BackendController();
 
-	// Connect to WhatsApp
+	//! Connect to WhatsApp
 	let isWhatsAppConnected = false;
+	const isGroundonBotOnline = false;
 	try {
 		await groundonController.conectarWpp().then(() => {
 			isWhatsAppConnected = true;
@@ -39,42 +40,10 @@ async function main() {
 		groundonController,
 		backendController
 	);
+
+	//! Bot esta Online!
 	groundonView.start();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	isGroundonBotOnline = true;
 
 
 }

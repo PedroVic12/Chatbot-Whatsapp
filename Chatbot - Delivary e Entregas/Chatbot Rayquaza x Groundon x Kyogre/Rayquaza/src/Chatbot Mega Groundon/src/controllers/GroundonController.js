@@ -1,7 +1,7 @@
 const venom = require('venom-bot');
 
 
-class GroundonController {
+class GroundonController  {
 	constructor() {
 		this.whatsapp = null;
 	}
@@ -34,6 +34,9 @@ class GroundonController {
 	delay(ms) {
 		return new Promise((resolve) => setTimeout(resolve, ms));
 	}
+
+
+	
 
 
 
