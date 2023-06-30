@@ -55,8 +55,7 @@ class CardapioMenu extends Menu{
         });
 
         cardapio_text += '🚫 Para cancelar, envie *cancelar*.\n';
-
-        //! CHANGE HERE this.enviarMensagem(message, cardapio_text);
+        return cardapio_text
       } catch (error) {
         console.error('Erro ao analisar o arquivo JSON:', error);
       }

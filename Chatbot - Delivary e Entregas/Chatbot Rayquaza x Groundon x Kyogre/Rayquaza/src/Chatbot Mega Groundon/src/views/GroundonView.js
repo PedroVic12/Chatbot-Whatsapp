@@ -2,7 +2,6 @@ const GroundonController = require('../controllers/GroundonController');
 const Groundon = require('../models/Groundon')
 const fs = require('fs');
 const axios = require('axios');
-const { addAbortSignal } = require('stream');
 
 //? Tentei fazer uma herança de Groundon
 class GroundonView extends Groundon{

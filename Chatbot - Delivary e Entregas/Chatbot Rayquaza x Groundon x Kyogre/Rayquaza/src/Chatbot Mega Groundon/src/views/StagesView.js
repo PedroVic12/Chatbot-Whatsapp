@@ -6,6 +6,7 @@ const GroundonView = require('./GroundonView');
 
 const Cliente = require('../models/Regras de Negocio/Cliente/Cliente')
 const Widgets = require('../models/widgets/Widgets')
+const Menu = require('../models/widgets/Menu/Menu')
 
 const Estagio1 = require('./Stages/Estagio1')
 const Estagio2 = require('./Stages/Estagio2');
@@ -18,6 +19,7 @@ class StagesView extends GroundonView {
         this.estagio2 = new Estagio2()
         this.estagio3 = new Estagio3()
         this.Widgets = new Widgets()
+        this.Menu = new Menu()
     }
 
     async start_chat_Groundon() {
@@ -69,9 +71,9 @@ class StagesView extends GroundonView {
                     )
 
                     // Mostra o menu principal
-                    const menu_principal = this.Widgets.menuPrincipal()
-                    this.enviarMensagem(message, menu_principal)
-
+                    const menuPrincipal = this.widgets.menuPrincipal;
+                    const menuPrincipalText = this.widgets.getMenuText('Menu Principal', menuPrincipal);
+                    this.enviarMensagem(message, menuPrincipalText)
 
 
 
@@ -86,38 +88,55 @@ class StagesView extends GroundonView {
                 } else if (numero_estagio === 3) {
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
-                    if (message.body === 'Ver Cardápio' && message.type !== 'location') {
+                    if (message.body === '1' && message.type !== 'location') {
                         this.enviarMensagem(message, 'Vou mostrar o cardapio em PDF!')
                         this.delay(3000).then(
                             this.enviarMensagem(message, menu_principal)
                         )
                     }
-                    if (message.body === 'FAZER PEDIDO') {
+                    if (message.body === '2') {
                         const menu_categorias = this.Widgets.menuCategorias()
-                        const menu_cardapio = this.Widgets.menuCardapio()
+                        const menu_cardapio = this.Menu.mostrarComidasLista()
 
-                        this.enviarMensagem(message, menu_cardapio)
+                        //Menu Principal
+                        const menu_categoriasText = this.widgets.getMenuText('Menu Principal', menu_categorias);
+                        this.enviarMensagem(message, menu_categoriasText)
 
-
-                        this.avancarEstagio().then(
-                            this.enviarMensagem(message, 'processando...')
-                        ).then(
-                            this.enviarMensagem(message, menu_categorias)
+                        this.delay(3000).then(
+                            this.enviarMensagem(message,'processando...').then(
+                                this.pushStage(4)
+                            )
                         )
 
                     }
-                    if (message.body === 'Ver nossa Localização' && message.type !== 'location') {
+                    if (message.body === '3' && message.type !== 'location') {
                         estagio3.mostrarLocal(message)
                         this.delay(3000).then(
                             this.enviarMensagem(message, menu_principal)
                         )
                     }
 
-                    this.pushStage(4);
 
                     //!=====================  Estagio 4 - Cliente Escolhe os Produtos da Loja =====================
                 } else if (numero_estagio === 4) {
+
+                    //aqui o cliente escolhe que tipo de produto ele deseja
+
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
+
+                    const categoria_escolha = this.getLastMessage(message)
+
+                    if (categoria_escolha === 'Comida'){
+                        const menu_comidas = this.Menu.mostrarComidasLista()
+                        const menu_comidasText = this.widgets.getMenuText('Menu Comidas', menu_comidas);
+                        this.enviarMensagem(message, menu_comidasText)
+                    }
+
+                    if (categoria_escolha === 'Bebidas'){
+                        const menu_bebidas = this.Menu.mostrarBebidasLista()
+                        const menu_bebidasText = this.widgets.getMenuText('Menu Bebidas', menu_bebidas);
+                        this.enviarMensagem(message, menu_bebidasText)
+                    }
 
 
                     this.pushStage(5);

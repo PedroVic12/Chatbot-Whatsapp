@@ -1,53 +1,88 @@
-const { Markup } = require('venom-bot');
 const fs = require('fs');
-
-// TODO ERROR AQUI
 
 class Widgets {
   constructor() {
+    // Menu Principal
     this.menuPrincipal = [
-      { button: { text: 'Ver Cardápio', hide: true }, type: 'message' },
-      { button: { text: 'Fazer Pedido', hide: true }, type: 'message' },
-      { button: { text: 'Ver Localização', hide: true }, type: 'message' }
+      { button: { text: '🍔 Ver Cardápio', hide: true }, type: 'message' },
+      { button: { text: '🛒 Fazer Pedido', hide: true }, type: 'message' },
+      { button: { text: '📍 Ver Localização', hide: true }, type: 'message' }
     ];
 
-    //MEnu
-    this.menu = this.Menu
-    this.menuCardapio = this.MenuCardapio
+    // Menu de Categorias
+    this.menuCategorias = [
+      { button: { text: '🍕 Comida', hide: true }, type: 'message' },
+      { button: { text: '🍹 Bebida', hide: true }, type: 'message' },
+      { button: { text: '🍨 Sobremesa', hide: true }, type: 'message' }
+    ];
 
-    // Venom-Menu
-    this.categorias = ['Comida', 'Bebida', 'Sobremesa'];
-    this.menuCategorias = this.categorias.map((categoria) => ({
-      button: { text: categoria, hide: true },
-      type: 'message'
-    }));
+    // Menu de Opções de Pagamento
+    this.menuPagamento = [
+      { button: { text: '💳 Cartão', hide: true }, type: 'message' },
+      { button: { text: '💵 Dinheiro', hide: true }, type: 'message' },
+      { button: { text: '📱 Pix', hide: true }, type: 'message' }
+    ];
 
-    this.opcoesPagamento = ['Cartão', 'Dinheiro', 'Pix'];
-    this.menuPagamento = this.opcoesPagamento.map((opcao) => ({
-      button: { text: opcao, hide: true },
-      type: 'message'
-    }));
-
+    // Menu de Confirmação
     this.menuConfirmacao = [
-      { button: { text: 'Sim', hide: true }, type: 'message' },
-      { button: { text: 'Não', hide: true }, type: 'message' }
+      { button: { text: '✅ Sim', hide: true }, type: 'message' },
+      { button: { text: '❌ Não', hide: true }, type: 'message' }
     ];
 
-    // Exemplo de estrutura para Menu e MenuCardapio
-    this.menu = [
-      { button: { text: 'Opção 1', hide: true }, type: 'message' },
-      { button: { text: 'Opção 2', hide: true }, type: 'message' },
-      { button: { text: 'Opção 3', hide: true }, type: 'message' }
+    // Exemplo de estrutura para outros menus
+    this.menuExemplo = [
+      { button: { text: '🌟 Opção 1', hide: true }, type: 'message' },
+      { button: { text: '🔥 Opção 2', hide: true }, type: 'message' },
+      { button: { text: '🎉 Opção 3', hide: true }, type: 'message' }
     ];
+  }
 
-    this.menuCardapio = [
-      { button: { text: 'Item 1', hide: true }, type: 'message' },
-      { button: { text: 'Item 2', hide: true }, type: 'message' },
-      { button: { text: 'Item 3', hide: true }, type: 'message' }
-    ];
+  getMenuText(title,menu) {
+    let menuText = `🔸 ${title} 🔸\n\n`;
+    menu.forEach((item, index) => {
+      menuText += `${index + 1}. ${item.button.text}\n`;
+
+    });
+
+    menuText += `\n📝 Digite o *Número* para escolher o item desejado.\n\n`;
+
+    return menuText;
+  }
+
+  formatMenu(title, menu) {
+    let formattedMenu = `🔸 ${title} 🔸\n\n`;
+    menu.forEach((item, index) => {
+      formattedMenu += `⚡️ ${index + 1}. ${item.button.text}\n`;
+    });
+    formattedMenu += '\n🚚 Opções de Delivery:\n1. Retirada no Local\n2. Entrega em Domicílio\n3. Delivery Expresso';
+    return formattedMenu;
+  }
+
+  formatMenuTable(title, menu) {
+    let formattedMenu = `${title}:\n\n`;
+    formattedMenu += '| Opção | Descrição |\n|---|---|\n';
+    menu.forEach((item, index) => {
+      formattedMenu += `| ${index + 1} | ${item.button.text} |\n`;
+
+    });
+    return formattedMenu;
   }
 }
 
 module.exports = Widgets;
 
+function main(){
+  const widgets = new Widgets();
 
+  // Exemplo de uso dos menus personalizados
+  const menuPrincipal = widgets.menuPrincipal;
+  const menuCategorias = widgets.menuCategorias;
+
+  console.log(menuPrincipal);
+  console.log(menuCategorias);
+
+  // Exemplo de como enviar o menu principal como uma mensagem
+  const menuPrincipalText = widgets.getMenuText('Menu Principal', menuPrincipal);
+  console.log(menuPrincipalText);
+}
+main();
