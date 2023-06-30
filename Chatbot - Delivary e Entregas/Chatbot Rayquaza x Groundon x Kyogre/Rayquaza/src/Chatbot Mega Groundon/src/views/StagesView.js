@@ -15,118 +15,122 @@ class StagesView extends GroundonView {
     constructor(whatsapp, groundonController, backendController) {
         super(whatsapp, groundonController, backendController);
         this.estagio1 = new Estagio1()
-        this.Estagio2 = new Estagio2()
+        this.estagio2 = new Estagio2()
         this.estagio3 = new Estagio3()
         this.Widgets = new Widgets()
     }
 
-    start_chat_Groundon() {
-        this.whatsapp.onMessage(async (message) => {
-			//! MensagemLog -> Controller()
-			// Verifica se o usuário já está online
+    async start_chat_Groundon() {
 
-			// Lógica para processar a mensagem recebida
-			const robo_groundon = new Groundon()
-			robo_groundon.armazenarConversa(message)
-			const numero_estagio = this.getCurrentStage();
+        return new Promise((resolve, reject) => {
+            this.whatsapp.onMessage(async (message) => {
+                //! MensagemLog -> Controller()
+                // Verifica se o usuário já está online
 
-
-            //! ===================== Estágio 1 - Apresentação =====================
-			if (numero_estagio === 1) {
-				this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
-			    console.log('\nEstágio 1:', message.body);
-
-                this.enviarMensagem(message , `Bem-vindo a Lanchonete *Citta RJ* Obrigado por escolher a nossos Serviços. \n Eu sou o Robô Groundon e estou aqui para ajudá-lo. `)
-                this.enviarMensagem(message,"Antes de começarmos, por favor, *Digite Seu Nome*:")
+                // Lógica para processar a mensagem recebida
+                //const robo_groundon = new Groundon()
+                //robo_groundon.armazenarConversa(message)
+                const numero_estagio = this.getCurrentStage();
 
 
-				this.pushStage(2); // Avança para o próximo estágio
+                //! ===================== Estágio 1 - Apresentação =====================
+                if (numero_estagio === 1) {
+                    this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
+                    console.log('\nEstágio 1:', message.body);
+
+                    this.enviarMensagem(message, `Bem-vindo a Lanchonete *Citta RJ* Obrigado por escolher a nossos Serviços. \n Eu sou o Robô Groundon e estou aqui para ajudá-lo. `)
+                    this.enviarMensagem(message, "Antes de começarmos, por favor, *Digite Seu Nome*:")
 
 
-            //!=====================  Estágio 2 - Mostrar Menu Principal =====================
-			} else if (numero_estagio === 2) {
-				this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
-			    console.log('\nEstágio 2:', message.body);
-                
-                //Pega dados do CLiente
-                const cliente = new Cliente()
-                const nome_cliente = this.getLastMessage(message)
-                Cliente.setNome(nome_cliente)
-
-                const numero_cliente = this.Estagio2.getTelefoneCliente(message)
-                cliente.setPhoneNumber(numero_cliente)
-
-                //TODO checar cliente na base de dados
-
-                //TODO se cliente não existir, cadastrar cliente
-
-                //TODO se cliente existir, pegar dados do cliente
-
-                this.delay(3000).then(
-                    this.enviarMensagem(message, `✅ Prazer em te conhecer, ${cliente.nome}!`)
-                )
-
-                // Mostra o menu principal
-                const menu_principal = this.Widgets.menuPrincipal()
-                this.enviarMensagem(message, menu_principal)
-        
-        
-        
-        
-                this.delay(3000).then(
-                    this.enviarMensagem(message, `O que deseja fazer?`)
-                )
+                    this.pushStage(2); // Avança para o próximo estágio
 
 
-				this.pushStage(3);
+                    //!=====================  Estágio 2 - Mostrar Menu Principal =====================
+                } else if (numero_estagio === 2) {
+                    this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
+                    console.log('\nEstágio 2:', message.body);
 
-            //!=====================  Estágio 3 - Responde as funcionalidades do Botão =====================
-			} else if (numero_estagio === 3) {
-				this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
+                    //Pega dados do CLiente
+                    const cliente = new Cliente()
+                    const nome_cliente = this.getLastMessage(message)
+                    Cliente.setNome(nome_cliente)
 
-                if (message.body === 'Ver Cardápio' && message.type !== 'location') {
-                    this.enviarMensagem(message, 'Vou mostrar o cardapio em PDF!')
+                    const numero_cliente = this.estagio2.getTelefoneCliente(message)
+                    cliente.setPhoneNumber(numero_cliente)
+
+                    //TODO checar cliente na base de dados
+
+                    //TODO se cliente não existir, cadastrar cliente
+
+                    //TODO se cliente existir, pegar dados do cliente
+
                     this.delay(3000).then(
-                        this.enviarMensagem(message, menu_principal)
+                        this.enviarMensagem(message, `✅ Prazer em te conhecer, ${cliente.nome}!`)
                     )
-                }
-                if (message.body === 'FAZER PEDIDO') {
-                    const menu_categorias = this.Widgets.menuCategorias()
-                    const menu_cardapio = this.Widgets.menuCardapio()
 
-                    this.enviarMensagem(message, menu_cardapio)
-                    
+                    // Mostra o menu principal
+                    const menu_principal = this.Widgets.menuPrincipal()
+                    this.enviarMensagem(message, menu_principal)
 
-                    this.avancarEstagio().then(
-                        this.enviarMensagem(message, 'processando...')
-                    ).then(
-                        this.enviarMensagem(message, menu_categorias)
-                    )
-        
-                }
-                if (message.body === 'Ver nossa Localização' && message.type !== 'location') {
-                    estagio3.mostrarLocal(message)
+
+
+
                     this.delay(3000).then(
-                        this.enviarMensagem(message, menu_principal)
+                        this.enviarMensagem(message, `O que deseja fazer?`)
                     )
+
+
+                    this.pushStage(3);
+
+                    //!=====================  Estágio 3 - Responde as funcionalidades do Botão =====================
+                } else if (numero_estagio === 3) {
+                    this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
+
+                    if (message.body === 'Ver Cardápio' && message.type !== 'location') {
+                        this.enviarMensagem(message, 'Vou mostrar o cardapio em PDF!')
+                        this.delay(3000).then(
+                            this.enviarMensagem(message, menu_principal)
+                        )
+                    }
+                    if (message.body === 'FAZER PEDIDO') {
+                        const menu_categorias = this.Widgets.menuCategorias()
+                        const menu_cardapio = this.Widgets.menuCardapio()
+
+                        this.enviarMensagem(message, menu_cardapio)
+
+
+                        this.avancarEstagio().then(
+                            this.enviarMensagem(message, 'processando...')
+                        ).then(
+                            this.enviarMensagem(message, menu_categorias)
+                        )
+
+                    }
+                    if (message.body === 'Ver nossa Localização' && message.type !== 'location') {
+                        estagio3.mostrarLocal(message)
+                        this.delay(3000).then(
+                            this.enviarMensagem(message, menu_principal)
+                        )
+                    }
+
+                    this.pushStage(4);
+
+                    //!=====================  Estagio 4 - Cliente Escolhe os Produtos da Loja =====================
+                } else if (numero_estagio === 4) {
+                    this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
+
+
+                    this.pushStage(5);
                 }
 
-				this.pushStage(4);
 
-            //!=====================  Estagio 4 - Cliente Escolhe os Produtos da Loja =====================
-			} else if (numero_estagio === 4) {
-				this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
+                //!=====================  Estagio 5 - Pega o pedido e adiciona no carrinho =====================
+                else if (numero_estagio === 5) {
+                    this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
+                    this.popStage(); // Retorna ao estágio anterior
+                }
+            });
 
-	
-				this.pushStage(5);
-			}
-
-
-            //!=====================  Estagio 5 - Pega o pedido e adiciona no carrinho =====================
-			else if (numero_estagio === 5) {
-				this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
-				this.popStage(); // Retorna ao estágio anterior
-			}
         });
     }
 }

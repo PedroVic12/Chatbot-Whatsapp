@@ -2,16 +2,16 @@
 const GroundonView = require("../GroundonView");
 
 class Estagio2 extends GroundonView {
-	constructor(whatsapp) {
-		super(whatsapp);
-	}
+    constructor(whatsapp) {
+        super(whatsapp);
+    }
 
-	start() {
-		super.start();
+    start() {
+        super.start();
 
-		// Implementação específica do Estágio 2
+        // Implementação específica do Estágio 2
 
-	}
+    }
 
 
     getTelefoneCliente(message) {
@@ -38,3 +38,5 @@ class Estagio2 extends GroundonView {
 
     }
 }
+
+module.exports = Estagio2;

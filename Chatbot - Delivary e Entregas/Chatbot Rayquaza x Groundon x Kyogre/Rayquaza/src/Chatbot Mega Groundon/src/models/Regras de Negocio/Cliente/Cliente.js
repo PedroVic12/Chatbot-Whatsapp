@@ -2,7 +2,7 @@ const Carrinho = require("../Pedido/Carrinho");
 const fs = require('fs');
 const Pedido = require('../Pedido/Pedido')
 
-class Cliente extends Pedido{
+class Cliente extends Pedido {
     constructor() {
         super()
 
@@ -46,33 +46,6 @@ class Cliente extends Pedido{
     getPagamento() {
         return this.forma_pagamento
     }
-
-
-    //Cliente + Carrinho
-    verCarrinhoCliente() {
-        let carrinhoString = '';
-        const produtosNoCarrinho = this.carrinho.getNomesProdutosPedido();
-        const quantidadeProdutos = {};
-
-        // Contar a quantidade de cada produto no carrinho
-        for (const produto of produtosNoCarrinho) {
-            if (quantidadeProdutos[produto]) {
-                quantidadeProdutos[produto]++;
-            } else {
-                quantidadeProdutos[produto] = 1;
-            }
-        }
-
-        // Gerar a string de exibição do carrinho
-        for (const produto in quantidadeProdutos) {
-            const quantidade = quantidadeProdutos[produto];
-            carrinhoString += `${quantidade}x ${produto}\n`;
-        }
-
-        return carrinhoString;
-    }
-
-
 
 
 
