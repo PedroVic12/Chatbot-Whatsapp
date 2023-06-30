@@ -4,7 +4,6 @@ const Groundon = require('./src/models/Groundon');
 const GroundonController = require('./src/controllers/GroundonController');
 const GroundonView = require('./src/views/GroundonView');
 const BackendController = require('./src/controllers/BackendController')
-//const DialogFlow = require('./src/controllers/DialogFlowController')
 
 //! TEMPO DE CONEXÃO COM O WPP = 20 SEGUNDOS, depois disso rodar o servidor Rayquaza
 
@@ -14,12 +13,6 @@ async function main() {
 	// Initialize controllers
 	const groundonController = new GroundonController();
 	const backendController = new BackendController();
-
-	// Inicializando o DialogFlow
-	//const dialogFlow = new DialogFlow();
-	//dialogFlow.start_webhook();
-
-
 
 	// Connect to WhatsApp
 	let isWhatsAppConnected = false;
