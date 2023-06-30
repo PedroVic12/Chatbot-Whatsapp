@@ -51,7 +51,6 @@ async function main() {
 		.then(() => {
 			isGroundonBotOnline = true;
 			console.log(`\nChatbot Groundon iniciado: ${isGroundonBotOnline}`);
-			// Resto do código...
 		})
 		.catch((error) => {
 			console.error('Ocorreu um erro ao iniciar o Chatbot Groundon:', error);
