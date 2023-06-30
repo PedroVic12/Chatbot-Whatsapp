@@ -1,17 +1,14 @@
-const Chatbot = require("./core/Groundon");
-const produtos_cardapio = require("../repository/cardapio_1.json"); // Importe o arquivo JSON do cardápio
 const Pedido = require("./Pedido");
 
 class Carrinho extends Pedido{
-    constructor(chatbot, produtos_cardapio) {
-        this.chatbot = chatbot;
-        this.pedido = null;
+    constructor() {
+        super();
 
+        this.pedido = null;
         this.carrinho_loja = {
             nomeProdutos: [],
             total: 0
         };
-        this.produtos_cardapio = produtos_cardapio;
     }
     adicionarPedido(pedido) {
         this.pedido = pedido;
@@ -51,7 +48,7 @@ class Carrinho extends Pedido{
         let total = 0;
         const quantidade = {};
         for (const produtoNome of this.carrinho_loja.nomeProdutos) {
-            const produto = this.produtos_cardapio.find((p) => p.nome === produtoNome);
+            //const produto = this.produtos_cardapio.find((p) => p.nome === produtoNome);
             if (produto) {
                 total += produto.preco;
                 if (quantidade[produtoNome]) {

@@ -1,4 +1,5 @@
 
+const GroundonView = require("../GroundonView");
 
 class Estagio2 extends GroundonView {
 	constructor(whatsapp) {

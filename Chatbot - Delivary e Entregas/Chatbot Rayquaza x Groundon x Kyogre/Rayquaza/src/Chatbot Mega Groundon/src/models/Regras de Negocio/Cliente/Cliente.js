@@ -1,5 +1,4 @@
 const Carrinho = require("../Pedido/Carrinho");
-const produtos_cardapio = require("../repository/cardapio_1.json"); // Importe o arquivo JSON do cardápio
 const fs = require('fs');
 const Pedido = require('../Pedido/Pedido')
 

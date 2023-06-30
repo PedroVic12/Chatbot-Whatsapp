@@ -1,3 +1,6 @@
+const GroundonView = require("../GroundonView");
+
+
 class Estagio3 extends GroundonView {
 	constructor(whatsapp) {
 		super(whatsapp);
@@ -48,3 +51,6 @@ class Estagio3 extends GroundonView {
 
     }
 }
+
+
+module.exports = Estagio3;

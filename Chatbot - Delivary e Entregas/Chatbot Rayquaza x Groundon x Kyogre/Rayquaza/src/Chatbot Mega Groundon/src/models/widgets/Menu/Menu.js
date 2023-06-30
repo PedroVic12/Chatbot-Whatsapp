@@ -4,6 +4,7 @@ const Widgets = require('../Widgets');
 // Classe Menu
 class Menu extends Widgets{
   constructor() {
+    super()
     this.produtos = [];
   }
 
@@ -31,6 +32,7 @@ class Menu extends Widgets{
 
 class CardapioMenu extends Menu{
   constructor() {
+    super()
     this.cardapioFile = '/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/repository/cardapio_1.json';
   }
 

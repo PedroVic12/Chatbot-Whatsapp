@@ -10,6 +10,7 @@ class Widgets {
       ['Ver Localização']
     ]).oneTime().resize();
 
+    //Venom-Menu
     this.categorias = ['Comida', 'Bebida', 'Sobremesa'];
     this.menuCategorias = Markup.keyboard(this.categorias).oneTime().resize();
 
@@ -17,6 +18,11 @@ class Widgets {
     this.menuPagamento = Markup.keyboard(this.opcoesPagamento).oneTime().resize();
 
     this.menuConfirmacao = Markup.keyboard([['Sim', 'Não']]).oneTime().resize();
+
+
+    //MEnu
+    this.menu = this.Menu
+    this.menuCardapio = this.MenuCardapio
   }
 
 

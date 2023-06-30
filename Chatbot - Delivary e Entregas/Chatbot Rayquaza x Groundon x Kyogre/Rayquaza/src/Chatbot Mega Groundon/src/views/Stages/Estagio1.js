@@ -1,4 +1,4 @@
-
+const GroundonView = require("../GroundonView");
 
 
 //Apresentação, Consulta No Banco de dados, iniciar Atendimento
@@ -16,4 +16,4 @@ class Estagio1 extends GroundonView {
 }
 
 
-
+module.exports = Estagio1

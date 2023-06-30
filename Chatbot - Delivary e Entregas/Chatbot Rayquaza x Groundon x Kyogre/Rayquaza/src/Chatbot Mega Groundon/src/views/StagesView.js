@@ -9,12 +9,14 @@ const Widgets = require('../models/widgets/Widgets')
 
 const Estagio1 = require('./Stages/Estagio1')
 const Estagio2 = require('./Stages/Estagio2');
+const Estagio3 = require('./Stages/Estagio3');
 
 class StagesView extends GroundonView {
     constructor(whatsapp, groundonController, backendController) {
         super(whatsapp, groundonController, backendController);
         this.estagio1 = new Estagio1()
         this.Estagio2 = new Estagio2()
+        this.estagio3 = new Estagio3()
         this.Widgets = new Widgets()
     }
 
@@ -82,6 +84,32 @@ class StagesView extends GroundonView {
 			} else if (numero_estagio === 3) {
 				this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
+                if (message.body === 'Ver Cardápio' && message.type !== 'location') {
+                    this.enviarMensagem(message, 'Vou mostrar o cardapio em PDF!')
+                    this.delay(3000).then(
+                        this.enviarMensagem(message, menu_principal)
+                    )
+                }
+                if (message.body === 'FAZER PEDIDO') {
+                    const menu_categorias = this.Widgets.menuCategorias()
+                    const menu_cardapio = this.Widgets.menuCardapio()
+
+                    this.enviarMensagem(message, menu_cardapio)
+                    
+
+                    this.avancarEstagio().then(
+                        this.enviarMensagem(message, 'processando...')
+                    ).then(
+                        this.enviarMensagem(message, menu_categorias)
+                    )
+        
+                }
+                if (message.body === 'Ver nossa Localização' && message.type !== 'location') {
+                    estagio3.mostrarLocal(message)
+                    this.delay(3000).then(
+                        this.enviarMensagem(message, menu_principal)
+                    )
+                }
 
 				this.pushStage(4);
 

@@ -4,7 +4,7 @@ const Groundon = require('./src/models/Groundon');
 const GroundonController = require('./src/controllers/GroundonController');
 const GroundonView = require('./src/views/GroundonView');
 const BackendController = require('./src/controllers/BackendController');
-const StagesView = require('./StagesView');
+const StagesView = require('./src/views/StagesView');
 
 //! TEMPO DE CONEXÃO COM O WPP = 20 SEGUNDOS, depois disso rodar o servidor Rayquaza
 
