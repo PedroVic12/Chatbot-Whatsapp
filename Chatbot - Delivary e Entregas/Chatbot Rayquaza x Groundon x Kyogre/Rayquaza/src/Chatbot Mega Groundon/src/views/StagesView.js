@@ -5,12 +5,17 @@ const Groundon = require('../models/Groundon');
 const GroundonView = require('./GroundonView');
 
 const Cliente = require('../models/Regras de Negocio/Cliente/Cliente')
+const Carrinho = require("../models/Regras de Negocio/Pedido/Carrinho");
+const Pedido = require('../models/Regras de Negocio/Pedido/Pedido')
+
 const Widgets = require('../models/widgets/Widgets')
 const Menu = require('../models/widgets/Menu/Menu')
 
 const Estagio1 = require('./Stages/Estagio1')
 const Estagio2 = require('./Stages/Estagio2');
 const Estagio3 = require('./Stages/Estagio3');
+
+
 
 class StagesView extends GroundonView {
     constructor(whatsapp, groundonController, backendController) {
@@ -20,6 +25,9 @@ class StagesView extends GroundonView {
         this.estagio3 = new Estagio3()
         this.Widgets = new Widgets()
         this.Menu = new Menu()
+
+        this.carrinho = new Carrinho()
+
     }
 
     async start_chat_Groundon() {
@@ -146,6 +154,19 @@ class StagesView extends GroundonView {
                 //!=====================  Estagio 5 - Pega o pedido e adiciona no carrinho =====================
                 else if (numero_estagio === 5) {
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
+                    if (message.body === '1') {
+                        const produto = {
+                          nome: 'Americano',
+                          preco: 17.0
+                        };
+                        this.carrinho.adicionarProduto(produto);
+                      } else if (message.body === '2') {
+                        const produto = {
+                          nome: 'Bauru',
+                          preco: 30.0
+                        };
+                        this.carrinho.adicionarProduto(produto)
+                      }
                     this.popStage(); // Retorna ao estágio anterior
                 }
             });

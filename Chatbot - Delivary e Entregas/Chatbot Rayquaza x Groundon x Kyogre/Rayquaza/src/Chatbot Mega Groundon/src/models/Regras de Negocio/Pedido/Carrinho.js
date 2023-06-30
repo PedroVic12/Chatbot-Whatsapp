@@ -33,7 +33,6 @@ class Carrinho extends Pedido{
     //CRUD
     adicionarProdutos(produto) {
         this.carrinho_loja.nomeProdutos.push(produto);
-        this.calcularTotal();
     }
 
     removerProduto(produto) {

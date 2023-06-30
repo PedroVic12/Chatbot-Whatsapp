@@ -127,3 +127,7 @@ DataBaseController.lerComidasJSON(comidaTree, (comidas) => {
     sanduicheTree.inorderTraversalByType('natural');
   });
 });
+
+module.exports = BinaryTree;
+module.exports = DataBaseController;
+module.exports = Comida;

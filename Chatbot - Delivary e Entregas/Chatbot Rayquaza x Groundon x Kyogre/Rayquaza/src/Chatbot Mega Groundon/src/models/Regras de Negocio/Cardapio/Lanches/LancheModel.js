@@ -16,3 +16,16 @@ class Sanduiche extends LancheModel {
 }
 
 
+class Comida {
+  constructor(nome, price, ingredients, tipo) {
+    this.nome = nome;
+    this.price = price;
+    this.ingredients = ingredients;
+    this.tipo = tipo; // Adicionando a propriedade tipo
+  }
+}
+
+
+module.exports = Comida;
+module.exports = Sanduiche;
+module.exports = LancheModel;
