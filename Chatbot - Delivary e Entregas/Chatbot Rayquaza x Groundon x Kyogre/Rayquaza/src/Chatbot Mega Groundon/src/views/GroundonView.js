@@ -14,8 +14,6 @@ class GroundonView {
 
 	}
 
-
-
 	//! Funções de interação com o cliente
 	start() {
 		this.whatsapp.onMessage(async (message) => {
@@ -39,7 +37,6 @@ class GroundonView {
 				console.log('\nEstágio 1:', message.body);
 
 
-
 				this.pushStage(2); // Avança para o próximo estágio
 
 
@@ -47,7 +44,7 @@ class GroundonView {
 			} else if (numero_estagio === 2) {
 				this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
-				// Lógica para o Estágio 2
+				//! Lógica para o Estágio 2
 				console.log('\nEstágio 2:', message.body);
 				this.mostrarComidasLista(message)
 
@@ -99,7 +96,7 @@ class GroundonView {
 			} else if (numero_estagio === 3) {
 				this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
-				// Lógica para o Estágio 3
+				//! Lógica para o Estágio 3
 
 				// Parâmetros da lista que você deseja enviar
 				const to = message.from; // Número de telefone do destinatário
@@ -230,6 +227,9 @@ class GroundonView {
 		});
 
 	}
+
+
+	
 	async enviarLista(to, title, subTitle, description, menu, list_object) {
 		try {
 			await this.whatsapp.sendListMenu(to, title, subTitle, description, menu, list_object)
@@ -277,43 +277,7 @@ class GroundonView {
 		return this.stack.length > 0 ? this.stack[this.stack.length - 1] : 1;
 	}
 
-	//!TESTE
-	async IniciarStagesMessages() {
-		this.groundon.whatsapp.onMessage((message) => {
-			this.groundon.armazenarConversa(message);
 
-			const currentStage = this.groundon.numeroEstagio;
-
-			switch (currentStage) {
-				case 1:
-					this.estagio1(message);
-					break;
-				case 2:
-					this.estagio2(message);
-					break;
-				case 3:
-					this.estagio3(message);
-					break;
-				default:
-					console.log('Estágio desconhecido');
-			}
-		});
-	}
-
-	estagio1(message) {
-		console.log('Estágio 1:', message.body);
-		// Lógica específica do Estágio 1
-	}
-
-	estagio2(message) {
-		console.log('Estágio 2:', message.body);
-		// Lógica específica do Estágio 2
-	}
-
-	estagio3(message) {
-		console.log('Estágio 3:', message.body);
-		// Lógica específica do Estágio 3
-	}
 }
 
 
