@@ -61,9 +61,17 @@ class StagesView extends GroundonView {
                     console.log('\nEstágio 2:', message.body);
 
                     //Pega dados do CLiente
-                    const cliente = new Cliente()
-                    const nome_cliente = this.getLastMessage(message)
-                    Cliente.setNome(nome_cliente)
+                    try {
+                        const cliente = new Cliente()
+                        const nome_cliente = this.getLastMessage(message)
+                        const nome_usuario = message.body
+                        console.log(nome_usuario)
+                        cliente.setNome(nome_usuario)
+                    } catch (error) {
+                        console.log('debug = ', error)
+                    }
+
+
 
                     const numero_cliente = this.estagio2.getTelefoneCliente(message)
                     cliente.setPhoneNumber(numero_cliente)
@@ -111,7 +119,7 @@ class StagesView extends GroundonView {
                         this.enviarMensagem(message, menu_categoriasText)
 
                         this.delay(3000).then(
-                            this.enviarMensagem(message,'processando...').then(
+                            this.enviarMensagem(message, 'processando...').then(
                                 this.pushStage(4)
                             )
                         )
@@ -134,13 +142,13 @@ class StagesView extends GroundonView {
 
                     const categoria_escolha = this.getLastMessage(message)
 
-                    if (categoria_escolha === 'Comida'){
+                    if (categoria_escolha === 'Comida') {
                         const menu_comidas = this.Menu.mostrarComidasLista()
                         const menu_comidasText = this.widgets.getMenuText('Menu Comidas', menu_comidas);
                         this.enviarMensagem(message, menu_comidasText)
                     }
 
-                    if (categoria_escolha === 'Bebidas'){
+                    if (categoria_escolha === 'Bebidas') {
                         const menu_bebidas = this.Menu.mostrarBebidasLista()
                         const menu_bebidasText = this.widgets.getMenuText('Menu Bebidas', menu_bebidas);
                         this.enviarMensagem(message, menu_bebidasText)
@@ -156,17 +164,17 @@ class StagesView extends GroundonView {
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
                     if (message.body === '1') {
                         const produto = {
-                          nome: 'Americano',
-                          preco: 17.0
+                            nome: 'Americano',
+                            preco: 17.0
                         };
                         this.carrinho.adicionarProduto(produto);
-                      } else if (message.body === '2') {
+                    } else if (message.body === '2') {
                         const produto = {
-                          nome: 'Bauru',
-                          preco: 30.0
+                            nome: 'Bauru',
+                            preco: 30.0
                         };
                         this.carrinho.adicionarProduto(produto)
-                      }
+                    }
                     this.popStage(); // Retorna ao estágio anterior
                 }
             });

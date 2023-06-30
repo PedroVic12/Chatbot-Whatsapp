@@ -7,7 +7,7 @@ class Cliente extends Pedido {
         super()
 
         // Atributos Dinamicos
-        this.nome = 'nome';
+        this.nome = '';
         this.telefone = 0;
         this.endereco_cliente = '';
         this.forma_pagamento = '';
@@ -15,10 +15,10 @@ class Cliente extends Pedido {
 
 
     //! Getters e Setters
-    setNome(name) {
+    set_nome(name) {
         this.nome = name;
     }
-    getNome() {
+    get_nome() {
         return this.nome;
     }
 

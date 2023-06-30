@@ -10,10 +10,18 @@ class Pedido {
       nome: this.getNome(),
       telefone: this.getPhoneNumber(),
       //pedido: this.carrinho.verCarrinho(),
-      carrinho: this.verCarrinhoCliente(),
+      //carrinho: this.verCarrinhoCliente(),
       pagamento: this.forma_pagamento,
       endereco: this.endereco_cliente
     };
+  }
+
+  getNome() {
+    return this.nome;
+  }
+
+  getPhoneNumber() {
+    return this.telefone;
   }
 
   adicionarProduto(produto) {
