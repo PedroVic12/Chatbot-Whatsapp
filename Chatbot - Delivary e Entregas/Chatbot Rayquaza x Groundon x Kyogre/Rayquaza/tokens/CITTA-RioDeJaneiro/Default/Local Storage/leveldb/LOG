@@ -1,3 +1,6 @@
-2023/06/30-17:31:53.193 2e8cc Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/tokens/CITTA-RioDeJaneiro/Default/Local Storage/leveldb/MANIFEST-000001
-2023/06/30-17:31:53.210 2e8cc Recovering log #4
-2023/06/30-17:31:53.224 2e8cc Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/tokens/CITTA-RioDeJaneiro/Default/Local Storage/leveldb/000004.log 
+2023/07/02-05:02:11.418 9a95 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/tokens/CITTA-RioDeJaneiro/Default/Local Storage/leveldb/MANIFEST-000001
+2023/07/02-05:02:11.420 9a95 Recovering log #4
+2023/07/02-05:02:11.422 9a95 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/tokens/CITTA-RioDeJaneiro/Default/Local Storage/leveldb/000004.log 
+2023/07/02-10:12:45.682 e7c0 Level-0 table #8: started
+2023/07/02-10:12:45.686 e7c0 Level-0 table #8: 12288 bytes OK
+2023/07/02-10:12:45.687 e7c0 Delete type=0 #4

@@ -1,6 +1,36 @@
-2023/06/30-17:31:56.106 2e8cc Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/tokens/CITTA-RioDeJaneiro/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/06/30-17:31:56.106 2e8cc Recovering log #70
-2023/06/30-17:31:56.204 2e8cc Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/tokens/CITTA-RioDeJaneiro/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000070.log 
-2023/06/30-17:41:29.258 2e8cd Level-0 table #76: started
-2023/06/30-17:41:29.329 2e8cd Level-0 table #76: 1271281 bytes OK
-2023/06/30-17:41:29.333 2e8cd Delete type=0 #70
+2023/07/02-05:02:15.224 9a8f Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/tokens/CITTA-RioDeJaneiro/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/07/02-05:02:15.225 9a8f Recovering log #75
+2023/07/02-05:02:15.321 9a8f Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/tokens/CITTA-RioDeJaneiro/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000075.log 
+2023/07/02-05:02:29.547 9a95 Level-0 table #82: started
+2023/07/02-05:02:29.826 9a95 Level-0 table #82: 1096061 bytes OK
+2023/07/02-05:02:29.833 9a95 Delete type=0 #75
+2023/07/02-05:02:30.055 9a90 Compacting 1@1 + 2@2 files
+2023/07/02-05:02:30.308 9a90 Generated table #83@1: 71818 keys, 2255419 bytes
+2023/07/02-05:02:30.389 9a90 Generated table #84@1: 17988 keys, 655211 bytes
+2023/07/02-05:02:30.389 9a90 Compacted 1@1 + 2@2 files => 2910630 bytes
+2023/07/02-05:02:30.390 9a90 compacted to: files[ 0 0 2 0 0 0 0 ]
+2023/07/02-05:02:30.391 9a90 Delete type=2 #78
+2023/07/02-05:02:30.391 9a90 Delete type=2 #79
+2023/07/02-05:02:30.391 9a90 Delete type=2 #82
+2023/07/03-07:17:15.663 12dd4 Level-0 table #86: started
+2023/07/03-07:17:15.857 12dd4 Level-0 table #86: 1276259 bytes OK
+2023/07/03-07:17:15.864 12dd4 Delete type=0 #81
+2023/07/03-07:17:34.803 12dd4 Compacting 1@1 + 2@2 files
+2023/07/03-07:17:35.178 12dd4 Generated table #87@1: 76788 keys, 2265897 bytes
+2023/07/03-07:17:35.319 12dd4 Generated table #88@1: 18305 keys, 779824 bytes
+2023/07/03-07:17:35.319 12dd4 Compacted 1@1 + 2@2 files => 3045721 bytes
+2023/07/03-07:17:35.325 12dd4 compacted to: files[ 0 0 2 0 0 0 0 ]
+2023/07/03-07:17:35.329 12dd4 Delete type=2 #86
+2023/07/03-07:17:35.329 12dd4 Delete type=2 #84
+2023/07/03-07:17:35.329 12dd4 Delete type=2 #83
+2023/07/03-09:29:08.896 1644d Level-0 table #90: started
+2023/07/03-09:29:08.923 1644d Level-0 table #90: 1332176 bytes OK
+2023/07/03-09:29:08.926 1644d Delete type=0 #85
+2023/07/03-09:51:03.130 9a8f Compacting 1@1 + 2@2 files
+2023/07/03-09:51:03.205 9a8f Generated table #91@1: 80626 keys, 2278390 bytes
+2023/07/03-09:51:03.231 9a8f Generated table #92@1: 19779 keys, 911141 bytes
+2023/07/03-09:51:03.231 9a8f Compacted 1@1 + 2@2 files => 3189531 bytes
+2023/07/03-09:51:03.234 9a8f compacted to: files[ 0 0 2 0 0 0 0 ]
+2023/07/03-09:51:03.236 9a8f Delete type=2 #88
+2023/07/03-09:51:03.236 9a8f Delete type=2 #90
+2023/07/03-09:51:03.236 9a8f Delete type=2 #87
