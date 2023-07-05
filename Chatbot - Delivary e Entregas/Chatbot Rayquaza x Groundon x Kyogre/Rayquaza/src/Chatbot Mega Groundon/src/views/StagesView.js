@@ -15,6 +15,8 @@ const Estagio1 = require('./Stages/Estagio1')
 const Estagio2 = require('./Stages/Estagio2');
 const Estagio3 = require('./Stages/Estagio3');
 
+const cliente = new Cliente()
+const pedido = new Pedido()
 
 
 class StagesView extends GroundonView {
@@ -61,22 +63,16 @@ class StagesView extends GroundonView {
                     console.log('\nEstágio 2:', message.body);
 
                     //Pega dados do CLiente
-                    try {
-                        const cliente = new Cliente()
-                        const nome_cliente = this.getLastMessage(message)
-                        const nome_usuario = message.body
-                        console.log(nome_usuario)
-                        cliente.setNome(nome_usuario)
-                    } catch (error) {
-                        console.log('debug = ', error)
-                    }
-
-
+                    const nome_cliente = this.getLastMessage(message)
+                    cliente.set_nome(nome_cliente)
 
                     const numero_cliente = this.estagio2.getTelefoneCliente(message)
                     cliente.setPhoneNumber(numero_cliente)
 
+
+
                     //TODO checar cliente na base de dados
+                    //console.log(cliente)
 
                     //TODO se cliente não existir, cadastrar cliente
 
@@ -87,11 +83,13 @@ class StagesView extends GroundonView {
                     )
 
                     // Mostra o menu principal
-                    const menuPrincipal = this.widgets.menuPrincipal;
-                    const menuPrincipalText = this.widgets.getMenuText('Menu Principal', menuPrincipal);
-                    this.enviarMensagem(message, menuPrincipalText)
-
-
+                    try {
+                        const menu_principal = this.Widgets.menuPrincipal
+                        let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
+                        this.enviarMensagem(message, menu_principal_text)
+                    } catch (error) {
+                        console.log('\n\nDebug = ', error)
+                    }
 
                     this.delay(3000).then(
                         this.enviarMensagem(message, `O que deseja fazer?`)
@@ -104,18 +102,18 @@ class StagesView extends GroundonView {
                 } else if (numero_estagio === 3) {
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
+
                     if (message.body === '1' && message.type !== 'location') {
                         this.enviarMensagem(message, 'Vou mostrar o cardapio em PDF!')
-                        this.delay(3000).then(
-                            this.enviarMensagem(message, menu_principal)
-                        )
+                        let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
+                        this.enviarMensagem(message, menu_principal_text)
                     }
                     if (message.body === '2') {
                         const menu_categorias = this.Widgets.menuCategorias()
                         const menu_cardapio = this.Menu.mostrarComidasLista()
 
                         //Menu Principal
-                        const menu_categoriasText = this.widgets.getMenuText('Menu Principal', menu_categorias);
+                        let menu_categoriasText = this.Widgets.getMenuText('Menu Principal', menu_categorias);
                         this.enviarMensagem(message, menu_categoriasText)
 
                         this.delay(3000).then(

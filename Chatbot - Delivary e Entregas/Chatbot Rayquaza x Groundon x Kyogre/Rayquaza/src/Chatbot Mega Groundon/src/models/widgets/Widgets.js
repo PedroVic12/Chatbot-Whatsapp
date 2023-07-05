@@ -37,7 +37,7 @@ class Widgets {
     ];
   }
 
-  getMenuText(title,menu) {
+  getMenuText(title, menu) {
     let menuText = `🔸 ${title} 🔸\n\n`;
     menu.forEach((item, index) => {
       menuText += `${index + 1}. ${item.button.text}\n`;
@@ -71,18 +71,16 @@ class Widgets {
 
 module.exports = Widgets;
 
-function main(){
+function main() {
   const widgets = new Widgets();
 
   // Exemplo de uso dos menus personalizados
   const menuPrincipal = widgets.menuPrincipal;
-  const menuCategorias = widgets.menuCategorias;
 
   console.log(menuPrincipal);
-  console.log(menuCategorias);
 
   // Exemplo de como enviar o menu principal como uma mensagem
   const menuPrincipalText = widgets.getMenuText('Menu Principal', menuPrincipal);
   console.log(menuPrincipalText);
 }
-main();
+//main();
