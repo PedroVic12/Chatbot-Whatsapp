@@ -59,5 +59,10 @@ class Usuario {
   }
 }
 
-const usuario = new Usuario();
-usuario.iniciarChat();
+
+async function main(){
+  const usuario = new Usuario();
+  usuario.iniciarChat();
+  
+}
+
