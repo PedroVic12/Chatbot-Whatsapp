@@ -1,10 +1,9 @@
-const { Markup } = require('venom-bot');
+const fs = require('fs');
 const Widgets = require('../Widgets');
 
-// Classe Menu
-class Menu extends Widgets{
+class Menu extends Widgets {
   constructor() {
-    super()
+    super();
     this.produtos = [];
   }
 
@@ -15,7 +14,6 @@ class Menu extends Widgets{
   exibirMenu() {
     let menuString = 'Menu:\n';
     this.produtos.forEach((produto, index) => {
-      // Adicionando formatação básica ao texto
       menuString += `*${index + 1}. ${produto.nome}* - R$ ${produto.preco}\n`;
     });
     return menuString;
@@ -29,44 +27,42 @@ class Menu extends Widgets{
   }
 }
 
-
-class CardapioMenu extends Menu{
+class CardapioMenu extends Menu {
   constructor() {
-    super()
+    super();
     this.cardapioFile = '/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/repository/cardapio_1.json';
   }
 
   mostrarComidasLista() {
-    fs.readFile(this.cardapioFile, 'utf8', (err, data) => {
-      if (err) {
-        console.error('Erro ao ler o arquivo JSON:', err);
-        return;
-      }
+    try {
+      const data = fs.readFileSync(this.cardapioFile, 'utf8');
+      const listaComidas = JSON.parse(data);
 
-      try {
-        const listaComidas = JSON.parse(data);
+      let cardapio_text = '🍔 *Cardápio* 🍔\n\n';
 
-        let cardapio_text = '🍔 *Cardápio* 🍔\n\n';
+      listaComidas.forEach((comida, index) => {
+        cardapio_text += `*${index + 1}. ${comida['Sanduíches Tradicionais']}* - R$ ${comida['Preço.4'].toFixed(2)}\n`;
+        cardapio_text += `Ingredientes: ${comida['Igredientes']}\n`;
+        cardapio_text += `📝 Para escolher este item, envie o número ${index + 1}.\n\n`;
+      });
 
-        listaComidas.forEach((comida, index) => {
-          cardapio_text += `*${index + 1}. ${comida['Sanduíches Tradicionais']}* - R$ ${comida['Preço.4'].toFixed(2)}\n`;
-          cardapio_text += `Ingredientes: ${comida['Igredientes']}\n`;
-          cardapio_text += `📝 Para escolher este item, envie o número ${index + 1}.\n\n`;
-        });
-
-        cardapio_text += '🚫 Para cancelar, envie *cancelar*.\n';
-        return cardapio_text
-      } catch (error) {
-        console.error('Erro ao analisar o arquivo JSON:', error);
-      }
-    });
+      cardapio_text += '🚫 Para cancelar, envie *cancelar*.\n';
+      return cardapio_text;
+    } catch (error) {
+      console.error('Erro ao ler o arquivo JSON:', error);
+      return null;
+    }
   }
-
- 
 }
 
+module.exports = {
+  Menu,
+  CardapioMenu
+};
 
+function main_cardapio() {
+  const cardapio = new CardapioMenu();
+  console.log(cardapio.mostrarComidasLista());
+}
 
-module.exports = Menu;
-module.exports = CardapioMenu;
-
+//main_cardapio();

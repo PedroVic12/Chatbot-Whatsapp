@@ -26,7 +26,7 @@ class StagesView extends GroundonView {
         this.estagio2 = new Estagio2()
         this.estagio3 = new Estagio3()
         this.Widgets = new Widgets()
-        this.Menu = new Menu()
+        this.Menu = new Menu.CardapioMenu()
 
         this.carrinho = new Carrinho()
 
@@ -84,7 +84,7 @@ class StagesView extends GroundonView {
 
                     // Mostra o menu principal
                     try {
-                        const menu_principal = this.Widgets.menuPrincipal
+                        let menu_principal = this.Widgets.menuPrincipal
                         let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
                         this.enviarMensagem(message, menu_principal_text)
                     } catch (error) {
@@ -105,15 +105,16 @@ class StagesView extends GroundonView {
 
                     if (message.body === '1' && message.type !== 'location') {
                         this.enviarMensagem(message, 'Vou mostrar o cardapio em PDF!')
+
+                        let menu_principal = this.Widgets.menuPrincipal
                         let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
                         this.enviarMensagem(message, menu_principal_text)
                     }
                     if (message.body === '2') {
-                        const menu_categorias = this.Widgets.menuCategorias()
-                        const menu_cardapio = this.Menu.mostrarComidasLista()
+                        const menu_categorias = this.Widgets.menuCategorias
 
                         //Menu Principal
-                        let menu_categoriasText = this.Widgets.getMenuText('Menu Principal', menu_categorias);
+                        let menu_categoriasText = this.Widgets.getMenuText('Menu Categorias', menu_categorias);
                         this.enviarMensagem(message, menu_categoriasText)
 
                         this.delay(3000).then(
@@ -139,16 +140,19 @@ class StagesView extends GroundonView {
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
                     const categoria_escolha = this.getLastMessage(message)
+                    const menu_cardapio = this.Menu.mostrarComidasLista()
+                    console.log(menu_cardapio)
 
-                    if (categoria_escolha === 'Comida') {
+
+                    if (categoria_escolha === '1') {
                         const menu_comidas = this.Menu.mostrarComidasLista()
-                        const menu_comidasText = this.widgets.getMenuText('Menu Comidas', menu_comidas);
+                        const menu_comidasText = this.Widgets.getMenuText('Menu Comidas', menu_comidas);
                         this.enviarMensagem(message, menu_comidasText)
                     }
 
-                    if (categoria_escolha === 'Bebidas') {
+                    if (categoria_escolha === '2') {
                         const menu_bebidas = this.Menu.mostrarBebidasLista()
-                        const menu_bebidasText = this.widgets.getMenuText('Menu Bebidas', menu_bebidas);
+                        const menu_bebidasText = this.Widgets.getMenuText('Menu Bebidas', menu_bebidas);
                         this.enviarMensagem(message, menu_bebidasText)
                     }
 
