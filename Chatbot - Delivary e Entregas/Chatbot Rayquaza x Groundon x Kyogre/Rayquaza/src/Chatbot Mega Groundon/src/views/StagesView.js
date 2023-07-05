@@ -140,14 +140,12 @@ class StagesView extends GroundonView {
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
                     const categoria_escolha = this.getLastMessage(message)
-                    const menu_cardapio = this.Menu.mostrarComidasLista()
-                    console.log(menu_cardapio)
 
+                    const menu_cardapio = this.Menu.mostrarComidasLista()
 
                     if (categoria_escolha === '1') {
-                        const menu_comidas = this.Menu.mostrarComidasLista()
-                        const menu_comidasText = this.Widgets.getMenuText('Menu Comidas', menu_comidas);
-                        this.enviarMensagem(message, menu_comidasText)
+
+                        this.enviarMensagem(message, menu_cardapio)
                     }
 
                     if (categoria_escolha === '2') {
