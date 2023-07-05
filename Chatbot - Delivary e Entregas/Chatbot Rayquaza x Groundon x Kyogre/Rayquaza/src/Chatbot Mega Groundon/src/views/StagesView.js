@@ -3,9 +3,10 @@ const axios = require('axios');
 
 const Groundon = require('../models/Groundon');
 const GroundonView = require('./GroundonView');
+const { BinaryTree, Comida, DataBaseController } = require('../utils/struct/ArvoreBinaria');
 
 const Cliente = require('../models/Regras de Negocio/Cliente/Cliente')
-const Carrinho = require("../models/Regras de Negocio/Pedido/Carrinho");
+const CarrinhoPedido = require("../models/Regras de Negocio/Pedido/Carrinho");
 const Pedido = require('../models/Regras de Negocio/Pedido/Pedido')
 
 const Widgets = require('../models/widgets/Widgets')
@@ -18,17 +19,23 @@ const Estagio3 = require('./Stages/Estagio3');
 const cliente = new Cliente()
 const pedido = new Pedido()
 
-
 class StagesView extends GroundonView {
     constructor(whatsapp, groundonController, backendController) {
         super(whatsapp, groundonController, backendController);
         this.estagio1 = new Estagio1()
         this.estagio2 = new Estagio2()
         this.estagio3 = new Estagio3()
+
         this.Widgets = new Widgets()
         this.Menu = new Menu.CardapioMenu()
 
-        this.carrinho = new Carrinho()
+        this.carrinho = new CarrinhoPedido()
+
+        this.comidaTree = new BinaryTree();
+        this.sanduicheTree = new BinaryTree();
+
+        //TODO desculpa nao entendi, voce quis dizer? ['opção1, opção2, 'opção3']
+
 
     }
 
@@ -58,7 +65,9 @@ class StagesView extends GroundonView {
 
 
                     //!=====================  Estágio 2 - Mostrar Menu Principal =====================
-                } else if (numero_estagio === 2) {
+                }
+
+                else if (numero_estagio === 2) {
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
                     console.log('\nEstágio 2:', message.body);
 
@@ -99,7 +108,10 @@ class StagesView extends GroundonView {
                     this.pushStage(3);
 
                     //!=====================  Estágio 3 - Responde as funcionalidades do Botão =====================
-                } else if (numero_estagio === 3) {
+                }
+
+
+                else if (numero_estagio === 3) {
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
 
@@ -133,26 +145,42 @@ class StagesView extends GroundonView {
 
 
                     //!=====================  Estagio 4 - Cliente Escolhe os Produtos da Loja =====================
-                } else if (numero_estagio === 4) {
+                }
 
-                    //aqui o cliente escolhe que tipo de produto ele deseja
+
+
+
+                else if (numero_estagio === 4) {
+
+                    //!aqui o cliente escolhe que tipo de produto ele deseja
 
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
-                    const categoria_escolha = this.getLastMessage(message)
+                    //TODO melhorar experiencia com o usuario
+                    const categoria_escolhida = this.getLastMessage(message)
+                    this.enviarMensagem(message, `Voce selecionou a categoria ${categoria_escolhida}`)
 
                     const menu_cardapio = this.Menu.mostrarComidasLista()
+                    //const menu_bebidas = this.Menu.mostrarBebidasLista()
 
-                    if (categoria_escolha === '1') {
+                    if (categoria_escolhida === '1') {
 
                         this.enviarMensagem(message, menu_cardapio)
                     }
 
-                    if (categoria_escolha === '2') {
-                        const menu_bebidas = this.Menu.mostrarBebidasLista()
-                        const menu_bebidasText = this.Widgets.getMenuText('Menu Bebidas', menu_bebidas);
-                        this.enviarMensagem(message, menu_bebidasText)
+                    if (categoria_escolhida === '2') {
+
+                        // this.enviarMensagem(message, menu_bebidas)
                     }
+
+                    //!Buscando os produtos da loja
+                    // Ler o arquivo JSON de Comidas
+                    DataBaseController.lerComidasJSON(this.comidaTree, (comidas) => {
+                        console.log('Árvore de Comidas Tradicionais:');
+                        this.comidaTree.inorderTraversalByType('tradicional');
+                    });
+
+
 
 
                     this.pushStage(5);
@@ -173,9 +201,14 @@ class StagesView extends GroundonView {
                             nome: 'Bauru',
                             preco: 30.0
                         };
-                        this.carrinho.adicionarProduto(produto)
+                        this.carrinho.adicionarProduto(produto);
                     }
+
+                    const total = this.carrinho.calcularTotal();
+                    this.enviarMensagem(message, `Pedido {} adicionado ao carrinho. \n\nTotal: R$ ${total}`);
+
                     this.popStage(); // Retorna ao estágio anterior
+
                 }
             });
 

@@ -1,6 +1,25 @@
 const Pedido = require("./Pedido");
 
-class Carrinho extends Pedido{
+
+class CarrinhoPedido {
+    constructor() {
+        this.produtos = [];
+        this.total = 0;
+    }
+
+    adicionarProduto(produto) {
+        this.produtos.push(produto);
+        this.total += produto.preco;
+    }
+
+    calcularTotal() {
+        return this.total;
+    }
+}
+
+
+
+class Carrinho extends Pedido {
     constructor() {
         super();
 
@@ -12,11 +31,11 @@ class Carrinho extends Pedido{
     }
     adicionarPedido(pedido) {
         this.pedido = pedido;
-      }
-    
-      limparCarrinho() {
+    }
+
+    limparCarrinho() {
         this.pedido = null;
-      }
+    }
     //Getters e Setters
     getNomesProdutosPedido() {
         return this.carrinho_loja.nomeProdutos;
@@ -78,3 +97,4 @@ class Carrinho extends Pedido{
 
 
 module.exports = Carrinho;
+module.exports = CarrinhoPedido;

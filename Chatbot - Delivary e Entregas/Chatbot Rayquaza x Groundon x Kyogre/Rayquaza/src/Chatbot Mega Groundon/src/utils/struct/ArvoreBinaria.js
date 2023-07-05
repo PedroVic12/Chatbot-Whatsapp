@@ -98,7 +98,7 @@ class DataBaseController {
     }
 
     static lerComidasJSON(comidaTree, callback) {
-        fs.readFile('src/Chatbot Mega Groundon/repository/cardapio_1.json', 'utf8', (err, data) => {
+        fs.readFile('/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/repository/cardapio_1.json', 'utf8', (err, data) => {
             if (err) {
                 console.error('Erro ao ler o arquivo:', err);
                 return;
@@ -113,17 +113,34 @@ class DataBaseController {
     }
 }
 
-const comidaTree = new BinaryTree();
-const sanduicheTree = new BinaryTree();
 
-// Ler o arquivo JSON de Comidas
-DataBaseController.lerComidasJSON(comidaTree, (comidas) => {
-    console.log('Árvore de Comidas Tradicionais:');
-    comidaTree.inorderTraversalByType('tradicional');
 
-    // Ler o arquivo JSON de Sanduíches Naturais
-    DataBaseController.lerSanduichesNaturaisJSON(sanduicheTree, (sanduichesNaturais) => {
-        console.log('\n\nÁrvore de Sanduíches Naturais:');
-        sanduicheTree.inorderTraversalByType('natural');
+module.exports = {
+    BinaryTree: BinaryTree,
+    Comida: Comida,
+    DataBaseController: DataBaseController
+};
+
+
+
+
+async function main_arvore_binaria() {
+    const comidaTree = new BinaryTree();
+    const sanduicheTree = new BinaryTree();
+
+    // Ler o arquivo JSON de Comidas
+    DataBaseController.lerComidasJSON(comidaTree, (comidas) => {
+        console.log('Árvore de Comidas Tradicionais:');
+        comidaTree.inorderTraversalByType('tradicional');
+
+        // Ler o arquivo JSON de Sanduíches Naturais
+        DataBaseController.lerSanduichesNaturaisJSON(sanduicheTree, (sanduichesNaturais) => {
+            console.log('\n\nÁrvore de Sanduíches Naturais:');
+            sanduicheTree.inorderTraversalByType('natural');
+        });
     });
-});
+}
+//main_arvore_binaria()
+
+
+
