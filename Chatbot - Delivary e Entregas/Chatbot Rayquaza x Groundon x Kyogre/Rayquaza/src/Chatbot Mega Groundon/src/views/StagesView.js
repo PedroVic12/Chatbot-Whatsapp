@@ -107,9 +107,9 @@ class StagesView extends GroundonView {
 
                     this.pushStage(3);
 
-                    //!=====================  Estágio 3 - Responde as funcionalidades do Botão =====================
                 }
 
+                    //!=====================  Estágio 3 - Responde as funcionalidades do Botão =====================
 
                 else if (numero_estagio === 3) {
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
@@ -144,12 +144,11 @@ class StagesView extends GroundonView {
                     }
 
 
-                    //!=====================  Estagio 4 - Cliente Escolhe os Produtos da Loja =====================
                 }
 
 
 
-
+                    //!=====================  Estagio 4 - Cliente Escolhe os Produtos da Loja =====================
                 else if (numero_estagio === 4) {
 
                     //!aqui o cliente escolhe que tipo de produto ele deseja

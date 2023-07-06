@@ -30,7 +30,7 @@ class Menu extends Widgets {
 class CardapioMenu extends Menu {
   constructor() {
     super();
-    this.cardapioFile = '/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/repository/cardapio_1.json';
+    this.cardapioFile = '/workspaces/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/repository/cardapio_1.json';
   }
 
   mostrarComidasLista() {
@@ -42,10 +42,10 @@ class CardapioMenu extends Menu {
 
       listaComidas.forEach((comida, index) => {
         cardapio_text += `*${index + 1}. ${comida['Sanduíches Tradicionais']}* - R$ ${comida['Preço.4'].toFixed(2)}\n`;
-        cardapio_text += `Ingredientes: ${comida['Igredientes']}\n`;
-        cardapio_text += `📝 Para escolher este item, envie o número ${index + 1}.\n\n`;
+        cardapio_text += `Ingredientes: ${comida['Igredientes']}\n\n`;
       });
 
+      cardapio_text += `📝 Para escolher este item, envie o número ou o nome\n`;
       cardapio_text += '🚫 Para cancelar, envie *cancelar*.\n';
       return cardapio_text;
     } catch (error) {
@@ -55,10 +55,8 @@ class CardapioMenu extends Menu {
   }
 }
 
-module.exports = {
-  Menu,
-  CardapioMenu
-};
+module.exports = Menu;
+module.exports = CardapioMenu;
 
 function main_cardapio() {
   const cardapio = new CardapioMenu();

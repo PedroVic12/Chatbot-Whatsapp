@@ -115,13 +115,9 @@ class DataBaseController {
 
 
 
-module.exports = {
-    BinaryTree: BinaryTree,
-    Comida: Comida,
-    DataBaseController: DataBaseController
-};
-
-
+module.exports = BinaryTree;
+module.exports = Comida;
+module.exports = DataBaseController;
 
 
 async function main_arvore_binaria() {
