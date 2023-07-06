@@ -3,7 +3,7 @@ const axios = require('axios');
 
 const Groundon = require('../models/Groundon');
 const GroundonView = require('./GroundonView');
-const { BinaryTree, Comida, DataBaseController } = require('../utils/struct/ArvoreBinaria');
+const { BinaryTree, Comida, DataBaseController } = require('../utils/struct/ArvoreBinaria').default;
 
 const Cliente = require('../models/Regras de Negocio/Cliente/Cliente')
 const CarrinhoPedido = require("../models/Regras de Negocio/Pedido/Carrinho");
@@ -109,7 +109,7 @@ class StagesView extends GroundonView {
 
                 }
 
-                    //!=====================  Estágio 3 - Responde as funcionalidades do Botão =====================
+                //!=====================  Estágio 3 - Responde as funcionalidades do Botão =====================
 
                 else if (numero_estagio === 3) {
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
@@ -148,7 +148,7 @@ class StagesView extends GroundonView {
 
 
 
-                    //!=====================  Estagio 4 - Cliente Escolhe os Produtos da Loja =====================
+                //!=====================  Estagio 4 - Cliente Escolhe os Produtos da Loja =====================
                 else if (numero_estagio === 4) {
 
                     //!aqui o cliente escolhe que tipo de produto ele deseja
