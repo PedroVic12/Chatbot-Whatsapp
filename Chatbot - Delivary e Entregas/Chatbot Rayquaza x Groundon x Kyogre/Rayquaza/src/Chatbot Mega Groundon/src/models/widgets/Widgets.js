@@ -16,6 +16,20 @@ class Widgets {
       { button: { text: '🍨 Sobremesa', hide: true }, type: 'message' }
     ];
 
+    this.menuComidas = [
+      { button: { text: '🍔 Sanduíches Tradicionais', hide: true }, type: 'message' },
+      { button: { text: '🍔 Sanduíches Naturais', hide: true }, type: 'message' },
+      { button: { text: '* Tapioca ', hide: true }, type: 'message' },
+      { button: { text: '* Crepe ', hide: true }, type: 'message' },
+      { button: { text: '* Omelete ', hide: true }, type: 'message' },
+      { button: { text: '🍔 Hamburguers ', hide: true }, type: 'message' },
+      { button: { text: '* Salgados ', hide: true }, type: 'message' },
+      { button: { text: '* Pratos Tradicionais ', hide: true }, type: 'message' },
+      { button: { text: '* Pratos a la carte', hide: true }, type: 'message' },
+      { button: { text: '* Petiscos', hide: true }, type: 'message' },
+      { button: { text: '* Pizzas', hide: true }, type: 'message' },
+
+    ]
     // Menu de Opções de Pagamento
     this.menuPagamento = [
       { button: { text: '💳 Cartão', hide: true }, type: 'message' },

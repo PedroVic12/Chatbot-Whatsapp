@@ -5,10 +5,13 @@ const Menu = require('./src/Chatbot Mega Groundon/src/models/widgets/Menu/Menu')
 const CarrinhoPedido = require('./src/Chatbot Mega Groundon/src/models/Regras de Negocio/Pedido/Carrinho')
 const BinaryTree = require('./src/Chatbot Mega Groundon/src/utils/struct/ArvoreBinaria')
 const Cliente = require('./src/Chatbot Mega Groundon/src/models/Regras de Negocio/Cliente/Cliente')
-const CardapioMenu = require('./src/Chatbot Mega Groundon/src/models/widgets/Menu/Menu')
+const CardapioMenu = require('./src/Chatbot Mega Groundon/src/utils/struct/ArvoreBinaria')
+const DataBaseController = require('./src/Chatbot Mega Groundon/src/utils/struct/ArvoreBinaria')
+
 
 const cliente = new Cliente()
-
+const cardapio = new CardapioMenu();
+const dataController = new DataBaseController();
 //const pedido = new Pedido()
 
 class Chatbot {
@@ -22,11 +25,7 @@ class Chatbot {
 
     this.Widgets = new Widgets()
     this.carrinho = new CarrinhoPedido();
-    this.cardapio = new CardapioMenu()
 
-
-    this.comidaTree = new BinaryTree();
-    this.sanduicheTree = new BinaryTree();
   }
 
   start() {
@@ -123,11 +122,14 @@ class Chatbot {
       switch (choice) {
         case '1':
 
-
-
-          //console.log(`Voce escolheu ${menuCategorias[0].title}!`);
-          let menu_sanduiche = this.cardapio.mostrarComidasLista()
-          console.log(menu_sanduiche);
+        cardapio.criarArvore('Sanduíches Tradicionais', dataController.sanduicheTradicionalFile)
+        .then((sanduiche_menu) => {
+          let sanduiche_text = cardapio.mostrarProdutoCardapio(sanduiche_menu[0]);
+          console.log('\nDebug:', sanduiche_text);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
 
           this.currentStage = 3;
           break;
