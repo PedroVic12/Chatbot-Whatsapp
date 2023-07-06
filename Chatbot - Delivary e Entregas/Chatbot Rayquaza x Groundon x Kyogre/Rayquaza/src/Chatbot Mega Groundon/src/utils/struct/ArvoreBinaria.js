@@ -1,142 +1,137 @@
 const fs = require('fs');
 
-class Comida {
-    constructor(nome, price, ingredients, tipo) {
-        this.nome = nome;
-        this.price = price;
-        this.ingredients = ingredients;
-        this.tipo = tipo; // Adicionando a propriedade tipo
-    }
-}
+class Produto {
+  constructor(tipo_produto) {
+    this.tipo_produto = tipo_produto;
+    this.produtos = [];
+  }
 
-class BinaryTree {
-    constructor() {
-        this.root = null;
-    }
-
-    add(comida) {
-        const node = {
-            value: comida,
-            left: null,
-            right: null
-        };
-
-        if (this.root === null) {
-            this.root = node;
-        } else {
-            this.addNode(this.root, node);
-        }
-    }
-
-    addNode(currentNode, newNode) {
-        if (newNode.value.nome < currentNode.value.nome) {
-            if (currentNode.left === null) {
-                currentNode.left = newNode;
-            } else {
-                this.addNode(currentNode.left, newNode);
-            }
-        } else {
-            if (currentNode.right === null) {
-                currentNode.right = newNode;
-            } else {
-                this.addNode(currentNode.right, newNode);
-            }
-        }
-    }
-
-    inorderTraversalByType(tipo, node = this.root) {
-        if (node !== null) {
-            if (node.value.tipo === tipo) {
-                console.log(node.value);
-            }
-            this.inorderTraversalByType(tipo, node.left);
-            this.inorderTraversalByType(tipo, node.right);
-        }
-    }
+  adicionarProduto(nome, preco, ingredientes) {
+    this.produtos.push({
+      nome: nome,
+      preco: preco,
+      ingredientes: ingredientes
+    });
+  }
 }
 
 class DataBaseController {
-    static criarSanduichesNaturaisFromJSON(json) {
-        const sanduichesNaturais = JSON.parse(json);
-        const listaSanduichesNaturais = [];
+  constructor() {
+    this.sanduicheTradicionalFile = '/workspaces/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/repository/cardapio_1.json';
+    this.acaiFile = '/workspaces/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/repository/cardapio_2.json';
+  }
 
-        for (const sanduicheNatural of sanduichesNaturais) {
-            const { "Sanduíche Natural": nome, "Preço.3": price, "Preco 2": ingredients } = sanduicheNatural;
-            const sanduicheNaturalObj = new Comida(nome, price, ingredients, 'natural');
-            listaSanduichesNaturais.push(sanduicheNaturalObj);
-        }
+  get_Sanduiches(productFile, tipo_produto, callback) {
+    const produto = new Produto(tipo_produto);
+    this.lerProdutosJSON(productFile, tipo_produto, (produtos) => {
+      produtos.forEach((produtoJson) => {
+        produto.adicionarProduto(produtoJson.nome, produtoJson.preco, produtoJson.ingredientes);
+      });
 
-        return listaSanduichesNaturais;
-    }
+      callback(produto);
+    });
+  }
 
-    static lerSanduichesNaturaisJSON(sanduicheTree, callback) {
-        fs.readFile('./cardapio_2.json', 'utf8', (err, data) => {
-            if (err) {
-                console.error('Erro ao ler o arquivo:', err);
-                return;
-            }
+  lerProdutosJSON(productFile, tipo_produto, callback) {
+    fs.readFile(productFile, 'utf8', (err, data) => {
+      if (err) {
+        console.error('Erro ao ler o arquivo:', err);
+        return;
+      }
 
-            const sanduichesNaturais = DataBaseController.criarSanduichesNaturaisFromJSON(data);
-            for (const sanduiche of sanduichesNaturais) {
-                sanduicheTree.add(sanduiche);
-            }
-            callback(sanduichesNaturais);
-        });
-    }
+      const listaProdutos = JSON.parse(data);
+      const produtos = listaProdutos.map((produto) => {
+        const { [tipo_produto]: nome, preco, ingredientes } = produto;
+        return { nome, preco, ingredientes };
+      });
 
-    static criarComidasFromJSON(json) {
-        const comidas = JSON.parse(json);
-        const listaComidas = [];
-
-        for (const comida of comidas) {
-            const { "Sanduíches Tradicionais": nome, "Preço.4": price, "Ingredientes": ingredients } = comida;
-            const comidaObj = new Comida(nome, price, ingredients, 'tradicional');
-            listaComidas.push(comidaObj);
-        }
-
-        return listaComidas;
-    }
-
-    static lerComidasJSON(comidaTree, callback) {
-        fs.readFile('/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/repository/cardapio_1.json', 'utf8', (err, data) => {
-            if (err) {
-                console.error('Erro ao ler o arquivo:', err);
-                return;
-            }
-
-            const comidas = DataBaseController.criarComidasFromJSON(data);
-            for (const comida of comidas) {
-                comidaTree.add(comida);
-            }
-            callback(comidas);
-        });
-    }
+      callback(produtos);
+    });
+  }
 }
 
+class CardapioMenu {
+  constructor() {
+    this.arvoreComida = new BinaryTree();
+    this.dataController = new DataBaseController();
+  }
 
+  criarArvoreComida(tipo_produto, productFile) {
+    this.dataController.get_Sanduiches(productFile, tipo_produto, (produtos) => {
+      console.log(`Produtos do tipo ${tipo_produto}:`);
+      console.log(produtos);
+    });
+  }
+}
+
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+class BinaryTree {
+  constructor() {
+    this.root = null;
+  }
+
+  addNode(value) {
+    const newNode = new Node(value);
+
+    if (this.root === null) {
+      this.root = newNode;
+    } else {
+      this.addNodeRecursive(this.root, newNode);
+    }
+  }
+
+  addNodeRecursive(node, newNode) {
+    if (newNode.value.nome < node.value.nome) {
+      if (node.left === null) {
+        node.left = newNode;
+      } else {
+        this.addNodeRecursive(node.left, newNode);
+      }
+    } else {
+      if (node.right === null) {
+        node.right = newNode;
+      } else {
+        this.addNodeRecursive(node.right, newNode);
+      }
+    }
+  }
+
+  searchNode(node, value) {
+    if (node === null || node.value.nome === value) {
+      return node;
+    }
+
+    if (value < node.value.nome) {
+      return this.searchNode(node.left, value);
+    }
+
+    return this.searchNode(node.right, value);
+  }
+
+  search(value) {
+    return this.searchNode(this.root, value);
+  }
+}
 
 module.exports = BinaryTree;
-module.exports = Comida;
+module.exports = Node
+module.exports = CardapioMenu;
 module.exports = DataBaseController;
+module.exports = Produto;
 
+function main() {
+  const cardapio = new CardapioMenu();
+  const dataController = new DataBaseController();
 
-async function main_arvore_binaria() {
-    const comidaTree = new BinaryTree();
-    const sanduicheTree = new BinaryTree();
-
-    // Ler o arquivo JSON de Comidas
-    DataBaseController.lerComidasJSON(comidaTree, (comidas) => {
-        console.log('Árvore de Comidas Tradicionais:');
-        comidaTree.inorderTraversalByType('tradicional');
-
-        // Ler o arquivo JSON de Sanduíches Naturais
-        DataBaseController.lerSanduichesNaturaisJSON(sanduicheTree, (sanduichesNaturais) => {
-            console.log('\n\nÁrvore de Sanduíches Naturais:');
-            sanduicheTree.inorderTraversalByType('natural');
-        });
-    });
+  cardapio.criarArvoreComida('Sanduíches Tradicionais', dataController.sanduicheTradicionalFile);
+  cardapio.criarArvoreComida('Açaí e Pitaya', dataController.acaiFile);
 }
-//main_arvore_binaria()
 
-
-
+main();

@@ -8,7 +8,6 @@ const Cliente = require('./src/Chatbot Mega Groundon/src/models/Regras de Negoci
 const CardapioMenu = require('./src/Chatbot Mega Groundon/src/models/widgets/Menu/Menu')
 
 const cliente = new Cliente()
-//const cardapio = new CardapioMenu()
 
 //const pedido = new Pedido()
 
@@ -22,9 +21,9 @@ class Chatbot {
     this.currentStage = 1;
 
     this.Widgets = new Widgets()
-    this.Menu = new Menu.CardapioMenu()
+    this.carrinho = new CarrinhoPedido();
+    this.cardapio = new CardapioMenu()
 
-    this.carrinho = new CarrinhoPedido()
 
     this.comidaTree = new BinaryTree();
     this.sanduicheTree = new BinaryTree();
@@ -127,7 +126,7 @@ class Chatbot {
 
 
           //console.log(`Voce escolheu ${menuCategorias[0].title}!`);
-          let menu_sanduiche = this.Menu.mostrarComidasLista()
+          let menu_sanduiche = this.cardapio.mostrarComidasLista()
           console.log(menu_sanduiche);
 
           this.currentStage = 3;

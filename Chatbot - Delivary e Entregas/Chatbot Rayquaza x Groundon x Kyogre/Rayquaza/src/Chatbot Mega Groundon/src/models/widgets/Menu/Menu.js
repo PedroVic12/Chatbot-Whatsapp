@@ -38,7 +38,7 @@ class CardapioMenu extends Menu {
       const data = fs.readFileSync(this.cardapioFile, 'utf8');
       const listaComidas = JSON.parse(data);
 
-      let cardapio_text = '🍔 *Cardápio* 🍔\n\n';
+      let cardapio_text = '🍔 *Cardápio de {} * 🍔\n\n';
 
       listaComidas.forEach((comida, index) => {
         cardapio_text += `*${index + 1}. ${comida['Sanduíches Tradicionais']}* - R$ ${comida['Preço.4'].toFixed(2)}\n`;
