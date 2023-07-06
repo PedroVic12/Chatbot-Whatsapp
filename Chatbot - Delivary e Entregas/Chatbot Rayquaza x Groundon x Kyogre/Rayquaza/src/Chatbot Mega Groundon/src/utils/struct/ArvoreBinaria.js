@@ -1,68 +1,73 @@
 const fs = require('fs');
 
 class Produto {
-  constructor(tipo_produto) {
-    this.tipo_produto = tipo_produto;
-    this.produtos = [];
-  }
+    constructor(nome, preco, ingredientes, tipo_produto) {
+      this.nome = nome;
+      this.preco = preco;
+      this.ingredientes = ingredientes;
+      this.tipo_produto = tipo_produto;
+    }
 
-  adicionarProduto(nome, preco, ingredientes) {
-    this.produtos.push({
-      nome: nome,
-      preco: preco,
-      ingredientes: ingredientes
-    });
-  }
-}
-
-class DataBaseController {
-  constructor() {
-    this.sanduicheTradicionalFile = '/workspaces/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/repository/cardapio_1.json';
-    this.acaiFile = '/workspaces/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/repository/cardapio_2.json';
-  }
-
-  get_Sanduiches(productFile, tipo_produto, callback) {
-    const produto = new Produto(tipo_produto);
-    this.lerProdutosJSON(productFile, tipo_produto, (produtos) => {
-      produtos.forEach((produtoJson) => {
-        produto.adicionarProduto(produtoJson.nome, produtoJson.preco, produtoJson.ingredientes);
-      });
-
-      callback(produto);
-    });
-  }
-
-  lerProdutosJSON(productFile, tipo_produto, callback) {
-    fs.readFile(productFile, 'utf8', (err, data) => {
-      if (err) {
-        console.error('Erro ao ler o arquivo:', err);
-        return;
+    toString() {
+        return `Tipo de Produto: ${this.tipo_produto}\nNome: ${this.nome}\nPreço: ${this.preco}\nIngredientes: ${this.ingredientes}`;
       }
-
-      const listaProdutos = JSON.parse(data);
-      const produtos = listaProdutos.map((produto) => {
-        const { [tipo_produto]: nome, preco, ingredientes } = produto;
-        return { nome, preco, ingredientes };
+  }
+  
+  class DataBaseController {
+    constructor() {
+      this.sanduicheTradicionalFile = '/workspaces/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/repository/cardapio_1.json';
+      this.acaiFile = '/workspaces/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/repository/cardapio_2.json';
+      this.petiscosFile = '/workspaces/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/repository/cardapio_3.json'
+    }
+  
+    get_SanduichesTradicionais(productFile, tipo_produto, callback) {
+      fs.readFile(productFile, 'utf8', (err, data) => {
+        if (err) {
+          console.error('Erro ao ler o arquivo:', err);
+          return;
+        }
+  
+        const listaProdutos = JSON.parse(data);
+        const produtos = listaProdutos.map((produtoJson) => {
+          const { [tipo_produto]: nome, 'Igredientes': ingredientes, 'Preço.4': preco } = produtoJson;
+          return new Produto(nome, preco, ingredientes, tipo_produto);
+        });
+  
+        callback(produtos);
       });
-
-      callback(produtos);
-    });
+    }
+  
+    get_acai(productFile, tipo_produto, callback) {
+      fs.readFile(productFile, 'utf8', (err, data) => {
+        if (err) {
+          console.error('Erro ao ler o arquivo:', err);
+          return;
+        }
+  
+        const listaProdutos = JSON.parse(data);
+        const produtos = listaProdutos.map((produtoJson) => {
+          const { [tipo_produto]: nome, 'Igredientes': ingredientes, 'Preço.4': preco } = produtoJson;
+          return new Produto(nome, preco, ingredientes, tipo_produto);
+        });
+  
+        callback(produtos);
+      });
+    }
   }
-}
-
-class CardapioMenu {
-  constructor() {
-    this.arvoreComida = new BinaryTree();
-    this.dataController = new DataBaseController();
+  
+  class CardapioMenu {
+    constructor() {
+      this.arvoreComida = new BinaryTree();
+      this.dataController = new DataBaseController();
+    }
+  
+    criarArvoreComida(tipo_produto, productFile) {
+      this.dataController.get_SanduichesTradicionais(productFile, tipo_produto, (produtos) => {
+        console.log(`Produtos do tipo ${tipo_produto}:`);
+        console.log(produtos);
+      });
+    }
   }
-
-  criarArvoreComida(tipo_produto, productFile) {
-    this.dataController.get_Sanduiches(productFile, tipo_produto, (produtos) => {
-      console.log(`Produtos do tipo ${tipo_produto}:`);
-      console.log(produtos);
-    });
-  }
-}
 
 class Node {
   constructor(value) {
@@ -127,11 +132,16 @@ module.exports = DataBaseController;
 module.exports = Produto;
 
 function main() {
-  const cardapio = new CardapioMenu();
-  const dataController = new DataBaseController();
+// Exemplo de uso
+const cardapio = new CardapioMenu();
+const dataController = new DataBaseController();
 
-  cardapio.criarArvoreComida('Sanduíches Tradicionais', dataController.sanduicheTradicionalFile);
-  cardapio.criarArvoreComida('Açaí e Pitaya', dataController.acaiFile);
+cardapio.criarArvoreComida('Sanduíches Tradicionais', dataController.sanduicheTradicionalFile);
+    cardapio.criarArvoreComida('Açaí e Pitaya', dataController.acaiFile);
+
+
+
+
 }
-
+  
 main();
