@@ -5,7 +5,7 @@ const DataBaseController = require('./DataBaseController');
 
 function main_struct() {
   
-    const cardapio = new CardapioMenu();
+    const cardapio = new CardapioMenu(); 
     const dataController = new DataBaseController();
     
     // Cria a árvore de produtos
