@@ -3,7 +3,6 @@ const readline = require('readline');
 const Widgets = require('./src/Chatbot Mega Groundon/src/models/widgets/Widgets')
 const Menu = require('./src/Chatbot Mega Groundon/src/models/widgets/Menu/Menu')
 const CarrinhoPedido = require('./src/Chatbot Mega Groundon/src/models/Regras de Negocio/Pedido/Carrinho')
-const BinaryTree = require('./src/Chatbot Mega Groundon/src/utils/struct/ArvoreBinaria')
 const Cliente = require('./src/Chatbot Mega Groundon/src/models/Regras de Negocio/Cliente/Cliente')
 const CardapioMenu = require('./src/Chatbot Mega Groundon/src/utils/struct/ArvoreBinaria')
 const DataBaseController = require('./src/Chatbot Mega Groundon/src/utils/struct/ArvoreBinaria')

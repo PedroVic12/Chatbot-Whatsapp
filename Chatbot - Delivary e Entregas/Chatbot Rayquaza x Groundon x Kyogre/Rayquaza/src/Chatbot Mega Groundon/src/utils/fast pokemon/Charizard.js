@@ -6,7 +6,7 @@ const fs = require('fs');
 
 // TODO -> TENTATIVA DE ENVIAR LISTAR POR SOLITAÇÕES HTTP, codigo funcional mas nao envia a lista na tela
 
-const GroundonController = require('../controllers/GroundonController');
+const GroundonController = require('../../controllers/GroundonController');
 class CharizardBackend extends GroundonController {
     constructor() {
         super();
