@@ -1,180 +1,107 @@
-const { Client, LocalAuth, Buttons, List, MessageMedia, LegacySessionAuth } = require('whatsapp-web.js');
-const Groundon = require('./src/Chatbot JS/models/core/Groundon')
-const Carrinho = require("./src/Chatbot JS/models/Carrinho")
-const Cliente = require("./src/Chatbot JS/models/Cliente")
-const ProdutoCardapio = require('./src/Chatbot JS/models/Produto');
+const readline = require('readline');
 
-const Estagio1 = require('./src/Chatbot JS/views/Estagio1')
-const Estagio2 = require('./src/Chatbot JS/views/Estagio2')
-const Estagio3 = require('./src/Chatbot JS/views/Estagio3')
-const Estagio4 = require('./src/Chatbot JS/views/Estagio4')
-const Estagio5 = require('./src/Chatbot JS/views/Estagio5')
-
-const TesteEstagio = require('./src/Chatbot JS/views/teste');
-
-//!Inicializando o BOT
-const bot_groundon = new Groundon();
-const carrinho_loja = new Carrinho(bot_groundon)
-const cliente = new Cliente(bot_groundon, carrinho_loja)
-//const produto = new ProdutoCardapio()
-
-const teste = new TesteEstagio()
-const estagio1 = new Estagio1(bot_groundon)
-const estagio2 = new Estagio2(bot_groundon)
-const estagio3 = new Estagio3(bot_groundon)
-const estagio4 = new Estagio4(bot_groundon, estagio2)
-const estagio5 = new Estagio5(bot_groundon, carrinho_loja)
+const Widgets = require('../../Chatbot Mega Groundon/src/models/widgets/Widgets')
+const Menu = require('../../Chatbot Mega Groundon/src/models/widgets/Menu/Menu')
+const CarrinhoPedido = require('../../Chatbot Mega Groundon/src/models/Regras de Negocio/Pedido/Carrinho')
+const BinaryTree = require('../../Chatbot Mega Groundon/src/utils/struct/ArvoreBinaria')
 
 
-//! Talvez seja necessário um código para autenticar
-bot_groundon.conectandoWpp()
+//const cliente = new Cliente()
+//const pedido = new Pedido()
 
-    .then(() => {
-        console.log('✅ Conectado com sucesso!\n\n')
+class Chatbot {
+  constructor() {
+    this.rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
+    });
 
-    })
-    .catch((error) => {
-        console.log("Ops! Deu Problema ao conectar! :(")
-        console.log(error)
-    })
-bot_groundon.contarNumeroPedidos()
-bot_groundon.recebeMensagem()
+    this.currentStage = 1;
 
+    this.Widgets = new Widgets()
+    this.Menu = new Menu.CardapioMenu()
 
-//!Evento Listener para o Robo receber as mensagens
-bot_groundon.whatsapp.on('message', message => {
+    this.carrinho = new CarrinhoPedido()
 
-    const GROUNDON_INICIADO = true
-    bot_groundon.armazenarConversa(message);
+    this.comidaTree = new BinaryTree();
+    this.sanduicheTree = new BinaryTree();
+  }
 
-    //! ===================== Estágio 1 - Apresentação =====================
-    if (bot_groundon.numero_estagio === 1) {
+  start() {
+    console.log('Bem-vindo ao Chatbot!');
 
-        estagio1.boasVindas(message)
-        bot_groundon.avancarEstagio()
+    this.rl.question('Digite seu nome: ', (name) => {
+      console.log(`Olá, ${name}! Como posso ajudar?`);
+      this.processNextStage();
+    });
+  }
 
+  processNextStage() {
+    switch (this.currentStage) {
+      case 1:
+        this.stage1();
+        break;
+      case 2:
+        this.stage2();
+        break;
+      // Adicione os demais estágios aqui
 
+      default:
+        console.log('Chatbot encerrado.');
+        this.rl.close();
     }
-
-
-    //!=====================  Estágio 2 - Mostrar Menu Principal =====================
-    else if (bot_groundon.numero_estagio === 2) {
-        //Pegando os dados do cliente
-        const nome_cliente = estagio2.getNomeCliente(message)
-        cliente.setNome(nome_cliente)
-
-        // Pegando o número de telefone
-        const numero_telefone = estagio2.getTelefoneCliente(message)
-        cliente.setPhoneNumber(numero_telefone)
-
-
-        //TODO -> Checar client na base de Dados
-        bot_groundon.delay(3000).then(
-            bot_groundon.enviarMensagem(message, `✅ Prazer em te conhecer, ${nome_cliente}!`)
-        );
-
-
-        // TODO -> Mostra o menu principal
-        try {
-            bot_groundon.sendListProducts(message);
-        } catch (error) {
-            console.log('\nERROR LISTA', error);
-        }
-
-        bot_groundon.avancarEstagio().then(
-            bot_groundon.enviarMensagem(message, 'O que deseja fazer?')
-        )
-    }
-
-    //!=====================  Estágio 3 - Responde as funcionalidades do Botão =====================
-    if (bot_groundon.numero_estagio === 3) {
-
-        bot_groundon.enviarMensagem(message, `Teste Estagio: ${bot_groundon.numero_estagio}`)
-
-        try {
-            bot_groundon.sendListExample(message)
-
-        } catch (error) {
-            console.log('\n\nERROr', error)
-        }
-
-        //!Tentativa de conexão com o servidor python
-        if (message.body === '!pedido') {
-
-            try {
-                bot_groundon.gerarPedidoJson(cliente.nome)
-                bot_groundon.enviarMensagem(message, 'Json gerado!')
-
-            } catch (error) {
-                console.log('\nSEM JSON', error)
-            }
-
-
-        }
+  }
 
 
 
-        //bot_groundon.avancarEstagio()
+  
 
-    }
+  stage1() {
+    console.log('Estágio 1: Menu Principal');
+    console.log('1. Ver cardápio');
+    console.log('2. Fazer pedido');
+    console.log('3. Ver localização');
 
-    //!=====================  Estagio 4 - Cliente Escolhe os Produtos da Loja =====================
-    if (bot_groundon.numero_estagio === 4) {
+    this.rl.question('Escolha uma opção: ', (choice) => {
+      switch (choice) {
+        case '1':
+          console.log('Mostrando o cardápio...');
+          this.currentStage = 2;
+          break;
+        case '2':
+          console.log('Fazendo um pedido...');
+          // Implemente a lógica para fazer um pedido
+          break;
+        case '3':
+          console.log('Mostrando a localização...');
+          // Implemente a lógica para mostrar a localização
+          break;
+        default:
+          console.log('Opção inválida. Tente novamente.');
+      }
 
-        bot_groundon.enviarMensagem(message, `Teste Estagio: ${bot_groundon.numero_estagio}`)
-
-        //TODO MODIFICAR AQUI PARA UMA LISTA DOS PRODUTOS DO CLIENTE E PEGAR NA NOVA BASE DE DADOS
-
-        if (message.body === 'Sanduíches' && message.type !== 'location') {
-            // const cardapio_sanduiche = Sanduiches.getAllSanduiches()
-            //estagio4.enviarListaSanduiches(message, cardapio_sanduiche)
-        }
-
-        if (message.body === 'Salgados' && message.type !== 'location') {
-            //const cardapio_salgados = Salgados.getAllSalgados()
-            //estagio4.enviarListaSalgados(message, cardapio_salgados)
-        }
-
-        if (message.body === 'Bebidas' && message.type !== 'location') {
-            //const cardapio_bebidas = Bebidas.getAllBebidas()
-            //estagio4.enviarListaBebidas(message, cardapio_bebidas)
-        }
-
-        bot_groundon.avancarEstagio()
-
-    }
-
-    //!=====================  Estagio 5 - Pega o pedido e adiciona no carrinho =====================
-    if (bot_groundon.numero_estagio === 5) {
+      this.processNextStage();
+    });
+  }
 
 
-        bot_groundon.enviarMensagem(message, `Teste Estagio: ${bot_groundon.numero_estagio}`)
+  
 
+  stage2() {
+    console.log('Estágio 2: Cardápio');
+    // Mostre o cardápio aqui
 
-        //Escolhe o Produto
-        cliente.realizaPedido(message)
+    // Implemente a lógica para processar a escolha do usuário no cardápio
 
-        //Coloca no carrinho
-        estagio5.setItensCarrinho();
-        estagio5.verCarrinho(message)
+    this.currentStage = 1;
+    this.processNextStage();
+  }
+}
 
-        bot_groundon.avancarEstagio().then(
-            bot_groundon.mostrarProdutosLista(message)
-        );
-    }
+function main_chatbot(){
+  const chatbot = new Chatbot();
+  chatbot.start();
 
-    //!=====================   Estagio 6 -Menu de listas para escolha de fluxo ===================
-    if (bot_groundon.numero_estagio === 6) {
+}
 
-
-        //!Tentativa de conexão com o servidor python
-
-        bot_groundon.enviarMensagem(message, `Teste Estagio: ${bot_groundon.numero_estagio}`)
-
-        //bot_groundon.avancarEstagio()
-
-    }
-
-
-
-})
+main_chatbot()
