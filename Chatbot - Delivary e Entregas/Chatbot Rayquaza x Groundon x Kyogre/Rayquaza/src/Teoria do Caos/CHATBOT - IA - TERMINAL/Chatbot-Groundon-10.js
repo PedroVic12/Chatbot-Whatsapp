@@ -1,102 +1,54 @@
-const readline = require('readline-sync');
-const Widgets = require('./widgets/Widgets');
-const MenuCategorias = require('./widgets/MenuCategorias');
-const MenuCardapio = require('./widgets/MenuCardapio');
+const readline = require('readline');
 
-class Usuario {
+const GroundonView = require('./GroundonView');
+const { BinaryTree, Comida, DataBaseController } = require('../utils/struct/ArvoreBinaria');
+
+const Cliente = require('../models/Regras de Negocio/Cliente/Cliente');
+const CarrinhoPedido = require("../models/Regras de Negocio/Pedido/Carrinho");
+const Pedido = require('../models/Regras de Negocio/Pedido/Pedido');
+
+const Widgets = require('../models/widgets/Widgets');
+const Menu = require('../models/widgets/Menu/Menu');
+
+const Estagio1 = require('./Stages/Estagio1');
+const Estagio2 = require('./Stages/Estagio2');
+const Estagio3 = require('./Stages/Estagio3');
+
+const cliente = new Cliente();
+const pedido = new Pedido();
+
+class ChatbotTerminal extends GroundonView {
   constructor() {
-    this.numero_estagio = 1;
-    this.cliente = {};
-    this.menuCategorias = new MenuCategorias();
-    this.menuCardapio = new MenuCardapio();
-    this.widgets = new Widgets();
-    this.carrinho = [];
-    // Adicione outras propriedades necessárias para o funcionamento do chatbot
+    super();
+    this.estagio1 = new Estagio1();
+    this.estagio2 = new Estagio2();
+    this.estagio3 = new Estagio3();
+
+    this.Widgets = new Widgets();
+    this.Menu = new Menu.CardapioMenu();
+
+    this.carrinho = new CarrinhoPedido();
+
+    this.comidaTree = new BinaryTree();
+    this.sanduicheTree = new BinaryTree();
+
+    this.rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
+    });
   }
 
-  iniciarChat() {
-    while (true) {
-      if (this.numero_estagio === 1) {
-        console.log('\nEstágio 1: Bem-vindo à Lanchonete Citta RJ!');
-        console.log('Eu sou o Robô Groundon e estou aqui para ajudá-lo.');
-        let nome = readline.question('Antes de começarmos, por favor, digite seu nome: ');
-        this.cliente.nome = nome;
-        console.log(`Prazer em te conhecer, ${this.cliente.nome}!\n`);
-        this.numero_estagio = 2;
-      } else if (this.numero_estagio === 2) {
-        console.log('\nEstágio 2: Mostrando o Menu Principal');
-        const menuPrincipal = this.widgets.menuPrincipal;
-        const menuPrincipalText = this.widgets.getMenuText('Menu Principal', menuPrincipal);
-        console.log(menuPrincipalText);
-
-        let escolha = readline.question('Digite o número da opção desejada: ');
-
-        if (escolha === 'cancelar') {
-          console.log('Pedido cancelado.');
-          break;
-        } else if (parseInt(escolha) >= 1 && parseInt(escolha) <= menuPrincipal.length) {
-          const opcaoEscolhida = menuPrincipal[parseInt(escolha) - 1];
-          console.log(`Opção escolhida: ${opcaoEscolhida.button.text}`);
-          // Adicione a lógica para o próximo estágio ou ação
-          this.numero_estagio = 3;
-        } else {
-          console.log('Opção inválida. Por favor, tente novamente.');
-        }
-      } else if (this.numero_estagio === 3) {
-        console.log('\nEstágio 3: Escolhendo a categoria');
-        const menuCategorias = this.menuCategorias.mostrarCategorias();
-        console.log(menuCategorias);
-
-        let escolha = readline.question('Digite o número da categoria desejada: ');
-
-        if (escolha === 'cancelar') {
-          console.log('Pedido cancelado.');
-          break;
-        } else if (parseInt(escolha) >= 1 && parseInt(escolha) <= this.menuCategorias.categorias.length) {
-          const categoriaEscolhida = this.menuCategorias.obterCategoria(parseInt(escolha));
-          console.log(`Categoria escolhida: ${categoriaEscolhida.nome}`);
-          // Adicione a lógica para o próximo estágio ou ação
-          this.numero_estagio = 4;
-        } else {
-          console.log('Opção inválida. Por favor, tente novamente.');
-        }
-      } else if (this.numero_estagio === 4) {
-        console.log('\nEstágio 4: Escolhendo o produto');
-        const menuProdutos = this.menuCardapio.exibirMenu();
-        console.log(menuProdutos);
-
-        let escolha = readline.question('Digite o número do produto desejado: ');
-
-        if (escolha === 'cancelar') {
-          console.log('Pedido cancelado.');
-          break;
-        } else if (parseInt(escolha) >= 1 && parseInt(escolha) <= this.menuCardapio.produtos.length) {
-          const produtoEscolhido = this.menuCardapio.obterProduto(parseInt(escolha));
-          console.log(`Produto escolhido: ${produtoEscolhido.nome}`);
-          this.carrinho.push(produtoEscolhido);
-          console.log('Produto adicionado ao carrinho.');
-          // Adicione a lógica para o próximo estágio ou ação
-          this.numero_estagio = 5;
-        } else {
-          console.log('Opção inválida. Por favor, tente novamente.');
-        }
-      } else if (this.numero_estagio === 5) {
-        console.log('\nEstágio 5: Pedido adicionado ao carrinho');
-        console.log('Carrinho:');
-        this.carrinho.forEach((produto, index) => {
-          console.log(`${index + 1}. ${produto.nome} - R$ ${produto.preco}`);
-        });
-        break;
-      }
-    }
-
-    console.log('Chat finalizado. Obrigado por utilizar o Bot Groundon!');
+  async start_chat_Groundon() {
+    this.rl.question('Bem-vindo a Lanchonete *Citta RJ* Obrigado por escolher a nossos Serviços. Eu sou o Robô Groundon e estou aqui para ajudá-lo. Antes de começarmos, por favor, digite seu nome: ', (nome) => {
+      cliente.set_nome(nome);
+      console.log(`Prazer em te conhecer, ${cliente.nome}!\n`);
+      this.showMenuPrincipal();
+    });
   }
+
 }
 
-function main() {
-  const usuario = new Usuario();
-  usuario.iniciarChat();
-}
+function main(){
+  
 
-main();
+}
