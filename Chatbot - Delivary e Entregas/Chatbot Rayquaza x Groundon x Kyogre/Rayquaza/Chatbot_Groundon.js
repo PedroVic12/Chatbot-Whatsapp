@@ -151,19 +151,39 @@ class Chatbot {
     //!=====================  Estagio 5 - Pega o pedido e adiciona no carrinho =====================
     stage3() {
       this.rl.question('\n\nEscolha um produto: ', (choice) => {
-        // Busca o item escolhido no cardápio
-        const cardapioEscolhido = cardapio.buscarPorNome('Sanduíches Tradicionais', choice);
-    
-        if (cardapioEscolhido) {
-          pedido.adicionarProduto(cardapioEscolhido);
-          console.log(`Produto ${cardapioEscolhido.nome} adicionado ao carrinho!`);
-        } else {
-          console.log('Produto não encontrado.');
+
+        function obterNomeProduto(numero, itensPedido) {
+          const escolhaNumero = parseInt(numero);
+          if (Number.isNaN(escolhaNumero) || escolhaNumero < 1 || escolhaNumero > itensPedido.length) {
+            return null; // Retorna null se o número for inválido
+          }
+        
+          const itemEscolhido = itensPedido[escolhaNumero - 1];
+          if (itemEscolhido) {
+            return itemEscolhido.nome; // Retorna o nome do produto correspondente
+          } else {
+            return null; // Retorna null se o item não for encontrado
+          }
         }
-    
-        // Continua para o próximo estágio
-        this.currentStage = 4;
+        
+
+        console.log(`\nVocê escolheu: ${choice}`);
+
+        // Obter o nome do produto escolhido
+        const itensPedido = pedido.getItensCardapio()
+
+        const nomeProduto = obterNomeProduto(choice, itensPedido);
+
+        if (nomeProduto) {
+          console.log(`Nome do produto escolhido: ${nomeProduto}`);
+        } else {
+          console.log('Opção inválida. Tente novamente.');
+        }
+
         this.processNextStage();
+       
+
+
       });
     }
     
@@ -176,3 +196,19 @@ function main_chatbot(){
 }
 
 main_chatbot()
+
+
+
+function escolherItemCardapio(){
+
+  if (itemEscolhido) {
+    pedido.adicionarProduto(itemEscolhido);
+    console.log(`Produto ${itemEscolhido.nome} adicionado ao carrinho!`);
+  } else {
+    console.log('Produto não encontrado.');
+  }
+
+  // Continua para o próximo estágio
+  this.currentStage = 4;
+  this.processNextStage();
+}

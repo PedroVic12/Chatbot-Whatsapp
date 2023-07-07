@@ -97,6 +97,9 @@ class Pedido {
   
 }
 
+
+module.exports = Pedido;
+
 async function main_pedido() {
   const pedido = new Pedido();
   const itensPedido = await pedido.getItensCardapio('Açaí e Pitaya', pedido.dataController.acaiFile);
@@ -130,4 +133,4 @@ async function main_pedido() {
   encontrarProduto();
 }
 
-main_pedido();
+//main_pedido();
