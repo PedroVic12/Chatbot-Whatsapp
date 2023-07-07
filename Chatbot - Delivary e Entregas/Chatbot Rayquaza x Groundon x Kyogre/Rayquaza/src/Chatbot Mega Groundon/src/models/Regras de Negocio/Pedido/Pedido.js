@@ -15,11 +15,13 @@ class Pedido {
     };
   }
 
+  // Busca os itens do cardápio em json
   async getItensCardapio(tipo_produto, db_file) {
     const itens = await this.produtos_cardapio.criarArvore(tipo_produto, db_file);
     return Array.isArray(itens) ? itens.flat() : [];
   }
 
+  // Getters e Setters
   getNome() {
     return this.nome;
   }
@@ -36,17 +38,20 @@ class Pedido {
     this.produtos.push(produto);
   }
 
+
+  // Métodos de Busca, Remoção e Atualização
   buscarPorNome(nome_produto, itensPedido) {
     if (!nome_produto) {
       return [];
     }
-
+  
     const produtosEncontrados = itensPedido.filter((produto) =>
-      produto.nome.toLowerCase().includes(nome_produto.toLowerCase())
+      produto.nome.toLowerCase() === nome_produto.toLowerCase()
     );
-
+  
     return produtosEncontrados;
   }
+  
 
   buscarPorTipo(tipo_produto) {
     const produtosEncontrados = produtos_cardapio.filter(
@@ -54,48 +59,73 @@ class Pedido {
     );
     return produtosEncontrados;
   }
+  
 
-  getPrecoItemPedido(nome_produto) {
-
-    console.log('Nome do produto:', nome_produto.toLowerCase());
-
-    
-    const produtoEncontrado = produtos_cardapio.find(
-      (produto) => produto.nome.toLowerCase() === nome_produto.toLowerCase()
+  getPrecoItemPedido(nome_produto, product_object) {
+    let name_product = nome_produto.toLowerCase();
+  
+    const produtoEncontrado = product_object.find(
+      (produto) => produto.nome.toLowerCase() === name_product
     );
-
+  
+    //console.log('\n\n\nProduto encontrado:', produtoEncontrado);
+  
     if (produtoEncontrado) {
       return produtoEncontrado.preco;
     } else {
       return null;
     }
   }
+
+
+  getTamanhoItemPedido(nome_produto, product_object) {
+    let name_product = nome_produto.toLowerCase();
+  
+    const produtoEncontrado = product_object.find(
+      (produto) => produto.nome.toLowerCase() === name_product
+    );
+    
+    if (produtoEncontrado) {
+      const tamanhos = Object.keys(produtoEncontrado.tamanhos);
+      return tamanhos;
+    } else {
+      return null;
+    }
+  }
+  
+  
+  
 }
 
 async function main_pedido() {
   const pedido = new Pedido();
-  const itensPedido = await pedido.getItensCardapio('Sanduíches Tradicionais', pedido.dataController.sanduicheTradicionalFile);
+  const itensPedido = await pedido.getItensCardapio('Açaí e Pitaya', pedido.dataController.acaiFile);
 
   function encontrarProduto() {
-    const produtosEncontrados = pedido.buscarPorNome('Bauru', itensPedido);
-
+    const produtosEncontrados = pedido.buscarPorNome('Açai Tradicional', itensPedido);
+  
     if (produtosEncontrados.length > 0) {
-      let nome_produto = produtosEncontrados[0].nome.toLowerCase();
-      console.log('\n\n--------------------------------------------------')
-      console.log(`Item de nome: ${nome_produto} encontrado!`);
-      console.log('Produtos encontrados:', produtosEncontrados);
-      console.log('--------------------------------------------------');
 
-      const preco = pedido.getPrecoItemPedido('Bauru');
-      if (preco !== null) {
-        console.log(`Preço do ${nome_produto}: R$ ${preco}`);
-      } else {
-        console.log(`Preço do ${nome_produto} não encontrado`);
-      }
+      // Busca o nome do produto
+      const nome_produto = produtosEncontrados[0].nome.toLowerCase(); // Definir nome_produto dentro do escopo
+      console.log('\n\n--------------------------------------------------')
+      console.log(`Produto de nome: ${nome_produto} encontrado!`);
+      console.log(produtosEncontrados)
+      console.log('--------------------------------------------------');
+  
+      // Busca o preço do produto
+      const preco = pedido.getPrecoItemPedido(nome_produto, produtosEncontrados); 
+      console.log(`Preço do ${nome_produto}: R$ ${preco}`);
+
+      // Busca o tamanho do produto
+      const tamanho = pedido.getTamanhoItemPedido(nome_produto, produtosEncontrados); 
+      console.log(`Tamanho do ${nome_produto}: ${tamanho}`);
+
     } else {
       console.log('Produto não encontrado');
     }
   }
+  
 
   encontrarProduto();
 }
