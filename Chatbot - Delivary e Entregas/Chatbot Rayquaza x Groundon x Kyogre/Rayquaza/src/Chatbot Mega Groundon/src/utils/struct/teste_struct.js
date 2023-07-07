@@ -25,7 +25,8 @@ function main_struct() {
 
 
     
-    cardapio.criarArvore('Açaí e Pitaya', dataController.acaiFile);
+    let arvore_acai = cardapio.criarArvore('Açaí e Pitaya', dataController.acaiFile);
+    console.log(arvore_acai)
     cardapio.criarArvore('Petiscos', dataController.petiscosFile);
     
     // Buscar um produto pelo tipo e nome

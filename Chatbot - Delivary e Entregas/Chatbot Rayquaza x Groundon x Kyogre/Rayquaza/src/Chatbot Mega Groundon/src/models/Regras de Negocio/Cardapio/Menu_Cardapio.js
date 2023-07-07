@@ -9,8 +9,6 @@ class CardapioMenu {
   }
 
   criarArvore(tipo_produto, productFile) {
-
-
     return new Promise((resolve, reject) => {
       let getProdutos;
 

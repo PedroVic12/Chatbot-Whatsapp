@@ -51,6 +51,18 @@ class Widgets {
     ];
   }
 
+  getMenuTextWithDescriptions(title, menu) {
+    let menuText = `🔸 ${title} 🔸\n\n`;
+    menu.forEach((item, index) => {
+      menuText += `${index + 1}. ${item.button.text}\n`;
+      menuText += `   Descrição: ${item.description}\n`; // Adicione a descrição do item
+    });
+
+    menuText += `\n📝 Digite o *Número* para escolher o item desejado.\n\n`;
+
+    return menuText;
+  }
+
   getMenuText(title, menu) {
     let menuText = `🔸 ${title} 🔸\n\n`;
     menu.forEach((item, index) => {
@@ -72,13 +84,22 @@ class Widgets {
     return formattedMenu;
   }
 
-  formatMenuTable(title, menu) {
+  formatMenuWithTable(title, menu) {
     let formattedMenu = `${title}:\n\n`;
-    formattedMenu += '| Opção | Descrição |\n|---|---|\n';
+    formattedMenu += '| Opção | Descrição | Preço |\n|---|---|---|\n';
     menu.forEach((item, index) => {
-      formattedMenu += `| ${index + 1} | ${item.button.text} |\n`;
-
+      formattedMenu += `| ${index + 1} | ${item.button.text} | ${item.description} | ${item.price} |\n`;
     });
+    return formattedMenu;
+  }
+
+  formatMenuWithFormatting(title, menu) {
+    let formattedMenu = `🔸 ${title} 🔸\n\n`;
+    menu.forEach((item, index) => {
+      formattedMenu += `⭐️ ${index + 1}. *${item.button.text}*\n`; // Adicionamos negrito e um emoji de estrela
+      formattedMenu += `   - Preço: ${item.price}\n`; // Adicionamos informações adicionais
+    });
+
     return formattedMenu;
   }
 }

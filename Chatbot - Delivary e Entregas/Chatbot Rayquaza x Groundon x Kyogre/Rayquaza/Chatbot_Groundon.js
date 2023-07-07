@@ -6,12 +6,12 @@ const CarrinhoPedido = require('./src/Chatbot Mega Groundon/src/models/Regras de
 const Cliente = require('./src/Chatbot Mega Groundon/src/models/Regras de Negocio/Cliente/Cliente')
 const CardapioMenu = require('./src/Chatbot Mega Groundon/src/models/Regras de Negocio/Cardapio/Menu_Cardapio')
 const DataBaseController = require('./src/Chatbot Mega Groundon/src/models/Regras de Negocio/Cardapio/DataBaseController')
-
+const Pedido = require('./src/Chatbot Mega Groundon/src/models/Regras de Negocio/Pedido/Pedido')
 
 const cliente = new Cliente()
 const cardapio = new CardapioMenu();
 const dataController = new DataBaseController();
-//const pedido = new Pedido()
+const pedido = new Pedido()
 
 
 
@@ -113,67 +113,60 @@ class Chatbot {
   
   //!=====================  Estágio 3 - Responde as funcionalidades do Botão =====================
   stage2() {
-
-    
-    const menuCategorias = this.Widgets.menuCategorias
-    const categoriasText = this.Widgets.getMenuText('Categorias de Lanches', menuCategorias)
-    console.log(categoriasText)
-
-
-      //!=====================  Estagio 4 - Cliente Escolhe os Produtos da Loja =====================
+    const menuCategorias = this.Widgets.menuCategorias;
+    const categoriasText = this.Widgets.getMenuText('Categorias de Lanches', menuCategorias);
+    console.log(categoriasText);
+  
     this.rl.question('\nEscolha uma opção: ', (choice) => {
       switch (choice) {
         case '1':
 
-        // Cria a árvore de produtos
-        cardapio.criarArvore('Sanduíches Tradicionais', dataController.sanduicheTradicionalFile)
-        .then((sanduiche_menu) => {
-          let cardapio_text = `🍔 *Cardápio de Sanduíches Tradicionais* 🍔\n\n`;
-          sanduiche_menu.forEach((produto, index) => {
-            cardapio_text += cardapio.mostrarProdutoCardapio(produto, index);
-          });
-          cardapio_text += `📝 Para escolher seu item, envie o número ou o nome\n`;
-          cardapio_text += '🚫 Para cancelar, envie *cancelar*.\n';
-          console.log('\nDebug:', cardapio_text);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
-        console.log(`\n\nVoce escolheu o ${choice}`)
-          
-          this.currentStage = 3;
-
-          this.processNextStage();
+        //Cria a arvore de Sanduiches
+          cardapio
+            .criarArvore('Sanduíches Tradicionais', dataController.sanduicheTradicionalFile)
+            .then((sanduiche_menu) => {
+              let cardapio_text = `🍔 *Cardápio de Sanduíches Tradicionais* 🍔\n\n`;
+              sanduiche_menu.forEach((produto, index) => {
+                cardapio_text += cardapio.mostrarProdutoCardapio(produto, index);
+              });
+              cardapio_text += `📝 Para escolher seu item, envie o número ou o nome\n`;
+              cardapio_text += '🚫 Para cancelar, envie *cancelar*.\n';
+              console.log('\nDebug:', cardapio_text);
+              this.currentStage = 3; // Atualiza o estágio para 3
+              this.processNextStage();
+            })
+            .catch((error) => {
+              console.log(error);
+            });
           break;
-        
+  
         default:
           console.log('Opção inválida. Tente novamente.');
+          this.processNextStage();
       }
     });
-
-
-    
   }
 
 
     //!=====================  Estagio 5 - Pega o pedido e adiciona no carrinho =====================
-    stage3(){
-    this.rl.question('\n\nEscolha um produto: ', (choice) => {
-      const produtoEscolhido = produtos_cardapio.find((produto) => produto.nome.toLowerCase() === choice.toLowerCase());
-
-      if (produtoEscolhido) {
-        pedido.adicionarProduto(produtoEscolhido);
-        console.log(`Produto ${produtoEscolhido} adicionado ao carrinho!`);
-      } else {
-        console.log('Produto não encontrado.');
-      }
+    stage3() {
+      this.rl.question('\n\nEscolha um produto: ', (choice) => {
+        // Busca o item escolhido no cardápio
+        const cardapioEscolhido = cardapio.buscarPorNome('Sanduíches Tradicionais', choice);
+    
+        if (cardapioEscolhido) {
+          pedido.adicionarProduto(cardapioEscolhido);
+          console.log(`Produto ${cardapioEscolhido.nome} adicionado ao carrinho!`);
+        } else {
+          console.log('Produto não encontrado.');
+        }
+    
+        // Continua para o próximo estágio
+        this.currentStage = 4;
+        this.processNextStage();
       });
-    
-      console.log('Carrinho:', pedido.carrinho);
-      console.log('Total:', pedido.carrinho.calcularTotal());
-    
     }
+    
 }
 
 function main_chatbot(){
