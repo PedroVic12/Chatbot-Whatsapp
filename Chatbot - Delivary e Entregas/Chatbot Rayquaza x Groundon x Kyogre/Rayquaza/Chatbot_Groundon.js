@@ -118,12 +118,16 @@ class Chatbot {
     console.log(categoriasText);
   
     this.rl.question('\nEscolha uma opção: ', (choice) => {
+
       switch (choice) {
         case '1':
 
+      const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(parseInt(choice));
+      console.log(`\nVocê escolheu: ${tipo_produto}`);
+
         //Cria a arvore de Sanduiches
           cardapio
-            .criarArvore('Sanduíches Tradicionais', dataController.sanduicheTradicionalFile)
+            .criarArvore(tipo_produto, arquivo_produto)
             .then((sanduiche_menu) => {
               let cardapio_text = `🍔 *Cardápio de Sanduíches Tradicionais* 🍔\n\n`;
               sanduiche_menu.forEach((produto, index) => {
@@ -152,38 +156,12 @@ class Chatbot {
     stage3() {
       this.rl.question('\n\nEscolha um produto: ', (choice) => {
 
-        function obterNomeProduto(numero, itensPedido) {
-          const escolhaNumero = parseInt(numero);
-          if (Number.isNaN(escolhaNumero) || escolhaNumero < 1 || escolhaNumero > itensPedido.length) {
-            return null; // Retorna null se o número for inválido
-          }
-        
-          const itemEscolhido = itensPedido[escolhaNumero - 1];
-          if (itemEscolhido) {
-            return itemEscolhido.nome; // Retorna o nome do produto correspondente
-          } else {
-            return null; // Retorna null se o item não for encontrado
-          }
-        }
-        
-
         console.log(`\nVocê escolheu: ${choice}`);
 
-        // Obter o nome do produto escolhido
-        const itensPedido = pedido.getItensCardapio()
-
-        const nomeProduto = obterNomeProduto(choice, itensPedido);
-
-        if (nomeProduto) {
-          console.log(`Nome do produto escolhido: ${nomeProduto}`);
-        } else {
-          console.log('Opção inválida. Tente novamente.');
-        }
-
-        this.processNextStage();
-       
+        //TODO -> Buscar o numero ou nome correspondente da lista de produtos escolhidos
 
 
+      
       });
     }
     
@@ -199,16 +177,3 @@ main_chatbot()
 
 
 
-function escolherItemCardapio(){
-
-  if (itemEscolhido) {
-    pedido.adicionarProduto(itemEscolhido);
-    console.log(`Produto ${itemEscolhido.nome} adicionado ao carrinho!`);
-  } else {
-    console.log('Produto não encontrado.');
-  }
-
-  // Continua para o próximo estágio
-  this.currentStage = 4;
-  this.processNextStage();
-}

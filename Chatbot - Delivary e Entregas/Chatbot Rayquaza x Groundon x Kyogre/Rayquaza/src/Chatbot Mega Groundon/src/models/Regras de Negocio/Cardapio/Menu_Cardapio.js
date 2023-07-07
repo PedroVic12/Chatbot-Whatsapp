@@ -8,30 +8,48 @@ class CardapioMenu {
     this.dataController = new DataBaseController();
   }
 
-  // Getters 
+  // Getters
   getTipoProduto(currentStage) {
     switch (currentStage) {
-      case 2:
+      case 1:
         return 'Sanduíches Tradicionais';
-      // Adicione outros casos para cada tipo de produto
-  
-      default:
-        return null;
-    }
-  }
-  
-  getArquivoProduto(tipo_produto) {
-    switch (tipo_produto) {
-      case 'Sanduíches Tradicionais':
-        return this.dataController.sanduicheTradicionalFile;
-      // Adicione outros casos para cada arquivo correspondente a cada tipo de produto
-  
+
+      case 2:
+        return 'Açaí e Pitaya';
+
+      case 3:
+        return 'Petiscos';
+
       default:
         return null;
     }
   }
 
-  // Algortimo para criar a árvore de produtos
+  getArquivoProduto(tipo_produto) {
+    switch (tipo_produto) {
+      case 'Sanduíches Tradicionais':
+        return this.dataController.sanduicheTradicionalFile;
+      // Adicione outros casos para cada arquivo correspondente a cada tipo de produto
+
+      case 'Açaí e Pitaya':
+        return this.dataController.acaiFile;
+        
+      case 'Petiscos':
+        return this.dataController.petiscoFile;
+
+      default:
+        return null;
+    }
+  }
+
+  // Função para obter o tipo de produto e arquivo correspondente
+  getTipoEArquivoProduto(currentStage) {
+    const tipo_produto = this.getTipoProduto(currentStage);
+    const arquivo_produto = this.getArquivoProduto(tipo_produto);
+    return { tipo_produto, arquivo_produto };
+  }
+
+  // Algoritmo para criar a árvore de produtos
   criarArvore(tipo_produto, productFile) {
     return new Promise((resolve, reject) => {
       let getProdutos;
@@ -80,31 +98,18 @@ class CardapioMenu {
   }
 }
 
-
 module.exports = CardapioMenu;
 
 
-function main_cardapio(){
-
+function main_cardapio() {
   const cardapio = new CardapioMenu();
+  const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(2);
 
-  cardapio
-    .criarArvore('Sanduíches Tradicionais', cardapio.dataController.sanduicheTradicionalFile)
-    .then((sanduiche_menu) => {
-      let cardapio_text = `🍔 *Cardápio de Sanduíches Tradicionais* 🍔\n\n`;
-      sanduiche_menu.forEach((produto, index) => {
-        cardapio_text += cardapio.mostrarProdutoCardapio(produto, index);
-      });
-      cardapio_text += `📝 Para escolher seu item, envie o número ou o nome\n`;
-      cardapio_text += '🚫 Para cancelar, envie *cancelar*.\n';
-      console.log('\nDebug:', cardapio_text);
-
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-
-
+  
+  let produtoEscolhido = cardapio.criarArvore(tipo_produto, arquivo_produto)
+  .then((produtoEscolhido) => {
+    console.log(produtoEscolhido);
+  })
 }
 
-main_cardapio();
+//main_cardapio();
