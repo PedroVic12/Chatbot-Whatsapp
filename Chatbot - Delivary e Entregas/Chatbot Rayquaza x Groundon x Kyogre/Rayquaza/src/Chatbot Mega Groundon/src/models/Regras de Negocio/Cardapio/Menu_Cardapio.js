@@ -1,6 +1,6 @@
 const { BinaryTree, Node } = require('./ArvoreBinaria');
 const DataBaseController = require('./DataBaseController');
-const Produto = require('./Produto');
+const Produto = require('./Lanches/Produto');
 
 class CardapioMenu {
   constructor() {
@@ -36,26 +36,10 @@ class CardapioMenu {
     });
   }
 
-  mostrarProdutoCardapio(product_object) {
-    try {
-      let cardapio_text = `🍔 *Cardápio de ${product_object.tipo_produto}* 🍔\n\n`;
-
-      cardapio_text += `${product_object.nome}\n`;
-      cardapio_text += `Tipo: ${product_object.tipo_produto}\n`;
-      cardapio_text += `Ingredientes: ${product_object.ingredientes}\n\n`;
-
-      for (const tamanho in product_object.tamanhos) {
-        const valor = product_object.tamanhos[tamanho];
-        cardapio_text += `*${tamanho}*: R$ ${valor.toFixed(2)}\n`;
-      }
-
-      cardapio_text += '\n📝 Para escolher este item, envie o número ou o nome\n';
-      cardapio_text += '🚫 Para cancelar, envie *cancelar*.\n';
-
-      return cardapio_text;
-    } catch (error) {
-      return null;
-    }
+  mostrarProdutoCardapio(produto, index) {
+    let cardapio_text = `${index + 1}. ${produto.nome} - R$ ${produto.preco} Reais\n`;
+    cardapio_text += `Ingredientes: ${produto.ingredientes}\n\n`;
+    return cardapio_text;
   }
 
   buscarPorNome(tipo_produto, nome_produto) {

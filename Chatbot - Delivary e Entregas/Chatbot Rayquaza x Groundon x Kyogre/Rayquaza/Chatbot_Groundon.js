@@ -4,14 +4,17 @@ const Widgets = require('./src/Chatbot Mega Groundon/src/models/widgets/Widgets'
 const Menu = require('./src/Chatbot Mega Groundon/src/models/widgets/Menu/Menu')
 const CarrinhoPedido = require('./src/Chatbot Mega Groundon/src/models/Regras de Negocio/Pedido/Carrinho')
 const Cliente = require('./src/Chatbot Mega Groundon/src/models/Regras de Negocio/Cliente/Cliente')
-const CardapioMenu = require('./src/Chatbot Mega Groundon/src/utils/struct/ArvoreBinaria')
-const DataBaseController = require('./src/Chatbot Mega Groundon/src/utils/struct/ArvoreBinaria')
+const CardapioMenu = require('./src/Chatbot Mega Groundon/src/models/Regras de Negocio/Cardapio/Menu_Cardapio')
+const DataBaseController = require('./src/Chatbot Mega Groundon/src/models/Regras de Negocio/Cardapio/DataBaseController')
 
 
 const cliente = new Cliente()
 const cardapio = new CardapioMenu();
 const dataController = new DataBaseController();
 //const pedido = new Pedido()
+
+
+
 
 class Chatbot {
   constructor() {
@@ -28,7 +31,7 @@ class Chatbot {
   }
 
   start() {
-    console.log('Bem-vindo ao Chatbot Groundon!');
+    console.log('\n>>> Bem-vindo ao Chatbot Groundon!');
 
     this.rl.question('Digite seu nome: ', (name) => {
 
@@ -117,22 +120,33 @@ class Chatbot {
     console.log(categoriasText)
 
 
+      //!=====================  Estagio 4 - Cliente Escolhe os Produtos da Loja =====================
     this.rl.question('\nEscolha uma opção: ', (choice) => {
       switch (choice) {
         case '1':
 
+        // Cria a árvore de produtos
         cardapio.criarArvore('Sanduíches Tradicionais', dataController.sanduicheTradicionalFile)
         .then((sanduiche_menu) => {
-          let sanduiche_text = cardapio.mostrarProdutoCardapio(sanduiche_menu[0]);
-          console.log('\nDebug:', sanduiche_text);
+          let cardapio_text = `🍔 *Cardápio de Sanduíches Tradicionais* 🍔\n\n`;
+          sanduiche_menu.forEach((produto, index) => {
+            cardapio_text += cardapio.mostrarProdutoCardapio(produto, index);
+          });
+          cardapio_text += `📝 Para escolher seu item, envie o número ou o nome\n`;
+          cardapio_text += '🚫 Para cancelar, envie *cancelar*.\n';
+          console.log('\nDebug:', cardapio_text);
         })
         .catch((error) => {
           console.log(error);
         });
 
+        console.log(`\n\nVoce escolheu o ${choice}`)
+          
           this.currentStage = 3;
+
+          this.processNextStage();
           break;
-  
+        
         default:
           console.log('Opção inválida. Tente novamente.');
       }
@@ -143,10 +157,23 @@ class Chatbot {
   }
 
 
-  //!=====================  Estagio 4 - Cliente Escolhe os Produtos da Loja =====================
-  stage3(){
-    console.log(' Escolha dos Produtos')
-  }
+    //!=====================  Estagio 5 - Pega o pedido e adiciona no carrinho =====================
+    stage3(){
+    this.rl.question('\n\nEscolha um produto: ', (choice) => {
+      const produtoEscolhido = produtos_cardapio.find((produto) => produto.nome.toLowerCase() === choice.toLowerCase());
+
+      if (produtoEscolhido) {
+        pedido.adicionarProduto(produtoEscolhido);
+        console.log(`Produto ${produtoEscolhido} adicionado ao carrinho!`);
+      } else {
+        console.log('Produto não encontrado.');
+      }
+      });
+    
+      console.log('Carrinho:', pedido.carrinho);
+      console.log('Total:', pedido.carrinho.calcularTotal());
+    
+    }
 }
 
 function main_chatbot(){

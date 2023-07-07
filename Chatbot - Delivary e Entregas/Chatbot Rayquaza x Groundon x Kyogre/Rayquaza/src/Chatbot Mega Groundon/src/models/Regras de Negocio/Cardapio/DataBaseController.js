@@ -1,133 +1,116 @@
 const fs = require('fs');
+const Produto = require('./Lanches/Produto');
 
-class Comida {
-  constructor(nome, price, ingredients, tipo) {
-    this.nome = nome;
-    this.price = price;
-    this.ingredients = ingredients;
-    this.tipo = tipo; // Adicionando a propriedade tipo
-  }
-}
 
-class BinaryTree {
-  constructor() {
-    this.root = null;
-  }
 
-  add(comida) {
-    const node = {
-      value: comida,
-      left: null,
-      right: null
-    };
-
-    if (this.root === null) {
-      this.root = node;
-    } else {
-      this.addNode(this.root, node);
-    }
-  }
-
-  addNode(currentNode, newNode) {
-    if (newNode.value.nome < currentNode.value.nome) {
-      if (currentNode.left === null) {
-        currentNode.left = newNode;
-      } else {
-        this.addNode(currentNode.left, newNode);
-      }
-    } else {
-      if (currentNode.right === null) {
-        currentNode.right = newNode;
-      } else {
-        this.addNode(currentNode.right, newNode);
-      }
-    }
-  }
-
-  inorderTraversalByType(tipo, node = this.root) {
-    if (node !== null) {
-      if (node.value.tipo === tipo) {
-        console.log(node.value);
-      }
-      this.inorderTraversalByType(tipo, node.left);
-      this.inorderTraversalByType(tipo, node.right);
-    }
-  }
-}
 
 class DataBaseController {
-  static criarSanduichesNaturaisFromJSON(json) {
-    const sanduichesNaturais = JSON.parse(json);
-    const listaSanduichesNaturais = [];
+  constructor() {
+    this.sanduicheTradicionalFile = '/workspaces/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/repository/cardapio_1.json';
+    this.acaiFile = '/workspaces/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/repository/cardapio_2.json';
+    this.petiscosFile = '/workspaces/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/repository/cardapio_3.json'
+  }
 
-    for (const sanduicheNatural of sanduichesNaturais) {
-      const { "Sanduíche Natural": nome, "Preço.3": price, "Preco 2": ingredients } = sanduicheNatural;
-      const sanduicheNaturalObj = new Comida(nome, price, ingredients, 'natural');
-      listaSanduichesNaturais.push(sanduicheNaturalObj);
+  //!Comidas
+  async get_SanduichesTradicionais(productFile, tipo_produto, callback) {
+    try {
+      //Busca o arquivo JSON e converte para objeto
+      const data = fs.readFileSync(productFile, 'utf8');
+      const listaProdutos = JSON.parse(data);
+
+
+      //Cria um array de produtos
+      const produtos = listaProdutos.map((produtoJson) => {
+
+        //Desestrutura o objeto e cria um novo produto
+        const { [tipo_produto]: nome, 'Igredientes': ingredientes, 'Preço.4': preco } = produtoJson;
+
+        //Cria um novo produto
+        const produto = new Produto(nome, tipo_produto, ingredientes);
+        produto.preco = preco;
+        return produto;
+      });
+
+      callback(produtos);
+    } catch (error) {
+      console.error('Erro ao ler o arquivo JSON:', error);
+      return null;
     }
-
-    return listaSanduichesNaturais;
   }
 
-  static lerSanduichesNaturaisJSON(sanduicheTree, callback) {
-    fs.readFile('./cardapio_2.json', 'utf8', (err, data) => {
-      if (err) {
-        console.error('Erro ao ler o arquivo:', err);
-        return;
-      }
+  get_acai(productFile, tipo_produto, callback) {
+    try {
+      // Busca o arquivo JSON e converte para objeto
+      const data = fs.readFileSync(productFile, 'utf8');
+      const listaProdutos = JSON.parse(data);
 
-      const sanduichesNaturais = DataBaseController.criarSanduichesNaturaisFromJSON(data);
-      for (const sanduiche of sanduichesNaturais) {
-        sanduicheTree.add(sanduiche);
-      }
-      callback(sanduichesNaturais);
-    });
-  }
+      const produtos = listaProdutos.map((produtoJson) => {
+        // Desestrutura o objeto e cria um novo produto
+        const { [tipo_produto]: nome, '300ml': preco300ml, '500ml': preco500ml } = produtoJson;
 
-  static criarComidasFromJSON(json) {
-    const comidas = JSON.parse(json);
-    const listaComidas = [];
+        // Cria um novo produto
+        const produto = new Produto(nome, tipo_produto);
 
-    for (const comida of comidas) {
-      const { "Sanduíches Tradicionais": nome, "Preço.4": price, "Ingredientes": ingredients } = comida;
-      const comidaObj = new Comida(nome, price, ingredients, 'tradicional');
-      listaComidas.push(comidaObj);
+        // Verifica se há tamanho e adiciona ao produto
+        if (preco300ml) {
+          produto.adicionarTamanho('300ml', preco300ml);
+        }
+        if (preco500ml) {
+          produto.adicionarTamanho('500ml', preco500ml);
+        }
+
+        return produto;
+
+      });
+
+      callback(produtos);
+    } catch (error) {
+      console.error('Erro ao ler o arquivo JSON:', error);
+      return null;
     }
-
-    return listaComidas;
   }
 
-  static lerComidasJSON(comidaTree, callback) {
-    fs.readFile('src/Chatbot Mega Groundon/repository/cardapio_1.json', 'utf8', (err, data) => {
-      if (err) {
-        console.error('Erro ao ler o arquivo:', err);
-        return;
-      }
 
-      const comidas = DataBaseController.criarComidasFromJSON(data);
-      for (const comida of comidas) {
-        comidaTree.add(comida);
-      }
-      callback(comidas);
-    });
+  get_petisco(productFile, tipo_produto, callback) {
+    try {
+      // Busca o arquivo JSON e converte para objeto
+      const data = fs.readFileSync(productFile, 'utf8');
+      const listaProdutos = JSON.parse(data);
+
+      const produtos = listaProdutos.map((produtoJson) => {
+        // Desestrutura o objeto e cria um novo produto
+        const { [tipo_produto]: nome, 'Meia': preco_meia, 'Inteira': preco_inteira } = produtoJson;
+
+        // Cria um novo produto
+        const produto = new Produto(nome, tipo_produto);
+
+        // Verifica se há tamanho e adiciona ao produto
+        if (preco_meia) {
+          produto.adicionarTamanho('Meia', preco_meia);
+        }
+        if (preco_inteira) {
+          produto.adicionarTamanho('Inteira', preco_inteira);
+        }
+
+        return produto;
+      });
+
+      callback(produtos);
+    } catch (error) {
+      console.error('Erro ao ler o arquivo JSON:', error);
+      return null;
+    }
   }
+
+
+  //!Bebidas
+
+  //!Sobremesas
+
+  //!Pizzas
+
+  //!Hambugueres
+
 }
 
-const comidaTree = new BinaryTree();
-const sanduicheTree = new BinaryTree();
-
-// Ler o arquivo JSON de Comidas
-DataBaseController.lerComidasJSON(comidaTree, (comidas) => {
-  console.log('Árvore de Comidas Tradicionais:');
-  comidaTree.inorderTraversalByType('tradicional');
-
-  // Ler o arquivo JSON de Sanduíches Naturais
-  DataBaseController.lerSanduichesNaturaisJSON(sanduicheTree, (sanduichesNaturais) => {
-    console.log('\n\nÁrvore de Sanduíches Naturais:');
-    sanduicheTree.inorderTraversalByType('natural');
-  });
-});
-
-module.exports = BinaryTree;
 module.exports = DataBaseController;
-module.exports = Comida;
