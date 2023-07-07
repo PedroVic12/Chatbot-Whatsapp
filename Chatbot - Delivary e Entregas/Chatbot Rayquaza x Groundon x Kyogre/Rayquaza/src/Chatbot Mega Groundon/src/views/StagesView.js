@@ -5,8 +5,9 @@ const Groundon = require('../models/Groundon');
 const GroundonView = require('./GroundonView');
 
 //TODO
-const CardapioMenu = require('./Menu_Cardapio');
-const DataBaseController = require('./DataBaseController');
+//const CardapioMenu = require('./Menu_Cardapio');
+const DataBaseController = require('../models/Regras de Negocio/Cardapio/DataBaseController');
+const BinaryTree = require('../models/Regras de Negocio/Cardapio/ArvoreBinaria')
 
 const Cliente = require('../models/Regras de Negocio/Cliente/Cliente')
 const CarrinhoPedido = require("../models/Regras de Negocio/Pedido/Carrinho");
@@ -30,12 +31,12 @@ class StagesView extends GroundonView {
         this.estagio3 = new Estagio3()
 
         this.Widgets = new Widgets()
-        this.Menu = new Menu.CardapioMenu()
+        //this.Menu = new Menu.CardapioMenu()
 
         this.carrinho = new CarrinhoPedido()
 
-        this.comidaTree = new BinaryTree();
-        this.sanduicheTree = new BinaryTree();
+        //this.comidaTree = new BinaryTree();
+        //this.sanduicheTree = new BinaryTree();
 
         //TODO desculpa nao entendi, voce quis dizer? ['opção1, opção2, 'opção3']
 
@@ -191,6 +192,11 @@ class StagesView extends GroundonView {
 
                 //!=====================  Estagio 5 - Pega o pedido e adiciona no carrinho =====================
                 else if (numero_estagio === 5) {
+
+
+                    //TODO -> Buscar o numero ou nome correspondente da lista de produtos escolhidos
+
+
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
                     if (message.body === '1') {
                         const produto = {
