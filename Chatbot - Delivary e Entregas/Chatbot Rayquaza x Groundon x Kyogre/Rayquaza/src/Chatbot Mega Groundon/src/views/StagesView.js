@@ -163,8 +163,10 @@ class StagesView extends GroundonView {
                     const categoria_escolhida = this.getLastMessage(message)
                     this.enviarMensagem(message, `Voce selecionou a categoria ${categoria_escolhida}`)
 
+
+                    // TODO fix BUG here
                     const menu_cardapio = this.Menu.mostrarComidasLista()
-                    //const menu_bebidas = this.Menu.mostrarBebidasLista()
+                    const menu_bebidas = this.Menu.mostrarBebidasLista()
 
                     if (categoria_escolhida === '1') {
 
@@ -173,7 +175,7 @@ class StagesView extends GroundonView {
 
                     if (categoria_escolhida === '2') {
 
-                        // this.enviarMensagem(message, menu_bebidas)
+                        this.enviarMensagem(message, menu_bebidas)
                     }
 
                     //!Buscando os produtos da loja
