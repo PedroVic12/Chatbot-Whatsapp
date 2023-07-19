@@ -12,6 +12,7 @@ const BinaryTree = require('../models/Regras de Negocio/Cardapio/ArvoreBinaria')
 const Cliente = require('../models/Regras de Negocio/Cliente/Cliente')
 const CarrinhoPedido = require("../models/Regras de Negocio/Pedido/Carrinho");
 const Pedido = require('../models/Regras de Negocio/Pedido/Pedido')
+const CardapioMenu = require('../models/Regras de Negocio/Cardapio/Menu_Cardapio');
 
 const Widgets = require('../models/widgets/Widgets')
 const Menu = require('../models/widgets/Menu/Menu')
@@ -22,6 +23,7 @@ const Estagio3 = require('./Stages/Estagio3');
 
 const cliente = new Cliente()
 const pedido = new Pedido()
+const cardapio = new CardapioMenu()
 
 class StagesView extends GroundonView {
     constructor(whatsapp, groundonController, backendController) {
@@ -130,7 +132,7 @@ class StagesView extends GroundonView {
                         const menu_categorias = this.Widgets.menuCategorias
 
                         //Menu Principal
-                        let menu_categoriasText = this.Widgets.getMenuText('Menu Categorias', menu_categorias);
+                        let menu_categoriasText = this.Widgets.getMenuText('Menu Categorias de Lanches', menu_categorias);
                         this.enviarMensagem(message, menu_categoriasText)
 
                         this.delay(3000).then(
@@ -165,12 +167,38 @@ class StagesView extends GroundonView {
 
 
                     // TODO fix BUG here
-                    const menu_cardapio = this.Menu.mostrarComidasLista()
-                    const menu_bebidas = this.Menu.mostrarBebidasLista()
+                    //const menu_cardapio = this.Menu.mostrarComidasLista()
+                    //const menu_bebidas = this.Menu.mostrarBebidasLista()
 
                     if (categoria_escolhida === '1') {
 
-                        this.enviarMensagem(message, menu_cardapio)
+
+                        function mostrarSanduiches() {
+                            const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(parseInt(choice));
+                            console.log(`\nVocê escolheu: ${tipo_produto}`);
+
+                            //Cria a arvore de Sanduiches
+                            cardapio
+                                .criarArvore(tipo_produto, arquivo_produto)
+                                .then((sanduiche_menu) => {
+                                    let cardapio_text = `🍔 *Cardápio de Sanduíches Tradicionais* 🍔\n\n`;
+                                    sanduiche_menu.forEach((produto, index) => {
+                                        cardapio_text += cardapio.mostrarProdutoCardapio(produto, index);
+                                    });
+                                    cardapio_text += `📝 Para escolher seu item, envie o número ou o nome\n`;
+                                    cardapio_text += '🚫 Para cancelar, envie *cancelar*.\n';
+                                    console.log('\nDebug:', cardapio_text);
+                                    this.currentStage = 3; // Atualiza o estágio para 3
+                                    this.processNextStage();
+                                })
+                                .catch((error) => {
+                                    console.log(error);
+                                });
+
+                            this.enviarMensagem(message, menu_cardapio)
+                        }
+
+
                     }
 
                     if (categoria_escolhida === '2') {
