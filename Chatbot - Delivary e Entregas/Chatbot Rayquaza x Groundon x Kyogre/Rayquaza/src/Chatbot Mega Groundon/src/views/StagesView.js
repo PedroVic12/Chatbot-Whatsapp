@@ -157,21 +157,31 @@ class StagesView extends GroundonView {
                 //!=====================  Estagio 4 - Cliente Escolhe os Produtos da Loja =====================
                 else if (numero_estagio === 4) {
 
-                    //!aqui o cliente escolhe que tipo de produto ele deseja
-
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
                     //TODO melhorar experiencia com o usuario
                     const categoria_escolhida = this.getLastMessage(message)
-                    this.enviarMensagem(message, `Voce selecionou a categoria ${categoria_escolhida}`)
-
+                    categoria_escolhida = parseInt(categoria_escolhida)
+                    this.enviarMensagem(message, `Voce selecionou a categoria de numero =  ${categoria_escolhida}`)
+                    const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(categoria_escolhida);
+                    this.enviarMensagem(message, `UPDATE! Voce selecionou a categoria ${tipo_produto}`)
+                    console.log(arquivo_produto)
 
                     // TODO fix BUG here
                     //const menu_cardapio = this.Menu.mostrarComidasLista()
                     //const menu_bebidas = this.Menu.mostrarBebidasLista()
 
+
+
                     if (categoria_escolhida === '1') {
 
+                        try {
+                            let produtos = cardapio.getTipoProduto()
+                            console.log(produtos)
+                        } catch (error) {
+                            console.log('Erro ao tentar ver os produtos')
+                        }
+                        
 
                         function mostrarSanduiches() {
                             const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(parseInt(choice));

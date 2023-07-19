@@ -27,9 +27,11 @@ class CardapioMenu {
 
   getArquivoProduto(tipo_produto) {
     switch (tipo_produto) {
+
+      //! Adicione outros casos para cada arquivo correspondente a cada tipo de produto
+
       case 'Sanduíches Tradicionais':
         return this.dataController.sanduicheTradicionalFile;
-      // Adicione outros casos para cada arquivo correspondente a cada tipo de produto
 
       case 'Açaí e Pitaya':
         return this.dataController.acaiFile;
@@ -103,13 +105,16 @@ module.exports = CardapioMenu;
 
 function main_cardapio() {
   const cardapio = new CardapioMenu();
-  const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(2);
 
-  
+
+
+  const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(2);
+  console.log(tipo_produto)
+
   let produtoEscolhido = cardapio.criarArvore(tipo_produto, arquivo_produto)
   .then((produtoEscolhido) => {
     console.log(produtoEscolhido);
   })
 }
 
-//main_cardapio();
+main_cardapio();
