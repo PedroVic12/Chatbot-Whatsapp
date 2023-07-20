@@ -27,9 +27,9 @@ class Widgets {
       { button: { text: '* Pratos Tradicionais ', hide: true }, type: 'message' },
       { button: { text: '* Pratos a la carte', hide: true }, type: 'message' },
       { button: { text: '* Petiscos', hide: true }, type: 'message' },
-      { button: { text: '* Pizzas', hide: true }, type: 'message' },
+      { button: { text: '* Pizzas', hide: true }, type: 'message' }
+    ];
 
-    ]
     // Menu de Opções de Pagamento
     this.menuPagamento = [
       { button: { text: '💳 Cartão', hide: true }, type: 'message' },
@@ -51,11 +51,28 @@ class Widgets {
     ];
   }
 
+  getSelectedOption(menu, input) {
+    const selectedOptionByNumber = menu[Number(input) - 1];
+    if (selectedOptionByNumber) {
+      return selectedOptionByNumber;
+    }
+
+    const selectedOptionByText = menu.find(item =>
+      item.button.text.toLowerCase().includes(input.toLowerCase())
+    );
+    if (selectedOptionByText) {
+      return selectedOptionByText;
+    }
+
+    return null;
+  }
+
+
   getMenuTextWithDescriptions(title, menu) {
     let menuText = `🔸 ${title} 🔸\n\n`;
     menu.forEach((item, index) => {
       menuText += `${index + 1}. ${item.button.text}\n`;
-      menuText += `   Descrição: ${item.description}\n`; // Adicione a descrição do item
+      menuText += `   Descrição: ${item.description}\n`;
     });
 
     menuText += `\n📝 Digite o *Número* para escolher o item desejado.\n\n`;
@@ -67,7 +84,6 @@ class Widgets {
     let menuText = `🔸 ${title} 🔸\n\n`;
     menu.forEach((item, index) => {
       menuText += `${index + 1}. ${item.button.text}\n`;
-
     });
 
     menuText += `\n📝 Digite o *Número* para escolher o item desejado.\n\n`;
@@ -96,8 +112,8 @@ class Widgets {
   formatMenuWithFormatting(title, menu) {
     let formattedMenu = `🔸 ${title} 🔸\n\n`;
     menu.forEach((item, index) => {
-      formattedMenu += `⭐️ ${index + 1}. *${item.button.text}*\n`; // Adicionamos negrito e um emoji de estrela
-      formattedMenu += `   - Preço: ${item.price}\n`; // Adicionamos informações adicionais
+      formattedMenu += `⭐️ ${index + 1}. *${item.button.text}*\n`;
+      formattedMenu += `   - Preço: ${item.price}\n`;
     });
 
     return formattedMenu;
@@ -106,16 +122,24 @@ class Widgets {
 
 module.exports = Widgets;
 
-function main() {
+function main_widgets() {
   const widgets = new Widgets();
 
-  // Exemplo de uso dos menus personalizados
   const menuPrincipal = widgets.menuPrincipal;
-
-  console.log(menuPrincipal);
-
-  // Exemplo de como enviar o menu principal como uma mensagem
   const menuPrincipalText = widgets.getMenuText('Menu Principal', menuPrincipal);
   console.log(menuPrincipalText);
+
+  // Exemplo de uso da função getSelectedOption
+  const userInput = 'pedido'; // Opção selecionada pelo usuário (número ou texto)
+
+  const selectedOption = widgets.getSelectedOption(menuPrincipal, userInput);
+  if (selectedOption) {
+    console.log('Opção selecionada:', selectedOption.button.text.slice(3));
+    // Faça o que for necessário para a opção selecionada
+  } else {
+    console.log('Opção inválida');
+    // Trate a opção inválida conforme necessário
+  }
 }
-//main();
+
+//main_widgets();

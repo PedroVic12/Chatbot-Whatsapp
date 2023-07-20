@@ -46,6 +46,7 @@ class StagesView extends GroundonView {
     }
 
     async start_chat_Groundon() {
+        const menu_principal = this.Widgets.menuPrincipal
 
         return new Promise((resolve, reject) => {
             this.whatsapp.onMessage(async (message) => {
@@ -74,6 +75,7 @@ class StagesView extends GroundonView {
                 }
 
                 else if (numero_estagio === 2) {
+
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
                     console.log('\nEstágio 2:', message.body);
 
@@ -99,7 +101,6 @@ class StagesView extends GroundonView {
 
                     // Mostra o menu principal
                     try {
-                        let menu_principal = this.Widgets.menuPrincipal
                         let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
                         this.enviarMensagem(message, menu_principal_text)
                     } catch (error) {
@@ -120,39 +121,44 @@ class StagesView extends GroundonView {
                 else if (numero_estagio === 3) {
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
-                    try {
-                        const itemSelecionado = (choice) => {
-                            const choiceFormatted = choice.toUpperCase(); // Converter para letras maiúsculas
-                            const tipo_produto = cardapio.getTipoProduto(choiceFormatted);
-                            if (tipo_produto) {
-                                this.enviarMensagem(message, `Você escolheu a opção ${choiceFormatted}. Tipo de produto: ${tipo_produto}`);
-                            } else {
-                                this.enviarMensagem(message, `Opção inválida. Tente novamente.`);
-                            }
-                        };
-                    } catch (error) {
-                        console.log('\n\nDEBUG =', error)
-                    }
+                    const choice_escolhida = this.getLastMessage(message);
+
+                    const selectedOption = this.Widgets.getSelectedOption(menu_principal, choice_escolhida);
 
 
-                    if (message.body === '1' || message.body.toUpperCase() === 'CARDAPIO') {
-                        this.enviarMensagem(message, 'Vou mostrar o cardápio em PDF!');
-                    }
-                    if (message.body === '2' || message.body.toUpperCase() === 'FAZER PEDIDO') {
-                        const menu_categorias = this.Widgets.menuCategorias;
-                        let menu_categoriasText = this.Widgets.getMenuText('Menu Categorias de Lanches', menu_categorias);
-                        this.enviarMensagem(message, menu_categoriasText);
-                        this.delay(3000).then(
-                            this.enviarMensagem(message, 'processando...').then(
-                                this.pushStage(4)
-                            )
-                        );
-                    }
-                    if (message.body === '3' && message.type !== 'location') {
-                        estagio3.mostrarLocal(message);
-                        this.delay(3000).then(
-                            this.enviarMensagem(message, menu_principal)
-                        );
+
+                    if (selectedOption) {
+
+
+                        this.enviarMensagem(message, `Voce escolheu a opção *${selectedOption.button.text.slice(3)}*`)
+
+                        //Cardapio
+                        if (selectedOption.button.text.toUpperCase() === 'CARDAPIO') {
+                            this.enviarMensagem(message, 'Vou mostrar o cardápio em PDF!');
+                        }
+
+                        // Menu de Categorias
+                        else if (
+                            selectedOption.button.text.toUpperCase() === 'FAZER PEDIDO' ||
+                            selectedOption.button.text.toLowerCase().includes('pedido')
+                        ) {
+                            const menuCategorias = this.Widgets.menuCategorias;
+                            const menuCategoriasText = this.Widgets.getMenuText('Menu Categorias de Lanches', menuCategorias);
+                            this.enviarMensagem(message, menuCategoriasText);
+                            this.delay(3000).then(() => {
+                                this.enviarMensagem(message, 'processando...').then(() => {
+                                    this.pushStage(4);
+                                });
+                            });
+                        }
+
+                        // Localização
+                        else if (selectedOption.button.text.toUpperCase() === 'LOCALIZAÇÃO') {
+                            estagio3.mostrarLocal(message);
+                            this.delay(3000).then(() => {
+                                this.enviarMensagem(message, menu_principal);
+                            });
+                        }
                     }
                 }
 
@@ -165,17 +171,9 @@ class StagesView extends GroundonView {
 
                     const categoria_escolhida = this.getLastMessage(message);
 
-                    const itemSelecionado = (choice) => {
-                        const choiceNumber = parseInt(choice); // Converter a string para número
-                        const tipo_produto = cardapio.getTipoProduto(choiceNumber);
-                        this.enviarMensagem(message, `Você escolheu a opção ${choice}. Tipo de produto: ${tipo_produto}`);
-                    }
+                    //TODO -> Buscar o numero ou nome correspondente da lista de produtos escolhidos
 
                     if (categoria_escolhida === '1') {
-                        const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(parseInt(categoria_escolhida));
-                        console.log(`Você escolheu: ${tipo_produto}`);
-
-
 
                         cardapio.criarArvore(tipo_produto, arquivo_produto)
                             .then((sanduiche_menu) => {
@@ -207,7 +205,20 @@ class StagesView extends GroundonView {
 
 
                     //TODO -> Buscar o numero ou nome correspondente da lista de produtos escolhidos
+                    const choice_escolhida = this.getLastMessage(message);
 
+                    try {
+                        const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(choice_escolhida);
+                        console.log(tipo_produto)
+                        if (tipo_produto) {
+                            this.enviarMensagem(message, `Você escolheu a opção ${choice_escolhida}. Tipo de produto: ${tipo_produto}`);
+                        } else {
+                            this.enviarMensagem(message, `Opção inválida. Tente novamente.`);
+                        }
+
+                    } catch (error) {
+                        console.log('\n\nDEBUG =', error)
+                    }
 
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
                     if (message.body === '1') {

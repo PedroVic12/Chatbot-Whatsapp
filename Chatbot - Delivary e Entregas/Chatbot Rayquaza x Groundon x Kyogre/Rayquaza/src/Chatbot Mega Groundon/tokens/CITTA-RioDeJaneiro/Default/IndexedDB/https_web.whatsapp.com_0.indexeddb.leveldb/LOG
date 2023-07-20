@@ -1,14 +1,14 @@
-2023/07/20-11:28:02.376 a474 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/07/20-11:28:02.377 a474 Recovering log #103
-2023/07/20-11:28:02.437 a474 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000103.log 
-2023/07/20-11:28:17.179 a476 Level-0 table #109: started
-2023/07/20-11:28:17.251 a476 Level-0 table #109: 1192299 bytes OK
-2023/07/20-11:28:17.255 a476 Delete type=0 #103
-2023/07/20-11:28:17.396 a476 Compacting 1@1 + 2@2 files
-2023/07/20-11:28:17.489 a476 Generated table #110@1: 46120 keys, 2250064 bytes
-2023/07/20-11:28:17.503 a476 Generated table #111@1: 12348 keys, 232583 bytes
-2023/07/20-11:28:17.503 a476 Compacted 1@1 + 2@2 files => 2482647 bytes
-2023/07/20-11:28:17.504 a476 compacted to: files[ 0 0 2 0 0 0 0 ]
-2023/07/20-11:28:17.505 a476 Delete type=2 #109
-2023/07/20-11:28:17.505 a476 Delete type=2 #105
-2023/07/20-11:28:17.505 a476 Delete type=2 #106
+2023/07/20-13:00:43.074 12cac Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/07/20-13:00:43.074 12cac Recovering log #128
+2023/07/20-13:00:43.111 12cac Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000128.log 
+2023/07/20-13:01:09.312 12c98 Level-0 table #134: started
+2023/07/20-13:01:09.387 12c98 Level-0 table #134: 1237149 bytes OK
+2023/07/20-13:01:09.390 12c98 Delete type=0 #128
+2023/07/20-13:01:09.595 12c98 Compacting 1@1 + 2@2 files
+2023/07/20-13:01:09.662 12c98 Generated table #135@1: 49436 keys, 2274444 bytes
+2023/07/20-13:01:09.706 12c98 Generated table #136@1: 34402 keys, 981252 bytes
+2023/07/20-13:01:09.706 12c98 Compacted 1@1 + 2@2 files => 3255696 bytes
+2023/07/20-13:01:09.708 12c98 compacted to: files[ 0 0 2 0 0 0 0 ]
+2023/07/20-13:01:09.708 12c98 Delete type=2 #130
+2023/07/20-13:01:09.708 12c98 Delete type=2 #131
+2023/07/20-13:01:09.708 12c98 Delete type=2 #134
