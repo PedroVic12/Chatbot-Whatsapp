@@ -47,6 +47,7 @@ class StagesView extends GroundonView {
 
     async start_chat_Groundon() {
         const menu_principal = this.Widgets.menuPrincipal
+        const menuCategorias = this.Widgets.menuCategorias;
 
         return new Promise((resolve, reject) => {
             this.whatsapp.onMessage(async (message) => {
@@ -120,12 +121,13 @@ class StagesView extends GroundonView {
 
                 else if (numero_estagio === 3) {
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
+                    console.log(`\nEstágio ${numero_estagio}:`, message.body);
 
+
+                    //TODO FUNCAO PARA O GROUNDON
                     const choice_escolhida = this.getLastMessage(message);
 
                     const selectedOption = this.Widgets.getSelectedOption(menu_principal, choice_escolhida);
-
-
 
                     if (selectedOption) {
 
@@ -142,7 +144,6 @@ class StagesView extends GroundonView {
                             selectedOption.button.text.toUpperCase() === 'FAZER PEDIDO' ||
                             selectedOption.button.text.toLowerCase().includes('pedido')
                         ) {
-                            const menuCategorias = this.Widgets.menuCategorias;
                             const menuCategoriasText = this.Widgets.getMenuText('Menu Categorias de Lanches', menuCategorias);
                             this.enviarMensagem(message, menuCategoriasText);
                             this.delay(3000).then(() => {
@@ -165,31 +166,29 @@ class StagesView extends GroundonView {
 
 
 
-                //!=====================  Estagio 4 - Cliente Escolhe os Produtos da Loja =====================
+                //!=====================  Estagio 4 - Cliente Escolhe os Produtos da Categoria escolhida da Loja =====================
                 else if (numero_estagio === 4) {
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
+                    console.log(`\nEstágio ${numero_estagio}:`, message.body);
 
+
+                    //TODO FUNCAO PARA O GROUNDON
                     const categoria_escolhida = this.getLastMessage(message);
+
 
                     //TODO -> Buscar o numero ou nome correspondente da lista de produtos escolhidos
 
                     if (categoria_escolhida === '1') {
+                        const selectedOption2 = this.Widgets.getSelectedOption(menuCategorias, categoria_escolhida);
 
-                        cardapio.criarArvore(tipo_produto, arquivo_produto)
-                            .then((sanduiche_menu) => {
-                                let cardapio_text = `🍔 *Cardápio de Sanduíches Tradicionais* 🍔\n\n`;
-                                sanduiche_menu.forEach((produto, index) => {
-                                    cardapio_text += cardapio.mostrarProdutoCardapio(produto, index);
-                                });
-                                cardapio_text += `📝 Para escolher seu item, envie o número ou o nome\n`;
-                                cardapio_text += '🚫 Para cancelar, envie *cancelar*.\n';
-                                console.log('\nDebug:', cardapio_text);
-                                this.currentStage = 3; // Atualiza o estágio para 3
-                                this.processNextStage();
-                            })
-                            .catch((error) => {
-                                console.log(error);
-                            });
+                        console.log(selectedOption2)
+
+                        if (selectedOption2) {
+                            this.enviarMensagem(message, `Voce escolheu a opção *${selectedOption2.button.text.slice(3)}*`)
+                        }
+
+
+
                     }
 
                     if (categoria_escolhida === '2') {
@@ -202,10 +201,13 @@ class StagesView extends GroundonView {
 
                 //!=====================  Estagio 5 - Pega o pedido e adiciona no carrinho =====================
                 else if (numero_estagio === 5) {
+                    this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
+                    console.log(`\nEstágio ${numero_estagio}:`, message.body);
 
 
                     //TODO -> Buscar o numero ou nome correspondente da lista de produtos escolhidos
                     const choice_escolhida = this.getLastMessage(message);
+
 
                     try {
                         const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(choice_escolhida);
@@ -218,6 +220,27 @@ class StagesView extends GroundonView {
 
                     } catch (error) {
                         console.log('\n\nDEBUG =', error)
+                    }
+
+
+                    try {
+                        cardapio.criarArvore(tipo_produto, arquivo_produto)
+                            .then((sanduiche_menu) => {
+                                let cardapio_text = `🍔 *Cardápio de Sanduíches Tradicionais* 🍔\n\n`;
+                                sanduiche_menu.forEach((produto, index) => {
+                                    cardapio_text += cardapio.mostrarProdutoCardapio(produto, index);
+                                });
+                                cardapio_text += `📝 Para escolher seu item, envie o número ou o nome\n`;
+                                cardapio_text += '🚫 Para cancelar, envie *cancelar*.\n';
+                                console.log('\nDebug:', cardapio_text);
+
+
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                            });
+                    } catch (error) {
+
                     }
 
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);

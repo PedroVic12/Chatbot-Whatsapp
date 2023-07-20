@@ -125,14 +125,21 @@ module.exports = Widgets;
 function main_widgets() {
   const widgets = new Widgets();
 
+  //! Menu principal
   const menuPrincipal = widgets.menuPrincipal;
   const menuPrincipalText = widgets.getMenuText('Menu Principal', menuPrincipal);
-  console.log(menuPrincipalText);
+  //console.log(menuPrincipalText);
 
-  // Exemplo de uso da função getSelectedOption
-  const userInput = 'pedido'; // Opção selecionada pelo usuário (número ou texto)
 
-  const selectedOption = widgets.getSelectedOption(menuPrincipal, userInput);
+  //! Menu de categorias
+  const menuCategorias = widgets.menuCategorias;
+  const categoriasText = widgets.getMenuText('Categorias de Lanches', menuCategorias);
+  console.log(categoriasText);
+
+  //! Exemplo de uso da função getSelectedOption
+  const userInput = '2'; // Opção selecionada pelo usuário (número ou texto)
+
+  const selectedOption = widgets.getSelectedOption(menuCategorias, userInput);
   if (selectedOption) {
     console.log('Opção selecionada:', selectedOption.button.text.slice(3));
     // Faça o que for necessário para a opção selecionada
@@ -142,4 +149,4 @@ function main_widgets() {
   }
 }
 
-//main_widgets();
+main_widgets();
