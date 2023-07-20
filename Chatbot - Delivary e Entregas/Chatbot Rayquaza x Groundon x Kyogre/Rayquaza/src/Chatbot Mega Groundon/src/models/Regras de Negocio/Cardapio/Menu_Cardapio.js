@@ -11,13 +11,13 @@ class CardapioMenu {
   // Getters
   getTipoProduto(currentStage) {
     switch (currentStage) {
-      case 1:
+      case '1':
         return 'Sanduíches Tradicionais';
 
-      case 2:
+      case '2':
         return 'Açaí e Pitaya';
 
-      case 3:
+      case '3':
         return 'Petiscos';
 
       default:
@@ -35,7 +35,7 @@ class CardapioMenu {
 
       case 'Açaí e Pitaya':
         return this.dataController.acaiFile;
-        
+
       case 'Petiscos':
         return this.dataController.petiscoFile;
 
@@ -109,14 +109,15 @@ function main_cardapio() {
   const cardapio = new CardapioMenu();
 
 
+  const ESCOLHA_CLIENTE = "1"
 
-  const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(2);
+  const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(ESCOLHA_CLIENTE);
   console.log(tipo_produto)
 
   let produtoEscolhido = cardapio.criarArvore(tipo_produto, arquivo_produto)
-  .then((produtoEscolhido) => {
-    console.log(produtoEscolhido);
-  })
+    .then((produtoEscolhido) => {
+      console.log(produtoEscolhido);
+    })
 }
 
 main_cardapio();

@@ -93,7 +93,7 @@ class StagesView extends GroundonView {
 
                     //TODO se cliente existir, pegar dados do cliente
 
-                    this.delay(3000).then(
+                    this.delay(1000).then(
                         this.enviarMensagem(message, `✅ Prazer em te conhecer, ${cliente.nome}!`)
                     )
 
@@ -120,111 +120,83 @@ class StagesView extends GroundonView {
                 else if (numero_estagio === 3) {
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
-
-                    if (message.body === '1' && message.type !== 'location') {
-                        this.enviarMensagem(message, 'Vou mostrar o cardapio em PDF!')
-
-                        let menu_principal = this.Widgets.menuPrincipal
-                        let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
-                        this.enviarMensagem(message, menu_principal_text)
+                    try {
+                        const itemSelecionado = (choice) => {
+                            const choiceFormatted = choice.toUpperCase(); // Converter para letras maiúsculas
+                            const tipo_produto = cardapio.getTipoProduto(choiceFormatted);
+                            if (tipo_produto) {
+                                this.enviarMensagem(message, `Você escolheu a opção ${choiceFormatted}. Tipo de produto: ${tipo_produto}`);
+                            } else {
+                                this.enviarMensagem(message, `Opção inválida. Tente novamente.`);
+                            }
+                        };
+                    } catch (error) {
+                        console.log('\n\nDEBUG =', error)
                     }
-                    if (message.body === '2') {
-                        const menu_categorias = this.Widgets.menuCategorias
 
-                        //Menu Principal
+
+                    if (message.body === '1' || message.body.toUpperCase() === 'CARDAPIO') {
+                        this.enviarMensagem(message, 'Vou mostrar o cardápio em PDF!');
+                    }
+                    if (message.body === '2' || message.body.toUpperCase() === 'FAZER PEDIDO') {
+                        const menu_categorias = this.Widgets.menuCategorias;
                         let menu_categoriasText = this.Widgets.getMenuText('Menu Categorias de Lanches', menu_categorias);
-                        this.enviarMensagem(message, menu_categoriasText)
-
+                        this.enviarMensagem(message, menu_categoriasText);
                         this.delay(3000).then(
                             this.enviarMensagem(message, 'processando...').then(
                                 this.pushStage(4)
                             )
-                        )
-
+                        );
                     }
                     if (message.body === '3' && message.type !== 'location') {
-                        estagio3.mostrarLocal(message)
+                        estagio3.mostrarLocal(message);
                         this.delay(3000).then(
                             this.enviarMensagem(message, menu_principal)
-                        )
+                        );
                     }
-
-
                 }
+
 
 
 
                 //!=====================  Estagio 4 - Cliente Escolhe os Produtos da Loja =====================
                 else if (numero_estagio === 4) {
-
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
-                    //TODO melhorar experiencia com o usuario
-                    const categoria_escolhida = this.getLastMessage(message)
-                    categoria_escolhida = parseInt(categoria_escolhida)
-                    this.enviarMensagem(message, `Voce selecionou a categoria de numero =  ${categoria_escolhida}`)
-                    const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(categoria_escolhida);
-                    this.enviarMensagem(message, `UPDATE! Voce selecionou a categoria ${tipo_produto}`)
-                    console.log(arquivo_produto)
+                    const categoria_escolhida = this.getLastMessage(message);
 
-                    // TODO fix BUG here
-                    //const menu_cardapio = this.Menu.mostrarComidasLista()
-                    //const menu_bebidas = this.Menu.mostrarBebidasLista()
-
-
+                    const itemSelecionado = (choice) => {
+                        const choiceNumber = parseInt(choice); // Converter a string para número
+                        const tipo_produto = cardapio.getTipoProduto(choiceNumber);
+                        this.enviarMensagem(message, `Você escolheu a opção ${choice}. Tipo de produto: ${tipo_produto}`);
+                    }
 
                     if (categoria_escolhida === '1') {
+                        const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(parseInt(categoria_escolhida));
+                        console.log(`Você escolheu: ${tipo_produto}`);
 
-                        try {
-                            let produtos = cardapio.getTipoProduto()
-                            console.log(produtos)
-                        } catch (error) {
-                            console.log('Erro ao tentar ver os produtos')
-                        }
-                        
 
-                        function mostrarSanduiches() {
-                            const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(parseInt(choice));
-                            console.log(`\nVocê escolheu: ${tipo_produto}`);
 
-                            //Cria a arvore de Sanduiches
-                            cardapio
-                                .criarArvore(tipo_produto, arquivo_produto)
-                                .then((sanduiche_menu) => {
-                                    let cardapio_text = `🍔 *Cardápio de Sanduíches Tradicionais* 🍔\n\n`;
-                                    sanduiche_menu.forEach((produto, index) => {
-                                        cardapio_text += cardapio.mostrarProdutoCardapio(produto, index);
-                                    });
-                                    cardapio_text += `📝 Para escolher seu item, envie o número ou o nome\n`;
-                                    cardapio_text += '🚫 Para cancelar, envie *cancelar*.\n';
-                                    console.log('\nDebug:', cardapio_text);
-                                    this.currentStage = 3; // Atualiza o estágio para 3
-                                    this.processNextStage();
-                                })
-                                .catch((error) => {
-                                    console.log(error);
+                        cardapio.criarArvore(tipo_produto, arquivo_produto)
+                            .then((sanduiche_menu) => {
+                                let cardapio_text = `🍔 *Cardápio de Sanduíches Tradicionais* 🍔\n\n`;
+                                sanduiche_menu.forEach((produto, index) => {
+                                    cardapio_text += cardapio.mostrarProdutoCardapio(produto, index);
                                 });
-
-                            this.enviarMensagem(message, menu_cardapio)
-                        }
-
-
+                                cardapio_text += `📝 Para escolher seu item, envie o número ou o nome\n`;
+                                cardapio_text += '🚫 Para cancelar, envie *cancelar*.\n';
+                                console.log('\nDebug:', cardapio_text);
+                                this.currentStage = 3; // Atualiza o estágio para 3
+                                this.processNextStage();
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                            });
                     }
 
                     if (categoria_escolhida === '2') {
-
-                        this.enviarMensagem(message, menu_bebidas)
+                        this.enviarMensagem(message, menu_bebidas);
                     }
-
-                    //!Buscando os produtos da loja
-                    // Ler o arquivo JSON de Comidas
-                    DataBaseController.lerComidasJSON(this.comidaTree, (comidas) => {
-                        console.log('Árvore de Comidas Tradicionais:');
-                        this.comidaTree.inorderTraversalByType('tradicional');
-                    });
-
-
-
 
                     this.pushStage(5);
                 }

@@ -4,7 +4,7 @@ const fs = require('fs');
 const axios = require('axios');
 
 //? Tentei fazer uma herança de Groundon
-class GroundonView extends Groundon{
+class GroundonView extends Groundon {
 	constructor(whatsapp, groundonController, backendController) {
 		super()
 		this.whatsapp = whatsapp;
@@ -14,7 +14,7 @@ class GroundonView extends Groundon{
 
 	}
 
-	
+
 
 	//! Funções de Mensagem
 	async enviarMensagem(message, texto) {
@@ -26,17 +26,17 @@ class GroundonView extends Groundon{
 		}
 	}
 
-	getLastMessage(message){
+	getLastMessage(message) {
 		try {
-            const lastMessage = message.body
-            return lastMessage
+			const lastMessage = message.body
+			return lastMessage
 
-        } catch (err) {
-            console.log(err);
-        }
+		} catch (err) {
+			console.log(err);
+		}
 	}
 
-
+	
 	//! Funções Listas
 	mostrarComidasLista(message) {
 
@@ -67,7 +67,7 @@ class GroundonView extends Groundon{
 		});
 
 	}
-	
+
 	async enviarLista(to, title, subTitle, description, menu, list_object) {
 		try {
 			await this.whatsapp.sendListMenu(to, title, subTitle, description, menu, list_object)

@@ -1,12 +1,12 @@
-2023/07/18-09:51:44.541 1b5e Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/tokens/CITTA-RioDeJaneiro/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/07/18-09:51:44.541 1b5e Recovering log #150
-2023/07/18-09:51:44.599 1b5e Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/tokens/CITTA-RioDeJaneiro/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000150.log 
-2023/07/18-09:52:01.031 1b64 Level-0 table #157: started
-2023/07/18-09:52:01.083 1b64 Level-0 table #157: 1203069 bytes OK
-2023/07/18-09:52:01.086 1b64 Delete type=0 #150
-2023/07/18-09:52:01.134 1b64 Compacting 1@1 + 3@2 files
-2023/07/18-09:52:01.276 1b64 Generated table #158@1: 83074 keys, 2231869 bytes
-2023/07/18-09:52:01.383 1b64 Generated table #159@1: 57233 keys, 2306967 bytes
-2023/07/18-09:52:01.412 1b64 Generated table #160@1: 21515 keys, 527195 bytes
-2023/07/18-09:52:01.412 1b64 Compacted 1@1 + 3@2 files => 5066031 bytes
-2023/07/18-09:52:01.416 1b64 compacted to: files[ 0 0 3 0 0 0 0 ]
+2023/07/20-11:13:49.761 78c7 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/tokens/CITTA-RioDeJaneiro/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/07/20-11:13:49.761 78c7 Recovering log #162
+2023/07/20-11:13:49.793 78c7 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/tokens/CITTA-RioDeJaneiro/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000162.log 
+2023/07/20-11:14:09.577 78c5 Level-0 table #169: started
+2023/07/20-11:14:09.625 78c5 Level-0 table #169: 1246508 bytes OK
+2023/07/20-11:14:09.627 78c5 Delete type=0 #162
+2023/07/20-11:14:09.875 78cb Compacting 1@1 + 3@2 files
+2023/07/20-11:14:10.091 78cb Generated table #170@1: 84802 keys, 2234011 bytes
+2023/07/20-11:14:10.227 78cb Generated table #171@1: 58577 keys, 2307604 bytes
+2023/07/20-11:14:10.269 78cb Generated table #172@1: 27526 keys, 764884 bytes
+2023/07/20-11:14:10.270 78cb Compacted 1@1 + 3@2 files => 5306499 bytes
+2023/07/20-11:14:10.276 78cb compacted to: files[ 0 0 3 0 0 0 0 ]
