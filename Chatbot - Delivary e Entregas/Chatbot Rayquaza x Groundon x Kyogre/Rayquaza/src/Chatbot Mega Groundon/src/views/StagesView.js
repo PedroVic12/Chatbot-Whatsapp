@@ -212,12 +212,11 @@ class StagesView extends GroundonView {
                     try {
                         const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(choice_escolhida);
                         console.log(tipo_produto)
-                        if (tipo_produto) {
-                            this.enviarMensagem(message, `Você escolheu a opção ${choice_escolhida}. Tipo de produto: ${tipo_produto}`);
-                        } else {
-                            this.enviarMensagem(message, `Opção inválida. Tente novamente.`);
-                        }
 
+                        let produtoEscolhido = cardapio.criarArvore(tipo_produto, arquivo_produto)
+                            .then((produtoEscolhido) => {
+                                console.log(produtoEscolhido);
+                            })
                     } catch (error) {
                         console.log('\n\nDEBUG =', error)
                     }
