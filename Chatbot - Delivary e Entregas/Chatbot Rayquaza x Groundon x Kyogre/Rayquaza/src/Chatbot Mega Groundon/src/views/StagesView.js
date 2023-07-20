@@ -133,12 +133,12 @@ class StagesView extends GroundonView {
 
                     if (selectedOption) {
 
-
                         this.enviarMensagem(message, `Voce escolheu a opção *${selectedOption.button.text.slice(3)}*`)
 
                         //Cardapio
                         if (selectedOption.button.text.toUpperCase() === 'CARDAPIO') {
                             this.enviarMensagem(message, 'Vou mostrar o cardápio em PDF!');
+                            this.popStage()
                         }
 
                         // Menu de Categorias
@@ -222,7 +222,6 @@ class StagesView extends GroundonView {
                             console.log(produtoEscolhido);
                         })
 
-                    // TODO PEGAR O PEDIDO E COLOCAR NO CARRINHO
 
 
 
@@ -233,7 +232,7 @@ class StagesView extends GroundonView {
                 }
 
 
-                //!=====================  Estagio 5 - Pega o pedido e adiciona no carrinho =====================
+                //!=====================  Estagio 6 - Pega o pedido e adiciona no carrinho =====================
                 else if (numero_estagio === 6) {
                     console.log(`\nEstágio ${numero_estagio}:`, message.body);
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
