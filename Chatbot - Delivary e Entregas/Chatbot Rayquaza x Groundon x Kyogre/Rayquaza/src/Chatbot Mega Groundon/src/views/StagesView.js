@@ -39,15 +39,13 @@ class StagesView extends GroundonView {
 
         //this.comidaTree = new BinaryTree();
         //this.sanduicheTree = new BinaryTree();
-
-        //TODO desculpa nao entendi, voce quis dizer? ['opção1, opção2, 'opção3']
-
-
     }
 
     async start_chat_Groundon() {
         const menu_principal = this.Widgets.menuPrincipal
         const menuCategorias = this.Widgets.menuCategorias;
+        const menuLanches = this.Widgets.menuLanchesSalgados;
+        const menuBebidas = this.Widgets.menuBebidas
 
         return new Promise((resolve, reject) => {
             this.whatsapp.onMessage(async (message) => {
@@ -103,9 +101,11 @@ class StagesView extends GroundonView {
                     // Mostra o menu principal
                     try {
                         let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
-                        this.enviarMensagem(message, menu_principal_text)
+                        this.delay(2000).then(
+                            this.enviarMensagem(message, menu_principal_text)
+                        )
                     } catch (error) {
-                        console.log('\n\nDebug = ', error)
+                        console.log(error)
                     }
 
                     this.delay(3000).then(
@@ -120,9 +120,11 @@ class StagesView extends GroundonView {
                 //!=====================  Estágio 3 - Responde as funcionalidades do Botão =====================
 
                 else if (numero_estagio === 3) {
+
+
+                    //TODO desculpa nao entendi, voce quis dizer? ['opção1, opção2, 'opção3']
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
                     console.log(`\nEstágio ${numero_estagio}:`, message.body);
-
 
                     //TODO FUNCAO PARA O GROUNDON
                     const choice_escolhida = this.getLastMessage(message);
@@ -171,28 +173,31 @@ class StagesView extends GroundonView {
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
                     console.log(`\nEstágio ${numero_estagio}:`, message.body);
 
-
-                    //TODO FUNCAO PARA O GROUNDON
                     const categoria_escolhida = this.getLastMessage(message);
 
 
                     //TODO -> Buscar o numero ou nome correspondente da lista de produtos escolhidos
-
                     if (categoria_escolhida === '1') {
                         const selectedOption2 = this.Widgets.getSelectedOption(menuCategorias, categoria_escolhida);
-
-                        console.log(selectedOption2)
 
                         if (selectedOption2) {
                             this.enviarMensagem(message, `Voce escolheu a opção *${selectedOption2.button.text.slice(3)}*`)
                         }
 
-
+                        const menuLanchesText = this.Widgets.getMenuText('Menu Lanches e Comidas', menuLanches)
+                        this.enviarMensagem(message, menuLanchesText)
 
                     }
 
                     if (categoria_escolhida === '2') {
-                        this.enviarMensagem(message, menu_bebidas);
+                        const selectedOption2 = this.Widgets.getSelectedOption(menuCategorias, categoria_escolhida);
+
+                        if (selectedOption2) {
+                            this.enviarMensagem(message, `Voce escolheu a opção *${selectedOption2.button.text.slice(3)}*`)
+                        }
+
+                        const menuLanchesText = this.Widgets.getMenuText('Menu Bebidas, Sucos e Cervejas', menuBebidas)
+                        this.enviarMensagem(message, menuLanchesText)
                     }
 
                     this.pushStage(5);
@@ -201,14 +206,58 @@ class StagesView extends GroundonView {
 
                 //!=====================  Estagio 5 - Pega o pedido e adiciona no carrinho =====================
                 else if (numero_estagio === 5) {
-                    this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
                     console.log(`\nEstágio ${numero_estagio}:`, message.body);
+                    this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
 
                     //TODO -> Buscar o numero ou nome correspondente da lista de produtos escolhidos
-                    const choice_escolhida = this.getLastMessage(message);
+                    const PRODUTO_ESCOLHIDO = this.getLastMessage(message);
 
 
+                    const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(PRODUTO_ESCOLHIDO);
+                    console.log(tipo_produto)
+
+                    let produtoEscolhido = cardapio.criarArvore(tipo_produto, arquivo_produto)
+                        .then((produtoEscolhido) => {
+                            console.log(produtoEscolhido);
+                        })
+
+                    // TODO PEGAR O PEDIDO E COLOCAR NO CARRINHO
+
+
+
+
+
+
+                    this.pushStage(6)
+                }
+
+
+                //!=====================  Estagio 5 - Pega o pedido e adiciona no carrinho =====================
+                else if (numero_estagio === 6) {
+                    console.log(`\nEstágio ${numero_estagio}:`, message.body);
+                    this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
+
+
+                    //TODO -> Buscar o numero ou nome correspondente da lista de produtos escolhidos
+                    const PRODUTO_ESCOLHIDO = this.getLastMessage(message);
+
+
+                    const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(ESCOLHA_CLIENTE);
+                    console.log(tipo_produto)
+
+                    let produtoEscolhido = cardapio.criarArvore(tipo_produto, arquivo_produto)
+                        .then((produtoEscolhido) => {
+                            console.log(produtoEscolhido);
+                        })
+
+                    // TODO PEGAR O PEDIDO E COLOCAR NO CARRINHO
+
+
+
+
+
+                    //TODO DEBUG ARVORE BINARIA 
                     try {
                         const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(choice_escolhida);
                         console.log(tipo_produto)
@@ -242,7 +291,6 @@ class StagesView extends GroundonView {
 
                     }
 
-                    this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
                     if (message.body === '1') {
                         const produto = {
                             nome: 'Americano',
@@ -263,7 +311,29 @@ class StagesView extends GroundonView {
                     this.popStage(); // Retorna ao estágio anterior
 
                 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             });
+
+
+
 
         });
     }

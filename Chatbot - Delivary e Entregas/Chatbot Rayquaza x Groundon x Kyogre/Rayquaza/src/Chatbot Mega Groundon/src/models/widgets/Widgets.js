@@ -16,7 +16,7 @@ class Widgets {
       { button: { text: '🍨 Sobremesa', hide: true }, type: 'message' }
     ];
 
-    this.menuComidas = [
+    this.menuLanchesSalgados = [
       { button: { text: '🍔 Sanduíches Tradicionais', hide: true }, type: 'message' },
       { button: { text: '🍔 Sanduíches Naturais', hide: true }, type: 'message' },
       { button: { text: '* Tapioca ', hide: true }, type: 'message' },
@@ -29,6 +29,17 @@ class Widgets {
       { button: { text: '* Petiscos', hide: true }, type: 'message' },
       { button: { text: '* Pizzas', hide: true }, type: 'message' }
     ];
+
+
+    this.menuBebidas = [
+      { button: { text: '🍹 Sucos Naturais', hide: true }, type: 'message' },
+      { button: { text: '🍹 Refrigerante', hide: true }, type: 'message' },
+      { button: { text: '🍹 Cervejas', hide: true }, type: 'message' },
+
+    ]
+
+
+
 
     // Menu de Opções de Pagamento
     this.menuPagamento = [
