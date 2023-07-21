@@ -38,7 +38,7 @@ class DataBaseController {
     }
   }
 
-  get_acai(productFile, tipo_produto, callback) {
+  async get_acai(productFile, tipo_produto, callback) {
     try {
       // Busca o arquivo JSON e converte para objeto
       const data = fs.readFileSync(productFile, 'utf8');
@@ -65,13 +65,13 @@ class DataBaseController {
 
       callback(produtos);
     } catch (error) {
-      console.error('Erro ao ler o arquivo JSON:', error);
+      console.error('\n\nErro ao ler o arquivo JSON:', error);
       return null;
     }
   }
 
 
-  get_petisco(productFile, tipo_produto, callback) {
+  async get_petisco(productFile, tipo_produto, callback) {
     try {
       // Busca o arquivo JSON e converte para objeto
       const data = fs.readFileSync(productFile, 'utf8');
@@ -111,6 +111,26 @@ class DataBaseController {
 
   //!Hambugueres
 
+
 }
 
 module.exports = DataBaseController;
+
+
+function main_db_controller() {
+  const db = new DataBaseController();
+
+  db.get_SanduichesTradicionais(db.sanduicheTradicionalFile, 'Sanduíches Tradicionais', (produtos) => {
+    console.log(produtos);
+  });
+
+  db.get_acai(db.acaiFile, 'Açaí e Pitaya', (produtos) => {
+    console.log(produtos);
+  });
+
+  db.get_petisco(db.petiscosFile, 'Petiscos', (produtos) => {
+    console.log(produtos);
+  });
+}
+
+//main_db_controller();
