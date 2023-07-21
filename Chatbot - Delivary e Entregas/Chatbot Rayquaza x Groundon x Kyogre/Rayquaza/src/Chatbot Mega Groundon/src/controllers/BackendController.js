@@ -1,6 +1,6 @@
 const { body, validationResult } = require('express-validator');
 const express = require('express');
-const fetch = require('node-fetch');
+//const fetch = require('node-fetch');
 const fs = require('fs');
 
 const GroundonController = require('./GroundonController')
