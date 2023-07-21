@@ -14,7 +14,6 @@ const Pedido = require('../models/Regras de Negocio/Pedido/Pedido')
 const CardapioMenu = require('../models/Regras de Negocio/Cardapio/Menu_Cardapio');
 
 const Widgets = require('../models/widgets/Widgets')
-const Menu = require('../models/widgets/Menu/Menu')
 
 const Estagio1 = require('./Stages/Estagio1')
 const Estagio2 = require('./Stages/Estagio2');
@@ -136,7 +135,7 @@ class StagesView extends GroundonView {
 
                         this.enviarMensagem(message, `Voce escolheu a opção *${selectedOption.button.text.slice(3)}*`)
 
-                        //Cardapio
+                        //TODO Cardapio
                         if (selectedOption.button.text.toUpperCase() === 'CARDAPIO') {
                             this.enviarMensagem(message, 'Vou mostrar o cardápio em PDF!');
                             this.popStage()
@@ -205,7 +204,7 @@ class StagesView extends GroundonView {
                 }
 
 
-                //!=====================  Estagio 5 - Pega o pedido e adiciona no carrinho =====================
+                //!=====================  Estagio 5 - Cliente escolhe o Lanche Desejado =====================
                 else if (numero_estagio === 5) {
                     console.log(`\nEstágio ${numero_estagio}:`, message.body);
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
@@ -216,14 +215,18 @@ class StagesView extends GroundonView {
 
 
                     const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(PRODUTO_ESCOLHIDO);
-                    this.enviarMensagem(message, tipo_produto)
+                    this.enviarMensagem(message, `Voce escolheu o produto: *${tipo_produto}*`)
 
-                    let produtoEscolhido = cardapio.criarArvore(tipo_produto, arquivo_produto)
-                        .then((produtoEscolhido) => {
-                            this.enviarMensagem(message, produtoEscolhido);
+                    cardapio.criarArvore(tipo_produto, arquivo_produto)
+                        .then((produtos) => {
+                            const menuProdutosText = this.Widgets.getMenuProdutos(tipo_produto, produtos);
+                            this.enviarMensagem(message, menuProdutosText)
+
+                            // Aqui você pode enviar o menuProdutosText para o usuário por meio do seu chatbot
                         })
-
-
+                        .catch((error) => {
+                            console.log('Erro ao criar a árvore de produtos:', error);
+                        });
 
 
 
@@ -238,80 +241,43 @@ class StagesView extends GroundonView {
                     console.log(`\nEstágio ${numero_estagio}:`, message.body);
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
+                    const item_escolhido = this.getLastMessage(message)
 
-                    //TODO -> Buscar o numero ou nome correspondente da lista de produtos escolhidos
-                    const PRODUTO_ESCOLHIDO = this.getLastMessage(message);
-
-
-                    const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(ESCOLHA_CLIENTE);
-                    console.log(tipo_produto)
-
-                    let produtoEscolhido = cardapio.criarArvore(tipo_produto, arquivo_produto)
-                        .then((produtoEscolhido) => {
-                            console.log(produtoEscolhido);
-                        })
-
-                    // TODO PEGAR O PEDIDO E COLOCAR NO CARRINHO
-
-
-
-
-
-                    //TODO DEBUG ARVORE BINARIA 
                     try {
-                        const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(choice_escolhida);
-                        console.log(tipo_produto)
+                        if (item_escolhido === '1') {
+                            const itemSelecionado = this.Widgets.getSelectedOption(menuProdutosText, item_escolhido);
 
-                        let produtoEscolhido = cardapio.criarArvore(tipo_produto, arquivo_produto)
-                            .then((produtoEscolhido) => {
-                                console.log(produtoEscolhido);
-                            })
+                            if (itemSelecionado) {
+                                const nomeProduto = itemSelecionado.button.text.slice(3)
+                                this.enviarMensagem(message, `Voce escolheu a opção *${nomeProduto}*`)
+                                this.carrinho.adicionarProduto(nomeProduto)
+                            }
+                        }
                     } catch (error) {
-                        console.log('\n\nDEBUG =', error)
+                        console.log(error)
                     }
 
 
-                    try {
-                        cardapio.criarArvore(tipo_produto, arquivo_produto)
-                            .then((sanduiche_menu) => {
-                                let cardapio_text = `🍔 *Cardápio de Sanduíches Tradicionais* 🍔\n\n`;
-                                sanduiche_menu.forEach((produto, index) => {
-                                    cardapio_text += cardapio.mostrarProdutoCardapio(produto, index);
-                                });
-                                cardapio_text += `📝 Para escolher seu item, envie o número ou o nome\n`;
-                                cardapio_text += '🚫 Para cancelar, envie *cancelar*.\n';
-                                console.log('\nDebug:', cardapio_text);
-
-
-                            })
-                            .catch((error) => {
-                                console.log(error);
-                            });
-                    } catch (error) {
-
-                    }
-
-                    if (message.body === '1') {
+                    if (message.body === '2') {
                         const produto = {
                             nome: 'Americano',
                             preco: 17.0
                         };
                         this.carrinho.adicionarProduto(produto);
-                    } else if (message.body === '2') {
-                        const produto = {
-                            nome: 'Bauru',
-                            preco: 30.0
-                        };
-                        this.carrinho.adicionarProduto(produto);
                     }
-
                     const total = this.carrinho.calcularTotal();
-                    this.enviarMensagem(message, `Pedido {} adicionado ao carrinho. \n\nTotal: R$ ${total}`);
+                    this.enviarMensagem(message, `Pedido {produto.nome} adicionado ao carrinho. \n\nTotal: R$ ${total}`);
 
                     this.popStage(); // Retorna ao estágio anterior
 
                 }
 
+
+                else if (numero_estagio === 7) {
+                    console.log(`\nEstágio ${numero_estagio}:`, message.body);
+                    this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
+
+                }
 
 
 

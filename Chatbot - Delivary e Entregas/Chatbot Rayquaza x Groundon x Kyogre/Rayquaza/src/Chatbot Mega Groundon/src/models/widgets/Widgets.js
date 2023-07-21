@@ -2,6 +2,9 @@ const fs = require('fs');
 
 class Widgets {
   constructor() {
+
+
+    //! WIDGETS 
     // Menu Principal
     this.menuPrincipal = [
       { button: { text: '🍔 Ver Cardápio', hide: true }, type: 'message' },
@@ -62,6 +65,7 @@ class Widgets {
     ];
   }
 
+  // Método que pega a escolha do cliente dentro do menu
   getSelectedOption(menu, input) {
     const selectedOptionByNumber = menu[Number(input) - 1];
     if (selectedOptionByNumber) {
@@ -79,6 +83,20 @@ class Widgets {
   }
 
 
+
+
+
+  // Menus com textos descritivos
+  getMenuProdutos(title, produtos) {
+    let menuText = `🔸 ${title} 🔸\n\n`;
+    produtos.forEach((produto, index) => {
+      menuText += `${index + 1}. *${produto.nome}* - R$ *${produto.preco}* Reais\n`;
+      menuText += `   Ingredientes: ${produto.ingredientes}\n\n`;
+    });
+
+    menuText += `\n📝 Digite o *Número* para escolher o item desejado.\n`;
+    return menuText;
+  }
   getMenuTextWithDescriptions(title, menu) {
     let menuText = `🔸 ${title} 🔸\n\n`;
     menu.forEach((item, index) => {
@@ -101,6 +119,9 @@ class Widgets {
 
     return menuText;
   }
+
+
+  //Tentativa de menus formatados
 
   formatMenu(title, menu) {
     let formattedMenu = `🔸 ${title} 🔸\n\n`;
@@ -160,4 +181,4 @@ function main_widgets() {
   }
 }
 
-main_widgets();
+//main_widgets();

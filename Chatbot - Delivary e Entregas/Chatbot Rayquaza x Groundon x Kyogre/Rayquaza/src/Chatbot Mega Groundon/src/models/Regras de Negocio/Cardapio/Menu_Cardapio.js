@@ -1,6 +1,7 @@
 const { BinaryTree, Node } = require('./ArvoreBinaria');
 const DataBaseController = require('./DataBaseController');
 const Produto = require('./Lanches/Produto');
+const Widgets = require('../../widgets/Widgets')
 
 class CardapioMenu {
   constructor() {
@@ -104,20 +105,26 @@ class CardapioMenu {
 
 module.exports = CardapioMenu;
 
-
 function main_cardapio() {
   const cardapio = new CardapioMenu();
-
 
   const ESCOLHA_CLIENTE = "1"
 
   const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(ESCOLHA_CLIENTE);
-  console.log(tipo_produto)
 
-  let produtoEscolhido = cardapio.criarArvore(tipo_produto, arquivo_produto)
-    .then((produtoEscolhido) => {
-      console.log(produtoEscolhido);
+  cardapio.criarArvore(tipo_produto, arquivo_produto)
+    .then((produtos) => {
+      // Exemplo de como usar o getMenuProdutos para gerar o menu de produtos do cardápio
+      const widgets = new Widgets();
+      const menuProdutosText = widgets.getMenuProdutos(tipo_produto, produtos);
+      console.log(menuProdutosText);
+
+      // Aqui você pode enviar o menuProdutosText para o usuário por meio do seu chatbot
     })
+    .catch((error) => {
+      console.log('Erro ao criar a árvore de produtos:', error);
+    });
 }
 
-main_cardapio();
+//main_cardapio();
+
