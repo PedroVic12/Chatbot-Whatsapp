@@ -191,10 +191,10 @@ class StagesView extends GroundonView {
                     }
 
                     if (categoria_escolhida === '2') {
-                        const selectedOption2 = this.Widgets.getSelectedOption(menuCategorias, categoria_escolhida);
+                        const selectedOption3 = this.Widgets.getSelectedOption(menuCategorias, categoria_escolhida);
 
-                        if (selectedOption2) {
-                            this.enviarMensagem(message, `Voce escolheu a opção *${selectedOption2.button.text.slice(3)}*`)
+                        if (selectedOption3) {
+                            this.enviarMensagem(message, `Voce escolheu a opção *${selectedOption3.button.text.slice(3)}*`)
                         }
 
                         const menuLanchesText = this.Widgets.getMenuText('Menu Bebidas, Sucos e Cervejas', menuBebidas)
@@ -216,11 +216,11 @@ class StagesView extends GroundonView {
 
 
                     const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(PRODUTO_ESCOLHIDO);
-                    console.log(tipo_produto)
+                    this.enviarMensagem(message, tipo_produto)
 
                     let produtoEscolhido = cardapio.criarArvore(tipo_produto, arquivo_produto)
                         .then((produtoEscolhido) => {
-                            console.log(produtoEscolhido);
+                            this.enviarMensagem(message, produtoEscolhido);
                         })
 
 
