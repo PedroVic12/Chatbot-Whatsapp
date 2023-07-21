@@ -4,8 +4,7 @@ const axios = require('axios');
 const Groundon = require('../models/Groundon');
 const GroundonView = require('./GroundonView');
 
-//TODO
-//const CardapioMenu = require('./Menu_Cardapio');
+//TODO this.whatsapp = null no momento, atualizei o venom-bot e bugou muita coisa
 const DataBaseController = require('../models/Regras de Negocio/Cardapio/DataBaseController');
 const BinaryTree = require('../models/Regras de Negocio/Cardapio/ArvoreBinaria')
 
@@ -48,6 +47,9 @@ class StagesView extends GroundonView {
         const menuBebidas = this.Widgets.menuBebidas
 
         return new Promise((resolve, reject) => {
+
+
+
             this.whatsapp.onMessage(async (message) => {
                 //! MensagemLog -> Controller()
                 // Verifica se o usuário já está online

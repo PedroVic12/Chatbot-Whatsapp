@@ -1,0 +1,11 @@
+Chatbot filter=lfs diff=lfs merge=lfs -text
+Entregas/Chatbot filter=lfs diff=lfs merge=lfs -text
+x filter=lfs diff=lfs merge=lfs -text
+Groundon filter=lfs diff=lfs merge=lfs -text
+Kyogre/Rayquaza/src/Chatbot filter=lfs diff=lfs merge=lfs -text
+Mega filter=lfs diff=lfs merge=lfs -text
+- filter=lfs diff=lfs merge=lfs -text
+Delivary filter=lfs diff=lfs merge=lfs -text
+e filter=lfs diff=lfs merge=lfs -text
+Rayquaza filter=lfs diff=lfs merge=lfs -text
+Groundon/node_modules/venom-bot/node_modules/puppeteer/.local-chromium/linux-1002410/chrome-linux/chrome filter=lfs diff=lfs merge=lfs -text
