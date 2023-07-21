@@ -1,7 +1,7 @@
 const venom = require('venom-bot');
 
 
-class GroundonController  {
+class GroundonController {
 	constructor() {
 		this.whatsapp = null;
 	}
@@ -9,12 +9,17 @@ class GroundonController  {
 	async conectarWpp() {
 		try {
 			this.whatsapp = await venom.create({
-				session: 'CITTA-RioDeJaneiro' // nome da sessão
+				session: 'CITTA-RioDeJaneiro2' // nome da sessão
 			});
 
-			console.log('Conectado ao WhatsApp com sucesso!');
+			if (this.whatsapp) {
+				console.log('Conectado ao WhatsApp com sucesso!');
+			}
+			else {
+				console.log(`Debug ${this.whatsapp}`);
+			}
 		} catch (error) {
-			console.error('Erro ao conectar ao WhatsApp:', error);
+			console.error('\n\nErro ao conectar ao WhatsApp:', error);
 		}
 	}
 
@@ -36,7 +41,7 @@ class GroundonController  {
 	}
 
 
-	
+
 
 
 
@@ -73,3 +78,11 @@ class GroundonController  {
 
 
 module.exports = GroundonController;
+
+function groundon_controller_main() {
+	const groundonController = new GroundonController();
+	groundonController.conectarWpp();
+	groundonController.receberMensagemConsole();
+}
+
+//groundon_controller_main();

@@ -53,9 +53,16 @@ async function main() {
 			console.log(`\nChatbot Groundon iniciado: ${isGroundonBotOnline}`);
 		})
 		.catch((error) => {
-			console.error('Ocorreu um erro ao iniciar o Chatbot Groundon:', error);
+			console.error('\n\nOcorreu um erro ao iniciar o Chatbot Groundon:', error);
 		});
 }
+
+
+
+
+
+
+
 
 main().catch((error) => {
 	console.error('\n\nOcorreu um erro:', error);

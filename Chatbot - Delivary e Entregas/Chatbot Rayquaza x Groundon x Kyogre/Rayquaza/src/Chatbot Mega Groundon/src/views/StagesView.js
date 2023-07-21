@@ -32,7 +32,6 @@ class StagesView extends GroundonView {
         this.estagio3 = new Estagio3()
 
         this.Widgets = new Widgets()
-        //this.Menu = new Menu.CardapioMenu()
 
         this.carrinho = new CarrinhoPedido()
 

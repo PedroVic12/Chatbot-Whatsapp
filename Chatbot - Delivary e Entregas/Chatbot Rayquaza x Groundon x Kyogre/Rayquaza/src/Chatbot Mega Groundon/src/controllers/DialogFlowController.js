@@ -55,7 +55,7 @@ class DialogFlow extends GroundonController {
     }
 
     start_webhook() {
-        const port = 5000;
+        const port = 1000;
         this.app.listen(port, () => {
             console.log(`DialogFlow webhook server is listening on port ${port}`);
         });

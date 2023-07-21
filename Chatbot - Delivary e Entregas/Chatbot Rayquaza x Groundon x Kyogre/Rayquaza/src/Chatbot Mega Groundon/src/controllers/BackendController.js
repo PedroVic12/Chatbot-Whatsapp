@@ -238,7 +238,7 @@ class BackendController extends GroundonController {
 
     //! Iniciar Servidor
     async start_backend() {
-        const port = 3000;
+        const port = 6000;
 
         try {
             this.app.listen(port, () => {
