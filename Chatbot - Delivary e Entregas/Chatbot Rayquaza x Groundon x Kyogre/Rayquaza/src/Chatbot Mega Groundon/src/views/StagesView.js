@@ -99,18 +99,8 @@ class StagesView extends GroundonView {
                     )
 
                     // Mostra o menu principal
-                    try {
-                        let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
-                        this.delay(2000).then(
-                            this.enviarMensagem(message, menu_principal_text)
-                        )
-                    } catch (error) {
-                        console.log(error)
-                    }
-
-                    this.delay(3000).then(
-                        this.enviarMensagem(message, `O que deseja fazer?`)
-                    )
+                    let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
+                    this.enviarMenu(message, menu_principal_text)
 
 
                     this.pushStage(3);
@@ -128,7 +118,6 @@ class StagesView extends GroundonView {
 
                     //TODO FUNCAO PARA O GROUNDON
                     const choice_escolhida = this.getLastMessage(message);
-
                     const selectedOption = this.Widgets.getSelectedOption(menu_principal, choice_escolhida);
 
                     if (selectedOption) {
@@ -136,9 +125,14 @@ class StagesView extends GroundonView {
                         this.enviarMensagem(message, `Voce escolheu a opção *${selectedOption.button.text.slice(3)}*`)
 
                         //TODO Cardapio
-                        if (selectedOption.button.text.toUpperCase() === 'CARDAPIO') {
+                        if (selectedOption.button.text.toUpperCase() === 'Ver Cardápio' || choice_escolhida === '1') {
                             this.enviarMensagem(message, 'Vou mostrar o cardápio em PDF!');
-                            this.popStage()
+                            this.enviarPdf(message.from, '/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/repository/assets/sanduiches.pdf')
+
+                            // Mostra o menu principal
+                            let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
+                            this.enviarMenu(message, menu_principal_text)
+
                         }
 
                         // Menu de Categorias
@@ -230,7 +224,22 @@ class StagesView extends GroundonView {
 
 
 
-
+                    //!tentativa botao
+                    // Send Messages with Buttons Reply
+                    const buttons = [
+                        {
+                            "buttonText": {
+                                "displayText": "Text of Button 1"
+                            }
+                        },
+                        {
+                            "buttonText": {
+                                "displayText": "Text of Button 2"
+                            }
+                        }
+                    ]
+                    this.enviarBotoes(message.from, 'title', buttons, 'Descrição')
+                    this.enviarFoto(message.from, '/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/repository/assets/sanduiches.png')
 
                     this.pushStage(6)
                 }
@@ -242,21 +251,8 @@ class StagesView extends GroundonView {
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
                     const item_escolhido = this.getLastMessage(message)
-
-                    try {
-                        if (item_escolhido === '1') {
-                            const itemSelecionado = this.Widgets.getSelectedOption(menuProdutosText, item_escolhido);
-
-                            if (itemSelecionado) {
-                                const nomeProduto = itemSelecionado.button.text.slice(3)
-                                this.enviarMensagem(message, `Voce escolheu a opção *${nomeProduto}*`)
-                                this.carrinho.adicionarProduto(nomeProduto)
-                            }
-                        }
-                    } catch (error) {
-                        console.log(error)
-                    }
-
+                    this.enviarMensagem(message, item_escolhido)
+                    this.enviarFoto(message.from, '/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/repository/assets/sanduiches.png')
 
                     if (message.body === '2') {
                         const produto = {

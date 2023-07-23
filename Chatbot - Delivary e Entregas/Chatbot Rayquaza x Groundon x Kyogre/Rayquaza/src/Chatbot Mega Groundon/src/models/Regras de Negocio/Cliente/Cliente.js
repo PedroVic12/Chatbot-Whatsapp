@@ -2,9 +2,8 @@ const Carrinho = require("../Pedido/Carrinho");
 const fs = require('fs');
 const Pedido = require('../Pedido/Pedido')
 
-class Cliente extends Pedido {
+class Cliente {
     constructor() {
-        super()
 
         // Atributos Dinamicos
         this.nome = '';

@@ -36,7 +36,64 @@ class GroundonView extends Groundon {
 		}
 	}
 
-	
+	enviarFoto(message_from, path_image_jpg) {
+		// Send image (you can also upload an image using a valid HTTP protocol)
+		try {
+			this.whatsapp
+				.sendImage(
+					message_from,
+					path_image_jpg,
+					'image-name',
+					'Caption text'
+				)
+				.then((result) => {
+					console.log('Result: ', result); //return object success
+				})
+				.catch((erro) => {
+					console.error('Error when sending: ', erro); //return object error
+				});
+		} catch (error) {
+			console.log('Não foi possivel enviar a imagem')
+		}
+	}
+
+	enviarPdf(message_from, path_pdf) {
+
+		try {
+			this.whatsapp
+				.sendFile(
+					message_from,
+					path_pdf,
+					'file_name',
+					'See my file in pdf'
+				)
+				.then((result) => {
+					console.log('Result: ', result); //return object success
+				})
+				.catch((erro) => {
+					console.error('Error when sending: ', erro); //return object error
+				});
+		} catch (error) {
+			console.log('\nNao foi possivel enviar a imagem')
+		}
+
+
+	}
+
+	//!Funções dos Menus Personalizados
+	// Função para mostrar o menu principal
+	async enviarMenu(message, menu_text) {
+		try {
+			await this.delay(2000);
+			await this.enviarMensagem(message, menu_text);
+		} catch (error) {
+			console.log(error);
+		}
+
+		await this.delay(3000);
+		await this.enviarMensagem(message, 'O que deseja fazer?');
+	}
+
 	//! Funções Listas
 	mostrarComidasLista(message) {
 
@@ -91,9 +148,9 @@ class GroundonView extends Groundon {
 	}
 
 	//! Botoes
-	async enviarBotoes(to, title, buttons, description) {
+	async enviarBotoes(to, title, buttons_array, description) {
 		try {
-			await this.whatsapp.sendButtons(to, title, buttons, description)
+			await this.whatsapp.sendButtons(to, title, buttons_array, description)
 		} catch (error) {
 			console.error('\nError when sending: ', error);
 		}

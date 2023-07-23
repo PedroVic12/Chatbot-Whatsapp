@@ -2,6 +2,11 @@ const { BinaryTree, Node } = require('./ArvoreBinaria');
 const DataBaseController = require('./DataBaseController');
 const Produto = require('./Lanches/Produto');
 const Widgets = require('../../widgets/Widgets')
+const Cliente = require('../Cliente/Cliente')
+const PedidoCarrinho = require('../Pedido/CarrinhoPedido')
+
+console.log(PedidoCarrinho)
+
 
 class CardapioMenu {
   constructor() {
@@ -104,12 +109,10 @@ class CardapioMenu {
 
 
 module.exports = CardapioMenu;
-
 function main_cardapio() {
   const cardapio = new CardapioMenu();
 
-  const ESCOLHA_CLIENTE = "1"
-
+  const ESCOLHA_CLIENTE = "1";
   const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(ESCOLHA_CLIENTE);
 
   cardapio.criarArvore(tipo_produto, arquivo_produto)
@@ -120,11 +123,34 @@ function main_cardapio() {
       console.log(menuProdutosText);
 
       // Aqui você pode enviar o menuProdutosText para o usuário por meio do seu chatbot
+
+      // Exemplo de como usar o carrinho e o pedido:
+      const cliente = new Cliente(); // Crie um objeto Cliente com as informações do cliente
+      const pedido = new PedidoCarrinho(cliente); // Cria um novo pedido associado ao cliente
+
+      // Simulando o cliente adicionando produtos ao carrinho
+      const nome_produto_escolhido = "X-Burger"; // Nome do produto escolhido pelo cliente
+      const produtoEncontrado = cardapio.buscarPorNome(tipo_produto, nome_produto_escolhido);
+
+      if (produtoEncontrado) {
+        // Se o produto foi encontrado no cardápio, adiciona ao carrinho do pedido
+        const preco_produto = produtoEncontrado.preco;
+        pedido.adicionarProdutoAoCarrinho(nome_produto_escolhido, preco_produto);
+      } else {
+        // Produto não encontrado no cardápio
+        console.log("Produto não encontrado no cardápio!");
+      }
+
+      // Para listar os produtos adicionados ao carrinho e o total:
+      const produtosNoCarrinho = pedido.listarProdutosDoCarrinho();
+      console.log("Produtos no carrinho:", produtosNoCarrinho);
+
+      const totalDoCarrinho = pedido.getTotalDoCarrinho();
+      console.log("Total do carrinho:", totalDoCarrinho);
     })
     .catch((error) => {
       console.log('Erro ao criar a árvore de produtos:', error);
     });
 }
 
-//main_cardapio();
-
+main_cardapio();

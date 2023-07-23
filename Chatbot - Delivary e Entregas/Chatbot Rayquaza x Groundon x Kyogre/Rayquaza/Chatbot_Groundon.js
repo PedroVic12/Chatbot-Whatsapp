@@ -27,7 +27,6 @@ class Chatbot {
 
     this.Widgets = new Widgets()
     this.carrinho = new CarrinhoPedido();
-
   }
 
   start() {
