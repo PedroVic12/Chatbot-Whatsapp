@@ -16,12 +16,20 @@ class Pedido {
     if (produtoEncontrado) {
       const { nome, preco } = produtoEncontrado;
 
-      this.produtos.push({
-        nome: nome,
-        preco: preco
-      });
+      const produtoNoCarrinho = this.produtos.find((produto) => produto.nome.toLowerCase() === nome.toLowerCase());
 
-      console.log(`Produto adicionado ao carrinho: ${nome} - Preço: R$ ${preco}`);
+      if (produtoNoCarrinho) {
+        produtoNoCarrinho.quantidade += 1;
+        console.log(`Produto já estava no carrinho. Quantidade atual: ${produtoNoCarrinho.quantidade}`);
+      } else {
+        this.produtos.push({
+          nome: nome,
+          preco: preco,
+          quantidade: 1
+        });
+
+        console.log(`Produto adicionado ao carrinho: ${nome} - Preço: R$ ${preco}`);
+      }
     } else {
       console.log('Produto não encontrado no cardápio!');
     }
@@ -71,9 +79,11 @@ class Pedido {
   exibirCarrinho() {
     console.log('\nCarrinho:');
     this.produtos.forEach((produto, index) => {
-      console.log(`${index + 1}. ${produto.nome}, Tipo: ${produto.tipo}, Tamanho: ${produto.tamanho || 'Sem tamanho'}, Preço: R$ ${produto.preco}`);
+      console.log('teste')
+      console.log(`${index + 1}. ${produto.nome}, Tipo: ${produto.tipo}, Tamanho: ${produto.tamanho || 'Sem tamanho'}, Preço: R$ ${produto.preco}, Quantidade: ${produto.quantidade}`);
     });
   }
+
 }
 
 module.exports = Pedido;
@@ -94,10 +104,13 @@ async function main_pedido() {
   // Adicione os produtos que o cliente deseja ao carrinho
   pedido.adicionarProduto('Sanduíches Tradicionais', 'Americano');
   pedido.adicionarProduto('Sanduíches Tradicionais', 'Queijo Quente');
+  pedido.adicionarProduto('Sanduíches Tradicionais', 'Americano');
+
 
 
   // Exiba o carrinho com os produtos adicionados
-  pedido.exibirCarrinho();
+  console.log(pedido.exibirCarrinho())
+
 }
 
 main_pedido();
