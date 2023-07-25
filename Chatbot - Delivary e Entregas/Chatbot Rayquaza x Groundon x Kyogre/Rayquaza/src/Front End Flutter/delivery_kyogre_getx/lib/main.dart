@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/layoutDesign', page: ()=> CartaoGridView()),
         GetPage(name: '/cardapioDigital', page: ()=> DeepLinkPage())
       ],
-      
+
       debugShowCheckedModeBanner: false,
       title: 'Dashboard',
       theme: ThemeData(

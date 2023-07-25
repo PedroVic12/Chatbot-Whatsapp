@@ -4,6 +4,10 @@ import 'package:url_launcher/url_launcher.dart';
 class DeepLinkPage extends StatelessWidget {
   final String deepLink = 'https://citta-lanchonete-cardapio-digital.com';
 
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +17,7 @@ class DeepLinkPage extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () => openDeepLink(),
-          child: Text('Abrir Deep Link'),
+          child: Text('Abrir Deep Link2 '),
         ),
       ),
     );
