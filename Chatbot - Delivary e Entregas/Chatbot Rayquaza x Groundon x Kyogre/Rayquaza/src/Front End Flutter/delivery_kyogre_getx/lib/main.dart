@@ -3,6 +3,7 @@ import 'package:delivery_kyogre_getx/pikachu/layout.dart';
 import 'package:delivery_kyogre_getx/views/pages/Dashboard/DashBoardPage.dart';
 import 'package:delivery_kyogre_getx/views/pages/Dashboard/Dashboard.dart';
 import 'package:delivery_kyogre_getx/views/pages/Dashboard/Pedido/PedidoControler.dart';
+import 'package:delivery_kyogre_getx/views/pages/Screens/DeepLinkPage.dart';
 import 'Teoria do Caos/RestAPI/RestApiHttp.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/pedido', page: () => RestApiPage()), //! Change Here
         GetPage(name: '/dash', page: () => DashboardPage()),
         GetPage(name: '/layoutDesign', page: ()=> CartaoGridView()),
+        GetPage(name: '/cardapioDigital', page: ()=> DeepLinkPage())
       ],
       debugShowCheckedModeBanner: false,
       title: 'Dashboard',

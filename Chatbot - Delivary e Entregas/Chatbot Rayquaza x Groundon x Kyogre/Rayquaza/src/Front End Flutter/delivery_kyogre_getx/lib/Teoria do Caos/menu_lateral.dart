@@ -36,7 +36,8 @@ class MenuLateral extends StatelessWidget {
     ItemMenuLateral(title: 'Página 1', icon: Icons.home, route: '/'),
     ItemMenuLateral(title: 'Pedido Page Server', icon: Icons.pageview, route: '/pedido'),
     ItemMenuLateral(title: 'DashBoard Page', icon: Icons.account_balance_wallet_sharp, route: '/dash'),
-    ItemMenuLateral(title: 'Grid Style', icon: Icons.abc_outlined, route: '/layoutDesign')
+    ItemMenuLateral(title: 'Grid Style', icon: Icons.abc_outlined, route: '/layoutDesign'),
+    ItemMenuLateral(title: 'Deep Link', icon: Icons.link, route: '/cardapioDigital')
 
 
     //TODO Adicione mais itens de menu conforme necessário
