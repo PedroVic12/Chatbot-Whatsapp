@@ -14,6 +14,8 @@ class BackendController extends GroundonController {
         this.setupRoutes();
     }
 
+
+
     //! Funções de integração com o Rayquaza
     gerarPedidoJson(nomeCliente) {
         const pedido = {
@@ -94,6 +96,17 @@ class BackendController extends GroundonController {
             res.send('Tudo certo! O servidor está em execução.');
         });
 
+        // Rota para receber o link do Cardapio Digital
+        this.app.post(
+            '/receber-link',
+            [
+                body('link').notEmpty().withMessage('O campo "link" não pode estar vazio.'),
+            ],
+            this.receberLink.bind(this)
+        );
+
+
+        // Rota de enviar mensagem por HTTP
         this.app.post(
             '/send-message',
             [
@@ -103,6 +116,7 @@ class BackendController extends GroundonController {
             this.sendMessage.bind(this)
         );
 
+        // Rota de enviar lista por HTTP
         this.app.post(
             '/send-lists',
             [
@@ -123,6 +137,32 @@ class BackendController extends GroundonController {
             this.sendLists.bind(this)
         );
     }
+
+    receberLink(request, response) {
+        // Verifique se existem erros de validação nos campos do formulário
+        const errors_request = validationResult(request);
+
+        if (!errors_request.isEmpty()) {
+            return response.status(422).json({
+                status: false,
+                message: errors_request.errors.map(error => error.msg)
+            });
+        }
+
+        // Extraia o link do corpo da solicitação
+        const link = request.body.link;
+
+        console.log('Link recebido:', link);
+
+        // Você pode fazer o que quiser com o link aqui. Por exemplo, você pode salvar
+        // ele em um banco de dados, enviá-lo para outro serviço, etc.
+
+        response.status(200).json({
+            status: true,
+            message: 'Link recebido com sucesso',
+        });
+    }
+
 
     //! Enviar Mensagem por http
     sendMessage(request, response) {
@@ -259,4 +299,4 @@ function main_Backend() {
     backend.start_backend();
 }
 
-//main_Backend()
+main_Backend()

@@ -125,13 +125,15 @@ class StagesView extends GroundonView {
                         this.enviarMensagem(message, `Voce escolheu a opção *${selectedOption.button.text.slice(3)}*`)
 
                         //TODO Cardapio
-                        if (selectedOption.button.text.toUpperCase() === 'Ver Cardápio' || choice_escolhida === '1') {
+                        if (selectedOption.button.text.toUpperCase() === 'Ver Cardápio' || choice_escolhida === '1' || selectedOption.button.text.toLowerCase().includes('cardapio')) {
                             this.enviarMensagem(message, 'Vou mostrar o cardápio em PDF!');
                             this.enviarPdf(message.from, '/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/repository/assets/sanduiches.pdf')
 
                             // Mostra o menu principal
                             let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
                             this.enviarMenu(message, menu_principal_text)
+
+
 
                         }
 
@@ -147,6 +149,9 @@ class StagesView extends GroundonView {
                                     this.pushStage(4);
                                 });
                             });
+
+                            // Cardapio Digital
+
                         }
 
                         // Localização
