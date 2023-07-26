@@ -4,6 +4,8 @@ const venom = require('venom-bot');
 class GroundonController {
 	constructor() {
 		this.whatsapp = null;
+		this.timeoutDuration = 45000; // Tempo limite em milissegundos (45000 ms = 45 s)
+		this.timeoutID = null; // Armazena o ID do tempo limite para que possamos cancelá-lo posteriormente
 	}
 
 	async conectarWpp() {
@@ -28,10 +30,29 @@ class GroundonController {
 			this.whatsapp.onMessage((message) => {
 				console.log(`Mensagem recebida: ${message.body}`);
 				this.groundon.armazenarConversa(message);
+
+				this.resetTimeout(); // Reinicie o tempo limite cada vez que recebermos uma mensagem
 			});
 		} else {
 			console.error('WhatsApp client not connected.');
 		}
+	}
+
+
+	async restartChatbot() {
+
+		await this.whatsapp.restartService()
+		await this.conectarWpp()
+	}
+
+	startTimeout() {
+		this.timeoutID = setTimeout(() => this.restartChatbot(), this.timeoutDuration);
+	}
+
+	// Reinicia o tempo limite
+	resetTimeout() {
+		clearTimeout(this.timeoutID);
+		this.startTimeout();
 	}
 
 
@@ -67,8 +88,6 @@ class GroundonController {
 	async desconectarWpp() {
 		// Realize as ações necessárias antes de desconectar o bot
 
-		// Limpar os usuários online
-		this.onlineUsers.clear();
 
 		// Desconectar o bot
 		await this.groundon.close();

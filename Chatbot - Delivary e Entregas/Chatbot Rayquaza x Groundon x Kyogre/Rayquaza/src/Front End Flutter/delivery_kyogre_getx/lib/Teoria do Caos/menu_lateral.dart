@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 // TODO -> Navigator Getx
 // TODO -> CRUD with listview (Contact List APP)
 // TODO -> Backend and database Usage
 // TODO -> Layouts in Flutter
-
 
 // TODO -> Gestao de Pedidos com Tabelas
 class ItemMenuLateral {
@@ -34,11 +32,16 @@ class MenuLateral extends StatelessWidget {
 
   final List<ItemMenuLateral> _menuItems = [
     ItemMenuLateral(title: 'Página 1', icon: Icons.home, route: '/'),
-    ItemMenuLateral(title: 'Pedido Page Server', icon: Icons.pageview, route: '/pedido'),
-    ItemMenuLateral(title: 'DashBoard Page', icon: Icons.account_balance_wallet_sharp, route: '/dash'),
-    ItemMenuLateral(title: 'Grid Style', icon: Icons.abc_outlined, route: '/layoutDesign'),
-    ItemMenuLateral(title: 'Deep Link', icon: Icons.link, route: '/cardapioDigital')
-
+    ItemMenuLateral(
+        title: 'Pedido Page Server', icon: Icons.pageview, route: '/pedido'),
+    ItemMenuLateral(
+        title: 'DashBoard Page',
+        icon: Icons.account_balance_wallet_sharp,
+        route: '/dash'),
+    ItemMenuLateral(
+        title: 'Grid Style', icon: Icons.abc_outlined, route: '/layoutDesign'),
+    ItemMenuLateral(
+        title: 'Cardapio Digital', icon: Icons.link, route: '/details/:id')
 
     //TODO Adicione mais itens de menu conforme necessário
   ];
@@ -55,12 +58,16 @@ class MenuLateral extends StatelessWidget {
           return ListTile(
             leading: Icon(
               menuItem.icon,
-              color: _controller.selectedIndex.value == index ? Colors.white : Colors.grey,
+              color: _controller.selectedIndex.value == index
+                  ? Colors.white
+                  : Colors.grey,
             ),
             title: Text(
               menuItem.title,
               style: TextStyle(
-                color: _controller.selectedIndex.value == index ? Colors.white : Colors.grey,
+                color: _controller.selectedIndex.value == index
+                    ? Colors.white
+                    : Colors.grey,
               ),
             ),
             onTap: () {

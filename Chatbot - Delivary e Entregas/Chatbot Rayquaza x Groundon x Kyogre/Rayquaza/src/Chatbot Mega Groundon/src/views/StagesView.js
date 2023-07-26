@@ -29,6 +29,7 @@ class StagesView extends GroundonView {
         this.estagio1 = new Estagio1()
         this.estagio2 = new Estagio2()
         this.estagio3 = new Estagio3()
+        this.timeout = null;
 
         this.Widgets = new Widgets()
 
@@ -43,20 +44,18 @@ class StagesView extends GroundonView {
         const menuCategorias = this.Widgets.menuCategorias;
         const menuLanches = this.Widgets.menuLanchesSalgados;
         const menuBebidas = this.Widgets.menuBebidas
+        const isClienteOnline = false
+        const isLinkPedidoOnline = false
 
         return new Promise((resolve, reject) => {
 
-
-
             this.whatsapp.onMessage(async (message) => {
-                //! MensagemLog -> Controller()
-                // Verifica se o usuário já está online
-
-                // Lógica para processar a mensagem recebida
-                //const robo_groundon = new Groundon()
-                //robo_groundon.armazenarConversa(message)
+                //!Configurações Backend
                 const numero_estagio = this.getCurrentStage();
+                console.log(`Mensagem recebida: ${message.body}`);
 
+
+                //this.startTimerBot(message)
 
                 //! ===================== Estágio 1 - Apresentação =====================
                 if (numero_estagio === 1) {
@@ -100,8 +99,9 @@ class StagesView extends GroundonView {
 
                     //Numero pedido
                     try {
-                        const link_pedido = this.backendController.getLink()
-                        this.enviarMensagem(message, `Abra esse link do seu pedido ${link_pedido}`)
+                        const link_pedido = await this.backendController.getLink()
+                        //this.enviarLinkPedido(message.from, link_pedido)
+                        this.enviarMensagem(message, `Abra esse link do seu pedido: ${link_pedido}`)
 
                     } catch (error) {
                         console.log('Nao foi possível pegar o link')
@@ -313,6 +313,33 @@ class StagesView extends GroundonView {
 
         });
     }
+
+    startTimerBot(message) {
+        // Limpe o tempo limite existente
+        if (this.timeout !== null) {
+            clearTimeout(this.timeout);
+        }
+
+        // Configure um novo tempo limite
+        this.timeout = setTimeout(() => {
+            this.reiniciarChatbot();
+        }, 45000);  // 45 segundos
+
+        // Se uma mensagem for recebida, reinicie o tempo limite
+        if (message.body) {
+            clearTimeout(this.timeout);
+            this.timeout = setTimeout(() => {
+                this.reiniciarChatbot();
+            }, 45000);
+        }
+    }
+
+    async reiniciarChatbot() {
+        console.log("\n\nBot is restarting due to inactivity...");
+        // Aqui você pode adicionar o código necessário para reiniciar o bot
+        this.backendController.restartChatbot()
+    }
+
 }
 
 module.exports = StagesView;

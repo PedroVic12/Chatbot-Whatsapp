@@ -44,8 +44,8 @@ class GroundonView extends Groundon {
 		}
 	}
 
-	enviarLinkPedido(message_from, _link) {
-		this.whatsapp.senLinkPreview(
+	async enviarLinkPedido(message_from, _link) {
+		await this.whatsapp.senLinkPreview(
 			message_from,
 			_link,
 			'Link do seu pedido'
@@ -192,6 +192,11 @@ class GroundonView extends Groundon {
 	// Função para obter o estágio atual
 	getCurrentStage() {
 		return this.stack.length > 0 ? this.stack[this.stack.length - 1] : 1;
+	}
+
+	// Função para limpar a pilha
+	clearStages() {
+		this.stack = [];
 	}
 
 

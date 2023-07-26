@@ -160,7 +160,7 @@ class BackendController extends GroundonController {
     // Rota para recuperar o link do Cardapio Digital
     async getLink() {
         const response = await axios.get('https://rayquaza-citta-server.onrender.com/receber-link');
-        console.log('Link recuperado:', response.data.link);
+        console.log('\n\nLink recuperado:', response.data.link);
         return response.data.link;
     }
 
