@@ -14,6 +14,14 @@ class GroundonView extends Groundon {
 
 	}
 
+	// Rota para recuperar o link do Cardapio Digital
+	async getLinkCardapio() {
+		// Assuma que this.backendController é uma instância válida de BackendController
+		const link = await this.backendController.getLink();
+
+		// Agora você pode usar a variável link
+		console.log('Link recuperado:', link);
+	}
 
 
 	//! Funções de Mensagem
@@ -34,6 +42,20 @@ class GroundonView extends Groundon {
 		} catch (err) {
 			console.log(err);
 		}
+	}
+
+	enviarLinkPedido(message_from, _link) {
+		this.whatsapp.senLinkPreview(
+			message_from,
+			_link,
+			'Link do seu pedido'
+		).then(
+			(result) => {
+				console.log('Result: ', result); //return object success
+			}
+		).catch((error) => {
+			console.log('Erro ao enviar o link')
+		})
 	}
 
 	enviarFoto(message_from, path_image_jpg) {

@@ -1,8 +1,7 @@
 const { body, validationResult } = require('express-validator');
 const express = require('express');
-//const fetch = require('node-fetch');
 const fs = require('fs');
-
+const axios = require('axios')
 const GroundonController = require('./GroundonController')
 
 
@@ -137,6 +136,15 @@ class BackendController extends GroundonController {
             this.sendLists.bind(this)
         );
     }
+
+    // Rota para recuperar o link do Cardapio Digital
+    async getLink() {
+        const response = await axios.get('https://046d-189-1-137-10.ngrok-free.app/receber-link');
+        console.log('Link recuperado:', response.data.link);
+        return response.data.link;
+    }
+
+
 
     receberLink(request, response) {
         // Verifique se existem erros de validação nos campos do formulário
@@ -299,4 +307,4 @@ function main_Backend() {
     backend.start_backend();
 }
 
-main_Backend()
+//main_Backend()

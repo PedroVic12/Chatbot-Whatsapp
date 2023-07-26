@@ -98,6 +98,10 @@ class StagesView extends GroundonView {
                         this.enviarMensagem(message, `✅ Prazer em te conhecer, ${cliente.nome}!`)
                     )
 
+                    //Numero pedido
+                    const link_pedido = this.backendController.getLink()
+                    this.enviarMensagem(message, `Abra esse link do seu pedido ${link_pedido}`)
+
                     // Mostra o menu principal
                     let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
                     this.enviarMenu(message, menu_principal_text)
