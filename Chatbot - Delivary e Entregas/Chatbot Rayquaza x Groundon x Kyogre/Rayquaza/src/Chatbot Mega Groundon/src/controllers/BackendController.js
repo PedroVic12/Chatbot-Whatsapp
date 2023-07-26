@@ -116,7 +116,7 @@ class BackendController extends GroundonController {
             }
         );
 
-        this.app.get('https://046d-189-1-137-10.ngrok-free.app/receber-link', (req, res) => {
+        this.app.get('https://rayquaza-citta-server.onrender.com/receber-link', (req, res) => {
             if (linkSalvo) {
                 res.status(200).json({ link: linkSalvo });
             } else {
@@ -159,7 +159,7 @@ class BackendController extends GroundonController {
 
     // Rota para recuperar o link do Cardapio Digital
     async getLink() {
-        const response = await axios.get('https://046d-189-1-137-10.ngrok-free.app/receber-link');
+        const response = await axios.get('https://rayquaza-citta-server.onrender.com/receber-link');
         console.log('Link recuperado:', response.data.link);
         return response.data.link;
     }
