@@ -100,7 +100,7 @@ class StagesView extends GroundonView {
                     //Numero pedido
                     try {
                         const link_pedido = await this.backendController.getLink()
-                        //this.enviarLinkPedido(message.from, link_pedido)
+                        this.enviarLinkPedido(message.from, link_pedido)
                         this.enviarMensagem(message, `Abra esse link do seu pedido: ${link_pedido}`)
 
                     } catch (error) {
