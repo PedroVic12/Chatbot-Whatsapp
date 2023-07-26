@@ -99,8 +99,13 @@ class StagesView extends GroundonView {
                     )
 
                     //Numero pedido
-                    const link_pedido = this.backendController.getLink()
-                    this.enviarMensagem(message, `Abra esse link do seu pedido ${link_pedido}`)
+                    try {
+                        const link_pedido = this.backendController.getLink()
+                        this.enviarMensagem(message, `Abra esse link do seu pedido ${link_pedido}`)
+
+                    } catch (error) {
+                        console.log('Nao foi possível pegar o link')
+                    }
 
                     // Mostra o menu principal
                     let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);

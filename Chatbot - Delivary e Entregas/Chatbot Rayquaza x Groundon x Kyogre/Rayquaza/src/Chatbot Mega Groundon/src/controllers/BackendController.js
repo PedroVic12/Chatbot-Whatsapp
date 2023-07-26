@@ -96,13 +96,33 @@ class BackendController extends GroundonController {
         });
 
         // Rota para receber o link do Cardapio Digital
+        let linkSalvo = null; // Variável para armazenar o link recebido
+
         this.app.post(
             '/receber-link',
             [
                 body('link').notEmpty().withMessage('O campo "link" não pode estar vazio.'),
             ],
-            this.receberLink.bind(this)
+            (req, res) => {
+                // Extraia o link do corpo da solicitação
+                linkSalvo = req.body.link;
+
+                console.log('Link recebido:', linkSalvo);
+
+                res.status(200).json({
+                    status: true,
+                    message: 'Link recebido com sucesso',
+                });
+            }
         );
+
+        this.app.get('https://046d-189-1-137-10.ngrok-free.app/receber-link', (req, res) => {
+            if (linkSalvo) {
+                res.status(200).json({ link: linkSalvo });
+            } else {
+                res.status(404).json({ message: 'Nenhum link foi recebido ainda.' });
+            }
+        });
 
 
         // Rota de enviar mensagem por HTTP
