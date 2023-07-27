@@ -33,7 +33,8 @@ class PedidoController extends GetxController {
 
   Future<void> fetchPedidos() async {
     try {
-      final response = await http.get(Uri.parse('http://localhost:5000/pedidos'));
+      final response = await http
+          .get(Uri.parse('https://rayquaza-citta-server.onrender.com/pedidos'));
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
         if (jsonData['results'] is List<dynamic>) {
@@ -51,7 +52,7 @@ class PedidoController extends GetxController {
       }
     } catch (e) {
       print('Erro ao fazer a solicitação GET: $e');
-      throw Exception('Failed to fetch pedidos');
+      //throw Exception('Failed to fetch pedidos');
     }
   }
 
@@ -59,7 +60,8 @@ class PedidoController extends GetxController {
     final pedidoId = pedido['id'];
 
     // Faça a solicitação DELETE para excluir o pedido do servidor
-    final response = await http.delete(Uri.parse('http://localhost:5000/deletarPedido/$pedidoId'));
+    final response = await http.delete(Uri.parse(
+        'https://rayquaza-citta-server.onrender.com/deletarPedido/$pedidoId'));
 
     if (response.statusCode == 200) {
       // Agora você pode remover o pedido localmente
@@ -108,7 +110,9 @@ class PedidoController extends GetxController {
                   child: AlertaPedidoWidget(
                     nomeCliente: pedido['nome'] ?? '',
                     enderecoPedido: pedido['endereco_cliente'] ?? '',
-                    itensPedido: pedido['itens_pedido'] != null ? List<String>.from(pedido['itens_pedido']) : [],
+                    itensPedido: pedido['itens_pedido'] != null
+                        ? List<String>.from(pedido['itens_pedido'])
+                        : [],
                     btnOkOnPress: () {
                       aceitarPedido(pedido);
                     },
