@@ -23,6 +23,19 @@ class _CardapioDigitalPageState extends State<CardapioDigitalPage> {
     id = Get.parameters['id']!;
   }
 
+  Future<String?> getLinkPedidoServidor() async {
+    final response = await http.get(
+        Uri.parse('https://rayquaza-citta-server.onrender.com/receber-link'));
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      return data['link'];
+    } else {
+      print('Failed to fetch the link.');
+      return null;
+    }
+  }
+
   Future<void> sendLinkToServer(String link) async {
     final response = await http.post(
       Uri.parse(

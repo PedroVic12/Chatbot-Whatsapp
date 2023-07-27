@@ -54,6 +54,26 @@ class BackendController extends GroundonController {
         });
     }
 
+    gerarLinkCardapio() {
+        const pedidoId = Math.floor(1000 + Math.random() * 9000);
+        return pedidoId
+    }
+
+    //TODO PASSAR O NOME DO CLIENTE COMO PARÂMETRO
+
+    async enviarLinkServidor() {
+        const idPedido = this.gerarIdPedido();
+        const link = `https://groundon-app.web.app/details/${idPedido}`;
+
+        try {
+            const response = await axios.post('https://your-fastapi-server.com/receber-link', { link: link });
+            console.log(`Link ${link} enviado com sucesso para o servidor FastAPI.`);
+        } catch (error) {
+            console.error('Erro ao enviar o link para o servidor FastAPI:', error);
+        }
+    }
+
+
     enviarPedidosServidor(message) {
 
         //Conexão Fetch
@@ -96,7 +116,7 @@ class BackendController extends GroundonController {
         });
 
         // Rota para receber o link do Cardapio Digital
-        let linkSalvo = null; // Variável para armazenar o link recebido
+        const linkSalvo = null; // Variável para armazenar o link recebido
 
         this.app.post(
             '/receber-link',
