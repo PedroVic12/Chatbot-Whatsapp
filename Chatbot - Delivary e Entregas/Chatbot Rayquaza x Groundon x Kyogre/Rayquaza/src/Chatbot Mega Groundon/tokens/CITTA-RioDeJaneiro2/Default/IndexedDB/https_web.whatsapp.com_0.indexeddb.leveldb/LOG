@@ -1,3 +1,16 @@
-2023/07/28-12:38:52.080 16095 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/07/28-12:38:52.080 16095 Recovering log #137
-2023/07/28-12:38:52.089 16095 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000137.log 
+2023/07/28-13:16:33.466 178c0 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/07/28-13:16:33.466 178c0 Recovering log #137
+2023/07/28-13:16:33.515 178c0 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000137.log 
+2023/07/28-13:16:47.800 178c0 Level-0 table #144: started
+2023/07/28-13:16:47.835 178c0 Level-0 table #144: 1262370 bytes OK
+2023/07/28-13:16:47.838 178c0 Delete type=0 #137
+2023/07/28-13:16:48.061 178c0 Compacting 1@1 + 3@2 files
+2023/07/28-13:16:48.231 178c0 Generated table #145@1: 85900 keys, 2235560 bytes
+2023/07/28-13:16:48.281 178c0 Generated table #146@1: 27465 keys, 2364814 bytes
+2023/07/28-13:16:48.325 178c0 Generated table #147@1: 54708 keys, 1410259 bytes
+2023/07/28-13:16:48.325 178c0 Compacted 1@1 + 3@2 files => 6010633 bytes
+2023/07/28-13:16:48.327 178c0 compacted to: files[ 0 0 3 0 0 0 0 ]
+2023/07/28-13:16:48.327 178c0 Delete type=2 #140
+2023/07/28-13:16:48.327 178c0 Delete type=2 #144
+2023/07/28-13:16:48.327 178c0 Delete type=2 #139
+2023/07/28-13:16:48.327 178c0 Delete type=2 #141

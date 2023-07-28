@@ -101,6 +101,7 @@ class StagesView extends GroundonView {
                     cliente.setPhoneNumber(numero_cliente)
 
 
+                    // TODO CHECAR SE ESTAR CONECTADO A INTERNET E INICIAR O CHATBOT
 
                     //TODO checar cliente na base de dados
                     //console.log(cliente)

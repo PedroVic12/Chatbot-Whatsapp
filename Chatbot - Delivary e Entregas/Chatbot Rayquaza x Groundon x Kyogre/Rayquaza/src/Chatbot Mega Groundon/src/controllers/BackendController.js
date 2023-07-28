@@ -65,7 +65,7 @@ class BackendController extends GroundonController {
         const idPedido = this.gerarIdPedido();
         const link = `https://groundon-citta-cardapio.web.app/#/details/${idPedido}`;
 
-        const url = 'https://rayquaza-citta-server.onrender.com/receber-link';
+        const url = `https://rayquaza-citta-server.onrender.com/cliente/${idPedido}`;
         const data = {
             nome: _cliente.get_nome(),
             telefone: _cliente.getPhoneNumber(),
