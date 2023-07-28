@@ -61,22 +61,34 @@ class BackendController extends GroundonController {
 
     //TODO PASSAR O NOME DO CLIENTE COMO PARÂMETRO
 
-    async enviarLinkServidor(_cliente) {
+    async enviarLinkServidor(cliente) {
         const idPedido = this.gerarIdPedido();
         const link = `https://groundon-citta-cardapio.web.app/#/details/${idPedido}`;
 
+        const url_link = 'https://rayquaza-citta-server.onrender.com/receber-link'
+        const data_link = {
+            link: link // inclua o link no objeto data_link
+        };
+
+        try {
+            const response_link = await axios.post(url_link, data_link);
+            console.log(`\n>>>Link ${link} enviado com sucesso para o servidor FastAPI.`);
+            console.log('Dados do link enviados com sucesso:', response_link.data);
+        } catch (error) {
+            console.error('Erro ao enviar link:', error);
+        }
+
         const url = `https://rayquaza-citta-server.onrender.com/cliente/${idPedido}`;
         const data = {
-            nome: _cliente.get_nome(),
-            telefone: _cliente.getPhoneNumber(),
-            //endereco: _cliente.getEndereco(),
-            //formaPagamento: _cliente.getPagamento(),
+            id: idPedido,
+            nome: cliente.nome,
+            telefone: cliente.telefone,
             link: link // inclua o link no objeto data
         };
 
         try {
             const response = await axios.post(url, data);
-            console.log(`\n>>>Link ${link} enviado com sucesso para o servidor FastAPI.`);
+            console.log(`\n>>>Dados do cliente enviados com sucesso para o servidor FastAPI.`);
             console.log('Dados do cliente enviados com sucesso:', response.data);
         } catch (error) {
             console.error('Erro ao enviar dados do cliente:', error);
@@ -84,6 +96,8 @@ class BackendController extends GroundonController {
 
         return link;
     }
+
+
 
 
 
