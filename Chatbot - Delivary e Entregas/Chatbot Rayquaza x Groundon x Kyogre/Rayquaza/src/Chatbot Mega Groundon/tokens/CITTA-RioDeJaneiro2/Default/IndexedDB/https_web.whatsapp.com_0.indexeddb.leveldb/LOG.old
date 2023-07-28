@@ -1,16 +1,3 @@
-2023/07/28-13:53:38.833 197c5 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/07/28-13:53:38.834 197c5 Recovering log #149
-2023/07/28-13:53:38.894 197c5 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000149.log 
-2023/07/28-13:53:53.488 197b0 Level-0 table #156: started
-2023/07/28-13:53:53.522 197b0 Level-0 table #156: 1347855 bytes OK
-2023/07/28-13:53:53.524 197b0 Delete type=0 #149
-2023/07/28-13:54:03.369 197b0 Compacting 1@1 + 3@2 files
-2023/07/28-13:54:03.516 197b0 Generated table #157@1: 86853 keys, 2237363 bytes
-2023/07/28-13:54:03.567 197b0 Generated table #158@1: 29879 keys, 2397066 bytes
-2023/07/28-13:54:03.617 197b0 Generated table #159@1: 59971 keys, 1724000 bytes
-2023/07/28-13:54:03.617 197b0 Compacted 1@1 + 3@2 files => 6358429 bytes
-2023/07/28-13:54:03.618 197b0 compacted to: files[ 0 0 3 0 0 0 0 ]
-2023/07/28-13:54:03.618 197b0 Delete type=2 #152
-2023/07/28-13:54:03.618 197b0 Delete type=2 #151
-2023/07/28-13:54:03.618 197b0 Delete type=2 #153
-2023/07/28-13:54:03.618 197b0 Delete type=2 #156
+2023/07/28-15:53:11.374 1fed4 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/07/28-15:53:11.374 1fed4 Recovering log #203
+2023/07/28-15:53:11.420 1fed4 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000203.log 
