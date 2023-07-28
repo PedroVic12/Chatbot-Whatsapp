@@ -4,7 +4,6 @@ const axios = require('axios');
 const Groundon = require('../models/Groundon');
 const GroundonView = require('./GroundonView');
 
-//TODO this.whatsapp = null no momento, atualizei o venom-bot e bugou muita coisa
 const DataBaseController = require('../models/Regras de Negocio/Cardapio/DataBaseController');
 const BinaryTree = require('../models/Regras de Negocio/Cardapio/ArvoreBinaria')
 
@@ -54,6 +53,23 @@ class StagesView extends GroundonView {
                 const numero_estagio = this.getCurrentStage();
                 console.log(`Mensagem recebida: ${message.body}`);
 
+                //TODO Se o robo ficar 45 segundos sem receber mensagem, ele volta para o estagio 1
+                async function restartChatbot() {
+                    await sleep(30 * 60 * 1000).then(() => {
+                        this.pushStage(1)
+                    })
+
+                }
+
+
+                // TODO Chatbot online junto com o servidor
+
+                //TODO Aceitar vários pedidos ao mesmo tempo
+
+
+                //TODO tratamento de mensagens ("Desculpa nao entendi, voce quis dizer [opção1,opção2,opção3]?")
+
+
 
                 //this.startTimerBot(message)
 
@@ -98,14 +114,10 @@ class StagesView extends GroundonView {
                     )
 
                     //Numero pedido
-                    try {
-                        const link_pedido = await this.backendController.getLink()
-                        this.enviarLinkPedido(message.from, link_pedido)
-                        this.enviarMensagem(message, `Abra esse link do seu pedido: ${link_pedido}`)
+                    this.backendController.enviarLinkServidor(cliente).then(link_pedido_id => {
+                        this.enviarMensagem(message, `Abra esse link do seu pedido: ${link_pedido_id}`)
+                    });
 
-                    } catch (error) {
-                        console.log('Nao foi possível pegar o link')
-                    }
 
                     // Mostra o menu principal
                     let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);

@@ -54,24 +54,37 @@ class BackendController extends GroundonController {
         });
     }
 
-    gerarLinkCardapio() {
+    gerarIdPedido() {
         const pedidoId = Math.floor(1000 + Math.random() * 9000);
         return pedidoId
     }
 
     //TODO PASSAR O NOME DO CLIENTE COMO PARÂMETRO
 
-    async enviarLinkServidor() {
+    async enviarLinkServidor(_cliente) {
         const idPedido = this.gerarIdPedido();
-        const link = `https://groundon-app.web.app/details/${idPedido}`;
+        const link = `https://groundon-citta-cardapio.web.app/#/details/${idPedido}`;
+
+        const url = 'https://rayquaza-citta-server.onrender.com/receber-link';
+        const data = {
+            nome: _cliente.get_nome(),
+            telefone: _cliente.getPhoneNumber(),
+            //endereco: _cliente.getEndereco(),
+            //formaPagamento: _cliente.getPagamento(),
+            link: link // inclua o link no objeto data
+        };
 
         try {
-            const response = await axios.post('https://your-fastapi-server.com/receber-link', { link: link });
-            console.log(`Link ${link} enviado com sucesso para o servidor FastAPI.`);
+            const response = await axios.post(url, data);
+            console.log(`\n>>>Link ${link} enviado com sucesso para o servidor FastAPI.`);
+            console.log('Dados do cliente enviados com sucesso:', response.data);
         } catch (error) {
-            console.error('Erro ao enviar o link para o servidor FastAPI:', error);
+            console.error('Erro ao enviar dados do cliente:', error);
         }
+
+        return link;
     }
+
 
 
     enviarPedidosServidor(message) {
