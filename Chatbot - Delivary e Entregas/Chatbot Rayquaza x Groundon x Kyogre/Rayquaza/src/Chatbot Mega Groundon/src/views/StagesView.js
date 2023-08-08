@@ -77,8 +77,8 @@ class StagesView extends GroundonView {
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
                     console.log('\nEstágio 1:', message.body);
 
-                    this.enviarMensagem(message, `Bem-vindo a Lanchonete *Citta RJ* Obrigado por escolher a nossos Serviços. \n Eu sou o Robô Groundon e estou aqui para ajudá-lo. `)
-                    this.enviarMensagem(message, "Antes de começarmos, por favor, *Digite Seu Nome*:")
+                    this.enviarMensagem(message, `Bem-vindo a Lanchonete *Citta RJ* Obrigado por escolher a nossos Serviços.\n🤖 Eu sou o Robô Groundon e estou aqui para ajudá-lo. `)
+                    this.enviarMensagem(message, "🤖 Antes de começarmos, por favor, *Digite Seu Nome*:")
 
 
                     this.pushStage(2); // Avança para o próximo estágio
@@ -187,8 +187,10 @@ class StagesView extends GroundonView {
 
                     const pedido_escolhido_cardapio = this.getLastMessage(message);
 
-
+                    const pedido_json = this.getPedidoCardapio(pedido_escolhido_cardapio)
                     this.enviarMensagem(message, 'Seu pedido foi anotado!')
+
+                    console.log(pedido_json)
 
                     this.pushStage(5);
                 }

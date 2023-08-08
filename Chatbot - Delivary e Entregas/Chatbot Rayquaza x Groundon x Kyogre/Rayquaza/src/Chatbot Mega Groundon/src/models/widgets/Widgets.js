@@ -9,7 +9,11 @@ class Widgets {
     this.menuPrincipal = [
       { button: { text: '🍔 Ver Cardápio', hide: true }, type: 'message' },
       { button: { text: '🛒 Fazer Pedido', hide: true }, type: 'message' },
-      { button: { text: '📍 Ver Localização', hide: true }, type: 'message' }
+      { button: { text: '📍 Ver nossa Localização', hide: true }, type: 'message' },
+      { button: { text: '👨‍🍳 Falar com um atendente', hide: true }, type: 'message' },
+      { button: { text: '❌ Sair', hide: true }, type: 'message' }
+
+
     ];
 
     // Menu de Categorias

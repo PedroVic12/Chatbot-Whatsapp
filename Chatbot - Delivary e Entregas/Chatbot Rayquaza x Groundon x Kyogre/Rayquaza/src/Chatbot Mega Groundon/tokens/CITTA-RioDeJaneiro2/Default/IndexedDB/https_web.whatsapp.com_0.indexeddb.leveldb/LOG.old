@@ -1,37 +1,20 @@
-2023/08/08-11:50:58.251 17a50 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/08/08-11:50:58.251 17a50 Recovering log #305
-2023/08/08-11:50:58.307 17a50 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000305.log 
-2023/08/08-11:50:59.844 17a51 Level-0 table #314: started
-2023/08/08-11:50:59.935 17a51 Level-0 table #314: 1228774 bytes OK
-2023/08/08-11:51:00.024 17a51 Delete type=0 #305
-2023/08/08-11:51:01.084 17a51 Compacting 1@1 + 5@2 files
-2023/08/08-11:51:01.180 17a51 Generated table #315@1: 83376 keys, 2233273 bytes
-2023/08/08-11:51:01.264 17a51 Generated table #316@1: 99997 keys, 2252103 bytes
-2023/08/08-11:51:01.352 17a51 Generated table #317@1: 18205 keys, 2566269 bytes
-2023/08/08-11:51:01.501 17a51 Generated table #318@1: 47690 keys, 2215025 bytes
-2023/08/08-11:51:01.617 17a51 Generated table #319@1: 34919 keys, 686902 bytes
-2023/08/08-11:51:01.617 17a51 Compacted 1@1 + 5@2 files => 9953572 bytes
-2023/08/08-11:51:01.675 17a51 compacted to: files[ 0 0 5 0 0 0 0 ]
-2023/08/08-12:10:49.062 18e59 Level-0 table #321: started
-2023/08/08-12:10:49.116 18e59 Level-0 table #321: 1271720 bytes OK
-2023/08/08-12:10:49.120 18e59 Delete type=2 #308
-2023/08/08-12:10:49.120 18e59 Delete type=2 #307
-2023/08/08-12:10:49.120 18e59 Delete type=0 #313
-2023/08/08-12:10:49.120 18e59 Delete type=2 #311
-2023/08/08-12:10:49.123 18e59 Delete type=2 #309
-2023/08/08-12:10:49.123 18e59 Delete type=2 #314
-2023/08/08-12:10:49.123 18e59 Delete type=2 #310
-2023/08/08-12:11:00.784 18e59 Compacting 1@1 + 5@2 files
-2023/08/08-12:11:00.909 18e59 Generated table #322@1: 84015 keys, 2233446 bytes
-2023/08/08-12:11:00.981 18e59 Generated table #323@1: 99982 keys, 2253520 bytes
-2023/08/08-12:11:01.085 18e59 Generated table #324@1: 21167 keys, 2578384 bytes
-2023/08/08-12:11:01.242 18e59 Generated table #325@1: 41742 keys, 2206742 bytes
-2023/08/08-12:11:01.284 18e59 Generated table #326@1: 41961 keys, 823585 bytes
-2023/08/08-12:11:01.284 18e59 Compacted 1@1 + 5@2 files => 10095677 bytes
-2023/08/08-12:11:01.287 18e59 compacted to: files[ 0 0 5 0 0 0 0 ]
-2023/08/08-12:11:01.288 18e59 Delete type=2 #316
-2023/08/08-12:11:01.288 18e59 Delete type=2 #315
-2023/08/08-12:11:01.289 18e59 Delete type=2 #317
-2023/08/08-12:11:01.289 18e59 Delete type=2 #319
-2023/08/08-12:11:01.289 18e59 Delete type=2 #321
-2023/08/08-12:11:01.290 18e59 Delete type=2 #318
+2023/08/08-12:40:12.288 1a7da Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/08/08-12:40:12.289 1a7da Recovering log #320
+2023/08/08-12:40:12.332 1a7da Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000320.log 
+2023/08/08-12:47:18.920 1a7db Level-0 table #329: started
+2023/08/08-12:47:18.975 1a7db Level-0 table #329: 1304435 bytes OK
+2023/08/08-12:47:18.982 1a7db Delete type=0 #320
+2023/08/08-12:47:19.160 1a7db Compacting 1@1 + 5@2 files
+2023/08/08-12:47:19.245 1a7db Generated table #330@1: 85405 keys, 2234466 bytes
+2023/08/08-12:47:19.322 1a7db Generated table #331@1: 99890 keys, 2252848 bytes
+2023/08/08-12:47:19.390 1a7db Generated table #332@1: 24522 keys, 2588332 bytes
+2023/08/08-12:47:19.439 1a7db Generated table #333@1: 36153 keys, 2201569 bytes
+2023/08/08-12:47:19.474 1a7db Generated table #334@1: 48008 keys, 942244 bytes
+2023/08/08-12:47:19.474 1a7db Compacted 1@1 + 5@2 files => 10219459 bytes
+2023/08/08-12:47:19.474 1a7db compacted to: files[ 0 0 5 0 0 0 0 ]
+2023/08/08-12:47:19.475 1a7db Delete type=2 #323
+2023/08/08-12:47:19.475 1a7db Delete type=2 #324
+2023/08/08-12:47:19.475 1a7db Delete type=2 #329
+2023/08/08-12:47:19.475 1a7db Delete type=2 #322
+2023/08/08-12:47:19.475 1a7db Delete type=2 #326
+2023/08/08-12:47:19.475 1a7db Delete type=2 #325
