@@ -1,3 +1,20 @@
-2023/08/01-18:47:57.606 1bd4 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/08/01-18:47:57.607 1bd4 Recovering log #245
-2023/08/01-18:47:57.692 1bd4 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000245.log 
+2023/08/07-18:30:11.307 219e Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/08/07-18:30:11.308 219e Recovering log #281
+2023/08/07-18:30:11.391 219e Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000281.log 
+2023/08/07-18:33:28.070 21a0 Level-0 table #290: started
+2023/08/07-18:33:28.159 21a0 Level-0 table #290: 1228357 bytes OK
+2023/08/07-18:33:28.162 21a0 Delete type=0 #281
+2023/08/07-18:35:26.939 21a0 Compacting 1@1 + 5@2 files
+2023/08/07-18:35:27.074 21a0 Generated table #291@1: 83433 keys, 2231300 bytes
+2023/08/07-18:35:27.261 21a0 Generated table #292@1: 100419 keys, 2252732 bytes
+2023/08/07-18:35:27.414 21a0 Generated table #293@1: 7211 keys, 2535313 bytes
+2023/08/07-18:35:27.532 21a0 Generated table #294@1: 66283 keys, 2232273 bytes
+2023/08/07-18:35:27.550 21a0 Generated table #295@1: 13221 keys, 260576 bytes
+2023/08/07-18:35:27.550 21a0 Compacted 1@1 + 5@2 files => 9512194 bytes
+2023/08/07-18:35:27.553 21a0 compacted to: files[ 0 0 5 0 0 0 0 ]
+2023/08/07-18:35:27.554 21a0 Delete type=2 #285
+2023/08/07-18:35:27.554 21a0 Delete type=2 #284
+2023/08/07-18:35:27.554 21a0 Delete type=2 #286
+2023/08/07-18:35:27.554 21a0 Delete type=2 #290
+2023/08/07-18:35:27.554 21a0 Delete type=2 #287
+2023/08/07-18:35:27.554 21a0 Delete type=2 #283

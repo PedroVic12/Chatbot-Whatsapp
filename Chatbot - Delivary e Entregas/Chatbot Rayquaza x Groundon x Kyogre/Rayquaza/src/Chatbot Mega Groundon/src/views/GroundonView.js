@@ -44,19 +44,7 @@ class GroundonView extends Groundon {
 		}
 	}
 
-	async enviarLinkPedido(message_from, _link) {
-		await this.whatsapp.senLinkPreview(
-			message_from,
-			_link,
-			'Link do seu pedido'
-		).then(
-			(result) => {
-				console.log('Result: ', result); //return object success
-			}
-		).catch((error) => {
-			console.log('Erro ao enviar o link')
-		})
-	}
+	
 
 	enviarFoto(message_from, path_image_jpg) {
 		// Send image (you can also upload an image using a valid HTTP protocol)

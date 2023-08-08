@@ -1,38 +1,101 @@
-// Importando as classes necessárias
-const CardapioMenu = require('../../models/Regras de Negocio/Cardapio/Menu_Cardapio');
-const DataBaseController = require('../../models/Regras de Negocio/Cardapio/DataBaseController');
-const Pedido = require('../../models/Regras de Negocio/Pedido/Pedido');
-const Carrinho = require('../../models/Regras de Negocio/Pedido/Carrinho');
+const venom = require('venom-bot');
 
-// Função para realizar um pedido
-async function realizarPedido() {
-    const pedido = new Pedido();
-    const cardapio = new CardapioMenu();
-    const dataController = new DataBaseController();
-    const carrinho = new Carrinho();
+class RayquazaController {
+    constructor() {
+        this.client = {};
+        venom
+            .create(
+                {
+                    session: 'rayquaza' //name of session
+                }
+            )
+            .then((client) => this.initializeClient(client))
+            .catch((error) => console.log(error));
+        this.clientStates = {}; // Store client states
+    }
 
-    // Escolhendo o tipo de produto e buscando o cardápio
-    const ESCOLHA_CLIENTE = '1'; // Exemplo: usuário escolheu a opção 1 do menu
-    const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(ESCOLHA_CLIENTE);
-    const produtosCardapio = await cardapio.criarArvore(tipo_produto, arquivo_produto);
+    async initializeClient(client) {
+        this.client = client;
+        this.client.onMessage((message) => this.handleMessage(message));
+    }
 
-    // Exemplo: usuário escolheu o primeiro produto do cardápio
-    const produtoEscolhido = produtosCardapio[0];
+    getClientState(clientId) {
+        if (!this.clientStates[clientId]) {
+            this.clientStates[clientId] = {
+                stage: 'stage1',
+                timer: null
+            };
+        }
+        return this.clientStates[clientId];
+    }
 
-    // Adicionando o produto ao pedido
-    pedido.adicionarProduto(produtoEscolhido);
+    setClientState(clientId, newState) {
+        const state = this.getClientState(clientId);
+        state.stage = newState;
 
-    // Exibindo o produto adicionado ao pedido
-    console.log('Produto adicionado ao pedido:');
-    console.log(produtoEscolhido);
+        // Cancel the existing timer if there is one
+        if (state.timer) {
+            clearTimeout(state.timer);
+        }
 
-    // Adicionando o produto ao carrinho
-    carrinho.adicionarProduto(produtoEscolhido);
+        const tempo_conversa = 1 * 60 * 1000
 
-    // Calculando o total do carrinho
-    const totalCarrinho = carrinho.calcularTotal();
-    console.log('Total do carrinho:', totalCarrinho);
+        // Start a new timer to reset the state after 1 minute
+        state.timer = setTimeout(() => {
+            state.stage = 'stage1';
+            console.log(`Resetting stage for client ${clientId}`);
+        }, tempo_conversa);
+    }
+
+    async handleMessage(message) {
+        const clientId = message.from;  // Using the sender's number as the client ID
+        const state = this.getClientState(clientId);
+
+        // Check if the message is "!resetar"
+        if (message.body.toLowerCase() === '!resetar') {
+            console.log(`Reset command received from ${clientId}. Resetting to stage 1.`);
+            this.setClientState(clientId, 'stage1');
+            await this.stage1(message);
+            return;
+        }
+
+        switch (state.stage) {
+            case 'stage1':
+                await this.stage1(message);
+                this.setClientState(clientId, 'stage2');
+                break;
+            case 'stage2':
+                await this.stage2(message);
+                this.setClientState(clientId, 'stage3');
+                break;
+            // ... other stages ...
+        }
+
+        // Reset the timer for this client since we received a message
+        this.setClientState(clientId, state.stage);
+    }
+
+
+    // Original methods from the file you provided
+    async stage1(message) {
+        await this.client.sendText(message.from, '🤖: Ola, tudo bem?');
+    }
+
+    async stage2(message) {
+        await this.client.sendText(message.from, '🤖: Como posso ajudar?');
+    }
+
+    async stage3(message) {
+        await this.client.sendText(message.from, '🤖: Terceira mensagem');
+    }
 }
 
-// Executando o exemplo
-realizarPedido();
+module.exports = RayquazaController;
+
+
+function main_rayquaza() {
+    const rayquazaBot = new RayquazaController();
+    console.log("Rayquaza bot is now running...");
+}
+
+main_rayquaza(); 

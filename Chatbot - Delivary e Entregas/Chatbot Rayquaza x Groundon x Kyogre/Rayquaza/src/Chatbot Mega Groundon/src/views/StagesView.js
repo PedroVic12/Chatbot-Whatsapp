@@ -30,21 +30,12 @@ class StagesView extends GroundonView {
         this.estagio3 = new Estagio3()
         this.timeout = null;
 
-        this.Widgets = new Widgets()
 
-        this.carrinho = new CarrinhoPedido()
-
-        //this.comidaTree = new BinaryTree();
-        //this.sanduicheTree = new BinaryTree();
     }
 
     async start_chat_Groundon() {
         const menu_principal = this.Widgets.menuPrincipal
         const menuCategorias = this.Widgets.menuCategorias;
-        const menuLanches = this.Widgets.menuLanchesSalgados;
-        const menuBebidas = this.Widgets.menuBebidas
-        const isClienteOnline = false
-        const isLinkPedidoOnline = false
 
         return new Promise((resolve, reject) => {
 
@@ -114,10 +105,6 @@ class StagesView extends GroundonView {
                         this.enviarMensagem(message, `✅ Prazer em te conhecer, ${cliente.nome}!`)
                     )
 
-                    //Numero pedido
-                    this.backendController.enviarLinkServidor(cliente).then(link_pedido_id => {
-                        this.enviarMensagem(message, `Abra esse link do seu pedido: ${link_pedido_id}`)
-                    });
 
 
                     // Mostra o menu principal
@@ -164,15 +151,12 @@ class StagesView extends GroundonView {
                             selectedOption.button.text.toUpperCase() === 'FAZER PEDIDO' ||
                             selectedOption.button.text.toLowerCase().includes('pedido')
                         ) {
-                            const menuCategoriasText = this.Widgets.getMenuText('Menu Categorias de Lanches', menuCategorias);
-                            this.enviarMensagem(message, menuCategoriasText);
-                            this.delay(3000).then(() => {
-                                this.enviarMensagem(message, 'processando...').then(() => {
-                                    this.pushStage(4);
-                                });
+                            //Numero pedido
+                            this.backendController.enviarLinkServidor(cliente).then(link_pedido_id => {
+                                this.enviarMensagem(message, `Abra esse link do seu pedido: ${link_pedido_id}`)
+                                this.pushStage(4);
                             });
 
-                            // Cardapio Digital
 
                         }
 
@@ -189,7 +173,7 @@ class StagesView extends GroundonView {
 
 
 
-                //!=====================  Estagio 4 - Cliente Escolhe os Produtos da Categoria escolhida da Loja =====================
+                //!=====================  Estagio 4 - Cliente Escolhe os Produtos no Cardapio Digital da Loja =====================
                 else if (numero_estagio === 4) {
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
                     console.log(`\nEstágio ${numero_estagio}:`, message.body);
@@ -197,29 +181,7 @@ class StagesView extends GroundonView {
                     const categoria_escolhida = this.getLastMessage(message);
 
 
-                    //TODO -> Buscar o numero ou nome correspondente da lista de produtos escolhidos
-                    if (categoria_escolhida === '1') {
-                        const selectedOption2 = this.Widgets.getSelectedOption(menuCategorias, categoria_escolhida);
-
-                        if (selectedOption2) {
-                            this.enviarMensagem(message, `Voce escolheu a opção *${selectedOption2.button.text.slice(3)}*`)
-                        }
-
-                        const menuLanchesText = this.Widgets.getMenuText('Menu Lanches e Comidas', menuLanches)
-                        this.enviarMensagem(message, menuLanchesText)
-
-                    }
-
-                    if (categoria_escolhida === '2') {
-                        const selectedOption3 = this.Widgets.getSelectedOption(menuCategorias, categoria_escolhida);
-
-                        if (selectedOption3) {
-                            this.enviarMensagem(message, `Voce escolheu a opção *${selectedOption3.button.text.slice(3)}*`)
-                        }
-
-                        const menuLanchesText = this.Widgets.getMenuText('Menu Bebidas, Sucos e Cervejas', menuBebidas)
-                        this.enviarMensagem(message, menuLanchesText)
-                    }
+                    this.enviarMensagem(message, 'Seu pedido foi anotado!')
 
                     this.pushStage(5);
                 }
@@ -233,22 +195,6 @@ class StagesView extends GroundonView {
 
                     //TODO -> Buscar o numero ou nome correspondente da lista de produtos escolhidos
                     const PRODUTO_ESCOLHIDO = this.getLastMessage(message);
-
-
-                    const { tipo_produto, arquivo_produto } = cardapio.getTipoEArquivoProduto(PRODUTO_ESCOLHIDO);
-                    this.enviarMensagem(message, `Voce escolheu o produto: *${tipo_produto}*`)
-
-                    cardapio.criarArvore(tipo_produto, arquivo_produto)
-                        .then((produtos) => {
-                            const menuProdutosText = this.Widgets.getMenuProdutos(tipo_produto, produtos);
-                            this.enviarMensagem(message, menuProdutosText)
-
-                            // Aqui você pode enviar o menuProdutosText para o usuário por meio do seu chatbot
-                        })
-                        .catch((error) => {
-                            console.log('Erro ao criar a árvore de produtos:', error);
-                        });
-
 
 
                     //!tentativa botao
