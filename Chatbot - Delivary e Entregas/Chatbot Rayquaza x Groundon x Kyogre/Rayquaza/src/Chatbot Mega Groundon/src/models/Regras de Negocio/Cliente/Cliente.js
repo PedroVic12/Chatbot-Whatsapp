@@ -5,6 +5,9 @@ const Pedido = require('../Pedido/Pedido')
 class Cliente {
     constructor() {
 
+        this.currentStage = 1;
+
+
         // Atributos Dinamicos
         this.nome = '';
         this.telefone = 0;
@@ -12,6 +15,9 @@ class Cliente {
         this.forma_pagamento = '';
     }
 
+    generateOrderID() {
+        return Math.floor(1000 + Math.random() * 9000).toString();
+    }
 
     //! Getters e Setters
     set_nome(name) {
@@ -47,29 +53,18 @@ class Cliente {
     }
 
 
+    //! Controle de fluxo
+    getCurrentStage() {
+        return this.currentStage;
+    }
+
+    // setters
+    setCurrentStage(stage) {
+        this.currentStage = stage;
+    }
+
 
     //! Métodos que o usuario informa
-    BotpegarNomeProduto(string) {
-        const _array = string.split("R$ ");
-        return _array[0];
-    }
-
-    realizaPedido(message) {
-        try {
-
-            //TODO ta pegando apenas o nome e nao o preco, ver como vai ficar vindo a informacao da lista do wpp
-
-            const nome_produto = this.BotpegarNomeProduto(message);
-            this.carrinho.adicionarProdutos(nome_produto);
-            //this.carrinho.setItens([nome_produto]);
-            //?this.chatbot.enviarMensagem(message, `${nome_produto} adicionado ao carrinho!`);
-            console.log(`\n${nome_produto} adicionado ao carrinho!!`)
-
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
     gerarNotaFiscal() {
 
         try {

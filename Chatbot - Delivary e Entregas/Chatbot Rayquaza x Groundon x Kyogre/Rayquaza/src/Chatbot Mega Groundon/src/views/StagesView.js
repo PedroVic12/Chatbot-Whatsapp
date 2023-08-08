@@ -28,7 +28,7 @@ class StagesView extends GroundonView {
         this.estagio1 = new Estagio1()
         this.estagio2 = new Estagio2()
         this.estagio3 = new Estagio3()
-        this.timeout = null;
+        this.clientes = {};
 
 
     }
@@ -44,11 +44,24 @@ class StagesView extends GroundonView {
                 const numero_estagio = this.getCurrentStage();
                 console.log(`Mensagem recebida: ${message.body}`);
 
-                //TODO Se o robo ficar 45 segundos sem receber mensagem, ele volta para o estagio 1
-                const clientId = message.from; // Using the client's phone number as a unique ID
 
-                // Set/reset client's timeout for inactivity
-                this.setClientStateTimeout(clientId);
+                function megaGroundonUpdate() {
+                    //TODO Se o robo ficar 45 segundos sem receber mensagem, ele volta para o estagio 1
+                    const clientId = message.from; // Using the client's phone number as a unique ID
+
+
+                    if (!this.clientes[phoneNumber]) {
+                        this.clientes[phoneNumber] = new Cliente(phoneNumber);
+                    }
+
+                    const clienteAtual = this.clientes[phoneNumber];
+                    // Set/reset client's timeout for inactivity
+                    this.setClientStateTimeout(clientId);
+                }
+
+
+
+
 
 
                 // TODO Chatbot online junto com o servidor

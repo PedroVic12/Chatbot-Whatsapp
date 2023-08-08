@@ -3,6 +3,24 @@ const Groundon = require('../models/Groundon')
 const fs = require('fs');
 const axios = require('axios');
 
+
+
+
+/*
+
+uma coisa crucial do meu robo é receber varios clientes ao mesmo tempo, ja perccebi que se eu começo a conversa com uma pessoa em um dispositivo se eu falar em outro dispositivo, ele começa de onde veio a conversa do outro dispositivo
+
+É necessário  isolar o estado de cada cliente, e uma maneira comum de fazer isso é usar um identificador único para cada cliente (por exemplo, o número de telefone e o ID com numero aleatorio de 4 digitos) e armazenar o estado associado a esse identificador.
+
+1) Isolar o estado por cliente: Em vez de um único objeto currentStage, você terá um objeto clientStates onde a chave é o identificador do cliente e o valor é o estado desse cliente.
+
+2) Resetar o estágio após inatividade: Para cada cliente, você iniciará um temporizador quando receber uma mensagem. Se outra mensagem desse cliente for recebida antes do temporizador expirar, o temporizador será reiniciado. Se o temporizador expirar, o estado do cliente será redefinido.
+
+
+*/
+
+
+
 //? Tentei fazer uma herança de Groundon
 class GroundonView extends Groundon {
 	constructor(whatsapp, groundonController, backendController) {
@@ -167,6 +185,8 @@ class GroundonView extends Groundon {
 	setClientStateTimeout(clientId) {
 		const clientState = this.getClientState(clientId);
 
+		const tempoConversa = 1 * 60 * 1000; //! mudar apenas a primeira unidade
+
 		// Cancel the existing timer if there is one
 		if (clientState.timer) {
 			clearTimeout(clientState.timer);
@@ -176,7 +196,7 @@ class GroundonView extends Groundon {
 		clientState.timer = setTimeout(() => {
 			this.clearStages(clientId);
 			console.log(`Resetting stage for client ${clientId}`);
-		}, 15 * 60 * 1000);
+		}, tempoConversa);
 	}
 
 	handleMessageClientID(message) {
