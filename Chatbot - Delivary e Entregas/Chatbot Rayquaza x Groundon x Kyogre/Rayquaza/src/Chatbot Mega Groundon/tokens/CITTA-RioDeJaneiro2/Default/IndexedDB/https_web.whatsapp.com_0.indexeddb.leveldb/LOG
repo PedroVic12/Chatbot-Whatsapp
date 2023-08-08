@@ -1,3 +1,20 @@
-2023/08/08-11:13:06.316 15ff8 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/08/08-11:13:06.316 15ff8 Recovering log #305
-2023/08/08-11:13:06.334 15ff8 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000305.log 
+2023/08/08-12:40:12.288 1a7da Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/08/08-12:40:12.289 1a7da Recovering log #320
+2023/08/08-12:40:12.332 1a7da Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro2/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000320.log 
+2023/08/08-12:47:18.920 1a7db Level-0 table #329: started
+2023/08/08-12:47:18.975 1a7db Level-0 table #329: 1304435 bytes OK
+2023/08/08-12:47:18.982 1a7db Delete type=0 #320
+2023/08/08-12:47:19.160 1a7db Compacting 1@1 + 5@2 files
+2023/08/08-12:47:19.245 1a7db Generated table #330@1: 85405 keys, 2234466 bytes
+2023/08/08-12:47:19.322 1a7db Generated table #331@1: 99890 keys, 2252848 bytes
+2023/08/08-12:47:19.390 1a7db Generated table #332@1: 24522 keys, 2588332 bytes
+2023/08/08-12:47:19.439 1a7db Generated table #333@1: 36153 keys, 2201569 bytes
+2023/08/08-12:47:19.474 1a7db Generated table #334@1: 48008 keys, 942244 bytes
+2023/08/08-12:47:19.474 1a7db Compacted 1@1 + 5@2 files => 10219459 bytes
+2023/08/08-12:47:19.474 1a7db compacted to: files[ 0 0 5 0 0 0 0 ]
+2023/08/08-12:47:19.475 1a7db Delete type=2 #323
+2023/08/08-12:47:19.475 1a7db Delete type=2 #324
+2023/08/08-12:47:19.475 1a7db Delete type=2 #329
+2023/08/08-12:47:19.475 1a7db Delete type=2 #322
+2023/08/08-12:47:19.475 1a7db Delete type=2 #326
+2023/08/08-12:47:19.475 1a7db Delete type=2 #325

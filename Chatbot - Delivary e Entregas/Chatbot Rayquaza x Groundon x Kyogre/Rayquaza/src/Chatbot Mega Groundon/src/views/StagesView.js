@@ -133,7 +133,6 @@ class StagesView extends GroundonView {
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
                     console.log(`\nEstágio ${numero_estagio}:`, message.body);
 
-                    //TODO FUNCAO PARA O GROUNDON
                     const choice_escolhida = this.getLastMessage(message);
                     const selectedOption = this.Widgets.getSelectedOption(menu_principal, choice_escolhida);
 
@@ -141,7 +140,7 @@ class StagesView extends GroundonView {
 
                         this.enviarMensagem(message, `Voce escolheu a opção *${selectedOption.button.text.slice(3)}*`)
 
-                        //TODO Cardapio
+                        // Cardapio
                         if (selectedOption.button.text.toUpperCase() === 'Ver Cardápio' || choice_escolhida === '1' || selectedOption.button.text.toLowerCase().includes('cardapio')) {
                             this.enviarMensagem(message, 'Vou mostrar o cardápio em PDF!');
                             this.enviarPdf(message.from, '/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/repository/assets/sanduiches.pdf')
@@ -186,7 +185,7 @@ class StagesView extends GroundonView {
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
                     console.log(`\nEstágio ${numero_estagio}:`, message.body);
 
-                    const categoria_escolhida = this.getLastMessage(message);
+                    const pedido_escolhido_cardapio = this.getLastMessage(message);
 
 
                     this.enviarMensagem(message, 'Seu pedido foi anotado!')
@@ -201,7 +200,6 @@ class StagesView extends GroundonView {
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
 
-                    //TODO -> Buscar o numero ou nome correspondente da lista de produtos escolhidos
                     const PRODUTO_ESCOLHIDO = this.getLastMessage(message);
 
 
@@ -220,8 +218,6 @@ class StagesView extends GroundonView {
                         }
                     ]
                     this.enviarBotoes(message.from, 'title', buttons, 'Descrição')
-                    this.enviarFoto(message.from, '/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/repository/assets/sanduiches.png')
-
                     this.pushStage(6)
                 }
 
@@ -233,17 +229,7 @@ class StagesView extends GroundonView {
 
                     const item_escolhido = this.getLastMessage(message)
                     this.enviarMensagem(message, item_escolhido)
-                    this.enviarFoto(message.from, '/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/repository/assets/sanduiches.png')
 
-                    if (message.body === '2') {
-                        const produto = {
-                            nome: 'Americano',
-                            preco: 17.0
-                        };
-                        this.carrinho.adicionarProduto(produto);
-                    }
-                    const total = this.carrinho.calcularTotal();
-                    this.enviarMensagem(message, `Pedido {produto.nome} adicionado ao carrinho. \n\nTotal: R$ ${total}`);
 
                     this.popStage(); // Retorna ao estágio anterior
 
@@ -279,32 +265,6 @@ class StagesView extends GroundonView {
 
 
         });
-    }
-
-    startTimerBot(message) {
-        // Limpe o tempo limite existente
-        if (this.timeout !== null) {
-            clearTimeout(this.timeout);
-        }
-
-        // Configure um novo tempo limite
-        this.timeout = setTimeout(() => {
-            this.reiniciarChatbot();
-        }, 45000);  // 45 segundos
-
-        // Se uma mensagem for recebida, reinicie o tempo limite
-        if (message.body) {
-            clearTimeout(this.timeout);
-            this.timeout = setTimeout(() => {
-                this.reiniciarChatbot();
-            }, 45000);
-        }
-    }
-
-    async reiniciarChatbot() {
-        console.log("\n\nBot is restarting due to inactivity...");
-        // Aqui você pode adicionar o código necessário para reiniciar o bot
-        this.backendController.restartChatbot()
     }
 
 }
