@@ -45,24 +45,18 @@ class StagesView extends GroundonView {
                 console.log(`Mensagem recebida: ${message.body}`);
 
                 //TODO Se o robo ficar 45 segundos sem receber mensagem, ele volta para o estagio 1
-                async function restartChatbot() {
-                    await sleep(30 * 60 * 1000).then(() => {
-                        this.pushStage(1)
-                    })
+                const clientId = message.from; // Using the client's phone number as a unique ID
 
-                }
+                // Set/reset client's timeout for inactivity
+                this.setClientStateTimeout(clientId);
 
 
                 // TODO Chatbot online junto com o servidor
 
                 //TODO Aceitar vários pedidos ao mesmo tempo
 
-
                 //TODO tratamento de mensagens ("Desculpa nao entendi, voce quis dizer [opção1,opção2,opção3]?")
 
-
-
-                //this.startTimerBot(message)
 
                 //! ===================== Estágio 1 - Apresentação =====================
                 if (numero_estagio === 1) {

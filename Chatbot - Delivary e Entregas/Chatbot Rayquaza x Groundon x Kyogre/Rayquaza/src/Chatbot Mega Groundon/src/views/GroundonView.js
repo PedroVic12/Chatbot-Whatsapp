@@ -10,7 +10,10 @@ class GroundonView extends Groundon {
 		this.whatsapp = whatsapp;
 		this.groundonController = groundonController;
 		this.backendController = backendController;
+
+
 		this.stack = []; // Pilha de estágios
+		this.clientStates = {}; // Store client states
 
 	}
 
@@ -44,7 +47,7 @@ class GroundonView extends Groundon {
 		}
 	}
 
-	
+
 
 	enviarFoto(message_from, path_image_jpg) {
 		// Send image (you can also upload an image using a valid HTTP protocol)
@@ -90,63 +93,6 @@ class GroundonView extends Groundon {
 
 	}
 
-	//!Funções dos Menus Personalizados
-	// Função para mostrar o menu principal
-	async enviarMenu(message, menu_text) {
-		try {
-			await this.delay(2000);
-			await this.enviarMensagem(message, menu_text);
-		} catch (error) {
-			console.log(error);
-		}
-
-		await this.delay(3000);
-		await this.enviarMensagem(message, 'O que deseja fazer?');
-	}
-
-	//! Funções Listas
-	mostrarComidasLista(message) {
-
-		let cardapio_sanduiche = '/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/repository/cardapio_1.json'
-		fs.readFile(cardapio_sanduiche, 'utf8', (err, data) => {
-			if (err) {
-				console.error('Erro ao ler o arquivo JSON:', err);
-				return;
-			}
-
-			try {
-				const listaComidas = JSON.parse(data);
-
-				let cardapio_text = '🍔 *Cardápio* 🍔\n\n';
-
-				listaComidas.forEach((comida, index) => {
-					cardapio_text += `*${index + 1}. ${comida['Sanduíches Tradicionais']}* - R$ ${comida['Preço.4'].toFixed(2)}\n`;
-					cardapio_text += `Ingredientes: ${comida['Igredientes']}\n`;
-					cardapio_text += `📝 Para escolher este item, envie o número ${index + 1}.\n\n`;
-				});
-
-				cardapio_text += '🚫 Para cancelar, envie *cancelar*.\n';
-
-				this.enviarMensagem(message, cardapio_text);
-			} catch (error) {
-				console.error('Erro ao analisar o arquivo JSON:', error);
-			}
-		});
-
-	}
-
-	async enviarLista(to, title, subTitle, description, menu, list_object) {
-		try {
-			await this.whatsapp.sendListMenu(to, title, subTitle, description, menu, list_object)
-				.then((result) => {
-					console.log('\n\nLISTA ENVIADA: ', result);
-				})
-
-
-		} catch (error) {
-			console.error('\n\nError when sending LIST: ', error);
-		}
-	}
 
 	async sendListRequest(to, title, subTitle, description, menu, list_object) {
 		try {
@@ -187,6 +133,60 @@ class GroundonView extends Groundon {
 		this.stack = [];
 	}
 
+	//! Metodos de cliente e ID
+	getClientState(clientId) {
+		if (!this.clientStates[clientId]) {
+			this.clientStates[clientId] = {
+				stack: [],
+				timer: null
+			};
+		}
+		return this.clientStates[clientId];
+	}
+
+	pushEstagio(clientId, stage) {
+		this.getClientState(clientId).stack.push(stage);
+	}
+
+	popEstagio(clientId) {
+		const stack = this.getClientState(clientId).stack;
+		if (stack.length > 0) {
+			stack.pop();
+		}
+	}
+
+	getEstagioAtual(clientId) {
+		const stack = this.getClientState(clientId).stack;
+		return stack.length > 0 ? stack[stack.length - 1] : 'stage1';
+	}
+
+	limparPilhaEstagio(clientId) {
+		this.getClientState(clientId).stack = [];
+	}
+
+	setClientStateTimeout(clientId) {
+		const clientState = this.getClientState(clientId);
+
+		// Cancel the existing timer if there is one
+		if (clientState.timer) {
+			clearTimeout(clientState.timer);
+		}
+
+		// Start a new timer to reset the state after 15 minutes
+		clientState.timer = setTimeout(() => {
+			this.clearStages(clientId);
+			console.log(`Resetting stage for client ${clientId}`);
+		}, 15 * 60 * 1000);
+	}
+
+	handleMessageClientID(message) {
+		const clientId = message.from;
+		this.setClientStateTimeout(clientId);
+
+		// Now, you can use the pushStage, popStage, and getCurrentStage methods with the clientId
+		// For example: this.pushStage(clientId, 'someStage');
+		// Note: You'll need to modify your existing code to handle messages accordingly
+	}
 
 }
 
