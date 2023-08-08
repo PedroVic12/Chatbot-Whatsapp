@@ -30,12 +30,13 @@ class StagesView extends GroundonView {
         this.estagio3 = new Estagio3()
         this.clientes = {};
 
+        this.Widgets = new Widgets()
+
 
     }
 
     async start_chat_Groundon() {
         const menu_principal = this.Widgets.menuPrincipal
-        const menuCategorias = this.Widgets.menuCategorias;
 
         return new Promise((resolve, reject) => {
 
@@ -116,7 +117,7 @@ class StagesView extends GroundonView {
 
                     // Mostra o menu principal
                     let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
-                    this.enviarMenu(message, menu_principal_text)
+                    this.enviarMensagem(message, menu_principal_text)
 
 
                     this.pushStage(3);

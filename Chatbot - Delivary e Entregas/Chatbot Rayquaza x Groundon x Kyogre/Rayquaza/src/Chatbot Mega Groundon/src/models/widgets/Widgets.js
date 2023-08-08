@@ -160,7 +160,7 @@ function main_widgets() {
   //! Menu principal
   const menuPrincipal = widgets.menuPrincipal;
   const menuPrincipalText = widgets.getMenuText('Menu Principal', menuPrincipal);
-  //console.log(menuPrincipalText);
+  console.log(menuPrincipalText);
 
 
   //! Menu de categorias
