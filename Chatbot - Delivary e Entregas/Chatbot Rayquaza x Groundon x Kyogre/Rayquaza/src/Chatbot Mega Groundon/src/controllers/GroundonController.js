@@ -8,22 +8,27 @@ class GroundonController {
 		this.timeoutID = null; // Armazena o ID do tempo limite para que possamos cancelá-lo posteriormente
 	}
 
-	async conectarWpp() {
-		try {
-			this.whatsapp = await venom.create({
-				session: 'CITTA-RioDeJaneiro2' // nome da sessão
-			});
+	conectarWpp() {
+		return new Promise(async (resolve, reject) => {
+			try {
+				this.whatsapp = await venom.create({
+					session: 'CITTA-RioDeJaneiro' //! nome da sessão
+				});
 
-			if (this.whatsapp) {
-				console.log('Conectado ao WhatsApp com sucesso!');
+				if (this.whatsapp) {
+					console.log('\nConectado ao WhatsApp com sucesso!');
+					resolve(true);
+				} else {
+					console.log(`Debug ${this.whatsapp}`);
+					reject(new Error("WhatsApp connection failed."));
+				}
+			} catch (error) {
+				console.error('\n\nErro ao conectar ao WhatsApp:', error);
+				reject(error);
 			}
-			else {
-				console.log(`Debug ${this.whatsapp}`);
-			}
-		} catch (error) {
-			console.error('\n\nErro ao conectar ao WhatsApp:', error);
-		}
+		});
 	}
+
 
 	receberMensagemConsole() {
 		if (this.whatsapp) {

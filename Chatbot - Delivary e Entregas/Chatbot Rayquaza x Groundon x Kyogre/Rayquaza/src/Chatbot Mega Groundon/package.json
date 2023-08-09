@@ -13,6 +13,7 @@
     "express-validator": "^7.0.1",
     "http": "^0.0.1-security",
     "node-fetch": "^3.3.1",
-    "venom-bot": "^5.0.7"
+    "pm2": "^4.2.3",
+    "venom-bot": "^5.0.16"
   }
 }

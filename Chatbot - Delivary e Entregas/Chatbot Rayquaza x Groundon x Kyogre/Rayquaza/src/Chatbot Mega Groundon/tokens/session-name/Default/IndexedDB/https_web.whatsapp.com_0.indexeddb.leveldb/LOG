@@ -1,10 +1,7 @@
-2023/08/07-20:02:34.279 58c1 Creating DB /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/session-name/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb since it was missing.
-2023/08/07-20:02:34.283 58c1 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/session-name/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/08/07-20:02:34.487 58c6 Level-0 table #5: started
-2023/08/07-20:02:34.490 58c6 Level-0 table #5: 7443 bytes OK
-2023/08/07-20:02:34.491 58c6 Delete type=0 #3
-2023/08/07-20:02:34.491 58c6 Manual compaction at level-0 from '\x00\x01\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x02\x00\x00\x00' @ 0 : 0; will stop at (end)
-2023/08/07-20:02:35.890 58c6 Level-0 table #7: started
-2023/08/07-20:02:35.892 58c6 Level-0 table #7: 25293 bytes OK
-2023/08/07-20:02:35.894 58c6 Delete type=0 #4
-2023/08/07-20:02:35.894 58c7 Manual compaction at level-0 from '\x00\x07\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x08\x00\x00\x00' @ 0 : 0; will stop at (end)
+2023/08/09-09:59:31.285 fa48 Creating DB /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/session-name/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb since it was missing.
+2023/08/09-09:59:31.299 fa48 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/session-name/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/08/09-09:59:31.335 fa4a Manual compaction at level-0 from '\x00\x01\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x02\x00\x00\x00' @ 0 : 0; will stop at (end)
+2023/08/09-09:59:32.201 fa48 Level-0 table #5: started
+2023/08/09-09:59:32.205 fa48 Level-0 table #5: 21361 bytes OK
+2023/08/09-09:59:32.207 fa48 Delete type=0 #3
+2023/08/09-09:59:32.207 fa48 Manual compaction at level-0 from '\x00\x06\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x07\x00\x00\x00' @ 0 : 0; will stop at (end)
