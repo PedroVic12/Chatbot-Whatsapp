@@ -47,7 +47,7 @@ async function main() {
 
 	//! Bot esta Online!
 	// Start chat for Groundon stages
-	await stagesView.start_chat_Groundon()
+	await stagesView.start_chatbot_Groundon()
 		.then(() => {
 			isGroundonBotOnline = true;
 			console.log(`\nChatbot Groundon iniciado: ${isGroundonBotOnline}`);

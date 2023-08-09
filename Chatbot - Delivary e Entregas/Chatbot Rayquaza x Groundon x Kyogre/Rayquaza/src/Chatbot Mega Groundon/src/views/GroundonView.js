@@ -2,6 +2,7 @@ const GroundonController = require('../controllers/GroundonController');
 const Groundon = require('../models/Groundon')
 const fs = require('fs');
 const axios = require('axios');
+const pm2 = require('pm2');
 
 
 
@@ -32,8 +33,33 @@ class GroundonView extends Groundon {
 
 		this.stack = []; // Pilha de estágios
 		this.clientStates = {}; // Store client states
+		this.inactivityTimer = null; // Adicionado aqui
 
 	}
+
+	restartChatbot = () => {
+		if (this.inactivityTimer) {
+			clearTimeout(this.inactivityTimer);
+		}
+
+		this.inactivityTimer = setTimeout(() => {
+			console.log("Inatividade detectada. Reiniciando o aplicativo através do PM2.");
+			pm2.connect((err) => {
+				if (err) {
+					console.error(err);
+					return;
+				}
+				pm2.restart('Chatbot-Groundon', (err, apps) => {
+					pm2.disconnect();
+					if (err) {
+						console.error(err);
+					}
+				});
+			});
+		}, 5 * 60 * 1000);  // 5 minutos
+	};
+
+
 
 	// Rota para recuperar o link do Cardapio Digital
 	async getLinkCardapio() {

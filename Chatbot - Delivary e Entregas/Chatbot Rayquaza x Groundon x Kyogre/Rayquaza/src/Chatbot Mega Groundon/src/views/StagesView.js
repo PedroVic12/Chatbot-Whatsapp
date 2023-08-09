@@ -35,34 +35,16 @@ class StagesView extends GroundonView {
 
     }
 
-    async start_chat_Groundon() {
+    async start_chatbot_Groundon() {
         const menu_principal = this.Widgets.menuPrincipal
 
         return new Promise((resolve, reject) => {
 
             this.whatsapp.onMessage(async (message) => {
                 //!Configurações Backend
+                this.restartChatbot()
                 const numero_estagio = this.getCurrentStage();
                 console.log(`Mensagem recebida: ${message.body}`);
-
-
-                function megaGroundonUpdate() {
-                    //TODO Se o robo ficar 45 segundos sem receber mensagem, ele volta para o estagio 1
-                    const clientId = message.from; // Using the client's phone number as a unique ID
-
-
-                    if (!this.clientes[phoneNumber]) {
-                        this.clientes[phoneNumber] = new Cliente(phoneNumber);
-                    }
-
-                    const clienteAtual = this.clientes[phoneNumber];
-                    // Set/reset client's timeout for inactivity
-                    this.setClientStateTimeout(clientId);
-                }
-
-
-
-
 
 
                 // TODO Chatbot online junto com o servidor

@@ -14,7 +14,6 @@ class BackendController extends GroundonController {
     }
 
 
-
     //! Funções de integração com o Rayquaza
     gerarPedidoJson(nomeCliente) {
         const pedido = {
@@ -98,9 +97,6 @@ class BackendController extends GroundonController {
     }
 
 
-
-
-
     enviarPedidosServidor(message) {
 
         //Conexão Fetch
@@ -111,6 +107,7 @@ class BackendController extends GroundonController {
         //Enviar para o servidor de Fastapi
 
     }
+
     enviarPedido(pedido) {
         const url = 'http://localhost:8000/ws'; // URL do servidor FastAPI
 
@@ -210,8 +207,6 @@ class BackendController extends GroundonController {
         console.log('\n\nLink recuperado:', response.data.link);
         return response.data.link;
     }
-
-
 
     receberLink(request, response) {
         // Verifique se existem erros de validação nos campos do formulário
