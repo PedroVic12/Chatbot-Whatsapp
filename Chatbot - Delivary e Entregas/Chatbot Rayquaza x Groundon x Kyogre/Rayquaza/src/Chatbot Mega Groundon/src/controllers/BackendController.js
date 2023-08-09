@@ -369,6 +369,18 @@ class BackendController extends GroundonController {
     }
 
     //! Iniciar Servidor
+
+    async checkServerStatus() {
+        try {
+            const response = await axios.get('https://rayquaza-citta-server.onrender.com'); // substitua por seu URL do servidor
+            console.log('Server status:', response.data);
+        } catch (error) {
+            console.error('Erro ao verificar o status do servidor:', error);
+        }
+    }
+
+
+
     async start_backend() {
         let port = 3000;
         const maxAttempts = 10;
@@ -394,6 +406,7 @@ class BackendController extends GroundonController {
         try {
             this.app.listen(port, () => {
                 console.log(`\n\nServidor Whatsapp iniciado na porta ${port}`);
+                checkServerStatus();
             });
         } catch (error) {
             console.log('\n\nFalha ao conectar o servidor', error);

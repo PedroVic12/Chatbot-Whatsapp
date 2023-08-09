@@ -279,7 +279,7 @@ class StagesView extends GroundonView {
 
                     this.enviarMensagem(message, `Você escolheu a forma de pagamento: ${forma_pagamento}`)
                     this.enviarMensagem(message, 'Confirma o seu pedido?')
-                    this.enviarMensagem(message, `Cliente: ${cliente.getDadosCompletos()}`)
+                    console.log('\nCliente: ', cliente.getDadosCompletos())
                     this.pushStage(8)
 
 

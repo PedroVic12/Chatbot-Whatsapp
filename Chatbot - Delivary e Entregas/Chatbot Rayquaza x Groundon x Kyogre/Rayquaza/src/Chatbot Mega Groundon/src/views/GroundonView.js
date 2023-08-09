@@ -181,8 +181,8 @@ class GroundonView extends Groundon {
 
 	getPedidoCardapio(pedidoString) {
 		// Encontrar o nome do cliente usando regex
-		const nomeClienteMatch = pedidoString.match(/Cliente: (\w+)/);
-		const nomeCliente = nomeClienteMatch ? nomeClienteMatch[1] : null;
+		const nomeClienteMatch = pedidoString.match(/Cliente: ([\w\s]+?)\n/);
+		const nomeCliente = nomeClienteMatch ? nomeClienteMatch[1].trim() : null;
 
 		// Encontrar o número do pedido usando regex
 		const numeroPedidoMatch = pedidoString.match(/Pedido #(\d+)/);
