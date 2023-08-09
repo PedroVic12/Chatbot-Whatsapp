@@ -1,18 +1,3 @@
-2023/08/09-13:30:53.389 21c6a Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/08/09-13:30:53.390 21c6a Recovering log #104
-2023/08/09-13:30:53.420 21c6a Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000104.log 
-2023/08/09-13:34:04.332 21c6a Level-0 table #111: started
-2023/08/09-13:34:04.365 21c6a Level-0 table #111: 1224621 bytes OK
-2023/08/09-13:34:04.368 21c6a Delete type=0 #104
-2023/08/09-13:34:04.787 21c6b Compacting 1@1 + 5@2 files
-2023/08/09-13:34:04.953 21c6b Generated table #112@1: 69654 keys, 2301047 bytes
-2023/08/09-13:34:05.014 21c6b Generated table #113@1: 19944 keys, 2185160 bytes
-2023/08/09-13:34:05.114 21c6b Generated table #114@1: 78634 keys, 1663202 bytes
-2023/08/09-13:34:05.114 21c6b Compacted 1@1 + 5@2 files => 6149409 bytes
-2023/08/09-13:34:05.115 21c6b compacted to: files[ 0 0 3 0 0 0 0 ]
-2023/08/09-13:34:05.116 21c6b Delete type=2 #111
-2023/08/09-13:34:05.116 21c6b Delete type=2 #108
-2023/08/09-13:34:05.116 21c6b Delete type=2 #107
-2023/08/09-13:34:05.116 21c6b Delete type=2 #96
-2023/08/09-13:34:05.116 21c6b Delete type=2 #102
-2023/08/09-13:34:05.116 21c6b Delete type=2 #106
+2023/08/09-16:00:16.169 317cb Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/08/09-16:00:16.169 317cb Recovering log #147
+2023/08/09-16:00:16.174 317cb Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000147.log 

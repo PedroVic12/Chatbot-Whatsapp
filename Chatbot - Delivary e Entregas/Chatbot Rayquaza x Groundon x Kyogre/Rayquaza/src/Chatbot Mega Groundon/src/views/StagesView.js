@@ -197,6 +197,7 @@ class StagesView extends GroundonView {
                     const pedido_json = this.getPedidoCardapio(pedido_escolhido_cardapio)
                     console.log('\n\n\nPedido:', pedido_json)
 
+                    //TODO COLOCAR OS ITENS, QUANTIDADE E PRECO DENTRO DO PEDIDO NA CLASSE CLIENTE
 
 
 
@@ -277,8 +278,15 @@ class StagesView extends GroundonView {
                     const forma_pagamento = this.getLastMessage(message)
                     cliente.setFormaPagamento(forma_pagamento)
 
-                    this.enviarMensagem(message, `Você escolheu a forma de pagamento: ${forma_pagamento}`)
-                    this.enviarMensagem(message, 'Confirma o seu pedido?')
+                    this.delay(1000).then(
+                        this.enviarMensagem(message, `Você escolheu a forma de pagamento: *${forma_pagamento}*`)
+                    )
+
+                    this.delay(3000).then(
+                        this.enviarMensagem(message, 'Confirma o seu pedido?')
+                    )
+
+                    // TODO gerar pedido json e enviar para o servidor Rayquaza
                     console.log('\nCliente: ', cliente.getDadosCompletos())
                     this.pushStage(8)
 
@@ -292,7 +300,7 @@ class StagesView extends GroundonView {
 
                     const confirmacao = this.getLastMessage(message)
 
-                    this.enviarMensagem(message, `*Obrigado ${cliente.nome}*!\nSeu pedido esta sendo preparado e volto quando ele estiver sendo enviado para entrega!`)
+                    this.enviarMensagem(message, `*Obrigado, ${cliente.nome}*!\nSeu pedido esta sendo preparado e volto quando ele estiver sendo enviado para entrega!`)
 
 
 

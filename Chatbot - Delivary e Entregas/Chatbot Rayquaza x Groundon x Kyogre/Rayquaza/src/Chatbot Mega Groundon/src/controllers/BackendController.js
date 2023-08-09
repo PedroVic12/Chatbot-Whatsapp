@@ -98,6 +98,7 @@ class BackendController extends GroundonController {
 
 
     enviarPedidosServidor(message) {
+        //TODO CRIAR UMA FUNÇÃO PARA FAZER O POST DO PEDIDO RECEBIDO NO WHATSAPP PARA O SERVIDOR DA FASTAPI
 
         //Conexão Fetch
 

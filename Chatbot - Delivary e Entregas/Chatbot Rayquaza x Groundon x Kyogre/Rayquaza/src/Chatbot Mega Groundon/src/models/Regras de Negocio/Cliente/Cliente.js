@@ -69,6 +69,7 @@ class Cliente {
     // Método para retornar os dados completos do cliente
     getDadosCompletos() {
         return {
+            id_pedido: this.id,
             nome: this.nome,
             telefone: this.telefone,
             endereco: this.endereco_cliente.endereco,
