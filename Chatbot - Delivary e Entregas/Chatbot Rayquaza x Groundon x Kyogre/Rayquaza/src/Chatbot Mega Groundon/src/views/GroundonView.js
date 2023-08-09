@@ -71,6 +71,39 @@ class GroundonView extends Groundon {
 	}
 
 
+	getPedidoCardapio(pedidoString) {
+		// Encontrar o nome do cliente usando regex
+		const nomeClienteMatch = pedidoString.match(/Cliente: ([\w\s]+?)\n/);
+		const nomeCliente = nomeClienteMatch ? nomeClienteMatch[1].trim() : null;
+
+		// Encontrar o número do pedido usando regex
+		const numeroPedidoMatch = pedidoString.match(/Pedido #(\d+)/);
+		const numeroPedido = numeroPedidoMatch ? parseInt(numeroPedidoMatch[1], 10) : null;
+
+		// Encontrar os itens do pedido usando regex
+		const itemPattern = /(\d+)x ([^\(]+) \(R\$ ([\d\.]+)\)/g;
+		const itensList = [];
+		let itemMatch;
+		while (itemMatch = itemPattern.exec(pedidoString)) {
+			itensList.push({
+				quantidade: parseInt(itemMatch[1], 10),
+				nome: itemMatch[2].trim(),
+				preco: parseFloat(itemMatch[3])
+			});
+		}
+
+		// Encontrar o total usando regex
+		const totalMatch = pedidoString.match(/TOTAL: R\$([\d\.]+)/);
+		const total = totalMatch ? parseFloat(totalMatch[1]) : null;
+
+		return {
+			nome: nomeCliente,
+			pedido: numeroPedido,
+			itens: itensList,
+			total: total
+		};
+	}
+
 	//! Funções de Mensagem
 	async enviarMensagem(message, texto) {
 		try {
@@ -178,40 +211,6 @@ class GroundonView extends Groundon {
 	}
 
 	//! Metodos de cliente e ID
-
-	getPedidoCardapio(pedidoString) {
-		// Encontrar o nome do cliente usando regex
-		const nomeClienteMatch = pedidoString.match(/Cliente: ([\w\s]+?)\n/);
-		const nomeCliente = nomeClienteMatch ? nomeClienteMatch[1].trim() : null;
-
-		// Encontrar o número do pedido usando regex
-		const numeroPedidoMatch = pedidoString.match(/Pedido #(\d+)/);
-		const numeroPedido = numeroPedidoMatch ? parseInt(numeroPedidoMatch[1], 10) : null;
-
-		// Encontrar os itens do pedido usando regex
-		const itemPattern = /(\d+)x ([^\(]+) \(R\$ ([\d\.]+)\)/g;
-		const itensList = [];
-		let itemMatch;
-		while (itemMatch = itemPattern.exec(pedidoString)) {
-			itensList.push({
-				quantidade: parseInt(itemMatch[1], 10),
-				nome: itemMatch[2].trim(),
-				preco: parseFloat(itemMatch[3])
-			});
-		}
-
-		// Encontrar o total usando regex
-		const totalMatch = pedidoString.match(/TOTAL: R\$([\d\.]+)/);
-		const total = totalMatch ? parseFloat(totalMatch[1]) : null;
-
-		return {
-			nome: nomeCliente,
-			pedido: numeroPedido,
-			itens: itensList,
-			total: total
-		};
-	}
-
 	getClientState(clientId) {
 		if (!this.clientStates[clientId]) {
 			this.clientStates[clientId] = {
