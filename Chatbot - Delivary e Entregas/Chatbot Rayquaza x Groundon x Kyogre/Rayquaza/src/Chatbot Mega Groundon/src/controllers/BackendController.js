@@ -3,6 +3,7 @@ const express = require('express');
 const fs = require('fs');
 const axios = require('axios')
 const GroundonController = require('./GroundonController')
+const net = require('net');
 
 
 
@@ -130,6 +131,28 @@ class BackendController extends GroundonController {
 
 
     //! Métodos BackEnd 
+
+    checkPortInUse(port) {
+        return new Promise((resolve, reject) => {
+            const server = net.createServer();
+
+            server.once('error', function (err) {
+                if (err.code === 'EADDRINUSE') {
+                    resolve(true);  // Porta está em uso
+                } else {
+                    reject(err);
+                }
+            });
+
+            server.once('listening', function () {
+                server.close();  // Fecha o servidor após ouvir o evento
+                resolve(false);  // Porta não está em uso
+            });
+
+            server.listen(port);
+        });
+    }
+
     //Configurando Rotas
     setupRoutes() {
         this.app.use(express.json());
@@ -348,17 +371,25 @@ class BackendController extends GroundonController {
 
     //! Iniciar Servidor
     async start_backend() {
-        const port = 3030;
+        const port = 3000;
 
         try {
+            const isPortInUse = await this.checkPortInUse(port);
+
+            if (isPortInUse) {
+                console.log(`\n\nA porta ${port} já está em uso.`);
+
+                return;
+            }
+
             this.app.listen(port, () => {
                 console.log(`\n\nServidor Whatsapp iniciado na porta ${port}`);
             });
         } catch (error) {
             console.log('\n\nfalha ao conectar o servidor', error)
         }
-
     }
+
 }
 
 module.exports = BackendController;
@@ -369,4 +400,4 @@ function main_Backend() {
     backend.start_backend();
 }
 
-//main_Backend()
+main_Backend()

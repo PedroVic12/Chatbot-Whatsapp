@@ -25,7 +25,7 @@ async function main() {
 
 	try {
 		isWhatsAppConnected = await groundonController.conectarWpp();
-		console.log('Whatsapp conectado');
+		console.log('\nWhatsapp conectado');
 	} catch (error) {
 		console.log('\n\nErro ao tentar conectar', error);
 	}
