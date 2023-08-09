@@ -12,6 +12,10 @@ class GroundonController {
 		return new Promise(async (resolve, reject) => {
 			try {
 				this.whatsapp = await venom.create({
+					puppeteerOptions: {
+						args: ['--no-sandbox']
+
+					},
 					session: 'CITTA-RioDeJaneiro' //! nome da sessão
 				});
 

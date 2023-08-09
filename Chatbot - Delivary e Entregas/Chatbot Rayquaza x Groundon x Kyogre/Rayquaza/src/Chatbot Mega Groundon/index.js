@@ -10,6 +10,7 @@ const StagesView = require('./src/views/StagesView');
 
 
 //?npm install venom-bot@5.0.7      
+//? venom-bot/dist/controllers/browser.js -> na funcao launchOptions -> comentar o parâmetro headless:options.headless
 
 
 // Chatbot Groundon With Venom-Bot APIs
@@ -21,7 +22,6 @@ async function main() {
 	//! Connect to WhatsApp
 	let isWhatsAppConnected = false;
 	let isGroundonBotOnline = false;
-
 
 	try {
 		isWhatsAppConnected = await groundonController.conectarWpp();

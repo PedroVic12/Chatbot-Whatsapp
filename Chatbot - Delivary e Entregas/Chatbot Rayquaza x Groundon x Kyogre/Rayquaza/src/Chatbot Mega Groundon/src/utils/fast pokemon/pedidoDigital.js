@@ -41,17 +41,19 @@ function getPedidoCardapio(pedidoString) {
 // Testando a função
 const pedidoString = `
 � RESUMO DO PEDIDO 
-   Cliente: ANAKIN
+   Cliente: anakin
 
-  Pedido #5982
+ Pedido #5395
 
   � Itens do Pedido:
-   2x Americano (R$ 17)
-   1x Pitaya (R$ 14)
+   
+1x Açai Tradicional (R$ 14)
+
+2x Bauru (R$ 30)
    -------------------------------------
-           � TOTAL: R$48.00
+           � TOTAL: R$74.00
    -------------------------------------
-   � Tempo de Entrega: aprox. 17:04 a 17:29
+   � Tempo de Entrega: aprox. 09:20 a 09:55
 `;
 
 console.log(getPedidoCardapio(pedidoString));

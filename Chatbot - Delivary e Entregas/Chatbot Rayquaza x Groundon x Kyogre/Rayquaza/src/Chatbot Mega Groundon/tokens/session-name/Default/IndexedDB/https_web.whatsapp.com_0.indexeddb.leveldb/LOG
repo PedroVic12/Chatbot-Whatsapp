@@ -1,7 +1,49 @@
-2023/08/09-09:59:31.285 fa48 Creating DB /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/session-name/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb since it was missing.
-2023/08/09-09:59:31.299 fa48 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/session-name/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/08/09-09:59:31.335 fa4a Manual compaction at level-0 from '\x00\x01\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x02\x00\x00\x00' @ 0 : 0; will stop at (end)
-2023/08/09-09:59:32.201 fa48 Level-0 table #5: started
-2023/08/09-09:59:32.205 fa48 Level-0 table #5: 21361 bytes OK
-2023/08/09-09:59:32.207 fa48 Delete type=0 #3
-2023/08/09-09:59:32.207 fa48 Manual compaction at level-0 from '\x00\x06\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x07\x00\x00\x00' @ 0 : 0; will stop at (end)
+2023/08/09-10:26:02.894 12963 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/session-name/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/08/09-10:26:02.894 12963 Recovering log #4
+2023/08/09-10:26:02.900 12963 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/session-name/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000004.log 
+2023/08/09-10:26:04.080 12969 Level-0 table #8: started
+2023/08/09-10:26:04.257 12969 Level-0 table #8: 71959 bytes OK
+2023/08/09-10:26:04.262 12969 Delete type=0 #4
+2023/08/09-10:26:04.263 12969 Manual compaction at level-0 from '\x00\x08\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x09\x00\x00\x00' @ 0 : 0; will stop at (end)
+2023/08/09-10:26:04.267 12969 Level-0 table #10: started
+2023/08/09-10:26:04.270 12969 Level-0 table #10: 1802 bytes OK
+2023/08/09-10:26:04.272 12969 Delete type=0 #7
+2023/08/09-10:26:04.272 12969 Manual compaction at level-0 from '\x00\x05\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x06\x00\x00\x00' @ 0 : 0; will stop at '\x00\x05\x05\x02\x03\x00\x00\x00\x00\x00\x00\xf0?' @ 6595 : 0
+2023/08/09-10:26:04.272 12969 Compacting 1@0 + 1@1 files
+2023/08/09-10:26:04.285 12969 Generated table #11@0: 1732 keys, 30882 bytes
+2023/08/09-10:26:04.285 12969 Compacted 1@0 + 1@1 files => 30882 bytes
+2023/08/09-10:26:04.293 12969 compacted to: files[ 0 1 1 0 0 0 0 ]
+2023/08/09-10:26:04.293 12969 Delete type=2 #10
+2023/08/09-10:26:04.293 12963 Manual compaction at level-0 from '\x00\x05\x05\x02\x03\x00\x00\x00\x00\x00\x00\xf0?' @ 6595 : 0 .. '\x00\x06\x00\x00\x00' @ 0 : 0; will stop at (end)
+2023/08/09-10:26:04.293 12963 Manual compaction at level-1 from '\x00\x05\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x06\x00\x00\x00' @ 0 : 0; will stop at '\x00\x07\x01\x02\x01\x08\x00i\x00s\x00C\x00a\x00n\x00a\x00r\x00y' @ 4964 : 1
+2023/08/09-10:26:04.293 12963 Compacting 1@1 + 1@2 files
+2023/08/09-10:26:04.301 12963 Generated table #12@1: 526 keys, 23131 bytes
+2023/08/09-10:26:04.302 12963 Compacted 1@1 + 1@2 files => 23131 bytes
+2023/08/09-10:26:04.310 12963 compacted to: files[ 0 0 1 0 0 0 0 ]
+2023/08/09-10:26:04.310 12963 Delete type=2 #11
+2023/08/09-10:26:04.310 12963 Manual compaction at level-1 from '\x00\x07\x01\x02\x01\x08\x00i\x00s\x00C\x00a\x00n\x00a\x00r\x00y' @ 4964 : 1 .. '\x00\x06\x00\x00\x00' @ 0 : 0; will stop at (end)
+2023/08/09-10:26:04.310 12964 Level-0 table #14: started
+2023/08/09-10:26:04.313 12964 Level-0 table #14: 5111 bytes OK
+2023/08/09-10:26:04.314 12964 Delete type=2 #8
+2023/08/09-10:26:04.314 12964 Delete type=0 #9
+2023/08/09-10:26:04.314 12964 Delete type=2 #5
+2023/08/09-10:26:04.315 12964 Manual compaction at level-0 from '\x00\x04\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x05\x00\x00\x00' @ 0 : 0; will stop at (end)
+2023/08/09-10:26:04.315 12964 Manual compaction at level-1 from '\x00\x04\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x05\x00\x00\x00' @ 0 : 0; will stop at '\x00\x09\x00\x00\xc8\x11\x00w\x00o\x00r\x00k\x00e\x00r\x00_\x00w\x00a\x00m\x00_\x00e\x00v\x00e\x00n\x00t\x00s' @ 6915 : 1
+2023/08/09-10:26:04.315 12964 Compacting 1@1 + 1@2 files
+2023/08/09-10:26:04.317 12964 Generated table #15@1: 799 keys, 26359 bytes
+2023/08/09-10:26:04.317 12964 Compacted 1@1 + 1@2 files => 26359 bytes
+2023/08/09-10:26:04.318 12964 compacted to: files[ 0 0 1 0 0 0 0 ]
+2023/08/09-10:26:04.318 12964 Delete type=2 #14
+2023/08/09-10:26:04.319 12964 Manual compaction at level-1 from '\x00\x09\x00\x00\xc8\x11\x00w\x00o\x00r\x00k\x00e\x00r\x00_\x00w\x00a\x00m\x00_\x00e\x00v\x00e\x00n\x00t\x00s' @ 6915 : 1 .. '\x00\x05\x00\x00\x00' @ 0 : 0; will stop at (end)
+2023/08/09-10:26:04.320 12964 Level-0 table #17: started
+2023/08/09-10:26:04.321 12964 Level-0 table #17: 11980 bytes OK
+2023/08/09-10:26:04.323 12964 Delete type=0 #13
+2023/08/09-10:26:04.323 12964 Delete type=2 #12
+2023/08/09-10:26:04.323 12964 Manual compaction at level-0 from '\x00\x03\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x04\x00\x00\x00' @ 0 : 0; will stop at (end)
+2023/08/09-10:26:04.323 12964 Manual compaction at level-1 from '\x00\x03\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x04\x00\x00\x00' @ 0 : 0; will stop at '\x00\x03\x06 \x03\x00\x00\x00\x00\x00\x80V@\x00\x01\x0b\x00I\x00d\x00T\x00t\x00l\x009\x000\x00D\x00a\x00y\x00s' @ 7404 : 0
+2023/08/09-10:26:04.323 12964 Compacting 1@1 + 1@2 files
+2023/08/09-10:26:04.330 12964 Generated table #18@1: 366 keys, 5121 bytes
+2023/08/09-10:26:04.330 12964 Compacted 1@1 + 1@2 files => 5121 bytes
+2023/08/09-10:26:04.336 12964 compacted to: files[ 0 0 1 0 0 0 0 ]
+2023/08/09-10:26:04.336 12964 Delete type=2 #17
+2023/08/09-10:26:04.336 12964 Manual compaction at level-1 from '\x00\x03\x06 \x03\x00\x00\x00\x00\x00\x80V@\x00\x01\x0b\x00I\x00d\x00T\x00t\x00l\x009\x000\x00D\x00a\x00y\x00s' @ 7404 : 0 .. '\x00\x04\x00\x00\x00' @ 0 : 0; will stop at (end)
