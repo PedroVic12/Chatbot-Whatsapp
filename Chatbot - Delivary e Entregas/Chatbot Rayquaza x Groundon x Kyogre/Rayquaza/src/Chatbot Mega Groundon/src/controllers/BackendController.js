@@ -371,22 +371,33 @@ class BackendController extends GroundonController {
 
     //! Iniciar Servidor
     async start_backend() {
-        const port = 3000;
+        let port = 3000;
+        const maxAttempts = 10;
+        let attempt = 0;
 
-        try {
+        while (attempt < maxAttempts) {
             const isPortInUse = await this.checkPortInUse(port);
 
-            if (isPortInUse) {
-                console.log(`\n\nA porta ${port} já está em uso.`);
-
-                return;
+            if (!isPortInUse) {
+                break;  // Se a porta não estiver em uso, saia do loop
             }
 
+            console.log(`\n\nA porta ${port} já está em uso. Tentando outra porta...`);
+            port += 30;  // Tente a próxima porta (adicionando 30)
+            attempt++;
+        }
+
+        if (attempt === maxAttempts) {
+            console.log("\n\nTodas as portas tentadas estão em uso. Não foi possível iniciar o servidor.");
+            return;
+        }
+
+        try {
             this.app.listen(port, () => {
                 console.log(`\n\nServidor Whatsapp iniciado na porta ${port}`);
             });
         } catch (error) {
-            console.log('\n\nfalha ao conectar o servidor', error)
+            console.log('\n\nFalha ao conectar o servidor', error);
         }
     }
 
@@ -400,4 +411,4 @@ function main_Backend() {
     backend.start_backend();
 }
 
-main_Backend()
+//main_Backend()
