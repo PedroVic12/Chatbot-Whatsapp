@@ -62,7 +62,7 @@ async function main() {
 
 	const groundonIsOnline = await startStagesView(groundonController, backendController);
 	if (groundonIsOnline) {
-		console.log('\nChatbot Groundon está online. :)');
+		console.log('\nChatbot Groundon está online. :)', groundonIsOnline);
 	}
 }
 
