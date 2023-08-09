@@ -406,7 +406,7 @@ class BackendController extends GroundonController {
         try {
             this.app.listen(port, () => {
                 console.log(`\n\nServidor Whatsapp iniciado na porta ${port}`);
-                checkServerStatus();
+                this.checkServerStatus();
             });
         } catch (error) {
             console.log('\n\nFalha ao conectar o servidor', error);

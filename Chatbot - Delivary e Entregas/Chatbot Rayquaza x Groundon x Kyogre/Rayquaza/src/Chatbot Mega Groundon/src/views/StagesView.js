@@ -195,7 +195,7 @@ class StagesView extends GroundonView {
 
 
                     const pedido_json = this.getPedidoCardapio(pedido_escolhido_cardapio)
-                    console.log('\n\nPedido:', pedido_json)
+                    console.log('\n\n\nPedido:', pedido_json)
 
 
 
@@ -287,12 +287,12 @@ class StagesView extends GroundonView {
 
                 else if (numero_estagio === 8) {
                     console.log(`\nEstágio ${numero_estagio}:`, message.body);
-                    this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
+                    //TODO -> VERIFICAR QUANDO O PEDIDO FICAR PRONTO PARA MANDAR QUE FOI ENVIADO PARA ENTREGA
 
                     const confirmacao = this.getLastMessage(message)
 
-                    this.enviarMensagem(message, `Obrigado ${cliente.nome} seu pedido foi enviado para o atendente e volto quando ele estiver sendo enviado para entrega!`)
+                    this.enviarMensagem(message, `*Obrigado ${cliente.nome}*!\nSeu pedido esta sendo preparado e volto quando ele estiver sendo enviado para entrega!`)
 
 
 

@@ -119,7 +119,7 @@ class Widgets {
       menuText += `${index + 1}. ${item.button.text}\n`;
     });
 
-    menuText += `\n📝 Digite o *Número* ou o *Escreva a opção*  para escolher o item desejado.\n\n`;
+    menuText += `\n📝 Digite o *Número* ou *Escreva a opção*  para escolher o item desejado.\n\n`;
 
     return menuText;
   }

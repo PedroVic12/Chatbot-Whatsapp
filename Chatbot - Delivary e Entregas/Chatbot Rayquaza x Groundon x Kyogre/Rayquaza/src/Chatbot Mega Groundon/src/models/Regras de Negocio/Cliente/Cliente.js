@@ -10,6 +10,10 @@ class Cliente {
             complemento: ""
         };
         this.forma_pagamento = ''
+        this.pedido = {
+            itens: '',
+            total: 0.0
+        }
     }
 
     // Getter e Setter para o ID
@@ -68,7 +72,9 @@ class Cliente {
             nome: this.nome,
             telefone: this.telefone,
             endereco: this.endereco_cliente.endereco,
-            complemento: this.endereco_cliente.complemento
+            complemento: this.endereco_cliente.complemento,
+            formaPagamento: this.forma_pagamento,
+            pedido: this.pedido
         };
     }
 }
