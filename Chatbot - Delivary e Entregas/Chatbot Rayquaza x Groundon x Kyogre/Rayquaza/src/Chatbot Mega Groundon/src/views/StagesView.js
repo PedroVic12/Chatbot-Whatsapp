@@ -170,9 +170,16 @@ class StagesView extends GroundonView {
                     const pedido_escolhido_cardapio = this.getLastMessage(message);
 
                     const pedido_json = this.getPedidoCardapio(pedido_escolhido_cardapio)
-                    this.enviarMensagem(message, 'Seu pedido foi anotado!')
 
-                    console.log(pedido_json)
+                    console.log('\n\nPedido:', pedido_json)
+
+                    this.delay(1000).then(
+                        this.enviarMensagem(message, `✅ Seu pedido foi anotado!`)
+                    )
+
+                    this.delay(3000).then(
+                        this.enviarMensagem(message, ` Agora, Digite o seu endereço de entrega:`)
+                    )
 
                     this.pushStage(5);
                 }
@@ -184,50 +191,78 @@ class StagesView extends GroundonView {
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
 
-                    const PRODUTO_ESCOLHIDO = this.getLastMessage(message);
+                    const endereco_entrega = this.getLastMessage(message);
+                    //cliente.setEndereco(endereco_entrega)
 
+                    this.enviarMensagem(message, 'Seu endereço precisa de algum complemento? Digite Sim ou Não')
 
-                    //!tentativa botao
                     // Send Messages with Buttons Reply
                     const buttons = [
                         {
                             "buttonText": {
-                                "displayText": "Text of Button 1"
+                                "displayText": "Sim"
                             }
                         },
                         {
                             "buttonText": {
-                                "displayText": "Text of Button 2"
+                                "displayText": "Não"
                             }
                         }
                     ]
+
                     this.enviarBotoes(message.from, 'title', buttons, 'Descrição')
                     this.pushStage(6)
                 }
 
 
-                //!=====================  Estagio 6 - Pega o pedido e adiciona no carrinho =====================
+                //!=====================  Estagio 6 -Pega a forma de pagamento ou complemento =====================
                 else if (numero_estagio === 6) {
                     console.log(`\nEstágio ${numero_estagio}:`, message.body);
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
-                    const item_escolhido = this.getLastMessage(message)
-                    this.enviarMensagem(message, item_escolhido)
+                    const resposta_cliente = this.getLastMessage(message).toUpperCase().trim();
+
+                    if (resposta_cliente === 'SIM') {
+                        this.enviarMensagem(message, 'Digite seu complemento.');
 
 
-                    this.popStage(); // Retorna ao estágio anterior
-
+                    } else if (resposta_cliente === 'NÃO' || resposta_cliente === 'NAO') {
+                        this.enviarMensagem(message, 'Digite a forma de pagamento:');
+                        this.pushStage(7);
+                    }
                 }
+
+
+
 
 
                 else if (numero_estagio === 7) {
                     console.log(`\nEstágio ${numero_estagio}:`, message.body);
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
+
+                    const forma_pagamento = this.getLastMessage(message)
+                    //cliente.setFormaPagamento(forma_pagamento)
+
+                    this.enviarMensagem(message, `Você escolheu a forma de pagamento: ${forma_pagamento}`)
+                    this.enviarMensagem(message, 'Confirma o seu pedido?')
+                    this.pushStage(8)
+
+
                 }
 
+                else if (numero_estagio === 8) {
+                    console.log(`\nEstágio ${numero_estagio}:`, message.body);
+                    this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
 
+                    const confirmacao = this.getLastMessage(message)
+
+                    this.enviarMensagem(message, `Obrigado ${cliente.nome} seu pedido foi enviado para o atendente e volto quando ele estiver sendo enviado para entrega!`)
+
+
+
+                }
 
 
 

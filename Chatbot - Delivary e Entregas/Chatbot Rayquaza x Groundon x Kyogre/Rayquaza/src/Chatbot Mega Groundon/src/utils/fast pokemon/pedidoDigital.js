@@ -1,34 +1,27 @@
 function getPedidoCardapio(pedidoString) {
-    const lines = pedidoString.split('\n').map(line => line.trim());
+    // Encontrar o nome do cliente usando regex
+    const nomeClienteMatch = pedidoString.match(/Cliente: (\w+)/);
+    const nomeCliente = nomeClienteMatch ? nomeClienteMatch[1] : null;
 
-    // Encontrar o nome do cliente
-    const nomeClienteLine = lines.find(line => line.startsWith('Cliente:'));
-    const nomeCliente = nomeClienteLine ? nomeClienteLine.split(': ')[1] : null;
+    // Encontrar o número do pedido usando regex
+    const numeroPedidoMatch = pedidoString.match(/Pedido #(\d+)/);
+    const numeroPedido = numeroPedidoMatch ? parseInt(numeroPedidoMatch[1], 10) : null;
 
-    // Encontrar o número do pedido
-    const numeroPedidoLine = lines.find(line => line.startsWith('Pedido #'));
-    const numeroPedido = numeroPedidoLine ? parseInt(numeroPedidoLine.split('#')[1], 10) : null;
+    // Encontrar os itens do pedido usando regex
+    const itemPattern = /(\d+)x ([^\(]+) \(R\$ ([\d\.]+)\)/g;
+    const itensList = [];
+    let itemMatch;
+    while (itemMatch = itemPattern.exec(pedidoString)) {
+        itensList.push({
+            quantidade: parseInt(itemMatch[1], 10),
+            nome: itemMatch[2].trim(),
+            preco: parseFloat(itemMatch[3])
+        });
+    }
 
-    // Encontrar os itens do pedido
-    const startItensIndex = lines.indexOf('� Itens do Pedido:');
-    const endItensIndex = lines.findIndex(line => line.startsWith('---'));
-    const itensLines = lines.slice(startItensIndex + 1, endItensIndex);
-    const itensList = itensLines.map(itemLine => {
-        const parts = itemLine.split(' ');
-        const quantidade = parseInt(parts[0], 10);
-        const precoStr = itemLine.match(/\(R\$ (.+)\)/)[1].trim(); // Extração usando regex
-        const preco = parseFloat(precoStr);
-        const nome = parts.slice(1, parts.length - 3).join(' '); // Pegando todas as palavras até o preço
-        return {
-            quantidade: quantidade,
-            nome: nome,
-            preco: preco
-        };
-    });
-
-    // Encontrar o total
-    const totalLine = lines.find(line => line.startsWith('� TOTAL:'));
-    const total = totalLine ? parseFloat(totalLine.split('R$')[1]) : null;
+    // Encontrar o total usando regex
+    const totalMatch = pedidoString.match(/TOTAL: R\$([\d\.]+)/);
+    const total = totalMatch ? parseFloat(totalMatch[1]) : null;
 
     return {
         nome: nomeCliente,
