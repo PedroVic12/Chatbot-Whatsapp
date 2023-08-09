@@ -1,10 +1,9 @@
-// Importações
 const venom = require('venom-bot');
-const Groundon = require('./src/models/Groundon');
 const GroundonController = require('./src/controllers/GroundonController');
-const GroundonView = require('./src/views/GroundonView');
 const BackendController = require('./src/controllers/BackendController');
 const StagesView = require('./src/views/StagesView');
+
+
 
 //! TEMPO DE CONEXÃO COM O WPP = 20 SEGUNDOS, depois disso rodar o servidor Rayquaza
 
@@ -12,64 +11,60 @@ const StagesView = require('./src/views/StagesView');
 //?npm install venom-bot@5.0.7      
 //? venom-bot/dist/controllers/browser.js -> na funcao launchOptions -> comentar o parâmetro headless:options.headless
 
-
-// Chatbot Groundon With Venom-Bot APIs
-async function main() {
-	// Initialize controllers
-	const groundonController = new GroundonController();
-	const backendController = new BackendController();
-
-	//! Connect to WhatsApp
-	let isWhatsAppConnected = false;
-	let isGroundonBotOnline = false;
-
+async function initializeWhatsApp(groundonController) {
 	try {
-		isWhatsAppConnected = await groundonController.conectarWpp();
+		await groundonController.conectarWpp();
 		console.log('\nWhatsapp conectado');
+		return true;
 	} catch (error) {
 		console.log('\n\nErro ao tentar conectar', error);
+		return false;
 	}
+}
 
-	// Start backend if WhatsApp is connected
-	if (isWhatsAppConnected) {
-
+async function initializeBackend(backendController) {
+	try {
 		await backendController.start_backend();
-	} else {
-		console.log('\n\nNão foi possível iniciar o backend, pois o WhatsApp não está conectado.');
+		console.log('\nBackend inicializado');
+	} catch (error) {
+		console.log('\n\nErro ao iniciar o backend', error);
 	}
+}
 
-
-	// Initialize view
-	const groundonView = new GroundonView(
-		groundonController.whatsapp,
-		groundonController,
-		backendController
-	);
-
+async function startStagesView(groundonController, backendController) {
 	const stagesView = new StagesView(
 		groundonController.whatsapp,
 		groundonController,
 		backendController
 	);
 
-	//! Bot esta Online!
-	// Start chat for Groundon stages
-	await stagesView.start_chatbot_Groundon()
-		.then(() => {
-			isGroundonBotOnline = true;
-			console.log(`\nChatbot Groundon iniciado: ${isGroundonBotOnline}`);
-		})
-		.catch((error) => {
-			console.error('\n\nOcorreu um erro ao iniciar o Chatbot Groundon:', error);
-		});
+	try {
+		await stagesView.start_chatbot_Groundon();
+		console.log('\nChatbot Groundon iniciado');
+		return true;
+	} catch (error) {
+		console.error('\n\nOcorreu um erro ao iniciar o Chatbot Groundon:', error);
+		return false;
+	}
 }
 
+async function main() {
+	const groundonController = new GroundonController();
+	const backendController = new BackendController();
 
+	const isWhatsAppConnected = await initializeWhatsApp(groundonController);
+	if (isWhatsAppConnected) {
+		await initializeBackend(backendController);
+	} else {
+		console.log('\n\nNão foi possível iniciar o backend, pois o WhatsApp não está conectado.');
+		return;
+	}
 
-
-
-
-
+	const groundonIsOnline = await startStagesView(groundonController, backendController);
+	if (groundonIsOnline) {
+		console.log('\nChatbot Groundon está online. :)');
+	}
+}
 
 main().catch((error) => {
 	console.error('\n\nOcorreu um erro:', error);

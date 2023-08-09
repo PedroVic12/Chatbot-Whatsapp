@@ -13,6 +13,9 @@ venom
 
 function start(client) {
   client.onMessage((message) => {
+
+    console.log('Iniciando...')
+
     if (message.body === 'Hi' && message.isGroupMsg === false) {
       client
         .sendText(message.from, 'Welcome Homem Aranha 🕷')

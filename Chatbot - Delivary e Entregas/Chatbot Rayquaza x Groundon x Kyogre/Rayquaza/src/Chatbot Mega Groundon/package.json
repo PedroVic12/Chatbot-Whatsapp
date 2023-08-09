@@ -15,6 +15,6 @@
     "node-fetch": "^3.3.1",
     "pm2": "^4.2.3",
     "puppeteer": "^21.0.2",
-    "venom-bot": "^5.0.16"
+    "venom-bot": "^5.0.7"
   }
 }

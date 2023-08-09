@@ -4,13 +4,7 @@ const axios = require('axios');
 const Groundon = require('../models/Groundon');
 const GroundonView = require('./GroundonView');
 
-const DataBaseController = require('../models/Regras de Negocio/Cardapio/DataBaseController');
-const BinaryTree = require('../models/Regras de Negocio/Cardapio/ArvoreBinaria')
-
 const Cliente = require('../models/Regras de Negocio/Cliente/Cliente')
-const CarrinhoPedido = require("../models/Regras de Negocio/Pedido/Carrinho");
-const Pedido = require('../models/Regras de Negocio/Pedido/Pedido')
-const CardapioMenu = require('../models/Regras de Negocio/Cardapio/Menu_Cardapio');
 
 const Widgets = require('../models/widgets/Widgets')
 
@@ -19,8 +13,6 @@ const Estagio2 = require('./Stages/Estagio2');
 const Estagio3 = require('./Stages/Estagio3');
 
 const cliente = new Cliente()
-const pedido = new Pedido()
-const cardapio = new CardapioMenu()
 
 class StagesView extends GroundonView {
     constructor(whatsapp, groundonController, backendController) {
@@ -40,7 +32,11 @@ class StagesView extends GroundonView {
 
         return new Promise((resolve, reject) => {
 
+
             this.whatsapp.onMessage(async (message) => {
+
+                console.log('\nGroundon esperando mensagens...')
+
                 //!Configurações Backend
                 this.restartChatbot()
                 const numero_estagio = this.getCurrentStage();
