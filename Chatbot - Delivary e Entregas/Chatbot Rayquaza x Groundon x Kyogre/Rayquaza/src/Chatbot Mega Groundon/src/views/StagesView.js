@@ -59,9 +59,12 @@ class StagesView extends GroundonView {
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
                     console.log('\nEstágio 1:', message.body);
 
-                    this.enviarMensagem(message, `Bem-vindo a Lanchonete *Citta RJ* Obrigado por escolher a nossos Serviços.\n🤖 Eu sou o Robô Groundon e estou aqui para ajudá-lo. `)
-                    this.enviarMensagem(message, "🤖 Antes de começarmos, por favor, *Digite Seu Nome*:")
-
+                    await this.delay(1000).then(
+                        this.enviarMensagem(message, `Bem-vindo a Lanchonete *Citta RJ* Obrigado por escolher a nossos Serviços.\n🤖 Eu sou o Robô Groundon e estou aqui para ajudá-lo. `)
+                    )
+                    await this.delay(3000).then(
+                        this.enviarMensagem(message, "🤖 Antes de começarmos, por favor, *Digite Seu Nome*:")
+                    )
 
                     this.pushStage(2); // Avança para o próximo estágio
 
@@ -76,10 +79,10 @@ class StagesView extends GroundonView {
 
                     //Pega dados do CLiente
                     const nome_cliente = this.getLastMessage(message)
-                    cliente.set_nome(nome_cliente)
+                    cliente.setNome(nome_cliente)
 
                     const numero_cliente = this.estagio2.getTelefoneCliente(message)
-                    cliente.setPhoneNumber(numero_cliente)
+                    cliente.setTelefone(numero_cliente)
 
 
                     // TODO CHECAR SE ESTAR CONECTADO A INTERNET E INICIAR O CHATBOT
@@ -115,6 +118,9 @@ class StagesView extends GroundonView {
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
                     console.log(`\nEstágio ${numero_estagio}:`, message.body);
 
+                    const idPedido = this.backendController.gerarIdPedido();
+
+
                     const choice_escolhida = this.getLastMessage(message);
                     const selectedOption = this.Widgets.getSelectedOption(menu_principal, choice_escolhida);
 
@@ -141,7 +147,7 @@ class StagesView extends GroundonView {
                             selectedOption.button.text.toLowerCase().includes('pedido')
                         ) {
                             //Numero pedido
-                            this.backendController.enviarLinkServidor(cliente).then(link_pedido_id => {
+                            this.backendController.enviarLinkServidor(cliente, idPedido).then(link_pedido_id => {
                                 this.enviarMensagem(message, `Abra esse link do seu pedido: ${link_pedido_id}`)
                                 this.pushStage(4);
                             });
@@ -156,6 +162,24 @@ class StagesView extends GroundonView {
                                 this.enviarMensagem(message, menu_principal);
                             });
                         }
+
+                        else if (selectedOption.button.text.toUpperCase() === 'FALAR COM UM ATENDENTE') {
+
+                            this.enviarMensagem(message, "Desculpe a essa funcionalidade ainda nao foi implementada")
+                            this.delay(3000).then(() => {
+                                this.enviarMensagem(message, menu_principal);
+                            });
+                        }
+
+                        else if (selectedOption.button.text.toUpperCase() === 'FALAR COM UM ATENDENTE') {
+
+                            this.enviarMensagem(message, "Foi um prazer conversar com voce :) ")
+                            this.delay(3000).then(() => {
+                                this.restartChatbot()
+                            });
+                        }
+
+
                     }
                 }
 
@@ -169,14 +193,16 @@ class StagesView extends GroundonView {
 
                     const pedido_escolhido_cardapio = this.getLastMessage(message);
 
-                    const pedido_json = this.getPedidoCardapio(pedido_escolhido_cardapio)
 
+                    const pedido_json = this.getPedidoCardapio(pedido_escolhido_cardapio)
                     console.log('\n\nPedido:', pedido_json)
+
+
+
 
                     this.delay(1000).then(
                         this.enviarMensagem(message, `✅ Seu pedido foi anotado!`)
                     )
-
                     this.delay(3000).then(
                         this.enviarMensagem(message, ` Agora, Digite o seu endereço de entrega:`)
                     )
@@ -192,7 +218,7 @@ class StagesView extends GroundonView {
 
 
                     const endereco_entrega = this.getLastMessage(message);
-                    //cliente.setEndereco(endereco_entrega)
+                    cliente.setEndereco(endereco_entrega)
 
                     this.enviarMensagem(message, 'Seu endereço precisa de algum complemento? Digite Sim ou Não')
 
@@ -210,12 +236,12 @@ class StagesView extends GroundonView {
                         }
                     ]
 
-                    this.enviarBotoes(message.from, 'title', buttons, 'Descrição')
+                    this.enviarBotoes(message.from, 'Seu endereço precisa de algum complemento?', buttons, 'Escolha a opção desejada')
                     this.pushStage(6)
                 }
 
 
-                //!=====================  Estagio 6 -Pega a forma de pagamento ou complemento =====================
+                //!=====================  Estágio 6 - Pergunta sobre o complemento =====================
                 else if (numero_estagio === 6) {
                     console.log(`\nEstágio ${numero_estagio}:`, message.body);
                     this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
@@ -224,15 +250,22 @@ class StagesView extends GroundonView {
 
                     if (resposta_cliente === 'SIM') {
                         this.enviarMensagem(message, 'Digite seu complemento.');
-
-
+                        this.pushStage(6.5); // Estágio intermediário
                     } else if (resposta_cliente === 'NÃO' || resposta_cliente === 'NAO') {
+                        cliente.setComplemento('Sem Complemento.')
                         this.enviarMensagem(message, 'Digite a forma de pagamento:');
                         this.pushStage(7);
                     }
                 }
 
-
+                //!=====================  Estágio 6.5 - Coleta o complemento =====================
+                else if (numero_estagio === 6.5) {
+                    console.log(`\nEstágio ${numero_estagio}:`, message.body);
+                    const complemento = this.getLastMessage(message);
+                    cliente.setComplemento(complemento);
+                    this.enviarMensagem(message, 'Digite a forma de pagamento:');
+                    this.pushStage(7);
+                }
 
 
 
@@ -242,10 +275,11 @@ class StagesView extends GroundonView {
 
 
                     const forma_pagamento = this.getLastMessage(message)
-                    //cliente.setFormaPagamento(forma_pagamento)
+                    cliente.setFormaPagamento(forma_pagamento)
 
                     this.enviarMensagem(message, `Você escolheu a forma de pagamento: ${forma_pagamento}`)
                     this.enviarMensagem(message, 'Confirma o seu pedido?')
+                    this.enviarMensagem(message, `Cliente: ${cliente.getDadosCompletos()}`)
                     this.pushStage(8)
 
 
@@ -281,7 +315,9 @@ class StagesView extends GroundonView {
             });
 
 
-
+            reject(
+                this.restartChatbot()
+            )
 
         });
     }

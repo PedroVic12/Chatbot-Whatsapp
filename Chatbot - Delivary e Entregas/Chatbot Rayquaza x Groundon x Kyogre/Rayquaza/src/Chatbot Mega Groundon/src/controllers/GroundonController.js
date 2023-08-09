@@ -54,16 +54,6 @@ class GroundonController {
 		await this.conectarWpp()
 	}
 
-	startTimeout() {
-		this.timeoutID = setTimeout(() => this.restartChatbot(), this.timeoutDuration);
-	}
-
-	// Reinicia o tempo limite
-	resetTimeout() {
-		clearTimeout(this.timeoutID);
-		this.startTimeout();
-	}
-
 
 	// Método auxiliar para adicionar atraso (em milissegundos)
 	delay(ms) {
@@ -94,14 +84,6 @@ class GroundonController {
 		console.log(`Número de usuários online: ${onlineUserCount}`);
 	}
 
-	async desconectarWpp() {
-		// Realize as ações necessárias antes de desconectar o bot
-
-
-		// Desconectar o bot
-		await this.groundon.close();
-		console.log('Bot desconectado.');
-	}
 }
 
 

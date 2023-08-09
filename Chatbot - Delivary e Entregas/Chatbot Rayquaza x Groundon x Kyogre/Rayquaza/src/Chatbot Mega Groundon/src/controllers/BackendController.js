@@ -61,8 +61,7 @@ class BackendController extends GroundonController {
 
     //TODO PASSAR O NOME DO CLIENTE COMO PARÂMETRO
 
-    async enviarLinkServidor(cliente) {
-        const idPedido = this.gerarIdPedido();
+    async enviarLinkServidor(cliente, idPedido) {
         const link = `https://groundon-citta-cardapio.web.app/#/details/${idPedido}`;
 
         const url_link = 'https://rayquaza-citta-server.onrender.com/receber-link'

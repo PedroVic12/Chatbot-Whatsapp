@@ -1,16 +1,16 @@
-2023/08/09-11:30:25.796 cfb3 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2023/08/09-11:30:25.796 cfb3 Recovering log #56
-2023/08/09-11:30:25.852 cfb3 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000056.log 
-2023/08/09-11:30:37.042 cfb3 Level-0 table #63: started
-2023/08/09-11:30:37.081 cfb3 Level-0 table #63: 1231199 bytes OK
-2023/08/09-11:30:37.083 cfb3 Delete type=0 #56
-2023/08/09-11:30:37.479 cfba Compacting 1@1 + 3@2 files
-2023/08/09-11:30:37.590 cfba Generated table #64@1: 36110 keys, 2224302 bytes
-2023/08/09-11:30:37.712 cfba Generated table #65@1: 65148 keys, 2227269 bytes
-2023/08/09-11:30:37.750 cfba Generated table #66@1: 25880 keys, 501740 bytes
-2023/08/09-11:30:37.750 cfba Compacted 1@1 + 3@2 files => 4953311 bytes
-2023/08/09-11:30:37.754 cfba compacted to: files[ 0 0 3 0 0 0 0 ]
-2023/08/09-11:30:37.755 cfba Delete type=2 #60
-2023/08/09-11:30:37.755 cfba Delete type=2 #58
-2023/08/09-11:30:37.755 cfba Delete type=2 #59
-2023/08/09-11:30:37.755 cfba Delete type=2 #63
+2023/08/09-13:14:13.363 1cc36 Reusing MANIFEST /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/08/09-13:14:13.364 1cc36 Recovering log #80
+2023/08/09-13:14:13.421 1cc36 Reusing old log /home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/tokens/CITTA-RioDeJaneiro/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000080.log 
+2023/08/09-13:14:27.458 1cc38 Level-0 table #87: started
+2023/08/09-13:14:27.541 1cc38 Level-0 table #87: 1244002 bytes OK
+2023/08/09-13:14:27.545 1cc38 Delete type=0 #80
+2023/08/09-13:14:38.044 1cc3f Compacting 1@1 + 3@2 files
+2023/08/09-13:14:38.172 1cc3f Generated table #88@1: 51609 keys, 2266681 bytes
+2023/08/09-13:14:38.255 1cc3f Generated table #89@1: 38378 keys, 2200768 bytes
+2023/08/09-13:14:38.306 1cc3f Generated table #90@1: 57102 keys, 1108303 bytes
+2023/08/09-13:14:38.306 1cc3f Compacted 1@1 + 3@2 files => 5575752 bytes
+2023/08/09-13:14:38.309 1cc3f compacted to: files[ 0 0 3 0 0 0 0 ]
+2023/08/09-13:14:38.309 1cc3f Delete type=2 #82
+2023/08/09-13:14:38.309 1cc3f Delete type=2 #87
+2023/08/09-13:14:38.309 1cc3f Delete type=2 #84
+2023/08/09-13:14:38.309 1cc3f Delete type=2 #83
