@@ -141,10 +141,17 @@ class StagesView extends GroundonView {
                         selectedOption.button.text.toLowerCase().includes('pedido')
                     ) {
                         //Numero pedido
-                        this.backendController.enviarLinkServidor(cliente, idPedido).then(link_pedido_id => {
-                            this.enviarMensagem(message, `Abra esse link do seu pedido: ${link_pedido_id}`)
-                            this.pushStage(4);
-                        });
+
+                        try {
+                            this.backendController.enviarLinkServidor(cliente, idPedido).then(link_pedido_id => {
+                                this.enviarMensagem(message, `Abra esse link do seu pedido: \n${link_pedido_id}`)
+                                this.pushStage(4);
+                            });
+                        } catch (error) {
+                            console.log('\n\nNão foi possivel enviar o link', error)
+                        }
+
+
 
 
                     }

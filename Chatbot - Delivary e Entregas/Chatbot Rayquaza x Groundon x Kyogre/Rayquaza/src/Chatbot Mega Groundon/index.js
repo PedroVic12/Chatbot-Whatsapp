@@ -1,4 +1,3 @@
-const venom = require('venom-bot');
 const GroundonController = require('./src/controllers/GroundonController');
 const BackendController = require('./src/controllers/BackendController');
 const StagesView = require('./src/views/StagesView');

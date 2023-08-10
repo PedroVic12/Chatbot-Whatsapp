@@ -1,4 +1,5 @@
 const venom = require('venom-bot');
+const wppconnect = require('@wppconnect-team/wppconnect');
 
 
 class GroundonController {
@@ -11,7 +12,9 @@ class GroundonController {
 	conectarWpp() {
 		return new Promise(async (resolve, reject) => {
 			try {
-				this.whatsapp = await venom.create({
+				this.whatsapp = await wppconnect.create({
+					tokenStore: 'file',
+					folderNameToken: 'tokens',
 					session: 'CITTA-RJ' //! nome da sessão
 				});
 
