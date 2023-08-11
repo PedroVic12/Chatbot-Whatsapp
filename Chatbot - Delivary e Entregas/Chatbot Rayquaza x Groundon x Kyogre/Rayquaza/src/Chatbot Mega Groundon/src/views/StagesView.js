@@ -113,6 +113,7 @@ class StagesView extends GroundonView {
                 console.log(`\nEstágio ${numero_estagio}:`, message.body);
 
                 const idPedido = this.backendController.gerarIdPedido();
+                cliente.setId(idPedido)
 
 
                 const choice_escolhida = this.getLastMessage(message);
@@ -129,26 +130,35 @@ class StagesView extends GroundonView {
 
                         // Mostra o menu principal
                         let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
-                        this.enviarMenu(message, menu_principal_text)
+                        this.enviarMensagem(message, menu_principal_text)
 
 
 
                     }
 
-                    // Menu de Categorias
+                    // Fazer Pedido com o Cardapio digital
+
                     else if (
                         selectedOption.button.text.toUpperCase() === 'FAZER PEDIDO' ||
                         selectedOption.button.text.toLowerCase().includes('pedido')
                     ) {
-                        //Numero pedido
 
                         try {
-                            this.backendController.enviarLinkServidor(cliente, idPedido).then(link_pedido_id => {
-                                this.enviarMensagem(message, `Abra esse link do seu pedido: \n${link_pedido_id}`)
-                                this.pushStage(4);
-                            });
+
+
+                            //const linkPedidoId = this.backendController.enviarLinkServidor(cliente, idPedido)
+
+                            this.delay(5000).then(
+                                this.enviarMensagem(message, 'Processando...')
+                            ).then(
+                                this.backendController.enviarLinkServidor(cliente, idPedido).then(link_pedido_id => {
+                                    this.enviarMensagem(message, `Abra esse link do seu pedido: ---> ${link_pedido_id}`)
+                                    this.pushStage(4);
+                                })
+                            )
+
                         } catch (error) {
-                            console.log('\n\nNão foi possivel enviar o link', error)
+                            console.log('\n\nNão foi possível enviar o link', error)
                         }
 
 

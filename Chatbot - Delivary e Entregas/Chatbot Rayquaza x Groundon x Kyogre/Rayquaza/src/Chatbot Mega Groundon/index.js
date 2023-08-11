@@ -45,6 +45,13 @@ async function startStagesView(groundonController, backendController) {
 		console.error('\n\nOcorreu um erro ao iniciar o Chatbot Groundon:', error);
 		return false;
 	}
+
+
+	groundonController.delay(5000)
+
+
+
+
 }
 
 async function main() {
@@ -58,6 +65,9 @@ async function main() {
 		console.log('\n\nNão foi possível iniciar o backend, pois o WhatsApp não está conectado.');
 		return;
 	}
+
+
+	groundonController.delay(2000)
 
 	const groundonIsOnline = await startStagesView(groundonController, backendController);
 	if (groundonIsOnline) {
