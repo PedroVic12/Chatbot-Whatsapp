@@ -7,9 +7,9 @@ class Widgets {
     //! WIDGETS 
     // Menu Principal
     this.menuPrincipal = [
-      { button: { text: '🍔 Ver Cardápio', hide: true }, type: 'message' },
-      { button: { text: '🛒 Fazer Pedido', hide: true }, type: 'message' },
       { button: { text: '📍 Ver nossa Localização', hide: true }, type: 'message' },
+      { button: { text: '🛒 Fazer Pedido', hide: true }, type: 'message' },
+      { button: { text: '🤖  Reiniciar Atendimento', hide: true }, type: 'message' },
       { button: { text: '👨‍🍳 Falar com um atendente', hide: true }, type: 'message' },
       { button: { text: '❌ Sair', hide: true }, type: 'message' }
 
@@ -116,7 +116,7 @@ class Widgets {
   getMenuText(title, menu) {
     let menuText = `⚡️  ${title} ⚡️ \n\n`;
     menu.forEach((item, index) => {
-      menuText += `${index + 1}. ${item.button.text}\n`;
+      menuText += `${index + 1}) ${item.button.text}\n`;
     });
 
     menuText += `\n📝 Digite o *Número* ou *Escreva a opção*  para escolher o item desejado.\n\n`;

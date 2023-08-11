@@ -148,14 +148,19 @@ class StagesView extends GroundonView {
 
                             //const linkPedidoId = this.backendController.enviarLinkServidor(cliente, idPedido)
 
-                            this.delay(5000).then(
-                                this.enviarMensagem(message, 'Processando...')
-                            ).then(
-                                this.backendController.enviarLinkServidor(cliente, idPedido).then(link_pedido_id => {
+                            await this.backendController.enviarLinkServidor(cliente, idPedido).then(link_pedido_id => {
+                                this.delay(6000).then(
+                                    this.enviarMensagem(message, `Processando... Pedido:${idPedido}`)
+                                ).then(
                                     this.enviarMensagem(message, `Abra esse link do seu pedido: ---> ${link_pedido_id}`)
-                                    this.pushStage(4);
-                                })
-                            )
+                                ).then(
+                                    console.log('\n>>> Link enviado!')
+                                ).then(
+                                    this.pushStage(4)
+                                )
+
+                            })
+
 
                         } catch (error) {
                             console.log('\n\nNão foi possível enviar o link', error)
