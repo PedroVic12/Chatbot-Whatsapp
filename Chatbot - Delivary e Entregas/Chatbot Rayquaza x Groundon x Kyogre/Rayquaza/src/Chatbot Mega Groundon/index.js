@@ -39,15 +39,14 @@ async function startStagesView(groundonController, backendController) {
 
 	try {
 		await stagesView.start_chatbot_Groundon();
-		console.log('\nChatbot Groundon iniciado');
+		await groundonController.delay(3000).then(
+			console.log('\nChatbot Groundon iniciado')
+		);
 		return true;
 	} catch (error) {
 		console.error('\n\nOcorreu um erro ao iniciar o Chatbot Groundon:', error);
 		return false;
 	}
-
-
-	groundonController.delay(5000)
 
 
 
@@ -67,11 +66,17 @@ async function main() {
 	}
 
 
-	groundonController.delay(2000)
 
 	const groundonIsOnline = await startStagesView(groundonController, backendController);
+
+	await groundonController.delay(8000).then(
+		console.log('Conectando...')
+	)
+
 	if (groundonIsOnline) {
-		console.log('\nChatbot Groundon está online. :)', groundonIsOnline);
+		console.log('\n\n\n==================================================')
+		console.log('Chatbot Groundon está online. :)', groundonIsOnline);
+		console.log('==================================================')
 	}
 }
 
