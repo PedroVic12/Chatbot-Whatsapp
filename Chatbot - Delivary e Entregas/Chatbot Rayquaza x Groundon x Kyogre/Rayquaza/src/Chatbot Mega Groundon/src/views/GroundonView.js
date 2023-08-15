@@ -191,7 +191,7 @@ class GroundonView extends Groundon {
 
 
 	//! Função para adicionar um estágio à pilha
-	pushStage(stage) {
+	async pushStage(stage) {
 		this.stack.push(stage);
 	}
 

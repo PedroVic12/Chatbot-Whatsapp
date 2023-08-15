@@ -29,6 +29,7 @@ class StagesView extends GroundonView {
 
     async start_chatbot_Groundon() {
         const menu_principal = this.Widgets.menuPrincipal
+        let LINK_PEDIDO_ID = ''
 
 
         this.whatsapp.onMessage(async (message) => {
@@ -40,8 +41,6 @@ class StagesView extends GroundonView {
             const numero_estagio = this.getCurrentStage();
             console.log(`Mensagem recebida: ${message.body}`);
 
-
-            // TODO Chatbot online junto com o servidor
 
             //TODO Aceitar vários pedidos ao mesmo tempo
 
@@ -56,11 +55,13 @@ class StagesView extends GroundonView {
                 await this.delay(1000).then(
                     this.enviarMensagem(message, `Bem-vindo a Lanchonete *Citta RJ* Obrigado por escolher a nossos Serviços.\n🤖 Eu sou o Robô Groundon e estou aqui para ajudá-lo. `)
                 )
-                await this.delay(3000).then(
-                    this.enviarMensagem(message, "🤖 Antes de começarmos, por favor, *Digite Seu Nome*:")
-                )
 
-                this.pushStage(2); // Avança para o próximo estágio
+
+                this.pushStage(2).then(
+                    await this.delay(3000).then(
+                        this.enviarMensagem(message, "🤖 Antes de começarmos, por favor, *Digite Seu Nome*:")
+                    )
+                )
 
 
                 //!=====================  Estágio 2 - Mostrar Menu Principal =====================
@@ -78,6 +79,11 @@ class StagesView extends GroundonView {
                 const numero_cliente = this.estagio2.getTelefoneCliente(message)
                 cliente.setTelefone(numero_cliente)
 
+                // Envia os dados do cliente para o servidor
+                LINK_PEDIDO_ID = this.backendController.gerarIdPedido();
+                cliente.setId(LINK_PEDIDO_ID);
+                await this.backendController.enviarDadosClienteServidor(cliente, LINK_PEDIDO_ID);
+
 
                 // TODO CHECAR SE ESTAR CONECTADO A INTERNET E INICIAR O CHATBOT
 
@@ -88,7 +94,9 @@ class StagesView extends GroundonView {
 
                 //TODO se cliente existir, pegar dados do cliente
 
-                this.delay(1000).then(
+
+
+                await this.delay(2000).then(
                     this.enviarMensagem(message, `✅ Prazer em te conhecer, ${cliente.nome}!`)
                 )
 
@@ -112,10 +120,8 @@ class StagesView extends GroundonView {
                 this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
                 console.log(`\nEstágio ${numero_estagio}:`, message.body);
 
-                const idPedido = this.backendController.gerarIdPedido();
-                cliente.setId(idPedido)
 
-
+                // Pega a ultima mensagem enviada pelo cliente
                 const choice_escolhida = this.getLastMessage(message);
                 const selectedOption = this.Widgets.getSelectedOption(menu_principal, choice_escolhida);
 
@@ -123,60 +129,55 @@ class StagesView extends GroundonView {
 
                     this.enviarMensagem(message, `Voce escolheu a opção *${selectedOption.button.text.slice(3)}*`)
 
-                    // Cardapio
-                    if (selectedOption.button.text.toUpperCase() === 'Ver Cardápio' || choice_escolhida === '1' || selectedOption.button.text.toLowerCase().includes('cardapio')) {
-                        this.enviarMensagem(message, 'Vou mostrar o cardápio em PDF!');
-                        this.enviarPdf(message.from, '/home/pedrov/Documentos/GitHub/Chatbot-Whatsapp/Chatbot - Delivary e Entregas/Chatbot Rayquaza x Groundon x Kyogre/Rayquaza/src/Chatbot Mega Groundon/repository/assets/sanduiches.pdf')
-
-                        // Mostra o menu principal
-                        let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
-                        this.enviarMensagem(message, menu_principal_text)
-
-
-
+                    // Localização
+                    if (selectedOption.button.text.toUpperCase() === 'LOCALIZAÇÃO') {
+                        estagio3.mostrarLocal(message);
+                        this.delay(3000).then(() => {
+                            this.enviarMensagem(message, menu_principal);
+                        });
                     }
 
                     // Fazer Pedido com o Cardapio digital
-
                     else if (
                         selectedOption.button.text.toUpperCase() === 'FAZER PEDIDO' ||
                         selectedOption.button.text.toLowerCase().includes('pedido')
                     ) {
-
                         try {
+                            // Chama o backend e aguarda o link ser gerado
+                            const linkPedidoId = await this.backendController.enviarLinkServidor(LINK_PEDIDO_ID);
+
+                            await this.delay(4000);
+
+                            // Envia a mensagem de "Processando"
+                            await this.enviarMensagem(message, `Processando...`);
+
+                            await this.delay(6000);
+
+                            // Envia a mensagem com o link para o cliente
+                            return new Promise((resolve, reject) => {
+                                resolve(this.enviarMensagem(message, `Abra esse link do seu pedido: ---> ${linkPedidoId}`))
+                                    .then(
+                                        console.log('Link enviado com sucesso')
+                                    )
+                                    .catch(error => {
+                                        console.error('\nLINK AINDA NAO ENVIADO:', error);
+                                        //reject();
+                                    });
+                            }).then(() => {
+                                this.pushStage(4);
+                            });
 
 
-                            //const linkPedidoId = this.backendController.enviarLinkServidor(cliente, idPedido)
-
-                            await this.backendController.enviarLinkServidor(cliente, idPedido).then(link_pedido_id => {
-                                this.delay(6000).then(
-                                    this.enviarMensagem(message, `Processando... Pedido:${idPedido}`)
-                                ).then(
-                                    this.enviarMensagem(message, `Abra esse link do seu pedido: ---> ${link_pedido_id}`)
-                                ).then(
-                                    console.log('\n>>> Link enviado!')
-                                ).then(
-                                    this.pushStage(4)
-                                )
-
-                            })
 
 
                         } catch (error) {
                             console.log('\n\nNão foi possível enviar o link', error)
                         }
-
-
-
-
                     }
 
                     // Localização
-                    else if (selectedOption.button.text.toUpperCase() === 'LOCALIZAÇÃO') {
-                        estagio3.mostrarLocal(message);
-                        this.delay(3000).then(() => {
-                            this.enviarMensagem(message, menu_principal);
-                        });
+                    else if (selectedOption.button.text.toUpperCase() === 'Reiniciar') {
+                        this.restartChatbot()
                     }
 
                     else if (selectedOption.button.text.toUpperCase() === 'FALAR COM UM ATENDENTE') {
@@ -239,21 +240,34 @@ class StagesView extends GroundonView {
 
                 this.enviarMensagem(message, 'Seu endereço precisa de algum complemento? Digite Sim ou Não')
 
-                // Send Messages with Buttons Reply
-                const buttons = [
-                    {
-                        "buttonText": {
-                            "displayText": "Sim"
-                        }
-                    },
-                    {
-                        "buttonText": {
-                            "displayText": "Não"
-                        }
-                    }
-                ]
 
-                this.enviarBotoes(message.from, 'Seu endereço precisa de algum complemento?', buttons, 'Escolha a opção desejada')
+                try {
+                    // Send Messages with Buttons Reply
+                    const buttons_object =
+                    {
+                        useTemplateButtons: true,
+                        title: 'Titulo',
+                        footer: 'footer'
+                        [
+                            {
+                                "buttonText": {
+                                    "displayText": "Sim"
+                                }
+                            },
+                            {
+                                "buttonText": {
+                                    "displayText": "Não"
+                                }
+                            }
+                        ]
+
+                    }
+
+                    this.whatsapp.sendText(message.from, 'Seu endereço precisa de algum complemento?', buttons_object)
+                } catch (error) {
+                    console.log('Tentativa de Botao FAIL')
+                }
+
                 this.pushStage(6)
             }
 

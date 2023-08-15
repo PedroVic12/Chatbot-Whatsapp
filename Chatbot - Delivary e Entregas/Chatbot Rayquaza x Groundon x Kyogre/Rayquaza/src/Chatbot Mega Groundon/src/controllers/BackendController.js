@@ -59,9 +59,10 @@ class BackendController extends GroundonController {
         return pedidoId
     }
 
-    //TODO PASSAR O NOME DO CLIENTE COMO PARÂMETRO
 
-    async enviarLinkServidor(cliente, idPedido) {
+    async enviarLinkServidor(idPedido) {
+
+        // Rota Cardapio Digital
         const link = `https://groundon-citta-cardapio.web.app/#/details/${idPedido}`;
 
         const url_link = 'https://rayquaza-citta-server.onrender.com/receber-link'
@@ -71,29 +72,34 @@ class BackendController extends GroundonController {
 
         try {
             const response_link = await axios.post(url_link, data_link);
-            console.log(`\n>>>Link ${link} enviado com sucesso para o servidor FastAPI.`);
-            console.log('Dados do link enviados com sucesso:', response_link.data);
+            console.log(`\n\n>>>Link: ${link} enviado com sucesso para o servidor FastAPI.\n`);
+            console.log('\nResposta do servidor -> ', response_link.data)
+
         } catch (error) {
             console.error('Erro ao enviar link:', error);
         }
 
+        return link;
+
+    }
+
+
+    async enviarDadosClienteServidor(cliente, idPedido) {
+        // Rota Cliente
         const url = `https://rayquaza-citta-server.onrender.com/cliente/${idPedido}`;
         const data = {
             id: idPedido,
             nome: cliente.nome,
             telefone: cliente.telefone,
-            link: link // inclua o link no objeto data
         };
 
         try {
             const response = await axios.post(url, data);
-            console.log(`\n>>>Dados do cliente enviados com sucesso para o servidor FastAPI.`);
-            console.log('Dados do cliente enviados com sucesso:', response.data);
+            console.log('\n>>>Dados do cliente enviados com sucesso:', response.data);
         } catch (error) {
             console.error('Erro ao enviar dados do cliente:', error);
         }
 
-        return link;
     }
 
 
