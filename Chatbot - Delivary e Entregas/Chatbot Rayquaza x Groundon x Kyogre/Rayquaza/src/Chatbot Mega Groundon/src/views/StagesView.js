@@ -82,7 +82,7 @@ class StagesView extends GroundonView {
                 // Envia os dados do cliente para o servidor
                 LINK_PEDIDO_ID = this.backendController.gerarIdPedido();
                 cliente.setId(LINK_PEDIDO_ID);
-                await this.backendController.enviarDadosClienteServidor(cliente, LINK_PEDIDO_ID);
+                this.backendController.enviarDadosClienteServidor(cliente, LINK_PEDIDO_ID);
 
 
                 // TODO CHECAR SE ESTAR CONECTADO A INTERNET E INICIAR O CHATBOT
