@@ -49,7 +49,6 @@ class StagesView extends GroundonView {
 
             //! ===================== Estágio 1 - Apresentação =====================
             if (numero_estagio === 1) {
-                this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
                 console.log('\nEstágio 1:', message.body);
 
                 await this.delay(1000).then(
@@ -68,8 +67,6 @@ class StagesView extends GroundonView {
             }
 
             else if (numero_estagio === 2) {
-
-                this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
                 console.log('\nEstágio 2:', message.body);
 
                 //Pega dados do CLiente
@@ -95,7 +92,6 @@ class StagesView extends GroundonView {
                 //TODO se cliente existir, pegar dados do cliente
 
 
-
                 await this.delay(2000).then(
                     this.enviarMensagem(message, `✅ Prazer em te conhecer, ${cliente.nome}!`)
                 )
@@ -106,9 +102,7 @@ class StagesView extends GroundonView {
                 let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
                 this.enviarMensagem(message, menu_principal_text)
 
-
                 this.pushStage(3);
-
             }
 
             //!=====================  Estágio 3 - Responde as funcionalidades do Botão =====================
@@ -117,7 +111,6 @@ class StagesView extends GroundonView {
 
 
                 //TODO desculpa nao entendi, voce quis dizer? ['opção1, opção2, 'opção3']
-                this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
                 console.log(`\nEstágio ${numero_estagio}:`, message.body);
 
 
@@ -205,7 +198,6 @@ class StagesView extends GroundonView {
 
             //!=====================  Estagio 4 - Cliente Escolhe os Produtos no Cardapio Digital da Loja =====================
             else if (numero_estagio === 4) {
-                this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
                 console.log(`\nEstágio ${numero_estagio}:`, message.body);
 
                 const pedido_escolhido_cardapio = this.getLastMessage(message);
@@ -232,7 +224,6 @@ class StagesView extends GroundonView {
             //!=====================  Estagio 5 - Cliente escolhe o Lanche Desejado =====================
             else if (numero_estagio === 5) {
                 console.log(`\nEstágio ${numero_estagio}:`, message.body);
-                this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
 
                 const endereco_entrega = this.getLastMessage(message);
@@ -275,7 +266,6 @@ class StagesView extends GroundonView {
             //!=====================  Estágio 6 - Pergunta sobre o complemento =====================
             else if (numero_estagio === 6) {
                 console.log(`\nEstágio ${numero_estagio}:`, message.body);
-                this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
 
                 const resposta_cliente = this.getLastMessage(message).toUpperCase().trim();
 
@@ -302,8 +292,6 @@ class StagesView extends GroundonView {
 
             else if (numero_estagio === 7) {
                 console.log(`\nEstágio ${numero_estagio}:`, message.body);
-                this.enviarMensagem(message, `Número Estágio: ${numero_estagio}`);
-
 
                 const forma_pagamento = this.getLastMessage(message)
                 cliente.setFormaPagamento(forma_pagamento)
@@ -335,6 +323,8 @@ class StagesView extends GroundonView {
 
 
             }
+
+
 
 
 
