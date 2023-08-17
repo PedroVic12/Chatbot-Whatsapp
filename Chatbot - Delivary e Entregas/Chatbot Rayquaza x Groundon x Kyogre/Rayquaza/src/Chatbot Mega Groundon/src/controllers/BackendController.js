@@ -382,7 +382,7 @@ class BackendController extends GroundonController {
             const response = await axios.get('https://rayquaza-citta-server.onrender.com'); // substitua por seu URL do servidor
             console.log('Server status:', response.data);
         } catch (error) {
-            console.error('Erro ao verificar o status do servidor:', error);
+            console.error('\n\nErro ao verificar o status do servidor:');
         }
     }
 
@@ -413,6 +413,7 @@ class BackendController extends GroundonController {
         try {
             this.app.listen(port, () => {
                 console.log(`\n\nServidor Whatsapp iniciado na porta ${port}`);
+
                 this.checkServerStatus();
             });
         } catch (error) {

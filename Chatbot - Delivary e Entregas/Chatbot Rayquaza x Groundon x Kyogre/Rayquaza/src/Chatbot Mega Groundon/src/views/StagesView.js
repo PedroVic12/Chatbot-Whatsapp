@@ -119,15 +119,17 @@ class StagesView extends GroundonView {
                 const selectedOption = this.Widgets.getSelectedOption(menu_principal, choice_escolhida);
 
                 if (selectedOption) {
-
                     this.enviarMensagem(message, `Voce escolheu a opção *${selectedOption.button.text.slice(3)}*`)
 
                     // Localização
-                    if (selectedOption.button.text.toUpperCase() === 'LOCALIZAÇÃO') {
-                        estagio3.mostrarLocal(message);
-                        this.delay(3000).then(() => {
-                            this.enviarMensagem(message, menu_principal);
-                        });
+                    if (selectedOption.button.text.toUpperCase() === 'VER NOSSA LOCALIZAÇÃO' ||
+                        selectedOption.button.text.toUpperCase().includes('LOCALIZAÇÃO')) {
+
+                        //estagio3.mostrarLocal(message);
+                        this.enviarMensagem(message, 'Estamos implementando essa funcionalidade, por favor tente outra opção.')
+                        this.delay(2000).then(
+                            this.enviarMensagem(message, menu_principal)
+                        )
                     }
 
                     // Fazer Pedido com o Cardapio digital
@@ -142,7 +144,7 @@ class StagesView extends GroundonView {
                             await this.delay(4000);
 
                             // Envia a mensagem de "Processando"
-                            await this.enviarMensagem(message, `Processando...`);
+                            await this.enviarMensagem(message, `Processando... Aguarde um instante`);
 
                             await this.delay(6000);
 
