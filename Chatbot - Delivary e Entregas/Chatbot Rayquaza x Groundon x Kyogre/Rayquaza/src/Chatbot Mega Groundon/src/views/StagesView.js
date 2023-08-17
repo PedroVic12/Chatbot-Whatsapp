@@ -125,11 +125,13 @@ class StagesView extends GroundonView {
                     if (selectedOption.button.text.toUpperCase() === 'VER NOSSA LOCALIZAÇÃO' ||
                         selectedOption.button.text.toUpperCase().includes('LOCALIZAÇÃO')) {
 
-                        //estagio3.mostrarLocal(message);
                         this.enviarMensagem(message, 'Estamos implementando essa funcionalidade, por favor tente outra opção.')
-                        this.delay(2000).then(
-                            this.enviarMensagem(message, menu_principal)
-                        )
+
+                        this.delay(2000)
+
+                        // Mostra o menu principal
+                        let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
+                        this.enviarMensagem(message, menu_principal_text)
                     }
 
                     // Fazer Pedido com o Cardapio digital
