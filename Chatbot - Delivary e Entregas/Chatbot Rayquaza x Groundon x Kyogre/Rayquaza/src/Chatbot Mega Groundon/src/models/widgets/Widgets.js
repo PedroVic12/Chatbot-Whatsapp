@@ -12,8 +12,6 @@ class Widgets {
       { button: { text: '🤖 Reiniciar Atendimento', hide: true }, type: 'message' },
       { button: { text: '👨‍🍳 Falar com um atendente', hide: true }, type: 'message' },
       { button: { text: '❌ Sair', hide: true }, type: 'message' }
-
-
     ];
 
     // Menu de Categorias
@@ -22,31 +20,6 @@ class Widgets {
       { button: { text: '🍹 Bebida', hide: true }, type: 'message' },
       { button: { text: '🍨 Sobremesa', hide: true }, type: 'message' }
     ];
-
-    this.menuLanchesSalgados = [
-      { button: { text: '🍔 Sanduíches Tradicionais', hide: true }, type: 'message' },
-      { button: { text: '🍔 Sanduíches Naturais', hide: true }, type: 'message' },
-      { button: { text: '* Tapioca ', hide: true }, type: 'message' },
-      { button: { text: '* Crepe ', hide: true }, type: 'message' },
-      { button: { text: '* Omelete ', hide: true }, type: 'message' },
-      { button: { text: '🍔 Hamburguers ', hide: true }, type: 'message' },
-      { button: { text: '* Salgados ', hide: true }, type: 'message' },
-      { button: { text: '* Pratos Tradicionais ', hide: true }, type: 'message' },
-      { button: { text: '* Pratos a la carte', hide: true }, type: 'message' },
-      { button: { text: '* Petiscos', hide: true }, type: 'message' },
-      { button: { text: '* Pizzas', hide: true }, type: 'message' }
-    ];
-
-
-    this.menuBebidas = [
-      { button: { text: '🍹 Sucos Naturais', hide: true }, type: 'message' },
-      { button: { text: '🍹 Refrigerante', hide: true }, type: 'message' },
-      { button: { text: '🍹 Cervejas', hide: true }, type: 'message' },
-
-    ]
-
-
-
 
     // Menu de Opções de Pagamento
     this.menuPagamento = [
