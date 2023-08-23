@@ -14,6 +14,21 @@ const Estagio3 = require('./Stages/Estagio3');
 
 const cliente = new Cliente()
 
+
+/*
+TODO 
+Pesquisa sobre o “Anota Aí” e o “TakeEat App”
+tem que ter um botão: “voltar” e começar tudo novamente
+
+Seu pedido está sendo preparado, caso precise modificar ou passar mais alguma informação para o atendente, ligue para (21)2222-2222”
+
+Vai conseguir colocar “raio de atendimento” ? 
+Pra direcionar o pedido pra loja A ou B e quem estiver fora da área, ser avisado que não dá pra prosseguir?
+
+Mas mesmo cada loja tendo um número tem que ter um “você está fora da área de entrega”
+*/
+
+
 class StagesView extends GroundonView {
     constructor(whatsapp, groundonController, backendController) {
         super(whatsapp, groundonController, backendController);
@@ -144,11 +159,12 @@ class StagesView extends GroundonView {
                             // Chama o backend e aguarda o link ser gerado
                             const linkPedidoId = await this.backendController.enviarLinkServidor(LINK_PEDIDO_ID);
 
-                            await this.delay(4000);
+                            await this.delay(2000);
 
                             await this.enviarMensagem(message, `Processando... Aguarde um instante`);
+                            //await this.enviarMensagem(message, linkPedidoId)
 
-                            await this.delay(6000);
+                            await this.delay(2000);
 
                             // Envia a mensagem com o link para o cliente
                             return new Promise((resolve, reject) => {
@@ -163,9 +179,6 @@ class StagesView extends GroundonView {
                             }).then(() => {
                                 this.pushStage(4);
                             });
-
-
-
 
                         } catch (error) {
                             console.log('\n\nNão foi possível enviar o link', error)
@@ -208,7 +221,6 @@ class StagesView extends GroundonView {
 
 
                 const pedido_json = this.getPedidoCardapio(pedido_escolhido_cardapio)
-                console.log('\n\n\nPedido atraves do Cardapio:', cliente.getDadosCompletos())
 
                 //TODO COLOCAR OS ITENS, QUANTIDADE E PRECO DENTRO DO PEDIDO NA CLASSE CLIENTE
                 try {
@@ -217,6 +229,9 @@ class StagesView extends GroundonView {
                     this.delay(1000).then(
                         this.enviarMensagem(message, `✅ Seu pedido foi anotado!`)
                     )
+
+
+                    console.log('\n\n\nPedido atraves do Cardapio:', cliente.getDadosCompletos())
 
                 } catch (error) {
                     console.log('Nao foi possivel salvar os produtos do pedido', error)
@@ -291,20 +306,29 @@ class StagesView extends GroundonView {
                     this.enviarMensagem(message, `Você escolheu a forma de pagamento: *${forma_pagamento}*`)
                 )
 
-                this.delay(3000).then(
-                    this.enviarMensagem(message, 'Confirma o seu pedido?')
-                )
+
 
                 // TODO gerar pedido json e enviar para o servidor Rayquaza
-                console.log('\n\nDados do Cliente: ', cliente.getDadosCompletos())
+                // Get complete client data
+                const pedido_cliente = cliente.getPedido()
+                cliente.setDataAtual()
+                const DADOS_CLIENTE = cliente.getDadosCompletos(pedido_cliente);
 
+                // Generate and save the JSON file using the pedido data
+                cliente.gerarPedidoJson(DADOS_CLIENTE);
+
+                console.log('\n>>> DADOS DO CLIENTE:\n', DADOS_CLIENTE)
 
                 try {
-                    this.backendController.enviarPedidoRayquaza(cliente.getDadosCompletos)
+                    this.backendController.enviarPedidoRayquaza(DADOS_CLIENTE)
                 } catch (error) {
                     console.log('Erro ao fazer o post do pedido no servidor')
                 }
 
+
+                this.delay(3000).then(
+                    this.enviarMensagem(message, 'Confirma o seu pedido?')
+                )
                 this.pushStage(8)
 
 
