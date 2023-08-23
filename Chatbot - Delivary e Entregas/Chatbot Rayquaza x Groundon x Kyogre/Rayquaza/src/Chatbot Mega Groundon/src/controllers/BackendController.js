@@ -1,6 +1,5 @@
 const { body, validationResult } = require('express-validator');
 const express = require('express');
-const fs = require('fs');
 const axios = require('axios')
 const GroundonController = require('./GroundonController')
 const net = require('net');
@@ -70,28 +69,24 @@ class BackendController extends GroundonController {
 
 
 
-    enviarPedidoRayquaza(dados_pedido_cliente) {
-
-        //TODO SALVAR OS DADOS NO FIREBASE
-
-
+    async enviarPedidoRayquaza(dados_pedido_cliente) {
         const url = 'https://rayquaza-citta-server.onrender.com/pedidos'; // URL do servidor FastAPI
 
-        fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(dados_pedido_cliente),
-            headers: { 'Content-Type': 'application/json' },
-        })
-            .then((response) => {
-                if (response.ok) {
-                    console.log('Pedido enviado com sucesso!');
-                } else {
-                    console.log('Falha ao enviar o pedido. Status:', response.status);
-                }
-            })
-            .catch((error) => {
-                console.error('Erro ao enviar o pedido:', error);
+        try {
+            const response = await axios.post(url, dados_pedido_cliente, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
             });
+
+            if (response.status === 200) {
+                console.log('Pedido enviado com sucesso!');
+            } else {
+                console.log('Falha ao enviar o pedido. Status:', response.status);
+            }
+        } catch (error) {
+            console.error('Erro ao enviar o pedido:', error);
+        }
     }
 
 
