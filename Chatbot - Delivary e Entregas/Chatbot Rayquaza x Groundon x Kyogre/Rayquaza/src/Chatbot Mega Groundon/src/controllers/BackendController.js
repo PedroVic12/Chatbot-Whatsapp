@@ -14,45 +14,9 @@ class BackendController extends GroundonController {
         this.setupRoutes();
     }
 
-
+    //!=====================================
     //! Funções de integração com o Rayquaza
-    gerarPedidoJson(nomeCliente) {
-        const pedido = {
-            nome: nomeCliente,
-            telefone: "21999289987",
-            carrinho: {
-                itensPedido: [
-                    {
-                        nome: "X Tudo",
-                        quantidade: 2
-                    },
-                    {
-                        nome: "Coca Cola",
-                        quantidade: 1
-                    },
-                    {
-                        nome: "Acai",
-                        quantidade: 1
-                    }
-                ],
-                totalPrecoPedido: 100.0
-            },
-            forma_pagamento: "Dinheiro",
-            endereco_cliente: "Copacabana"
-        };
-
-        const caminho = "src/Server Python/repository";
-        const nomeArquivo = `${caminho}/pedido_${nomeCliente.replace(' ', '_').toLowerCase()}.json`;
-        const conteudoArquivo = JSON.stringify(pedido, null, 2);
-
-        fs.writeFile(nomeArquivo, conteudoArquivo, (err) => {
-            if (err) {
-                console.error(`Erro ao criar o arquivo ${nomeArquivo}: ${err}`);
-            } else {
-                console.log(`Arquivo ${nomeArquivo} criado com sucesso.`);
-            }
-        });
-    }
+    //!=====================================
 
     gerarIdPedido() {
         const pedidoId = Math.floor(1000 + Math.random() * 9000);
@@ -100,27 +64,22 @@ class BackendController extends GroundonController {
             console.error('Erro ao enviar dados do cliente:', error);
         }
 
+
+
     }
 
 
-    enviarPedidosServidor(message) {
-        //TODO CRIAR UMA FUNÇÃO PARA FAZER O POST DO PEDIDO RECEBIDO NO WHATSAPP PARA O SERVIDOR DA FASTAPI
 
-        //Conexão Fetch
+    enviarPedidoRayquaza(dados_pedido_cliente) {
 
-        //Criar um Json do pedido
+        //TODO SALVAR OS DADOS NO FIREBASE
 
 
-        //Enviar para o servidor de Fastapi
-
-    }
-
-    enviarPedido(pedido) {
-        const url = 'http://localhost:8000/ws'; // URL do servidor FastAPI
+        const url = 'https://rayquaza-citta-server.onrender.com/pedidos'; // URL do servidor FastAPI
 
         fetch(url, {
             method: 'POST',
-            body: JSON.stringify(pedido),
+            body: JSON.stringify(dados_pedido_cliente),
             headers: { 'Content-Type': 'application/json' },
         })
             .then((response) => {
@@ -251,14 +210,14 @@ class BackendController extends GroundonController {
         // Extraia o link do corpo da solicitação
         const link = request.body.link;
 
-        console.log('Link recebido:', link);
+        console.log('Link recebido no nodejs :)', link);
 
         // Você pode fazer o que quiser com o link aqui. Por exemplo, você pode salvar
         // ele em um banco de dados, enviá-lo para outro serviço, etc.
 
         response.status(200).json({
             status: true,
-            message: 'Link recebido com sucesso',
+            message: 'Link recebido com sucesso!',
         });
     }
 

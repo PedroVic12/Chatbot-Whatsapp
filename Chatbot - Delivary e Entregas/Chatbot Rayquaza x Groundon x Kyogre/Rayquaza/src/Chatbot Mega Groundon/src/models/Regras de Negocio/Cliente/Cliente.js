@@ -10,10 +10,7 @@ class Cliente {
             complemento: ""
         };
         this.forma_pagamento = ''
-        this.pedido = {
-            itens: '',
-            total: 0.0
-        }
+        this.pedido = {}
     }
 
     // Getter e Setter para o ID
@@ -64,6 +61,25 @@ class Cliente {
 
     setFormaPagamento(forma_pagamento) {
         this.forma_pagamento = forma_pagamento;
+    }
+
+
+    setPedido(itensPedido) {
+        // Adicione os itens do pedido ao objeto pedido
+        this.pedido.itens = itensPedido.itens.map(item => {
+            return {
+                quantidade: item.quantidade,
+                nome: item.nome,
+                preco: item.preco
+            };
+        });
+
+        // Calcule o total do pedido
+        this.pedido.total = itensPedido.itens.reduce((total, item) => total + (item.quantidade * item.preco), 0);
+    }
+
+    getPedido() {
+        return this.pedido
     }
 
     // Método para retornar os dados completos do cliente

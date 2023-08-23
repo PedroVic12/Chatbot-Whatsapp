@@ -28,7 +28,8 @@ class StagesView extends GroundonView {
     }
 
     async start_chatbot_Groundon() {
-        const menu_principal = this.Widgets.menuPrincipal
+        const menu_principal = this.Widgets.menuPrincipal;
+        const menu_formaPagamento = this.Widgets.menuPagamento;
         let LINK_PEDIDO_ID = ''
 
 
@@ -208,15 +209,21 @@ class StagesView extends GroundonView {
 
 
                 const pedido_json = this.getPedidoCardapio(pedido_escolhido_cardapio)
-                console.log('\n\n\nPedido:', pedido_json)
+                console.log('\n\n\nPedido atraves do Cardapio:', cliente.getDadosCompletos())
 
                 //TODO COLOCAR OS ITENS, QUANTIDADE E PRECO DENTRO DO PEDIDO NA CLASSE CLIENTE
+                try {
+                    cliente.setPedido(pedido_json)
+
+                    this.delay(1000).then(
+                        this.enviarMensagem(message, `✅ Seu pedido foi anotado!`)
+                    )
+
+                } catch (error) {
+                    console.log('Nao foi possivel salvar os produtos do pedido', error)
+                }
 
 
-
-                this.delay(1000).then(
-                    this.enviarMensagem(message, `✅ Seu pedido foi anotado!`)
-                )
                 this.delay(3000).then(
                     this.enviarMensagem(message, ` Agora, Digite o seu endereço de entrega:`)
                 )
@@ -234,35 +241,6 @@ class StagesView extends GroundonView {
                 cliente.setEndereco(endereco_entrega)
 
                 this.enviarMensagem(message, 'Seu endereço precisa de algum complemento? Digite Sim ou Não')
-
-
-                try {
-                    // Send Messages with Buttons Reply
-                    const buttons_object =
-                    {
-                        useTemplateButtons: true,
-                        title: 'Titulo',
-                        footer: 'footer'
-                        [
-                            {
-                                "buttonText": {
-                                    "displayText": "Sim"
-                                }
-                            },
-                            {
-                                "buttonText": {
-                                    "displayText": "Não"
-                                }
-                            }
-                        ]
-
-                    }
-
-                    this.whatsapp.sendText(message.from, 'Seu endereço precisa de algum complemento?', buttons_object)
-                } catch (error) {
-                    console.log('Tentativa de Botao FAIL')
-                }
-
                 this.pushStage(6)
             }
 
@@ -278,7 +256,11 @@ class StagesView extends GroundonView {
                     this.pushStage(6.5); // Estágio intermediário
                 } else if (resposta_cliente === 'NÃO' || resposta_cliente === 'NAO') {
                     cliente.setComplemento('Sem Complemento.')
-                    this.enviarMensagem(message, 'Digite a forma de pagamento:');
+
+
+                    // Mostra o menu principal
+                    let menu_pagamento_text = this.Widgets.getMenuText('Digite a forma de pagamento', menu_formaPagamento);
+                    this.enviarMensagem(message, menu_pagamento_text)
                     this.pushStage(7);
                 }
             }
@@ -286,9 +268,15 @@ class StagesView extends GroundonView {
             //!=====================  Estágio 6.5 - Coleta o complemento =====================
             else if (numero_estagio === 6.5) {
                 console.log(`\nEstágio ${numero_estagio}:`, message.body);
+
+
                 const complemento = this.getLastMessage(message);
                 cliente.setComplemento(complemento);
-                this.enviarMensagem(message, 'Digite a forma de pagamento:');
+
+
+                // Mostra o menu principal
+                let menu_pagamento_text = this.Widgets.getMenuText('Digite a forma de pagamento', menu_formaPagamento);
+                this.enviarMensagem(message, menu_pagamento_text)
                 this.pushStage(7);
             }
 
@@ -309,7 +297,15 @@ class StagesView extends GroundonView {
                 )
 
                 // TODO gerar pedido json e enviar para o servidor Rayquaza
-                console.log('\nCliente: ', cliente.getDadosCompletos())
+                console.log('\n\nDados do Cliente: ', cliente.getDadosCompletos())
+
+
+                try {
+                    this.backendController.enviarPedidoRayquaza(cliente.getDadosCompletos)
+                } catch (error) {
+                    console.log('Erro ao fazer o post do pedido no servidor')
+                }
+
                 this.pushStage(8)
 
 
