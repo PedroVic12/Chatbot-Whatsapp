@@ -18,6 +18,11 @@ const cliente = new Cliente()
 /*
 TODO 
 Pesquisa sobre o “Anota Aí” e o “TakeEat App”
+
+Robo saber responder : Voce quis dizer? [opção 1, opção 2]
+
+Robo fazer consulta de dados pelo ID do pedido e telefone
+
 tem que ter um botão: “voltar” e começar tudo novamente
 
 Seu pedido está sendo preparado, caso precise modificar ou passar mais alguma informação para o atendente, ligue para (21)2222-2222”
@@ -50,7 +55,7 @@ class StagesView extends GroundonView {
 
         this.whatsapp.onMessage(async (message) => {
 
-            console.log('\nGroundon esperando mensagens...')
+            console.log('\n\n\nGroundon esperando mensagens...')
 
             //!Configurações Backend
             this.restartChatbot()
@@ -158,27 +163,38 @@ class StagesView extends GroundonView {
                         try {
                             // Chama o backend e aguarda o link ser gerado
                             const linkPedidoId = await this.backendController.enviarLinkServidor(LINK_PEDIDO_ID);
+                            const startTime = Date.now();
 
                             await this.delay(2000);
 
                             await this.enviarMensagem(message, `Processando... Aguarde um instante`);
-                            //await this.enviarMensagem(message, linkPedidoId)
 
-                            await this.delay(2000);
+                            async function enviarLinkWpp() {
+                                return this.enviarMensagem(message, `Abra esse link do seu pedido: ---> ${linkPedidoId}`)
+                            }
+
+                            //await this.delay(2000);
 
                             // Envia a mensagem com o link para o cliente
-                            return new Promise((resolve, reject) => {
-                                resolve(this.enviarMensagem(message, `Abra esse link do seu pedido: ---> ${linkPedidoId}`))
-                                    .then(
-                                        console.log('Link enviado com sucesso')
-                                    )
-                                    .catch(error => {
-                                        console.error('\nLINK AINDA NAO ENVIADO:', error);
-                                        //reject();
-                                    });
-                            }).then(() => {
-                                this.pushStage(4);
-                            });
+                            new Promise((resolve) => {
+
+                                enviarLinkWpp().then(() => {
+
+                                    // Pegando o tempo de envio
+                                    const endTime = Date.now();
+                                    const elapsedTime = (endTime - startTime) / 1000;
+
+
+                                    if (elapsedTime > 30) {
+                                        this.enviarMensagem(message, `Desculpe, o link demorou muito para ser enviado, por favor tente novamente.`)
+                                    }
+
+                                    console.log(`\nTempo de Resposta: ${elapsedTime} seconds para enviar o link no wpp!`)
+                                    this.pushStage(4);
+                                    resolve()
+                                });
+                            })
+
 
                         } catch (error) {
                             console.log('\n\nNão foi possível enviar o link', error)
@@ -215,23 +231,19 @@ class StagesView extends GroundonView {
 
             //!=====================  Estagio 4 - Cliente Escolhe os Produtos no Cardapio Digital da Loja =====================
             else if (numero_estagio === 4) {
-                console.log(`\nEstágio ${numero_estagio}:`, message.body);
+                console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
 
                 const pedido_escolhido_cardapio = this.getLastMessage(message);
-
-
                 const pedido_json = this.getPedidoCardapio(pedido_escolhido_cardapio)
 
                 //TODO COLOCAR OS ITENS, QUANTIDADE E PRECO DENTRO DO PEDIDO NA CLASSE CLIENTE
                 try {
                     cliente.setPedido(pedido_json)
+                    console.log('\n\n\nPedido atraves do Cardapio:', cliente.getDadosCompletos(pedido_json))
 
                     this.delay(1000).then(
                         this.enviarMensagem(message, `✅ Seu pedido foi anotado!`)
                     )
-
-
-                    console.log('\n\n\nPedido atraves do Cardapio:', cliente.getDadosCompletos())
 
                 } catch (error) {
                     console.log('Nao foi possivel salvar os produtos do pedido', error)
@@ -239,7 +251,7 @@ class StagesView extends GroundonView {
 
 
                 this.delay(3000).then(
-                    this.enviarMensagem(message, ` Boa escolha ${cliente.nome}, *Digite o seu endereço de entrega:*`)
+                    this.enviarMensagem(message, ` Boa escolha ${cliente.nome}!  *Digite o seu endereço de entrega:*`)
                 )
 
                 this.pushStage(5);
@@ -248,7 +260,7 @@ class StagesView extends GroundonView {
 
             //!=====================  Estagio 5 - Cliente escolhe o Lanche Desejado =====================
             else if (numero_estagio === 5) {
-                console.log(`\nEstágio ${numero_estagio}:`, message.body);
+                console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
 
 
                 const endereco_entrega = this.getLastMessage(message);
@@ -261,7 +273,7 @@ class StagesView extends GroundonView {
 
             //!=====================  Estágio 6 - Pergunta sobre o complemento =====================
             else if (numero_estagio === 6) {
-                console.log(`\nEstágio ${numero_estagio}:`, message.body);
+                console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
 
                 const resposta_cliente = this.getLastMessage(message).toUpperCase().trim();
 
@@ -297,7 +309,7 @@ class StagesView extends GroundonView {
 
 
             else if (numero_estagio === 7) {
-                console.log(`\nEstágio ${numero_estagio}:`, message.body);
+                console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
 
                 const forma_pagamento = this.getLastMessage(message)
                 cliente.setFormaPagamento(forma_pagamento)
@@ -314,20 +326,24 @@ class StagesView extends GroundonView {
                 cliente.setDataAtual()
                 const DADOS_CLIENTE = cliente.getDadosCompletos(pedido_cliente);
 
-                // Generate and save the JSON file using the pedido data
-                cliente.gerarPedidoJson(DADOS_CLIENTE);
 
-                console.log('\n>>> DADOS DO CLIENTE:\n', DADOS_CLIENTE)
 
                 try {
+
+                    // Generate and save the JSON file using the pedido data
+                    cliente.gerarPedidoJson(DADOS_CLIENTE);
+                    console.log('\n\n>>> DADOS DO CLIENTE:\n', DADOS_CLIENTE)
+
+                    // Enviando para o servidor
                     this.backendController.enviarPedidoRayquaza(DADOS_CLIENTE)
+
                 } catch (error) {
                     console.log('Erro ao fazer o post do pedido no servidor')
                 }
 
 
-                this.delay(3000).then(
-                    this.enviarMensagem(message, 'Confirma o seu pedido?')
+                await this.delay(2000).then(
+                    await this.enviarMensagem(message, 'Confirma o seu pedido?')
                 )
                 this.pushStage(8)
 

@@ -24,7 +24,6 @@ class BackendController extends GroundonController {
 
 
     async enviarLinkServidor(idPedido) {
-        const startTime = Date.now(); // Record the start time
 
         // Rota Cardapio Digital
         const link = `https://groundon-citta-cardapio.web.app/#/details/${idPedido}`;
@@ -40,10 +39,7 @@ class BackendController extends GroundonController {
 
             //tratar response_link
             console.log('\nResposta do servidor -> ', response_link.data);
-
-            const endTime = Date.now(); // Record the end time
-            const elapsedTime = (endTime - startTime) / 1000; // Calculate elapsed time in seconds
-            console.log(`\nTempo de Resposta: ${elapsedTime} seconds para obter o link \n${link}`);
+            console.log(`\n\n>>> link gerado: ${link}`);
 
             return link;
 
@@ -87,7 +83,7 @@ class BackendController extends GroundonController {
             });
 
             if (response.status === 200) {
-                console.log('Pedido enviado com sucesso!');
+                console.log(response.data);
             } else {
                 console.log('Falha ao enviar o pedido. Status:', response.status);
             }
