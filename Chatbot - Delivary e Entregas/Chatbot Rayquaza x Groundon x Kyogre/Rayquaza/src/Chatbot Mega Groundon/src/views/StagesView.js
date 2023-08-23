@@ -146,7 +146,6 @@ class StagesView extends GroundonView {
 
                             await this.delay(4000);
 
-                            // Envia a mensagem de "Processando"
                             await this.enviarMensagem(message, `Processando... Aguarde um instante`);
 
                             await this.delay(6000);
@@ -225,7 +224,7 @@ class StagesView extends GroundonView {
 
 
                 this.delay(3000).then(
-                    this.enviarMensagem(message, ` Agora, Digite o seu endereço de entrega:`)
+                    this.enviarMensagem(message, ` Boa escolha ${cliente.nome}, *Digite o seu endereço de entrega:*`)
                 )
 
                 this.pushStage(5);

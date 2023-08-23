@@ -24,11 +24,12 @@ class BackendController extends GroundonController {
 
 
     async enviarLinkServidor(idPedido) {
+        const startTime = Date.now(); // Record the start time
 
         // Rota Cardapio Digital
         const link = `https://groundon-citta-cardapio.web.app/#/details/${idPedido}`;
 
-        const url_link = 'https://rayquaza-citta-server.onrender.com/receber-link'
+        const url_link = 'https://rayquaza-citta-server.onrender.com/receber-link';
         const data_link = {
             link: link // inclua o link no objeto data_link
         };
@@ -36,14 +37,19 @@ class BackendController extends GroundonController {
         try {
             const response_link = await axios.post(url_link, data_link);
             console.log(`\n\n>>>Link: ${link} enviado com sucesso para o servidor FastAPI.\n`);
-            console.log('\nResposta do servidor -> ', response_link.data)
+
+            //tratar response_link
+            console.log('Resposta do servidor -> ', response_link.data);
+
+            const endTime = Date.now(); // Record the end time
+            const elapsedTime = (endTime - startTime) / 1000; // Calculate elapsed time in seconds
+            console.log(`Tempo de Resposta: ${elapsedTime} seconds`);
+
+            return link;
 
         } catch (error) {
             console.error('Erro ao enviar link:', error);
         }
-
-        return link;
-
     }
 
 
@@ -58,7 +64,7 @@ class BackendController extends GroundonController {
 
         try {
             const response = await axios.post(url, data);
-            console.log('\n>>>Dados do cliente enviados com sucesso:', response.data);
+            console.log('\n>>> Dados do cliente enviados com sucesso:', response.data);
         } catch (error) {
             console.error('Erro ao enviar dados do cliente:', error);
         }

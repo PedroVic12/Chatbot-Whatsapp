@@ -11,6 +11,7 @@ class Cliente {
         };
         this.forma_pagamento = ''
         this.pedido = {}
+        this.data_pedido = ""
     }
 
     // Getter e Setter para o ID
