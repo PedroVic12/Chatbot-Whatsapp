@@ -202,11 +202,12 @@ class StagesView extends GroundonView {
                                         }
 
                                         try {
-                                            this.enviarMensagem(message, `Processando... Aguarde um instante O.O`);
+                                            this.enviarMensagem(message, `Carregando...O.O`);
                                             tempo_execucao = calculaTempo(_startTime, Date.now());
                                             await this.enviarMensagem(message, `Abra esse link do seu pedido: ---> ${_LINK}`);
                                             linkSent = true; // Marca que o link foi enviado
                                             console.log(`Tentativa ${tentativa} (${tempo_execucao}): Link enviado com sucesso. ${linkSent}`);
+                                            this.pushStage(4)
                                         } catch (error) {
                                             console.log(`Tentativa ${tentativa}: Erro ao enviar o link.`, error);
                                             // Tenta novamente após 10 segundos
