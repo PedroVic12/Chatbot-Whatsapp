@@ -64,16 +64,6 @@ class Widgets {
 
 
   // Menus com textos descritivos
-  getMenuProdutos(title, produtos) {
-    let menuText = `🔸 ${title} 🔸\n\n`;
-    produtos.forEach((produto, index) => {
-      menuText += `${index + 1}. *${produto.nome}* - R$ *${produto.preco}* Reais\n`;
-      menuText += `   Ingredientes: ${produto.ingredientes}\n\n`;
-    });
-
-    menuText += `\n📝 Digite o *Número* para escolher o item desejado.\n`;
-    return menuText;
-  }
   getMenuTextWithDescriptions(title, menu) {
     let menuText = `🔸 ${title} 🔸\n\n`;
     menu.forEach((item, index) => {

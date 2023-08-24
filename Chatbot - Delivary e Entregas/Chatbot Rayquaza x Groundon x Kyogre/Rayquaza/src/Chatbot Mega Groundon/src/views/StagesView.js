@@ -50,7 +50,8 @@ class StagesView extends GroundonView {
     async start_chatbot_Groundon() {
         const menu_principal = this.Widgets.menuPrincipal;
         const menu_formaPagamento = this.Widgets.menuPagamento;
-        let LINK_PEDIDO_ID = ''
+        let ID_PEDIDO = ''
+        let KYOGRE_LINK_ID = ''
 
 
         this.whatsapp.onMessage(async (message) => {
@@ -98,25 +99,24 @@ class StagesView extends GroundonView {
                 cliente.setTelefone(numero_cliente)
 
                 // Envia os dados do cliente para o servidor
-                LINK_PEDIDO_ID = this.backendController.gerarIdPedido();
-                cliente.setId(LINK_PEDIDO_ID);
-                this.backendController.enviarDadosClienteServidor(cliente, LINK_PEDIDO_ID);
+                ID_PEDIDO = this.backendController.gerarIdPedido();
+                cliente.setId(ID_PEDIDO);
+                this.backendController.enviarDadosClienteServidor(cliente, ID_PEDIDO);
 
-
-                // TODO CHECAR SE ESTAR CONECTADO A INTERNET E INICIAR O CHATBOT
-
-                //TODO checar cliente na base de dados
-                //console.log(cliente)
-
-                //TODO se cliente não existir, cadastrar cliente
-
-                //TODO se cliente existir, pegar dados do cliente
-
+                // Gera o Link do Cardapio Digital
+                KYOGRE_LINK_ID = await this.backendController.enviarLinkServidor(ID_PEDIDO);
 
                 await this.delay(2000).then(
-                    this.enviarMensagem(message, `✅ Prazer em te conhecer, ${cliente.nome}!`)
+
+
+                    //TODO se cliente não existir, cadastrar cliente
+
+                    //TODO se cliente existir, pegar dados do cliente
+
+                    await this.enviarMensagem(message, `✅ Prazer em te conhecer, ${cliente.nome}!`)
                 )
 
+                this.enviarMensagem(message, `Seu numero de pedido é #${ID_PEDIDO}`)
 
 
                 // Mostra o menu principal
@@ -135,10 +135,11 @@ class StagesView extends GroundonView {
                 console.log(`\nEstágio ${numero_estagio}:`, message.body);
 
 
-                // Pega a ultima mensagem enviada pelo cliente
+                //? Pega a ultima mensagem enviada pelo cliente
                 const choice_escolhida = this.getLastMessage(message);
                 const selectedOption = this.Widgets.getSelectedOption(menu_principal, choice_escolhida);
 
+                // Verifica qual opção
                 if (selectedOption) {
                     this.enviarMensagem(message, `Voce escolheu a opção *${selectedOption.button.text.slice(3)}*`)
 
@@ -155,50 +156,80 @@ class StagesView extends GroundonView {
                         this.enviarMensagem(message, menu_principal_text)
                     }
 
-                    // Fazer Pedido com o Cardapio digital
+                    //! Fazer Pedido com o Cardapio digital
                     else if (
                         selectedOption.button.text.toUpperCase() === 'FAZER PEDIDO' ||
                         selectedOption.button.text.toLowerCase().includes('pedido')
                     ) {
-                        try {
-                            // Chama o backend e aguarda o link ser gerado
-                            const linkPedidoId = await this.backendController.enviarLinkServidor(LINK_PEDIDO_ID);
-                            const startTime = Date.now();
 
-                            await this.delay(2000);
 
-                            await this.enviarMensagem(message, `Processando... Aguarde um instante`);
+                        function calculaTempo(startTime, endTime) {
+                            const elapsedTime = (endTime - startTime) / 1000;
+                            return elapsedTime;
+                        }
 
-                            async function enviarLinkWpp() {
-                                return this.enviarMensagem(message, `Abra esse link do seu pedido: ---> ${linkPedidoId}`)
-                            }
+                        // Variável de controle
+                        let linkSent = false;
 
-                            //await this.delay(2000);
+                        const _startTime = Date.now();
+                        let tempo_execucao = 0;
+
+                        const linkPromise = new Promise(async (resolve, reject) => {
+                            this.enviarMensagem(message, `Processando... Aguarde um instante`);
+                            tempo_execucao = calculaTempo(_startTime, Date.now());
+                            console.log(tempo_execucao)
 
                             // Envia a mensagem com o link para o cliente
-                            new Promise((resolve) => {
+                            this.enviarMensagem(message, `Abra esse link do seu pedido: ---> ${KYOGRE_LINK_ID}`)
+                                .then(() => {
+                                    linkSent = true; // Marca que o link foi enviado
+                                    tempo_execucao = calculaTempo(_startTime, Date.now());
+                                    resolve();
+                                })
+                                .catch((error) => {
+                                    reject(error);
+                                });
 
-                                enviarLinkWpp().then(() => {
+                            // Verifica após 15 segundos se o link foi enviado
+                            setTimeout(() => {
+                                if (!linkSent) {
+                                    // Tentativa recursiva
+                                    async function enviarLinkWppTentativas(_LINK, tentativa = 1) {
+                                        if (tentativa > 3) {
+                                            // Limite de tentativas atingido, exibe mensagem de erro
+                                            this.enviarMensagem(message, `Desculpe, não foi possível enviar o link. Por favor, tente novamente mais tarde.`);
+                                            return;
+                                        }
 
-                                    // Pegando o tempo de envio
-                                    const endTime = Date.now();
-                                    const elapsedTime = (endTime - startTime) / 1000;
-
-
-                                    if (elapsedTime > 30) {
-                                        this.enviarMensagem(message, `Desculpe, o link demorou muito para ser enviado, por favor tente novamente.`)
+                                        try {
+                                            this.enviarMensagem(message, `Processando... Aguarde um instante O.O`);
+                                            tempo_execucao = calculaTempo(_startTime, Date.now());
+                                            await this.enviarMensagem(message, `Abra esse link do seu pedido: ---> ${_LINK}`);
+                                            linkSent = true; // Marca que o link foi enviado
+                                            console.log(`Tentativa ${tentativa} (${tempo_execucao}): Link enviado com sucesso. ${linkSent}`);
+                                        } catch (error) {
+                                            console.log(`Tentativa ${tentativa}: Erro ao enviar o link.`, error);
+                                            // Tenta novamente após 10 segundos
+                                            await this.delay(5000);
+                                            await enviarLinkWppTentativas.call(this, tentativa + 1);
+                                        }
                                     }
 
-                                    console.log(`\nTempo de Resposta: ${elapsedTime} seconds para enviar o link no wpp!`)
-                                    this.pushStage(4);
-                                    resolve()
-                                });
+                                    enviarLinkWppTentativas.call(this, KYOGRE_LINK_ID);
+                                }
+                            }, 7000); // 7 segundos
+                        });
+
+                        linkPromise
+                            .then(() => {
+                                tempo_execucao = calculaTempo(_startTime, Date.now());
+                                console.log(`\nTempo de Resposta: ${tempo_execucao} segundos para enviar o link no WhatsApp!`);
+                                this.pushStage(4);
                             })
+                            .catch((error) => {
+                                console.log('\n\nNão foi possível enviar o link:', error);
+                            });
 
-
-                        } catch (error) {
-                            console.log('\n\nNão foi possível enviar o link', error)
-                        }
                     }
 
                     // Localização
