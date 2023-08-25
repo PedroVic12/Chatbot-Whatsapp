@@ -3,6 +3,7 @@ const Groundon = require('../models/Groundon')
 const fs = require('fs');
 const axios = require('axios');
 const pm2 = require('pm2');
+const { Console } = require('console');
 
 
 
@@ -123,6 +124,77 @@ class GroundonView extends Groundon {
 			console.log(err);
 		}
 	}
+
+	async enviarLinkCardapioDigital(message, _LINK) {
+
+		function calculaTempo(startTime, endTime) {
+			const elapsedTime = (endTime - startTime) / 1000;
+			return elapsedTime;
+		}
+
+		// Variável de controle
+		let linkSent = false;
+		const _startTime = Date.now();
+		let tempo_execucao = 0;
+
+		const linkPromise = new Promise(async (resolve, reject) => {
+			this.enviarMensagem(message, `Processando... Aguarde um instante`);
+			tempo_execucao = calculaTempo(_startTime, Date.now());
+			console.log(tempo_execucao)
+
+			// Envia a mensagem com o link para o cliente
+			this.enviarMensagem(message, `Abra esse link do seu pedido: ---> ${_LINK}`)
+				.then(() => {
+					linkSent = true; // Marca que o link foi enviado
+					tempo_execucao = calculaTempo(_startTime, Date.now());
+					resolve();
+				})
+				.catch((error) => {
+					reject(error);
+				});
+
+			// Verifica após 15 segundos se o link foi enviado
+			setTimeout(() => {
+				if (!linkSent) {
+					// Tentativa recursiva
+					async function enviarLinkWppTentativas(_LINK, tentativa = 1) {
+						if (tentativa > 3) {
+							// Limite de tentativas atingido, exibe mensagem de erro
+							this.enviarMensagem(message, `Desculpe, não foi possível enviar o link. Por favor, tente novamente mais tarde.`);
+							return;
+						}
+
+						try {
+							this.enviarMensagem(message, `Processando... O.O`);
+							tempo_execucao = calculaTempo(_startTime, Date.now());
+							await this.enviarMensagem(message, `Abra esse link do seu pedido: ---> ${_LINK}`);
+							linkSent = true; // Marca que o link foi enviado
+							console.log(`Tentativa ${tentativa} (${tempo_execucao}): Link enviado com sucesso. ${linkSent}`);
+						} catch (error) {
+							console.log(`Tentativa ${tentativa}: Erro ao enviar o link.`, error);
+							// Tenta novamente após 10 segundos
+							await this.delay(5000);
+							await enviarLinkWppTentativas.call(this, tentativa + 1);
+						}
+					}
+
+					enviarLinkWppTentativas.call(this, _LINK);
+				}
+			}, 7000); // 7 segundos
+		});
+
+		linkPromise
+			.then(() => {
+				tempo_execucao = calculaTempo(_startTime, Date.now());
+				console.log(`\nTempo de Resposta: ${tempo_execucao} segundos para enviar o link no WhatsApp!`);
+				this.pushStage(4);
+			})
+			.catch((error) => {
+				console.log('\n\nNão foi possível enviar o link:', error);
+			});
+	}
+
+
 
 
 

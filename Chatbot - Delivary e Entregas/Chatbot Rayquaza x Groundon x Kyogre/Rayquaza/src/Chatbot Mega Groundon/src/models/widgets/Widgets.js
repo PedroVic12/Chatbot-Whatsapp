@@ -14,13 +14,6 @@ class Widgets {
       { button: { text: '❌ Sair', hide: true }, type: 'message' }
     ];
 
-    // Menu de Categorias
-    this.menuCategorias = [
-      { button: { text: '🍕 Comida', hide: true }, type: 'message' },
-      { button: { text: '🍹 Bebida', hide: true }, type: 'message' },
-      { button: { text: '🍨 Sobremesa', hide: true }, type: 'message' }
-    ];
-
     // Menu de Opções de Pagamento
     this.menuPagamento = [
       { button: { text: '💳 Cartão', hide: true }, type: 'message' },
