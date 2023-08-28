@@ -228,6 +228,8 @@ class StagesView extends GroundonView {
             else if (numero_estagio === 5) {
                 console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
 
+                //TODO VERIFICAR RAIO DE ALCANCE DO PEDIDO USANDO UMA API 
+
 
                 const endereco_entrega = this.getLastMessage(message);
                 cliente.setEndereco(endereco_entrega)
@@ -273,7 +275,7 @@ class StagesView extends GroundonView {
             }
 
 
-
+            //! escolhe forma de pagamento
             else if (numero_estagio === 7) {
                 console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
 
@@ -286,7 +288,7 @@ class StagesView extends GroundonView {
 
 
 
-                // TODO gerar pedido json e enviar para o servidor Rayquaza
+                // TODO USAR O MENU E TRATAMENTO DE DADOS PARA 3 RESPOSTAS
                 // Get complete client data
                 const pedido_cliente = cliente.getPedido()
                 cliente.setDataAtual()
@@ -316,6 +318,7 @@ class StagesView extends GroundonView {
 
             }
 
+            //!PEDIDO EVNIADO PARA COZINHA
             else if (numero_estagio === 8) {
                 console.log(`\nEstágio ${numero_estagio}:`, message.body);
 
@@ -326,6 +329,15 @@ class StagesView extends GroundonView {
                 this.enviarMensagem(message, `*Obrigado, ${cliente.nome}*!\nSeu pedido esta sendo preparado e volto quando ele estiver sendo enviado para entrega!`)
 
 
+
+            }
+
+            //!PEDIDO PRONTO E ENVIADO PARA ENTREGA
+            else if (numero_estagio === 9) {
+                console.log(`\nEstágio ${numero_estagio}:`, message.body);
+
+
+              //TODO
 
             }
 

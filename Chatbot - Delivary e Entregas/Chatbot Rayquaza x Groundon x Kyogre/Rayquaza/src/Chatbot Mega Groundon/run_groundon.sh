@@ -9,6 +9,7 @@ if [ -z "$IS_RUNNING" ]; then
     pm2 start index.js --name "Chatbot-Groundon"
 else
     # Se estiver rodando, reinicia a aplicação
+    pm2 save
     clear
     echo -e "\nReiniciando o robo...\n"
     pm2 restart Chatbot-Groundon

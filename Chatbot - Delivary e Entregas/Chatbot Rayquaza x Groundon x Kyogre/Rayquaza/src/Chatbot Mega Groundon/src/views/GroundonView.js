@@ -137,21 +137,22 @@ class GroundonView extends Groundon {
 		const _startTime = Date.now();
 		let tempo_execucao = 0;
 
-		const linkPromise = new Promise(async (resolve, reject) => {
+		// Envia a mensagem com o link para o cliente
+		this.enviarMensagem(message, `Abra esse link do seu pedido: ---> ${_LINK}`)
+			.then(() => {
+				linkSent = true; // Marca que o link foi enviado
+				tempo_execucao = calculaTempo(_startTime, Date.now());
+				console.log(`\nTempo de Resposta: ${tempo_execucao} segundos para enviar o link no WhatsApp!`);
+				this.pushStage(4);
+			})
+			.catch((error) => {
+				reject(error);
+			});
+
+		const linkPromise = new Promise(async (resolve) => {
 			this.enviarMensagem(message, `Processando... Aguarde um instante`);
 			tempo_execucao = calculaTempo(_startTime, Date.now());
 			console.log(tempo_execucao)
-
-			// Envia a mensagem com o link para o cliente
-			this.enviarMensagem(message, `Abra esse link do seu pedido: ---> ${_LINK}`)
-				.then(() => {
-					linkSent = true; // Marca que o link foi enviado
-					tempo_execucao = calculaTempo(_startTime, Date.now());
-					resolve();
-				})
-				.catch((error) => {
-					reject(error);
-				});
 
 			// Verifica após 15 segundos se o link foi enviado
 			setTimeout(() => {
@@ -167,20 +168,21 @@ class GroundonView extends Groundon {
 						try {
 							this.enviarMensagem(message, `Processando... O.O`);
 							tempo_execucao = calculaTempo(_startTime, Date.now());
+							console.log(tempo_execucao)
 							await this.enviarMensagem(message, `Abra esse link do seu pedido: ---> ${_LINK}`);
 							linkSent = true; // Marca que o link foi enviado
+							resolve();
 							console.log(`Tentativa ${tentativa} (${tempo_execucao}): Link enviado com sucesso. ${linkSent}`);
 						} catch (error) {
 							console.log(`Tentativa ${tentativa}: Erro ao enviar o link.`, error);
-							// Tenta novamente após 10 segundos
-							await this.delay(5000);
+							await this.delay(2000);
 							await enviarLinkWppTentativas.call(this, tentativa + 1);
 						}
 					}
 
 					enviarLinkWppTentativas.call(this, _LINK);
 				}
-			}, 7000); // 7 segundos
+			}, 5000); // 7 segundos
 		});
 
 		linkPromise
