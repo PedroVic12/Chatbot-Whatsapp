@@ -27,14 +27,5 @@ Portanto, o servidor com o chatbot em Node.js e a conexão WebSocket podem lidar
 ### Estrutura de Dados
 
 #### Fila
+
 - Usar para deixar os pedidos em fila em ordem de chegada ou prioridade
-
-
-#### Arvore Binaria
-Menu: Você pode usar uma árvore binária para representar o menu da lanchonete. Cada nó da árvore seria um item do menu, e os nós filhos seriam as opções adicionais disponíveis para esse item. Por exemplo, um nó representando um hambúrguer teria nós filhos representando as opções de queijo, bacon, tamanho, etc. Isso permite uma estrutura hierárquica para o menu, facilitando a navegação e a seleção de itens.
-
-Categorias de produtos: Se a lanchonete oferecer diferentes categorias de produtos, como hambúrgueres, pizzas, sobremesas, etc., você pode usar uma árvore binária para organizar essas categorias. Cada nó da árvore representaria uma categoria, e os nós filhos seriam as subcategorias ou os produtos específicos dentro dessa categoria. Isso ajuda na organização e na busca eficiente de produtos dentro de categorias.
-
-Opções de personalização: Se os clientes tiverem a opção de personalizar seus pedidos, uma árvore binária pode ser usada para representar as opções disponíveis. Cada nó da árvore seria uma opção de personalização, como tipo de pão, molho, ingredientes extras, etc. Os nós filhos seriam as sub-opções ou os valores possíveis para cada opção. Isso permite uma estrutura de escolhas hierárquicas para personalizar pedidos de forma flexível.
-
-Rastreamento de pedidos: Se você deseja rastrear o status dos pedidos dos clientes, uma árvore binária pode ser usada para criar uma estrutura de árvore de busca binária balanceada. Cada nó da árvore representaria um pedido, com informações como número do pedido, status, detalhes do cliente, etc. Os nós filhos seriam usados para organizar os pedidos de acordo com seu status (por exemplo, em espera, em preparo, entregue). Isso facilita a busca e a atualização dos status dos pedidos de forma eficiente.
