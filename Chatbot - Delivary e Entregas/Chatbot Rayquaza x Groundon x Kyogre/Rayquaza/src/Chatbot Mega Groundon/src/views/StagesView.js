@@ -61,7 +61,23 @@ class StagesView extends GroundonView {
             //!Configurações Backend
             this.restartChatbot()
             const numero_estagio = this.getCurrentStage();
-            console.log(`Mensagem recebida: ${message.body}`);
+
+
+
+            console.log(`Mensagem recebida: ${message.body}`)
+            // Handle back command
+            if (message.body === "!") {
+                const previousStage = this.stack[this.stack.length - 2]; // Get the previous stage from the stack
+
+                if (previousStage) {
+                    this.popStage(); // Remove the current stage from the stack
+                    this.setCurrentStage(previousStage); // Set the previous stage as the current stage
+                    this.enviarMensagem(message, "Voltando para o estágio anterior.");
+                } else {
+                    this.enviarMensagem(message, "Não é possível voltar mais.");
+                }
+                return;
+            }
 
 
             //TODO Aceitar vários pedidos ao mesmo tempo
@@ -169,10 +185,15 @@ class StagesView extends GroundonView {
 
                     // Reiniciar
                     else if (selectedOption.button.text.toUpperCase() === 'Reiniciar') {
-                        this.restartChatbot()
+                        //this.restartChatbot()
+                        this.popStage()
+                        this.popStage()
                     }
 
-                    else if (selectedOption.button.text.toUpperCase() === 'FALAR COM UM ATENDENTE') {
+                    else if (
+                        selectedOption.button.text.toUpperCase() === 'FALAR COM UM ATENDENTE' ||
+                        selectedOption.button.text.toLowerCase().includes('atendente')
+                    ) {
 
                         this.enviarMensagem(message, "Desculpe a essa funcionalidade ainda nao foi implementada")
                         this.delay(3000).then(() => {
@@ -180,7 +201,7 @@ class StagesView extends GroundonView {
                         });
                     }
 
-                    else if (selectedOption.button.text.toUpperCase() === 'SAIR') {
+                    else if (selectedOption.button.text.toUpperCase().includes('SAIR')) {
 
                         this.enviarMensagem(message, "Foi um prazer conversar com voce :) ")
                         this.delay(3000).then(() => {
@@ -279,11 +300,20 @@ class StagesView extends GroundonView {
             else if (numero_estagio === 7) {
                 console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
 
+
+                //? Pega a ultima mensagem enviada pelo cliente
                 const forma_pagamento = this.getLastMessage(message)
+                const selectedOption = this.Widgets.getSelectedOption(menu_formaPagamento, forma_pagamento);
+
+                // Verifica qual opção
+                if (selectedOption) {
+                    this.enviarMensagem(message, `Voce escolheu a opção *${selectedOption.button.text.slice(3)}*`)
+                }
+
                 cliente.setFormaPagamento(forma_pagamento)
 
                 this.delay(1000).then(
-                    this.enviarMensagem(message, `Você escolheu a forma de pagamento: *${forma_pagamento}*`)
+                    this.enviarMensagem(message, `Você escolheu a forma de pagamento -> *${forma_pagamento}*`)
                 )
 
 
@@ -337,7 +367,7 @@ class StagesView extends GroundonView {
                 console.log(`\nEstágio ${numero_estagio}:`, message.body);
 
 
-              //TODO
+                //TODO
 
             }
 
