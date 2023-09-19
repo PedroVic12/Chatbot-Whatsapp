@@ -45,8 +45,13 @@ class MewTwo {
     }
 
     analiseDeSentimentos(text) {
-        const analysis = this.sentiment.analyze(text);
-        return analysis; // Isso retornará o resultado da análise de sentimento.
+        try {
+            const analysis = this.sentiment.analyze(text);
+            return analysis; // Isso retornará o resultado da análise de sentimento.
+        } catch (error) {
+            console.log('Nao foi possível identificar os sentimentos.')
+        }
+
     }
 
     gerarRespostasDinamicas(intent) {

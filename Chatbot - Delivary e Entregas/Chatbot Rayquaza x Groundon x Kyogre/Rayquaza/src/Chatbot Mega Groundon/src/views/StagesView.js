@@ -11,6 +11,7 @@ const Widgets = require('../models/widgets/Widgets')
 const Estagio1 = require('./Stages/Estagio1')
 const Estagio2 = require('./Stages/Estagio2');
 const Estagio3 = require('./Stages/Estagio3');
+const { timingSafeEqual } = require('crypto');
 
 const cliente = new Cliente()
 
@@ -46,7 +47,7 @@ class StagesView extends GroundonView {
 
 
     }
-   
+
     async start_chatbot_Groundon() {
         const menu_principal = this.Widgets.menuPrincipal;
         const menu_formaPagamento = this.Widgets.menuPagamento;
@@ -57,6 +58,8 @@ class StagesView extends GroundonView {
         this.whatsapp.onMessage(async (message) => {
 
             console.log('\n\n\nGroundon esperando mensagens...')
+            this.armazenarConversa(message);
+            console.log(this.conversa)
 
             //!Configurações Backend
             this.restartChatbot()
@@ -107,20 +110,28 @@ class StagesView extends GroundonView {
             else if (numero_estagio === 2) {
                 console.log('\nEstágio 2:', message.body);
 
-                //Pega dados do CLiente
-                const nome_cliente = this.getLastMessage(message)
-                cliente.setNome(nome_cliente)
+                try {
+                    //Pega dados do CLiente
+                    const nome_cliente = this.getLastMessage(message)
+                    cliente.setNome(nome_cliente)
 
-                const numero_cliente = this.estagio2.getTelefoneCliente(message)
-                cliente.setTelefone(numero_cliente)
+                    const numero_cliente = this.estagio2.getTelefoneCliente(message)
+                    cliente.setTelefone(numero_cliente)
 
-                // Envia os dados do cliente para o servidor
-                ID_PEDIDO = this.backendController.gerarIdPedido();
-                cliente.setId(ID_PEDIDO);
-                this.backendController.enviarDadosClienteServidor(cliente, ID_PEDIDO);
+                    // Envia os dados do cliente para o servidor
+                    ID_PEDIDO = this.backendController.gerarIdPedido();
+                    cliente.setId(ID_PEDIDO);
+                    this.backendController.enviarDadosClienteServidor(cliente, ID_PEDIDO);
 
-                // Gera o Link do Cardapio Digital
-                KYOGRE_LINK_ID = await this.backendController.enviarLinkServidor(ID_PEDIDO);
+                    // Gera o Link do Cardapio Digital
+                    KYOGRE_LINK_ID = await this.backendController.enviarLinkServidor(ID_PEDIDO);
+
+                } catch (error) {
+                    console.log('Não foi possível fazer uma conexão no backend')
+                }
+
+
+
 
                 await this.delay(2000).then(
 
