@@ -46,7 +46,7 @@ class StagesView extends GroundonView {
 
 
     }
-
+   
     async start_chatbot_Groundon() {
         const menu_principal = this.Widgets.menuPrincipal;
         const menu_formaPagamento = this.Widgets.menuPagamento;
