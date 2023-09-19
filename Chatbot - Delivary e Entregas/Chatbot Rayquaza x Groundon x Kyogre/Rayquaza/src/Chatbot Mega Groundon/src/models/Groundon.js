@@ -18,7 +18,7 @@ class Groundon {
 	}
 
 
-	
+
 
 	getStage() {
 		const currentStage = this.conversas[this.numero_estagio - 1];
@@ -35,8 +35,11 @@ class Groundon {
 
 	// Funções de interação com o cliente
 
-	coutText(){
+	coutText(text) {
 		console.log('===================')
+		console.log(text)
+		console.log('===================')
+
 	}
 
 	// Outros métodos relacionados à lógica de negócios do Groundon
