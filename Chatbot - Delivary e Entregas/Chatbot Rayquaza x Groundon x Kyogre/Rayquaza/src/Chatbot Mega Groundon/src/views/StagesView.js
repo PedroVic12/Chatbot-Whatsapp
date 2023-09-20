@@ -12,7 +12,6 @@ const Widgets = require('../models/widgets/Widgets')
 const Estagio1 = require('./Stages/Estagio1')
 const Estagio2 = require('./Stages/Estagio2');
 const Estagio3 = require('./Stages/Estagio3');
-const { timingSafeEqual } = require('crypto');
 
 const cliente = new Cliente()
 
@@ -51,42 +50,49 @@ class StagesView extends GroundonView {
 
     }
 
-    async iniciarIA(message) {
+    async start_chatbot_IA(message) {
+
+        const mewTwo = new MewTwo()
 
         try {
-            // Verifique se a mensagem é o comando para iniciar o modo de NLP.
-            if (message.body === '!startIA' && !this.isNLPMode) {
-                // Inicie o modo de NLP.
-                this.isNLPMode = true;
-                console.log('Mewtwo chamado', this.isNLPMode)
+            // Inicie o modo de NLP.
+            this.isNLPMode = true;
+            this.enviarMensagem(message, `Ola, sou o Mewtwo `)
+            mewTwo.executarChatbot();
+            this.enviarMensagem(message, 'Você está agora no modo de NLP. Digite "!sair" para sair do modo de NLP.');
 
-                // Chamando o MEWTWO
-                const mewTwo = new MewTwo();
-                console.log(mewTwo)
 
-                this.enviarMensagem(message, 'Você está agora no modo de NLP. Digite "sair" para sair do modo de NLP.');
-                mewTwo.executarChatbot();
-
-                return;
-            }
 
             // Se estiver no modo de NLP, envie a mensagem para o modelo de NLP.
             if (this.isNLPMode) {
-                const respostaNLP = await this.mewTwo.processarIntencao(message.body);
-                this.enviarMensagem(message, respostaNLP.answer);
+                const respostaNLP = await mewTwo.processarIntencao(message.body);
+                this.enviarMensagem(message, `Resposta INTENÇÃO: ${respostaNLP.answer}`);
 
-                // Verifique se o usuário deseja sair do modo de NLP.
-                if (message.body.toLowerCase() === 'sair') {
+                const respostaDinamica = this.gerarRespostaDinamica(respostaIntencao.intent);
+                this.enviarMensagem(message, `Resposta Dinâmica: ${respostaDinamica}`);
+
+
+                if (message.body.toLowerCase() === '!sair') {
                     this.isNLPMode = false;
-                    this.enviarMensagem(message, 'Você saiu do modo de NLP. Continue a conversa normalmente.');
+                    this.enviarMensagem(message, 'Você saiu do modo de NLP. Continue a conversa com o Groundon. :)');
+
+                    try {
+                        // Mostra o menu principal
+                        let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
+                        this.enviarMensagem(message, menu_principal_text)
+                    } catch (error) {
+                        console.log('erro')
+                    }
+
                 }
+
                 return;
             }
+
+
         } catch (error) {
-            console.log('Nao foi possível iniciar a IA ')
+            console.log('Não foi possível iniciar a IA');
         }
-
-
     }
 
     resetEstagio(message) {
@@ -117,7 +123,7 @@ class StagesView extends GroundonView {
         this.whatsapp.onMessage(async (message) => {
 
             console.log('\n\n\nGroundon esperando mensagens...')
-            this.iniciarIA(message)
+            console.log(`\n\nMEWTWO LIGADO ${this.isNLPMode}`)
 
 
             this.armazenarConversa(message);
@@ -131,16 +137,19 @@ class StagesView extends GroundonView {
             const numero_estagio = this.getCurrentStage();
 
 
-
-
-
-            // Dentro do seu chatbot principal
-            if (this.isNLPMode) {
-                // Enviar a mensagem para a IA de NLP
-                this.enviarMensagem(message, 'Ola, sou o Mewtwo')
+            //! Verifique se a mensagem é o comando para iniciar o modo de NLP.
+            if (message.body === '!startIA' && !this.isNLPMode) {
+                this.start_chatbot_IA(message);
             } else {
-                // Continuar com o processamento normal do chatbot principal
+                // Continue com o fluxo normal do chatbot Groundon
+                // ...
+
+                // Aqui, você pode adicionar o código existente para o Groundon.
+                // Certifique-se de não iniciar a IA de NLP neste ramo do evento.
             }
+
+
+
 
 
             //TODO Aceitar vários pedidos ao mesmo tempo
@@ -189,15 +198,6 @@ class StagesView extends GroundonView {
                 } catch (error) {
                     console.log('Não foi possível fazer uma conexão no backend')
                 }
-
-                if (!this.isNLPMode) {
-                    this.enviarMensagem(message, `Ola, ${cliente.nome}! sou uma IA de NLP`);
-                } else {
-                    // Modo de NLP ativado, aguarde a interação com a IA.
-                    this.enviarMensagem(message, 'Você está no modo de NLP. Digite "!startIA" para interagir com a IA.');
-                }
-
-
 
 
                 await this.delay(2000).then(

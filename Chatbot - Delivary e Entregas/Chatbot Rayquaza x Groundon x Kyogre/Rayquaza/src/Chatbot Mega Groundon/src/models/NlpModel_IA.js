@@ -2,50 +2,59 @@ const { NlpManager } = require('node-nlp');
 const Sentiment = require('sentiment');
 const Groundon = require('./Groundon');
 
+
+/*
+Contexto de conversa
+Significados sintáticos e semânticos
+Interprete de textos
+Analise de Sentimentos
+
+*/
+
+
 class MewTwo {
     constructor() {
         this.manager = new NlpManager({ languages: ['pt'] });
         this.sentimento = new Sentiment();
         this.contador = 0;
         this.conversa = [[], [], [], [], [], [], [], [], [], []];
+        this.adicionarDadosTreinamento();
     }
 
     adicionarDadosTreinamento() {
-        // Adicione dados de treinamento
-        this.manager.addDocument('pt', 'boa noite', 'saudacao');
-        this.manager.addDocument('pt', 'boa tarde', 'saudacao');
-        this.manager.addDocument('pt', 'bom dia', 'saudacao');
-        this.manager.addDocument('pt', 'alo', 'saudacao');
-        this.manager.addDocument('pt', 'olá', 'saudacao');
-        this.manager.addDocument('pt', 'oi', 'saudacao');
-        this.manager.addDocument('pt', 'hello', 'saudacao');
+        const intencoes = {
+            saudacao: ['boa noite', 'boa tarde', 'bom dia', 'alo', 'olá', 'oi', 'hello'],
+            despedida: ['obrigado e tchau', 'te vejo mais tarde', 'aguardo o pedido'],
+            pedido: ['fazer pedido', 'fazer um pedido', 'fazer um pedido de delivery', 'fazer um delivery', 'entregar comida', 'entrega de comida', 'entregar pizza']
+        };
 
-        this.manager.addDocument('pt', 'obrigado e tchau', 'despedida');
-        this.manager.addDocument('pt', 'te vejo mais tarde', 'despedida');
-        this.manager.addDocument('pt', 'aguardo o pedido', 'despedida');
+        const respostas = {
+            saudacao: ['Olá, como posso ajudar você?', 'Oi, tudo bem?'],
+            despedida: ['Até logo!', 'Aguardo seu próximo pedido!'],
+            pedido: ['Você gostaria de fazer um pedido?', 'Faça seu pedido com calma']
+        };
 
+        for (const intencao in intencoes) {
+            intencoes[intencao].forEach((frase) => {
+                this.manager.addDocument('pt', frase, intencao);
+            });
 
-        // DADOS DE DELIVERY
-        this.manager.addDocument('pt', 'fazer pedido', 'pedido');
-        this.manager.addDocument('pt', 'fazer um pedido', 'pedido');
-        this.manager.addDocument('pt', 'fazer um pedido de delivery', 'pedido');
-        this.manager.addDocument('pt', 'fazer um delivery', 'pedido');
-        this.manager.addDocument('pt', 'entregar comida', 'pedido');
-        this.manager.addDocument('pt', 'entrega de comida', 'pedido');
-        this.manager.addDocument('pt', 'entregar pizza', 'pedido');
+            respostas[intencao].forEach((resposta) => {
+                this.manager.addAnswer('pt', intencao, resposta);
+            });
+        }
 
-        // Adicione respostas
-        this.manager.addAnswer('pt', 'saudacao', 'Olá, como posso ajudar você?');
-        this.manager.addAnswer('pt', 'saudacao', 'Oi, tudo bem?');
-        this.manager.addAnswer('pt', 'despedida', 'Até logo!');
-        this.manager.addAnswer('pt', 'despedida', 'Aguardo seu próximo pedido!');
-
-        // Treine o modelo
         this.manager.train();
     }
 
+    cout(text) {
+        console.log('\n==================================================================')
+        console.log(text)
+        console.log('====================================================================\n')
+    }
+
     async processarIntencao(texto) {
-        this.contador++; // Incrementa o contador sempre que processa uma intenção.
+        this.contador++;
         const resposta = await this.manager.process('pt', texto);
         return resposta;
     }
@@ -63,35 +72,24 @@ class MewTwo {
         switch (intencao) {
             case 'saudacao':
                 return 'Olá, como posso ajudar você?';
-
             case 'despedida':
                 return 'Até logo!';
-
+            case 'pedido':
+                return 'Você gostaria de fazer um pedido?';
             default:
-                return 'Desculpe, não entendi. Como posso ajudar você?';
+                return 'Desculpa nao entendi, voce quis dizer [opção1,opção2,opção3]?';
         }
-    }
-
-    cout(text) {
-        console.log('\n==================================================================')
-        console.log(text)
-        console.log('====================================================================\n')
     }
 
     armazenarConversa(mensagem) {
-        if (this.contador > 0 && this.contador <= this.conversa.length) {
-            this.conversa[this.contador - 1].push(mensagem);
-        } else {
-            console.log('Número de contador inválido.');
-        }
+        this.conversa.push(mensagem);
     }
 
     resetarContador() {
         this.contador = 0;
     }
 
-    async executarChatbot() {
-        this.adicionarDadosTreinamento();
+    executarChatbot() {
         console.log('Bem-vindo ao Chatbot MewTwo!\n');
 
         const readline = require('readline');
@@ -107,28 +105,20 @@ class MewTwo {
                     return;
                 }
 
-                console.log(this.conversa)
+                console.log(this.conversa);
 
-
-                // Processar a intenção do usuário.
                 const respostaIntencao = await this.processarIntencao(entradaUsuario);
-                console.log(`Resposta da intenção: ${respostaIntencao.answer}`);
+                this.cout(`Resposta da intenção: ${respostaIntencao.answer}`);
 
-                // Realizar análise de sentimentos.
                 const analiseSentimentos = this.analisarSentimentos(entradaUsuario);
                 console.log('Análise de Sentimentos:', analiseSentimentos);
 
-                // Gerar uma resposta dinâmica com base na intenção.
                 const respostaDinamica = this.gerarRespostaDinamica(respostaIntencao.intent);
                 this.cout(`Resposta Dinâmica: ${respostaDinamica}`);
 
-                // Armazenar a mensagem na conversa.
                 this.armazenarConversa(entradaUsuario);
-
-                // Incrementar o contador.
                 this.contador++;
 
-                // Continuar interagindo.
                 interagir();
             });
         };
@@ -137,6 +127,7 @@ class MewTwo {
     }
 }
 
+module.exports = MewTwo;
 // Iniciar o Chatbot
 const mewTwo = new MewTwo();
 mewTwo.executarChatbot();
