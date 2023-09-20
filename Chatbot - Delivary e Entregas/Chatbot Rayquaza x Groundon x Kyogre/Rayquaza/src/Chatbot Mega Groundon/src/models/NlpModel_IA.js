@@ -1,134 +1,142 @@
-const { nlPManager, NlpManager } = require('node-nlp')
+const { NlpManager } = require('node-nlp');
 const Sentiment = require('sentiment');
-
+const Groundon = require('./Groundon');
 
 class MewTwo {
     constructor() {
         this.manager = new NlpManager({ languages: ['pt'] });
-        this.sentimento = new Sentiment()
+        this.sentimento = new Sentiment();
+        this.contador = 0;
+        this.conversa = [[], [], [], [], [], [], [], [], [], []];
     }
 
-    addTrainingData() {
-        //Adicionar dados
-        this.manager.addDocument('pt', 'boa noite', 'greeting')
-        this.manager.addDocument('pt', 'boa tarde', 'greeting')
-        this.manager.addDocument('pt', 'bom dia', 'greeting')
-        this.manager.addDocument('pt', 'Alo', 'greeting')
-        this.manager.addDocument('pt', 'Hello', 'greeting')
-        this.manager.addDocument('pt', 'Obrigado e Tchau', 'greeting.bye')
-        this.manager.addDocument('pt', 'Okay te vejo mais tarde', 'greeting.bye')
-        this.manager.addDocument('pt', 'Aguardo o pedido', 'greeting.bye')
+    adicionarDadosTreinamento() {
+        // Adicione dados de treinamento
+        this.manager.addDocument('pt', 'boa noite', 'saudacao');
+        this.manager.addDocument('pt', 'boa tarde', 'saudacao');
+        this.manager.addDocument('pt', 'bom dia', 'saudacao');
+        this.manager.addDocument('pt', 'alo', 'saudacao');
+        this.manager.addDocument('pt', 'olá', 'saudacao');
+        this.manager.addDocument('pt', 'oi', 'saudacao');
+        this.manager.addDocument('pt', 'hello', 'saudacao');
+
+        this.manager.addDocument('pt', 'obrigado e tchau', 'despedida');
+        this.manager.addDocument('pt', 'te vejo mais tarde', 'despedida');
+        this.manager.addDocument('pt', 'aguardo o pedido', 'despedida');
 
 
-        //Adicionar respostas
-        this.manager.addAnswer('pt', 'greeting', 'Olá, tudo bem?')
-        this.manager.addAnswer('pt', 'greeting', 'Olá, como vai?')
-        this.manager.addAnswer('pt', 'greeting', 'Oi!')
-        this.manager.addAnswer('pt', 'greeting', 'Fala gurizada!')
-        this.manager.addAnswer('pt', 'greeting.bye', 'Te vejo em breve :)')
-        this.manager.addAnswer('pt', 'greeting.bye', 'Ate o proximo pedido!')
+        // DADOS DE DELIVERY
+        this.manager.addDocument('pt', 'fazer pedido', 'pedido');
+        this.manager.addDocument('pt', 'fazer um pedido', 'pedido');
+        this.manager.addDocument('pt', 'fazer um pedido de delivery', 'pedido');
+        this.manager.addDocument('pt', 'fazer um delivery', 'pedido');
+        this.manager.addDocument('pt', 'entregar comida', 'pedido');
+        this.manager.addDocument('pt', 'entrega de comida', 'pedido');
+        this.manager.addDocument('pt', 'entregar pizza', 'pedido');
+
+        // Adicione respostas
+        this.manager.addAnswer('pt', 'saudacao', 'Olá, como posso ajudar você?');
+        this.manager.addAnswer('pt', 'saudacao', 'Oi, tudo bem?');
+        this.manager.addAnswer('pt', 'despedida', 'Até logo!');
+        this.manager.addAnswer('pt', 'despedida', 'Aguardo seu próximo pedido!');
+
+        // Treine o modelo
+        this.manager.train();
     }
 
-    async trainModel() {
-        await this.manager.train().then(async () => {
-            this.manager.save()
-            this.manager.load()
-            const response = await this.manager.process('pt', 'boa tarde')
-            console.log(response)
-        })
+    async processarIntencao(texto) {
+        this.contador++; // Incrementa o contador sempre que processa uma intenção.
+        const resposta = await this.manager.process('pt', texto);
+        return resposta;
     }
 
-    //! Métodos para o Chatbot Delivery
-    async processIntent(text) {
-        const response = await this.manager.process('pt', text);
-        return response;
-    }
-
-    analiseDeSentimentos(text) {
+    analisarSentimentos(texto) {
         try {
-            const analysis = this.sentiment.analyze(text);
-            return analysis; // Isso retornará o resultado da análise de sentimento.
-        } catch (error) {
-            console.log('Nao foi possível identificar os sentimentos.')
+            const analise = this.sentimento.analyze(texto);
+            return analise;
+        } catch (erro) {
+            console.log('Não foi possível identificar os sentimentos.');
         }
-
     }
 
-    gerarRespostasDinamicas(intent) {
-        switch (intent) {
-            case 'greeting':
+    gerarRespostaDinamica(intencao) {
+        switch (intencao) {
+            case 'saudacao':
                 return 'Olá, como posso ajudar você?';
 
-            case 'goodbye':
+            case 'despedida':
                 return 'Até logo!';
-
-            // Adicione mais casos conforme necessário.
 
             default:
                 return 'Desculpe, não entendi. Como posso ajudar você?';
         }
     }
 
-
-    //! Métodos de NLP padrão
-    tokenization(text) {
-        // Dividir o texto em tokens (palavras ou partes).
-        const tokens = text.split(' ');
-        return tokens;
+    cout(text) {
+        console.log('\n==================================================================')
+        console.log(text)
+        console.log('====================================================================\n')
     }
 
-    removeStopWords(tokens) {
-        // Remover palavras de parada (stop words) do texto.
-        const stopWords = ['o', 'a', 'de', 'e', 'um', 'uma']; // Exemplo de lista de stop words.
-        const filteredTokens = tokens.filter(token => !stopWords.includes(token));
-        return filteredTokens;
+    armazenarConversa(mensagem) {
+        if (this.contador > 0 && this.contador <= this.conversa.length) {
+            this.conversa[this.contador - 1].push(mensagem);
+        } else {
+            console.log('Número de contador inválido.');
+        }
     }
 
-    stemText(tokens) {
-        // Realizar stemização nos tokens.
-        // A stemização reduz as palavras às suas formas radicais.
-        // Por exemplo, "correndo" se torna "corre".
-        const stemmedTokens = tokens.map(token => performStemming(token));
-        return stemmedTokens;
+    resetarContador() {
+        this.contador = 0;
     }
 
-    performStemming(token) {
-        // Implemente a lógica de stemização aqui.
-        // Você pode usar uma biblioteca de stemização, como "natural", se desejar.
-        return token;
+    async executarChatbot() {
+        this.adicionarDadosTreinamento();
+        console.log('Bem-vindo ao Chatbot MewTwo!\n');
+
+        const readline = require('readline');
+        const rl = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout
+        });
+
+        const interagir = async () => {
+            rl.question('Digite uma mensagem para o MewTwo (ou digite "sair" para encerrar): ', async (entradaUsuario) => {
+                if (entradaUsuario.toLowerCase() === 'sair') {
+                    rl.close();
+                    return;
+                }
+
+                console.log(this.conversa)
+
+
+                // Processar a intenção do usuário.
+                const respostaIntencao = await this.processarIntencao(entradaUsuario);
+                console.log(`Resposta da intenção: ${respostaIntencao.answer}`);
+
+                // Realizar análise de sentimentos.
+                const analiseSentimentos = this.analisarSentimentos(entradaUsuario);
+                console.log('Análise de Sentimentos:', analiseSentimentos);
+
+                // Gerar uma resposta dinâmica com base na intenção.
+                const respostaDinamica = this.gerarRespostaDinamica(respostaIntencao.intent);
+                this.cout(`Resposta Dinâmica: ${respostaDinamica}`);
+
+                // Armazenar a mensagem na conversa.
+                this.armazenarConversa(entradaUsuario);
+
+                // Incrementar o contador.
+                this.contador++;
+
+                // Continuar interagindo.
+                interagir();
+            });
+        };
+
+        interagir();
     }
 }
 
-module.exports = MewTwo;
-
-
-
-async function run_mewtwo() {
-    const mewtwo = new MewTwo();
-
-    // Adicione dados de treinamento e treine o modelo.
-    mewtwo.addTrainingData();
-    await mewtwo.trainModel();
-
-    // Processar uma intenção.
-    const userInput = 'boa tarde';
-    const response = await mewtwo.processIntent(userInput);
-    console.log('Resposta da intenção:', response);
-
-    // Realizar análise de sentimentos.
-    //const userText = 'Estou muito feliz!';
-    //const sentimentAnalysis = mewtwo.analiseDeSentimentos(userText);
-    //console.log('Análise de Sentimentos:', sentimentAnalysis);
-
-    // Gerar uma resposta dinâmica.
-    const userIntent = 'greeting';
-    const dynamicResponse = mewtwo.gerarRespostasDinamicas(userIntent);
-    console.log('Resposta Dinâmica:', dynamicResponse);
-}
-
-run_mewtwo();
-
-
-
-
-
+// Iniciar o Chatbot
+const mewTwo = new MewTwo();
+mewTwo.executarChatbot();
