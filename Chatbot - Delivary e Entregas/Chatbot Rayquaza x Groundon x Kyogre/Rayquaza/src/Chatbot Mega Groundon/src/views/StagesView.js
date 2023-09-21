@@ -47,8 +47,8 @@ class StagesView extends GroundonView {
         this.isNLPMode = false;
         this.mewTwo = new MewTwo();  // Instantiate MewTwo in the constructor
 
-        this.usersState = {}; // Armazena o estado de cada usuário
         this.dailyOrderCount = {}; // Armazena a contagem diária de pedidos por número de telefone
+        //this.clientStates = {}; // Armazena o estado de cada cliente
 
     }
 
@@ -120,10 +120,11 @@ class StagesView extends GroundonView {
         //!EVENTO DE ESPERAR MENSAGENS DO WHATSAPP
         this.whatsapp.onMessage(async (message) => {
 
-            console.log('\n\n\nGroundon esperando mensagens...')
+            console.log('\n\nGroundon esperando mensagens...')
             console.log(`\n\nMEWTWO LIGADO ${this.isNLPMode}`)
 
 
+            //!Configurações de Conversa
             this.armazenarConversa(message);
             console.log(this.conversa)
             console.log(`Mensagem recebida: ${message.body}`)
@@ -133,15 +134,31 @@ class StagesView extends GroundonView {
             //!Configurações Backend
             this.restartChatbot()
             this.resetEstagio(message) // Função que reseta os estagios
-            //const numero_estagio = this.getCurrentStage();
-
-            const phoneNumber = message.sender.id; // Ou outro identificador único para o usuário.
-            console.log(phoneNumber)
-            const numero_estagio = this.usersState[phoneNumber]?.stage || 1; // Use o estágio armazenado ou 1 se o usuário não existir.
 
 
+            //! Configurações de Estagios de Fluxo
+            const phoneNumber = message.from;
+            console.log('Novo telefone detectado!', phoneNumber)
+
+            // Inicializa o estado do cliente se não existir
+            if (!this.clientStates[phoneNumber]) {
+                this.clientStates[phoneNumber] = {
+                    stack: [1] // Começa no estágio 1
+                };
+            }
+            console.log(this.clientStates)
+            let numero_estagio
+
+            try {
+                numero_estagio = this.clientStates[phoneNumber].stack[this.clientStates[phoneNumber].stack.length - 1];
+                console.log('Stage:', numero_estagio)
+            } catch (error) {
+                console.log('Erro ', error)
+            }
 
 
+
+            //! Configurações de IA
             if (this.isNLPMode) {
                 if (message.body.toLowerCase() === '!sair') {
                     this.isNLPMode = false;
@@ -164,68 +181,27 @@ class StagesView extends GroundonView {
 
                 } else {
                     // ... [existing logic to process message with the standard chatbot]
-
-
-
-                    //TODO Aceitar vários pedidos ao mesmo tempo
-
-
-
                     //! ===================== Estágio 1 - Apresentação =====================
                     if (numero_estagio === 1) {
-                        console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
+                        console.log(`\n\n\nEstágio ${numero_estagio}:`, message.body);
 
                         await this.delay(1000).then(
                             this.enviarMensagem(message, `Bem-vindo a Lanchonete *Citta RJ* Obrigado por escolher a nossos Serviços.\n🤖 Eu sou o Robô Groundon e estou aqui para ajudá-lo. `)
                         )
 
 
-                        this.pushStage(2).then(
-                            await this.delay(3000).then(
-                                this.enviarMensagem(message, "🤖 Antes de começarmos, por favor, *Digite Seu Nome*:")
-                            )
-                        )
 
-                        if (!this.usersState[phoneNumber]) {
-                            this.usersState[phoneNumber] = { stage: 1 };
-                            console.log(this.usersState)
-                        }
-                        this.usersState[phoneNumber].stage = 2;
+
+                        await this.delay(3000).then(
+                            this.enviarMensagem(message, "🤖 Antes de começarmos, por favor, *Digite Seu Nome*:")
+                        )
+                        //this.pushStage(2)
+                        this.clientStates[phoneNumber].stack.push(2);
 
                     }
                     //!=====================  Estágio 2 - Mostrar Menu Principal =====================
                     else if (numero_estagio === 2) {
-                        console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
-
-                        const variasInstancias = async () => {
-                            try {
-                                const nomeCLiente = this.getLastMessage(message);
-                                const numCliente = this.estagio2.getTelefoneCliente(message);
-                                ID_PEDIDO = this.backendController.gerarIdPedido();
-
-                                // Se o estado do usuário não existir, inicialize-o
-                                if (!this.usersState[ID_PEDIDO]) {
-                                    this.usersState[ID_PEDIDO] = { cliente: new Cliente() };
-                                    this.usersState[ID_PEDIDO].cliente.setNome(nomeCLiente);
-                                    this.usersState[ID_PEDIDO].cliente.setTelefone(numCliente);
-                                    this.usersState[ID_PEDIDO].cliente.setId(ID_PEDIDO);
-
-                                    this.incrementOrderCount(numCliente); // Incrementa o contador de pedidos para o número de telefone
-                                }
-
-                                // Agora você pode utilizar this.usersState[ID_PEDIDO].cliente para acessar o objeto Cliente específico deste usuário
-                                this.backendController.enviarDadosClienteServidor(this.usersState[ID_PEDIDO].cliente, ID_PEDIDO);
-
-                                KYOGRE_LINK_ID = await this.backendController.enviarLinkServidor(ID_PEDIDO);
-
-                                console.log('\n\nDados Coletados!')
-                                console.log(this.usersState[ID_PEDIDO].cliente);
-                            } catch (error) {
-                                console.log('Não foi possível fazer uma conexão no backend');
-                            }
-                        }
-
-                        await variasInstancias(); // Chamar a função aqui
+                        console.log(`\n\n\nEstágio ${numero_estagio}:`, message.body);
 
 
                         const salvarDadosCliente = async () => {
@@ -254,6 +230,59 @@ class StagesView extends GroundonView {
                         //await salvarDadosCliente()
 
 
+                        const iniciandoAtendimentoPeloTelefone = async () => {
+                            // Verificar se o estado do cliente existe para o phoneNumber, se não, inicializá-lo.
+                            if (!this.clientStates[phoneNumber]) {
+                                this.clientStates[phoneNumber] = {
+                                    stack: [2],  // Se está inicializando no estágio 2, então o stack deve começar com 2.
+                                    cliente: new Cliente()
+                                };
+                            }
+
+                            // Se o cliente já foi inicializado, não há necessidade de reinicializar.
+                            if (!this.clientStates[phoneNumber].cliente) {
+                                try {
+                                    // Verificar se o cliente está definido
+                                    if (!this.clientStates[phoneNumber].cliente) {
+                                        console.error("O objeto Cliente não foi inicializado!");
+                                        this.clientStates[phoneNumber].cliente = new Cliente(); // Inicializar o objeto Cliente se não estiver definido
+                                    }
+
+                                    // Verificar valores antes de configurar
+                                    const nomeCLiente = this.getLastMessage(message);
+                                    console.log("Nome:", nomeCLiente);
+
+                                    const numCliente = this.estagio2.getTelefoneCliente(message);
+                                    console.log("Telefone:", numCliente);
+
+                                    ID_PEDIDO = this.backendController.gerarIdPedido();
+                                    console.log("ID Pedido:", ID_PEDIDO);
+
+                                    // Configurar valores
+                                    this.clientStates[phoneNumber].cliente.setNome(nomeCLiente);
+                                    this.clientStates[phoneNumber].cliente.setTelefone(numCliente);
+                                    this.clientStates[phoneNumber].cliente.setId(ID_PEDIDO);
+
+                                    console.log(this.clientStates[phoneNumber].cliente);
+
+                                    this.incrementOrderCount(numCliente); // Incrementa o contador de pedidos para o número de telefone
+
+                                    await this.backendController.enviarDadosClienteServidor(this.clientStates[phoneNumber].cliente, ID_PEDIDO);
+                                    KYOGRE_LINK_ID = await this.backendController.enviarLinkServidor(ID_PEDIDO);
+
+                                    console.log('\n\nDados Coletados!')
+                                    console.log(this.clientStates[phoneNumber].cliente);
+                                } catch (error) {
+                                    console.log('Não foi possível fazer uma conexão no backend', error);
+                                }
+                            }
+
+
+                        }
+
+
+                        await iniciandoAtendimentoPeloTelefone()
+
                         await this.delay(2000).then(
 
 
@@ -271,8 +300,9 @@ class StagesView extends GroundonView {
                         this.enviarMensagem(message, menu_principal_text)
                         this.enviarMensagem(message, `*${cliente.nome}* agora temos uma nova funcionalidade de IA!\n\nDigite *!startIA* para conversar com o nosso modelo NLP!`)
 
-
-                        this.pushStage(3);
+                        //!Change here
+                        this.clientStates[phoneNumber].stack.push(3); // Por exemplo, mover para o estágio 3
+                        //this.pushStage(3);
                     }
 
                     //!=====================  Estágio 3 - Responde as funcionalidades do Botão =====================
@@ -280,7 +310,7 @@ class StagesView extends GroundonView {
 
 
                         //TODO desculpa nao entendi, voce quis dizer? ['opção1, opção2, 'opção3']
-                        console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
+                        console.log(`\n\n\nEstágio ${numero_estagio}:`, message.body);
 
 
                         //? Pega a ultima mensagem enviada pelo cliente

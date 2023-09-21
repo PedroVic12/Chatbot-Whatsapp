@@ -211,5 +211,5 @@ class MewTwo {
 
 module.exports = MewTwo;
 // Iniciar o Chatbot
-const mewTwo = new MewTwo();
-mewTwo.executarChatbot();
+//const mewTwo = new MewTwo();
+//mewTwo.executarChatbot();
