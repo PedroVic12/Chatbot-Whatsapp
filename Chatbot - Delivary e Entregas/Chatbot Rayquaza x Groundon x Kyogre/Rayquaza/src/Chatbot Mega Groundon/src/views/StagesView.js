@@ -54,17 +54,26 @@ class StagesView extends GroundonView {
 
     async start_chatbot_IA(message) {
         this.isNLPMode = true;
-        this.enviarMensagem(message, 'Olá, sou o Mewtwo. Você está agora no modo de NLP. Digite "!sair" para sair do modo de NLP.');
+        this.enviarMensagem(message, 'Olá, sou o Mewtwo. Você está agora no modo de NLP. Digite "!sair" para sair.');
     }
+
 
     async processWithMewTwo(message) {
         const resposta = await this.mewTwo.processarIntencao(message.body);
 
+        // Imprime a intenção atual da última mensagem
+        console.log(`Intenção Atual: ${resposta.intent}`);
+
         const stage = this.mewTwo.getStageForIntent(resposta.intent);
-        this.setStage(stage);
+        if (stage) {
+            console.log(stage)
+            this.pushStage(stage);
+        }
 
         this.enviarMensagem(message, resposta.answer);
     }
+
+
 
 
     resetEstagio(message) {
@@ -112,9 +121,12 @@ class StagesView extends GroundonView {
             if (this.isNLPMode) {
                 if (message.body.toLowerCase() === '!sair') {
                     this.isNLPMode = false;
+                    this.mewTwo.salvarConversaEmCSV();
+
                     this.enviarMensagem(message, 'Você saiu do modo de NLP e voltou ao chatbot padrão.');
                 } else {
                     this.processWithMewTwo(message);
+                    return;
                 }
             } else {
                 if (message.body === '!startIA') {
@@ -150,7 +162,7 @@ class StagesView extends GroundonView {
                     }
 
                     else if (numero_estagio === 2) {
-                        console.log('\nEstágio 2:', message.body);
+                        console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
 
                         try {
                             //Pega dados do CLiente
@@ -189,7 +201,7 @@ class StagesView extends GroundonView {
                         let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
                         this.enviarMensagem(message, menu_principal_text)
 
-                        this.enviarMensagem(message, `*${cliente.nome}* agora temos uma nova funcionalidade de IA!\nDigite *!startIA* para conversar com o nosso modelo NLP!`)
+                        this.enviarMensagem(message, `*${cliente.nome}* agora temos uma nova funcionalidade de IA!\n\nDigite *!startIA* para conversar com o nosso modelo NLP!`)
 
 
                         this.pushStage(3);
@@ -201,7 +213,7 @@ class StagesView extends GroundonView {
 
 
                         //TODO desculpa nao entendi, voce quis dizer? ['opção1, opção2, 'opção3']
-                        console.log(`\nEstágio ${numero_estagio}:`, message.body);
+                        console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
 
 
                         //? Pega a ultima mensagem enviada pelo cliente

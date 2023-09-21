@@ -76,12 +76,36 @@ class MewTwo {
         console.log('====================================================================\n')
     }
 
+
+    getStage(stackStage) {
+
+        return stackStage
+
+    }
+
+    salvarConversaEmCSV() {
+        const cabecalho = "Mensagem\n";
+        let dadosCSV = cabecalho;
+
+        this.conversa.forEach(mensagem => {
+            dadosCSV += `"${mensagem}"\n`;
+        });
+
+        fs.writeFileSync('../../repository/mensagens.csv', dadosCSV, 'utf-8');
+        console.log("Conversa salva no arquivo CSV!");
+    }
+
+
     // Método para retornar o estágio correspondente com base na intenção detectada
     getStageForIntent(intent) {
+
+        let estagio = this.getStage()
+        console.log(`Estagio Groundon ${estagio}`)
+
         const intentToStageMapping = {
-            'saudacao': 'stage1',
-            'despedida': 'stage9',
-            'pedido': 'stage3',
+            'saudacao': '1',
+            'despedida': '9',
+            'pedido': '3',
             // Adicione outras intenções e seus estágios correspondentes aqui
         };
 
@@ -136,6 +160,8 @@ class MewTwo {
         const interagir = async () => {
             rl.question('Digite uma mensagem para o MewTwo (ou digite "sair" para encerrar): ', async (entradaUsuario) => {
                 if (entradaUsuario.toLowerCase() === 'sair') {
+                    this.salvarConversaEmCSV();
+
                     rl.close();
                     return;
                 }
