@@ -7,11 +7,11 @@ class Widgets {
     //! WIDGETS 
     // Menu Principal
     this.menuPrincipal = [
-      { button: { text: '📍 Ver nossa Localização', hide: true }, type: 'message' },
-      { button: { text: '🛒 Fazer Pedido', hide: true }, type: 'message' },
-      { button: { text: '🤖 Reiniciar Atendimento', hide: true }, type: 'message' },
-      { button: { text: '👨‍🍳 Falar com um atendente', hide: true }, type: 'message' },
-      { button: { text: '❌ Sair', hide: true }, type: 'message' }
+      { button: { text: '📍 Ver nossa Localização', hide: true }, type: 'location' },
+      { button: { text: '🛒 Fazer Pedido', hide: true }, type: 'pedido' },
+      { button: { text: '🤖 Reiniciar Atendimento', hide: true }, type: 'reiniciar' },
+      { button: { text: '👨‍🍳 Falar com um atendente', hide: true }, type: 'atendente' },
+      { button: { text: '❌ Sair', hide: true }, type: 'exit' }
     ];
 
     // Menu de Opções de Pagamento
@@ -33,6 +33,19 @@ class Widgets {
       { button: { text: '🔥 Opção 2', hide: true }, type: 'message' },
       { button: { text: '🎉 Opção 3', hide: true }, type: 'message' }
     ];
+
+    // Menu de Reclamações
+    this.menuReclamacoes = [
+      { button: { text: '📢 Reportar um problema', hide: true }, type: 'reportIssue' },
+      { button: { text: '❓ Pergunta', hide: true }, type: 'question' }
+    ];
+
+    // Menu Finalização
+    this.menuFinalizacao = [
+      { button: { text: '📦 Acompanhar Pedido', hide: true }, type: 'trackOrder' },
+      { button: { text: '🔄 Refazer Pedido', hide: true }, type: 'redoOrder' }
+    ];
+
   }
 
   // Método que pega a escolha do cliente dentro do menu
@@ -70,7 +83,7 @@ class Widgets {
   }
 
   getMenuText(title, menu) {
-    let menuText = `⚡️  ${title} ⚡️ \n\n`;
+    let menuText = `⚡️  *${title}* ⚡️ \n\n`;
     menu.forEach((item, index) => {
       menuText += `${index + 1}) ${item.button.text}\n`;
     });

@@ -269,6 +269,20 @@ class GroundonView extends Groundon {
 		this.stack.push(stage);
 	}
 
+
+	// Método para configurar um estágio específico
+	setStage(stage) {
+		// Limpar pilha de estágios
+		this.clearStages();
+
+		// Configurar o estágio especificado
+		this.pushStage(stage);
+	}
+
+
+
+
+
 	// Função para remover o estágio atual da pilha
 	popStage() {
 		this.stack.pop();

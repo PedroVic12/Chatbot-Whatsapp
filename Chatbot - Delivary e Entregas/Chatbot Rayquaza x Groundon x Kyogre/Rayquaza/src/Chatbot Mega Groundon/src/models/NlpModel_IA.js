@@ -25,13 +25,37 @@ class MewTwo {
         const intencoes = {
             saudacao: ['boa noite', 'boa tarde', 'bom dia', 'alo', 'olá', 'oi', 'hello'],
             despedida: ['obrigado e tchau', 'te vejo mais tarde', 'aguardo o pedido'],
-            pedido: ['fazer pedido', 'fazer um pedido', 'fazer um pedido de delivery', 'fazer um delivery', 'entregar comida', 'entrega de comida', 'entregar pizza']
+            pedido: ['fazer pedido', 'fazer um pedido', 'fazer um pedido de delivery', 'fazer um delivery', 'entregar comida', 'entrega de comida', 'entregar pizza'],
+            estagio1: ['iniciar', 'começar', 'olá de novo'],
+            estagio2: ['meu nome é', 'chamo-me', 'telefone é'],
+            estagio3: ['cardápio', 'ver menu', 'opções de pedido'],
+            estagio4: ['escolher produto', 'quero uma pizza'],
+            estagio5: ['endereço é', 'entregar em', 'morada'],
+            estagio6: ['complemento é', 'apartamento', 'bloco'],
+            estagio7: ['pagar com', 'forma de pagamento', 'dinheiro ou cartão'],
+            estagio8: ['confirmar pedido', 'tudo certo', 'finalizar pedido'],
+            estagio9: ['pedido foi entregue?', 'status do pedido', 'pedido está pronto?'],
+            reclamacao: ['não gostei', 'teve um problema', 'quero reclamar'],
+            elogio: ['adorei', 'excelente serviço', 'muito bom'],
+            ajuda: ['não entendi', 'como funciona?', 'me ajude']
         };
 
         const respostas = {
             saudacao: ['Olá, como posso ajudar você?', 'Oi, tudo bem?'],
             despedida: ['Até logo!', 'Aguardo seu próximo pedido!'],
-            pedido: ['Você gostaria de fazer um pedido?', 'Faça seu pedido com calma']
+            pedido: ['Você gostaria de fazer um pedido?', 'Faça seu pedido com calma'],
+            estagio1: ['Bem-vindo de volta! Como posso ajudar?'],
+            estagio2: ['Qual é o seu nome e telefone?'],
+            estagio3: ['Aqui está o nosso menu. O que você gostaria?'],
+            estagio4: ['Qual produto você gostaria de escolher?'],
+            estagio5: ['Por favor, forneça o seu endereço de entrega.'],
+            estagio6: ['Há algum complemento para o seu endereço?'],
+            estagio7: ['Como você gostaria de pagar?'],
+            estagio8: ['Por favor, confirme seu pedido.'],
+            estagio9: ['Seu pedido está sendo preparado.'],
+            reclamacao: ['Lamento ouvir isso. Por favor, nos dê mais detalhes para que possamos ajudar.'],
+            elogio: ['Muito obrigado pelo seu feedback positivo!'],
+            ajuda: ['Claro! Como posso ajudar você hoje?']
         };
 
         for (const intencao in intencoes) {
@@ -46,11 +70,22 @@ class MewTwo {
 
         this.manager.train();
     }
-
     cout(text) {
         console.log('\n==================================================================')
         console.log(text)
         console.log('====================================================================\n')
+    }
+
+    // Método para retornar o estágio correspondente com base na intenção detectada
+    getStageForIntent(intent) {
+        const intentToStageMapping = {
+            'saudacao': 'stage1',
+            'despedida': 'stage9',
+            'pedido': 'stage3',
+            // Adicione outras intenções e seus estágios correspondentes aqui
+        };
+
+        return intentToStageMapping[intent] || null;
     }
 
     async processarIntencao(texto) {

@@ -45,55 +45,27 @@ class StagesView extends GroundonView {
         this.Widgets = new Widgets()
 
         this.isNLPMode = false; // Adicione esta variável para controlar o modo de conversa com o modelo de NLP.
+        this.mewTwo = new MewTwo();  // Instantiate MewTwo in the constructor
 
 
 
     }
+
 
     async start_chatbot_IA(message) {
-
-        const mewTwo = new MewTwo()
-
-        try {
-            // Inicie o modo de NLP.
-            this.isNLPMode = true;
-            this.enviarMensagem(message, `Ola, sou o Mewtwo `)
-            mewTwo.executarChatbot();
-            this.enviarMensagem(message, 'Você está agora no modo de NLP. Digite "!sair" para sair do modo de NLP.');
-
-
-
-            // Se estiver no modo de NLP, envie a mensagem para o modelo de NLP.
-            if (this.isNLPMode) {
-                const respostaNLP = await mewTwo.processarIntencao(message.body);
-                this.enviarMensagem(message, `Resposta INTENÇÃO: ${respostaNLP.answer}`);
-
-                const respostaDinamica = this.gerarRespostaDinamica(respostaIntencao.intent);
-                this.enviarMensagem(message, `Resposta Dinâmica: ${respostaDinamica}`);
-
-
-                if (message.body.toLowerCase() === '!sair') {
-                    this.isNLPMode = false;
-                    this.enviarMensagem(message, 'Você saiu do modo de NLP. Continue a conversa com o Groundon. :)');
-
-                    try {
-                        // Mostra o menu principal
-                        let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
-                        this.enviarMensagem(message, menu_principal_text)
-                    } catch (error) {
-                        console.log('erro')
-                    }
-
-                }
-
-                return;
-            }
-
-
-        } catch (error) {
-            console.log('Não foi possível iniciar a IA');
-        }
+        this.isNLPMode = true;
+        this.enviarMensagem(message, 'Olá, sou o Mewtwo. Você está agora no modo de NLP. Digite "!sair" para sair do modo de NLP.');
     }
+
+    async processWithMewTwo(message) {
+        const resposta = await this.mewTwo.processarIntencao(message.body);
+
+        const stage = this.mewTwo.getStageForIntent(resposta.intent);
+        this.setStage(stage);
+
+        this.enviarMensagem(message, resposta.answer);
+    }
+
 
     resetEstagio(message) {
         // Handle back command
@@ -137,316 +109,324 @@ class StagesView extends GroundonView {
             const numero_estagio = this.getCurrentStage();
 
 
-            //! Verifique se a mensagem é o comando para iniciar o modo de NLP.
-            if (message.body === '!startIA' && !this.isNLPMode) {
-                this.start_chatbot_IA(message);
-            } else {
-                // Continue com o fluxo normal do chatbot Groundon
-                // ...
-
-                // Aqui, você pode adicionar o código existente para o Groundon.
-                // Certifique-se de não iniciar a IA de NLP neste ramo do evento.
-            }
-
-
-
-
-
-            //TODO Aceitar vários pedidos ao mesmo tempo
-
-            //TODO tratamento de mensagens ("Desculpa nao entendi, voce quis dizer [opção1,opção2,opção3]?")
-
-
-            //! ===================== Estágio 1 - Apresentação =====================
-            if (numero_estagio === 1) {
-                console.log('\nEstágio 1:', message.body);
-
-                await this.delay(1000).then(
-                    this.enviarMensagem(message, `Bem-vindo a Lanchonete *Citta RJ* Obrigado por escolher a nossos Serviços.\n🤖 Eu sou o Robô Groundon e estou aqui para ajudá-lo. `)
-                )
-
-
-                this.pushStage(2).then(
-                    await this.delay(3000).then(
-                        this.enviarMensagem(message, "🤖 Antes de começarmos, por favor, *Digite Seu Nome*:")
-                    )
-                )
-
-
-                //!=====================  Estágio 2 - Mostrar Menu Principal =====================
-            }
-
-            else if (numero_estagio === 2) {
-                console.log('\nEstágio 2:', message.body);
-
-                try {
-                    //Pega dados do CLiente
-                    const nome_cliente = this.getLastMessage(message)
-                    cliente.setNome(nome_cliente)
-
-                    const numero_cliente = this.estagio2.getTelefoneCliente(message)
-                    cliente.setTelefone(numero_cliente)
-
-                    // Envia os dados do cliente para o servidor
-                    ID_PEDIDO = this.backendController.gerarIdPedido();
-                    cliente.setId(ID_PEDIDO);
-                    this.backendController.enviarDadosClienteServidor(cliente, ID_PEDIDO);
-
-                    // Gera o Link do Cardapio Digital
-                    KYOGRE_LINK_ID = await this.backendController.enviarLinkServidor(ID_PEDIDO);
-
-                } catch (error) {
-                    console.log('Não foi possível fazer uma conexão no backend')
+            if (this.isNLPMode) {
+                if (message.body.toLowerCase() === '!sair') {
+                    this.isNLPMode = false;
+                    this.enviarMensagem(message, 'Você saiu do modo de NLP e voltou ao chatbot padrão.');
+                } else {
+                    this.processWithMewTwo(message);
                 }
+            } else {
+                if (message.body === '!startIA') {
+                    this.start_chatbot_IA(message);
+
+                } else {
+                    // ... [existing logic to process message with the standard chatbot]
 
 
-                await this.delay(2000).then(
+
+                    //TODO Aceitar vários pedidos ao mesmo tempo
+
+                    //TODO tratamento de mensagens ("Desculpa nao entendi, voce quis dizer [opção1,opção2,opção3]?")
 
 
-                    //TODO se cliente não existir, cadastrar cliente
+                    //! ===================== Estágio 1 - Apresentação =====================
+                    if (numero_estagio === 1) {
+                        console.log('\nEstágio 1:', message.body);
 
-                    //TODO se cliente existir, pegar dados do cliente
-
-                    await this.enviarMensagem(message, `✅ Prazer em te conhecer, ${cliente.nome}!`)
-                )
-
-                this.enviarMensagem(message, `Seu numero de pedido é #${ID_PEDIDO}`)
-
-
-                // Mostra o menu principal
-                let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
-                this.enviarMensagem(message, menu_principal_text)
-
-                this.pushStage(3);
-            }
-
-            //!=====================  Estágio 3 - Responde as funcionalidades do Botão =====================
-
-            else if (numero_estagio === 3) {
+                        await this.delay(1000).then(
+                            this.enviarMensagem(message, `Bem-vindo a Lanchonete *Citta RJ* Obrigado por escolher a nossos Serviços.\n🤖 Eu sou o Robô Groundon e estou aqui para ajudá-lo. `)
+                        )
 
 
-                //TODO desculpa nao entendi, voce quis dizer? ['opção1, opção2, 'opção3']
-                console.log(`\nEstágio ${numero_estagio}:`, message.body);
+                        this.pushStage(2).then(
+                            await this.delay(3000).then(
+                                this.enviarMensagem(message, "🤖 Antes de começarmos, por favor, *Digite Seu Nome*:")
+                            )
+                        )
 
 
-                //? Pega a ultima mensagem enviada pelo cliente
-                const choice_escolhida = this.getLastMessage(message);
-                const selectedOption = this.Widgets.getSelectedOption(menu_principal, choice_escolhida);
+                        //!=====================  Estágio 2 - Mostrar Menu Principal =====================
+                    }
 
-                // Verifica qual opção
-                if (selectedOption) {
-                    this.enviarMensagem(message, `Voce escolheu a opção *${selectedOption.button.text.slice(3)}*`)
+                    else if (numero_estagio === 2) {
+                        console.log('\nEstágio 2:', message.body);
 
-                    // Localização
-                    if (selectedOption.button.text.toUpperCase() === 'VER NOSSA LOCALIZAÇÃO' ||
-                        selectedOption.button.text.toUpperCase().includes('LOCALIZAÇÃO')) {
+                        try {
+                            //Pega dados do CLiente
+                            const nome_cliente = this.getLastMessage(message)
+                            cliente.setNome(nome_cliente)
 
-                        this.enviarMensagem(message, 'Estamos implementando essa funcionalidade, por favor tente outra opção.')
+                            const numero_cliente = this.estagio2.getTelefoneCliente(message)
+                            cliente.setTelefone(numero_cliente)
 
-                        this.delay(2000)
+                            // Envia os dados do cliente para o servidor
+                            ID_PEDIDO = this.backendController.gerarIdPedido();
+                            cliente.setId(ID_PEDIDO);
+                            this.backendController.enviarDadosClienteServidor(cliente, ID_PEDIDO);
+
+                            // Gera o Link do Cardapio Digital
+                            KYOGRE_LINK_ID = await this.backendController.enviarLinkServidor(ID_PEDIDO);
+
+                        } catch (error) {
+                            console.log('Não foi possível fazer uma conexão no backend')
+                        }
+
+
+                        await this.delay(2000).then(
+
+
+                            //TODO se cliente não existir, cadastrar cliente
+
+                            //TODO se cliente existir, pegar dados do cliente
+
+                            await this.enviarMensagem(message, `✅ Prazer em te conhecer, ${cliente.nome}!`)
+                        )
+
+                        this.enviarMensagem(message, `Seu numero de pedido é #${ID_PEDIDO}`)
 
                         // Mostra o menu principal
                         let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
                         this.enviarMensagem(message, menu_principal_text)
+
+                        this.enviarMensagem(message, `*${cliente.nome}* agora temos uma nova funcionalidade de IA!\nDigite *!startIA* para conversar com o nosso modelo NLP!`)
+
+
+                        this.pushStage(3);
+                    }
+
+                    //!=====================  Estágio 3 - Responde as funcionalidades do Botão =====================
+
+                    else if (numero_estagio === 3) {
+
+
+                        //TODO desculpa nao entendi, voce quis dizer? ['opção1, opção2, 'opção3']
+                        console.log(`\nEstágio ${numero_estagio}:`, message.body);
+
+
+                        //? Pega a ultima mensagem enviada pelo cliente
+                        const choice_escolhida = this.getLastMessage(message);
+                        const selectedOption = this.Widgets.getSelectedOption(menu_principal, choice_escolhida);
+
+                        // Verifica qual opção
+                        if (selectedOption) {
+                            this.enviarMensagem(message, `Voce escolheu a opção *${selectedOption.button.text.slice(3)}*`)
+
+                            // Localização
+                            if (selectedOption.button.text.toUpperCase() === 'VER NOSSA LOCALIZAÇÃO' ||
+                                selectedOption.button.text.toUpperCase().includes('LOCALIZAÇÃO')) {
+
+                                this.enviarMensagem(message, 'Estamos implementando essa funcionalidade, por favor tente outra opção.')
+
+                                this.delay(2000)
+
+                                // Mostra o menu principal
+                                let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
+                                this.enviarMensagem(message, menu_principal_text)
+                            }
+
+
+                            //!Enviar o cardapio Digital
+                            if (
+                                selectedOption.button.text.toUpperCase() === 'FAZER PEDIDO' ||
+                                selectedOption.button.text.toLowerCase().includes('pedido')
+                            ) {
+
+                                this.enviarLinkCardapioDigital(message, KYOGRE_LINK_ID)
+                            }
+
+
+                            // Reiniciar
+                            else if (selectedOption.button.text.toUpperCase() === 'Reiniciar') {
+                                //this.restartChatbot()
+                                this.popStage()
+                                this.popStage()
+                            }
+
+                            else if (
+                                selectedOption.button.text.toUpperCase() === 'FALAR COM UM ATENDENTE' ||
+                                selectedOption.button.text.toLowerCase().includes('atendente')
+                            ) {
+
+                                this.enviarMensagem(message, "Desculpe a essa funcionalidade ainda nao foi implementada")
+                                this.delay(3000).then(() => {
+                                    this.enviarMensagem(message, menu_principal);
+                                });
+                            }
+
+                            else if (selectedOption.button.text.toUpperCase().includes('SAIR')) {
+
+                                this.enviarMensagem(message, "Foi um prazer conversar com voce :) ")
+                                this.delay(3000).then(() => {
+                                    this.restartChatbot()
+                                });
+                            }
+
+
+                        }
                     }
 
 
-                    //!Enviar o cardapio Digital
-                    if (
-                        selectedOption.button.text.toUpperCase() === 'FAZER PEDIDO' ||
-                        selectedOption.button.text.toLowerCase().includes('pedido')
-                    ) {
 
-                        this.enviarLinkCardapioDigital(message, KYOGRE_LINK_ID)
+
+                    //!=====================  Estagio 4 - Cliente Escolhe os Produtos no Cardapio Digital da Loja =====================
+                    else if (numero_estagio === 4) {
+                        console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
+
+                        const pedido_escolhido_cardapio = this.getLastMessage(message);
+                        const pedido_json = this.getPedidoCardapio(pedido_escolhido_cardapio)
+
+                        //TODO COLOCAR OS ITENS, QUANTIDADE E PRECO DENTRO DO PEDIDO NA CLASSE CLIENTE
+                        try {
+                            cliente.setPedido(pedido_json)
+                            console.log('\n\n\nPedido atraves do Cardapio:', cliente.getDadosCompletos(pedido_json))
+
+                            this.delay(1000).then(
+                                this.enviarMensagem(message, `✅ Seu pedido foi anotado!`)
+                            )
+
+                        } catch (error) {
+                            console.log('Nao foi possivel salvar os produtos do pedido', error)
+                        }
+
+
+                        this.delay(3000).then(
+                            this.enviarMensagem(message, ` Boa escolha ${cliente.nome}!  *Digite o seu endereço de entrega:*`)
+                        )
+
+                        this.pushStage(5);
                     }
 
 
-                    // Reiniciar
-                    else if (selectedOption.button.text.toUpperCase() === 'Reiniciar') {
-                        //this.restartChatbot()
-                        this.popStage()
-                        this.popStage()
-                    }
+                    //!=====================  Estagio 5 - Cliente escolhe o Lanche Desejado =====================
+                    else if (numero_estagio === 5) {
+                        console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
 
-                    else if (
-                        selectedOption.button.text.toUpperCase() === 'FALAR COM UM ATENDENTE' ||
-                        selectedOption.button.text.toLowerCase().includes('atendente')
-                    ) {
+                        //TODO VERIFICAR RAIO DE ALCANCE DO PEDIDO USANDO UMA API 
 
-                        this.enviarMensagem(message, "Desculpe a essa funcionalidade ainda nao foi implementada")
-                        this.delay(3000).then(() => {
-                            this.enviarMensagem(message, menu_principal);
-                        });
-                    }
 
-                    else if (selectedOption.button.text.toUpperCase().includes('SAIR')) {
+                        const endereco_entrega = this.getLastMessage(message);
+                        cliente.setEndereco(endereco_entrega)
 
-                        this.enviarMensagem(message, "Foi um prazer conversar com voce :) ")
-                        this.delay(3000).then(() => {
-                            this.restartChatbot()
-                        });
+                        this.enviarMensagem(message, 'Seu endereço precisa de algum complemento? Digite Sim ou Não')
+                        this.pushStage(6)
                     }
 
 
+                    //!=====================  Estágio 6 - Pergunta sobre o complemento =====================
+                    else if (numero_estagio === 6) {
+                        console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
+
+                        const resposta_cliente = this.getLastMessage(message).toUpperCase().trim();
+
+                        if (resposta_cliente === 'SIM') {
+                            this.enviarMensagem(message, 'Digite seu complemento.');
+                            this.pushStage(6.5); // Estágio intermediário
+                        } else if (resposta_cliente === 'NÃO' || resposta_cliente === 'NAO') {
+                            cliente.setComplemento('Sem Complemento.')
+
+
+                            // Mostra o menu principal
+                            let menu_pagamento_text = this.Widgets.getMenuText('Digite a forma de pagamento', menu_formaPagamento);
+                            this.enviarMensagem(message, menu_pagamento_text)
+                            this.pushStage(7);
+                        }
+                    }
+
+                    //!=====================  Estágio 6.5 - Coleta o complemento =====================
+                    else if (numero_estagio === 6.5) {
+                        console.log(`\nEstágio ${numero_estagio}:`, message.body);
+
+
+                        const complemento = this.getLastMessage(message);
+                        cliente.setComplemento(complemento);
+
+
+                        // Mostra o menu principal
+                        let menu_pagamento_text = this.Widgets.getMenuText('Digite a forma de pagamento', menu_formaPagamento);
+                        this.enviarMensagem(message, menu_pagamento_text)
+                        this.pushStage(7);
+                    }
+
+
+                    //! escolhe forma de pagamento
+                    else if (numero_estagio === 7) {
+                        console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
+
+
+                        //? Pega a ultima mensagem enviada pelo cliente
+                        const forma_pagamento = this.getLastMessage(message)
+                        const selectedOption = this.Widgets.getSelectedOption(menu_formaPagamento, forma_pagamento);
+
+                        // Verifica qual opção
+                        if (selectedOption) {
+                            this.enviarMensagem(message, `Voce escolheu a opção *${selectedOption.button.text.slice(3)}*`)
+                        }
+
+                        cliente.setFormaPagamento(forma_pagamento)
+
+                        this.delay(1000).then(
+                            this.enviarMensagem(message, `Você escolheu a forma de pagamento -> *${forma_pagamento}*`)
+                        )
+
+
+
+                        // TODO USAR O MENU E TRATAMENTO DE DADOS PARA 3 RESPOSTAS
+                        // Get complete client data
+                        const pedido_cliente = cliente.getPedido()
+                        cliente.setDataAtual()
+                        const DADOS_CLIENTE = cliente.getDadosCompletos(pedido_cliente);
+
+
+
+                        try {
+
+                            // Generate and save the JSON file using the pedido data
+                            cliente.gerarPedidoJson(DADOS_CLIENTE);
+                            console.log('\n\n>>> DADOS DO CLIENTE:\n', DADOS_CLIENTE)
+
+                            // Enviando para o servidor
+                            this.backendController.enviarPedidoRayquaza(DADOS_CLIENTE)
+
+                        } catch (error) {
+                            console.log('Erro ao fazer o post do pedido no servidor')
+                        }
+
+
+                        await this.delay(2000).then(
+                            await this.enviarMensagem(message, 'Confirma o seu pedido?')
+                        )
+                        this.pushStage(8)
+
+
+                    }
+
+                    //!PEDIDO EVNIADO PARA COZINHA
+                    else if (numero_estagio === 8) {
+                        console.log(`\nEstágio ${numero_estagio}:`, message.body);
+
+                        //TODO -> VERIFICAR QUANDO O PEDIDO FICAR PRONTO PARA MANDAR QUE FOI ENVIADO PARA ENTREGA
+
+                        const confirmacao = this.getLastMessage(message)
+
+                        this.enviarMensagem(message, `*Obrigado, ${cliente.nome}*!\nSeu pedido esta sendo preparado e volto quando ele estiver sendo enviado para entrega!`)
+
+
+
+                    }
+
+                    //!PEDIDO PRONTO E ENVIADO PARA ENTREGA
+                    else if (numero_estagio === 9) {
+                        console.log(`\nEstágio ${numero_estagio}:`, message.body);
+
+
+                        //TODO
+
+                    }
+
+
+
                 }
-            }
-
-
-
-
-            //!=====================  Estagio 4 - Cliente Escolhe os Produtos no Cardapio Digital da Loja =====================
-            else if (numero_estagio === 4) {
-                console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
-
-                const pedido_escolhido_cardapio = this.getLastMessage(message);
-                const pedido_json = this.getPedidoCardapio(pedido_escolhido_cardapio)
-
-                //TODO COLOCAR OS ITENS, QUANTIDADE E PRECO DENTRO DO PEDIDO NA CLASSE CLIENTE
-                try {
-                    cliente.setPedido(pedido_json)
-                    console.log('\n\n\nPedido atraves do Cardapio:', cliente.getDadosCompletos(pedido_json))
-
-                    this.delay(1000).then(
-                        this.enviarMensagem(message, `✅ Seu pedido foi anotado!`)
-                    )
-
-                } catch (error) {
-                    console.log('Nao foi possivel salvar os produtos do pedido', error)
-                }
-
-
-                this.delay(3000).then(
-                    this.enviarMensagem(message, ` Boa escolha ${cliente.nome}!  *Digite o seu endereço de entrega:*`)
-                )
-
-                this.pushStage(5);
-            }
-
-
-            //!=====================  Estagio 5 - Cliente escolhe o Lanche Desejado =====================
-            else if (numero_estagio === 5) {
-                console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
-
-                //TODO VERIFICAR RAIO DE ALCANCE DO PEDIDO USANDO UMA API 
-
-
-                const endereco_entrega = this.getLastMessage(message);
-                cliente.setEndereco(endereco_entrega)
-
-                this.enviarMensagem(message, 'Seu endereço precisa de algum complemento? Digite Sim ou Não')
-                this.pushStage(6)
-            }
-
-
-            //!=====================  Estágio 6 - Pergunta sobre o complemento =====================
-            else if (numero_estagio === 6) {
-                console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
-
-                const resposta_cliente = this.getLastMessage(message).toUpperCase().trim();
-
-                if (resposta_cliente === 'SIM') {
-                    this.enviarMensagem(message, 'Digite seu complemento.');
-                    this.pushStage(6.5); // Estágio intermediário
-                } else if (resposta_cliente === 'NÃO' || resposta_cliente === 'NAO') {
-                    cliente.setComplemento('Sem Complemento.')
-
-
-                    // Mostra o menu principal
-                    let menu_pagamento_text = this.Widgets.getMenuText('Digite a forma de pagamento', menu_formaPagamento);
-                    this.enviarMensagem(message, menu_pagamento_text)
-                    this.pushStage(7);
-                }
-            }
-
-            //!=====================  Estágio 6.5 - Coleta o complemento =====================
-            else if (numero_estagio === 6.5) {
-                console.log(`\nEstágio ${numero_estagio}:`, message.body);
-
-
-                const complemento = this.getLastMessage(message);
-                cliente.setComplemento(complemento);
-
-
-                // Mostra o menu principal
-                let menu_pagamento_text = this.Widgets.getMenuText('Digite a forma de pagamento', menu_formaPagamento);
-                this.enviarMensagem(message, menu_pagamento_text)
-                this.pushStage(7);
-            }
-
-
-            //! escolhe forma de pagamento
-            else if (numero_estagio === 7) {
-                console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
-
-
-                //? Pega a ultima mensagem enviada pelo cliente
-                const forma_pagamento = this.getLastMessage(message)
-                const selectedOption = this.Widgets.getSelectedOption(menu_formaPagamento, forma_pagamento);
-
-                // Verifica qual opção
-                if (selectedOption) {
-                    this.enviarMensagem(message, `Voce escolheu a opção *${selectedOption.button.text.slice(3)}*`)
-                }
-
-                cliente.setFormaPagamento(forma_pagamento)
-
-                this.delay(1000).then(
-                    this.enviarMensagem(message, `Você escolheu a forma de pagamento -> *${forma_pagamento}*`)
-                )
-
-
-
-                // TODO USAR O MENU E TRATAMENTO DE DADOS PARA 3 RESPOSTAS
-                // Get complete client data
-                const pedido_cliente = cliente.getPedido()
-                cliente.setDataAtual()
-                const DADOS_CLIENTE = cliente.getDadosCompletos(pedido_cliente);
-
-
-
-                try {
-
-                    // Generate and save the JSON file using the pedido data
-                    cliente.gerarPedidoJson(DADOS_CLIENTE);
-                    console.log('\n\n>>> DADOS DO CLIENTE:\n', DADOS_CLIENTE)
-
-                    // Enviando para o servidor
-                    this.backendController.enviarPedidoRayquaza(DADOS_CLIENTE)
-
-                } catch (error) {
-                    console.log('Erro ao fazer o post do pedido no servidor')
-                }
-
-
-                await this.delay(2000).then(
-                    await this.enviarMensagem(message, 'Confirma o seu pedido?')
-                )
-                this.pushStage(8)
-
-
-            }
-
-            //!PEDIDO EVNIADO PARA COZINHA
-            else if (numero_estagio === 8) {
-                console.log(`\nEstágio ${numero_estagio}:`, message.body);
-
-                //TODO -> VERIFICAR QUANDO O PEDIDO FICAR PRONTO PARA MANDAR QUE FOI ENVIADO PARA ENTREGA
-
-                const confirmacao = this.getLastMessage(message)
-
-                this.enviarMensagem(message, `*Obrigado, ${cliente.nome}*!\nSeu pedido esta sendo preparado e volto quando ele estiver sendo enviado para entrega!`)
-
-
-
-            }
-
-            //!PEDIDO PRONTO E ENVIADO PARA ENTREGA
-            else if (numero_estagio === 9) {
-                console.log(`\nEstágio ${numero_estagio}:`, message.body);
-
-
-                //TODO
-
             }
 
 
