@@ -60,7 +60,69 @@ class GroundonView extends Groundon {
 	};
 
 
+	//! Função para adicionar um estágio à pilha
+	async pushStage(stage) {
+		this.stack.push(stage);
+	}
 
+
+	// Método para configurar um estágio específico
+	setStage(stage) {
+		// Limpar pilha de estágios
+		this.clearStages();
+
+		// Configurar o estágio especificado
+		this.pushStage(stage);
+	}
+
+	// Função para remover o estágio atual da pilha
+	popStage() {
+		this.stack.pop();
+	}
+
+	// Função para obter o estágio atual
+	getCurrentStage() {
+		return this.stack.length > 0 ? this.stack[this.stack.length - 1] : 1;
+	}
+
+	// Função para limpar a pilha
+	clearStages() {
+		this.stack = [];
+	}
+
+	//!Métodos de controle de Estagio por numero do cliente
+	setClientStage(phoneNumber, stage) {
+		// Initialize the state object for the client if it doesn't exist
+		if (!this.clientStates[phoneNumber]) {
+			this.clientStates[phoneNumber] = {
+				stack: [] // Initialize the stack for the client
+			};
+		}
+
+		// Clear the stack and set the specified stage
+		this.clientStates[phoneNumber].stack = [stage];
+	}
+
+	pushClientStage(phoneNumber, stage) {
+		// Initialize the state object for the client if it doesn't exist
+		if (!this.clientStates[phoneNumber]) {
+			this.clientStates[phoneNumber] = {
+				stack: [] // Initialize the stack for the client
+			};
+		}
+
+		// Push the specified stage to the client's stack
+		this.clientStates[phoneNumber].stack.push(stage);
+	}
+
+	getClientCurrentStage(phoneNumber) {
+		// Get the current stage for the client
+		const clientState = this.clientStates[phoneNumber];
+		if (clientState && clientState.stack.length > 0) {
+			return clientState.stack[clientState.stack.length - 1];
+		}
+		return 1; // Default stage if no state exists for the client
+	}
 
 
 	navigateToStage(targetStage) {
@@ -86,7 +148,7 @@ class GroundonView extends Groundon {
 		}
 	}
 
-	// Rota para recuperar o link do Cardapio Digital
+	//! Rota para recuperar o link do Cardapio Digital
 	async getLinkCardapio() {
 		// Assuma que this.backendController é uma instância válida de BackendController
 		const link = await this.backendController.getLink();
@@ -127,26 +189,6 @@ class GroundonView extends Groundon {
 			itens: itensList,
 			total: total
 		};
-	}
-
-	//! Funções de Mensagem
-	async enviarMensagem(message, texto) {
-		try {
-			const result = await this.whatsapp.sendText(message.from, texto);
-			//console.log('\n\nResultado da Mensagem: ', result);
-		} catch (error) {
-			console.error('\n\nErro ao enviar mensagem: ', error);
-		}
-	}
-
-	getLastMessage(message) {
-		try {
-			const lastMessage = message.body
-			return lastMessage
-
-		} catch (err) {
-			console.log(err);
-		}
 	}
 
 	async enviarLinkCardapioDigital(message, _LINK) {
@@ -222,7 +264,25 @@ class GroundonView extends Groundon {
 
 
 
+	//! Funções de Mensagem
+	async enviarMensagem(message, texto) {
+		try {
+			const result = await this.whatsapp.sendText(message.from, texto);
+			//console.log('\n\nResultado da Mensagem: ', result);
+		} catch (error) {
+			console.error('\n\nErro ao enviar mensagem: ', error);
+		}
+	}
 
+	getLastMessage(message) {
+		try {
+			const lastMessage = message.body
+			return lastMessage
+
+		} catch (err) {
+			console.log(err);
+		}
+	}
 
 	enviarFoto(message_from, path_image_jpg) {
 		// Send image (you can also upload an image using a valid HTTP protocol)
@@ -288,70 +348,8 @@ class GroundonView extends Groundon {
 	}
 
 
-	//! Função para adicionar um estágio à pilha
-	async pushStage(stage) {
-		this.stack.push(stage);
-	}
 
 
-	// Método para configurar um estágio específico
-	setStage(stage) {
-		// Limpar pilha de estágios
-		this.clearStages();
-
-		// Configurar o estágio especificado
-		this.pushStage(stage);
-	}
-
-
-
-
-
-	// Função para remover o estágio atual da pilha
-	popStage() {
-		this.stack.pop();
-	}
-
-	// Função para obter o estágio atual
-	getCurrentStage() {
-		return this.stack.length > 0 ? this.stack[this.stack.length - 1] : 1;
-	}
-
-	// Função para limpar a pilha
-	clearStages() {
-		this.stack = [];
-	}
-
-	//! Metodos de cliente e ID
-	getClientState(clientId) {
-		if (!this.clientStates[clientId]) {
-			this.clientStates[clientId] = {
-				stack: [],
-				timer: null
-			};
-		}
-		return this.clientStates[clientId];
-	}
-
-	pushEstagio(clientId, stage) {
-		this.getClientState(clientId).stack.push(stage);
-	}
-
-	popEstagio(clientId) {
-		const stack = this.getClientState(clientId).stack;
-		if (stack.length > 0) {
-			stack.pop();
-		}
-	}
-
-	getEstagioAtual(clientId) {
-		const stack = this.getClientState(clientId).stack;
-		return stack.length > 0 ? stack[stack.length - 1] : 'stage1';
-	}
-
-	limparPilhaEstagio(clientId) {
-		this.getClientState(clientId).stack = [];
-	}
 
 	setClientStateTimeout(clientId) {
 		const clientState = this.getClientState(clientId);

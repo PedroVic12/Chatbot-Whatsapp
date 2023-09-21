@@ -44,13 +44,24 @@ class StagesView extends GroundonView {
         this.clientes = {};
         this.Widgets = new Widgets()
 
-        this.isNLPMode = false; // Adicione esta variável para controlar o modo de conversa com o modelo de NLP.
+        this.isNLPMode = false;
         this.mewTwo = new MewTwo();  // Instantiate MewTwo in the constructor
 
-
+        this.usersState = {}; // Armazena o estado de cada usuário
+        this.dailyOrderCount = {}; // Armazena a contagem diária de pedidos por número de telefone
 
     }
 
+    incrementOrderCount(phoneNumber) {
+        if (!this.dailyOrderCount[phoneNumber]) {
+            this.dailyOrderCount[phoneNumber] = 0;
+        }
+        this.dailyOrderCount[phoneNumber]++;
+    }
+
+    resetDailyOrderCount() {
+        this.dailyOrderCount = {};
+    }
 
     async start_chatbot_IA(message) {
         this.isNLPMode = true;
@@ -118,10 +129,17 @@ class StagesView extends GroundonView {
             console.log(`Mensagem recebida: ${message.body}`)
             this.mewTwo.salvarConversa(message.body, this.mewTwo.contador)
 
+
             //!Configurações Backend
             this.restartChatbot()
             this.resetEstagio(message) // Função que reseta os estagios
-            const numero_estagio = this.getCurrentStage();
+            //const numero_estagio = this.getCurrentStage();
+
+            const phoneNumber = message.sender.id; // Ou outro identificador único para o usuário.
+            console.log(phoneNumber)
+            const numero_estagio = this.usersState[phoneNumber]?.stage || 1; // Use o estágio armazenado ou 1 se o usuário não existir.
+
+
 
 
             if (this.isNLPMode) {
@@ -151,12 +169,11 @@ class StagesView extends GroundonView {
 
                     //TODO Aceitar vários pedidos ao mesmo tempo
 
-                    //TODO tratamento de mensagens ("Desculpa nao entendi, voce quis dizer [opção1,opção2,opção3]?")
 
 
                     //! ===================== Estágio 1 - Apresentação =====================
                     if (numero_estagio === 1) {
-                        console.log('\nEstágio 1:', message.body);
+                        console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
 
                         await this.delay(1000).then(
                             this.enviarMensagem(message, `Bem-vindo a Lanchonete *Citta RJ* Obrigado por escolher a nossos Serviços.\n🤖 Eu sou o Robô Groundon e estou aqui para ajudá-lo. `)
@@ -169,31 +186,72 @@ class StagesView extends GroundonView {
                             )
                         )
 
+                        if (!this.usersState[phoneNumber]) {
+                            this.usersState[phoneNumber] = { stage: 1 };
+                            console.log(this.usersState)
+                        }
+                        this.usersState[phoneNumber].stage = 2;
 
                     }
                     //!=====================  Estágio 2 - Mostrar Menu Principal =====================
                     else if (numero_estagio === 2) {
                         console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
 
-                        try {
-                            //Pega dados do CLiente
-                            const nome_cliente = this.getLastMessage(message)
-                            cliente.setNome(nome_cliente)
+                        const variasInstancias = async () => {
+                            try {
+                                const nomeCLiente = this.getLastMessage(message);
+                                const numCliente = this.estagio2.getTelefoneCliente(message);
+                                ID_PEDIDO = this.backendController.gerarIdPedido();
 
-                            const numero_cliente = this.estagio2.getTelefoneCliente(message)
-                            cliente.setTelefone(numero_cliente)
+                                // Se o estado do usuário não existir, inicialize-o
+                                if (!this.usersState[ID_PEDIDO]) {
+                                    this.usersState[ID_PEDIDO] = { cliente: new Cliente() };
+                                    this.usersState[ID_PEDIDO].cliente.setNome(nomeCLiente);
+                                    this.usersState[ID_PEDIDO].cliente.setTelefone(numCliente);
+                                    this.usersState[ID_PEDIDO].cliente.setId(ID_PEDIDO);
 
-                            // Envia os dados do cliente para o servidor
-                            ID_PEDIDO = this.backendController.gerarIdPedido();
-                            cliente.setId(ID_PEDIDO);
-                            this.backendController.enviarDadosClienteServidor(cliente, ID_PEDIDO);
+                                    this.incrementOrderCount(numCliente); // Incrementa o contador de pedidos para o número de telefone
+                                }
 
-                            // Gera o Link do Cardapio Digital
-                            KYOGRE_LINK_ID = await this.backendController.enviarLinkServidor(ID_PEDIDO);
+                                // Agora você pode utilizar this.usersState[ID_PEDIDO].cliente para acessar o objeto Cliente específico deste usuário
+                                this.backendController.enviarDadosClienteServidor(this.usersState[ID_PEDIDO].cliente, ID_PEDIDO);
 
-                        } catch (error) {
-                            console.log('Não foi possível fazer uma conexão no backend')
+                                KYOGRE_LINK_ID = await this.backendController.enviarLinkServidor(ID_PEDIDO);
+
+                                console.log('\n\nDados Coletados!')
+                                console.log(this.usersState[ID_PEDIDO].cliente);
+                            } catch (error) {
+                                console.log('Não foi possível fazer uma conexão no backend');
+                            }
                         }
+
+                        await variasInstancias(); // Chamar a função aqui
+
+
+                        const salvarDadosCliente = async () => {
+                            try {
+                                //Pega dados do CLiente
+                                const nome_cliente = this.getLastMessage(message)
+                                cliente.setNome(nome_cliente)
+
+                                const numero_cliente = this.estagio2.getTelefoneCliente(message)
+                                cliente.setTelefone(numero_cliente)
+
+                                // Envia os dados do cliente para o servidor
+                                ID_PEDIDO = this.backendController.gerarIdPedido();
+                                cliente.setId(ID_PEDIDO);
+                                this.backendController.enviarDadosClienteServidor(cliente, ID_PEDIDO);
+
+                                // Gera o Link do Cardapio Digital
+                                KYOGRE_LINK_ID = await this.backendController.enviarLinkServidor(ID_PEDIDO);
+
+                            } catch (error) {
+                                console.log('Não foi possível fazer uma conexão no backend')
+                            }
+
+                        }
+
+                        //await salvarDadosCliente()
 
 
                         await this.delay(2000).then(
@@ -211,7 +269,6 @@ class StagesView extends GroundonView {
                         // Mostra o menu principal
                         let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
                         this.enviarMensagem(message, menu_principal_text)
-
                         this.enviarMensagem(message, `*${cliente.nome}* agora temos uma nova funcionalidade de IA!\n\nDigite *!startIA* para conversar com o nosso modelo NLP!`)
 
 

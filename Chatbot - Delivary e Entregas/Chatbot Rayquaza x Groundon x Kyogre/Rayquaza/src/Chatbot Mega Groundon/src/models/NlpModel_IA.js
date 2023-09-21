@@ -12,6 +12,7 @@ Analise de Sentimentos
 
 */
 
+//TODO tratamento de mensagens ("Desculpa nao entendi, voce quis dizer [opção1,opção2,opção3]?")
 
 class MewTwo {
     constructor() {
