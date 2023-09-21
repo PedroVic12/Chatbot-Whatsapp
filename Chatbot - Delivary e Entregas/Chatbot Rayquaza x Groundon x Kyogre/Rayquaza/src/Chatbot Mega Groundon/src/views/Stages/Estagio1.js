@@ -1,19 +1,19 @@
-const GroundonView = require("../GroundonView");
+const StagesView = require('../StagesView');
 
+class Stage1 extends StagesView {
+	async execute(message) {
+		console.log('\nEstágio 1:', message.body);
 
-//Apresentação, Consulta No Banco de dados, iniciar Atendimento
-class Estagio1 extends GroundonView {
-	constructor(whatsapp) {
-		super(whatsapp);
-	}
+		await this.delay(1000).then(
+			this.enviarMensagem(message, `Bem-vindo a Lanchonete *Citta RJ* Obrigado por escolher a nossos Serviços.\n🤖 Eu sou o Robô Groundon e estou aqui para ajudá-lo.`)
+		);
 
-	start() {
-		super.start();
-
-		//! Implementação específica do Estágio 1
-
+		this.pushStage(2).then(
+			await this.delay(3000).then(
+				this.enviarMensagem(message, "🤖 Antes de começarmos, por favor, *Digite Seu Nome*:")
+			)
+		);
 	}
 }
 
-
-module.exports = Estagio1
+module.exports = Stage1;

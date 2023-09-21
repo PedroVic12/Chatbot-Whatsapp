@@ -1,6 +1,7 @@
 const { NlpManager } = require('node-nlp');
 const Sentiment = require('sentiment');
 const Groundon = require('./Groundon');
+const fs = require('fs');
 
 
 /*
@@ -24,8 +25,11 @@ class MewTwo {
     adicionarDadosTreinamento() {
         const intencoes = {
             saudacao: ['boa noite', 'boa tarde', 'bom dia', 'alo', 'olá', 'oi', 'hello'],
+
             despedida: ['obrigado e tchau', 'te vejo mais tarde', 'aguardo o pedido'],
+
             pedido: ['fazer pedido', 'fazer um pedido', 'fazer um pedido de delivery', 'fazer um delivery', 'entregar comida', 'entrega de comida', 'entregar pizza'],
+
             estagio1: ['iniciar', 'começar', 'olá de novo'],
             estagio2: ['meu nome é', 'chamo-me', 'telefone é'],
             estagio3: ['cardápio', 'ver menu', 'opções de pedido'],
@@ -35,8 +39,13 @@ class MewTwo {
             estagio7: ['pagar com', 'forma de pagamento', 'dinheiro ou cartão'],
             estagio8: ['confirmar pedido', 'tudo certo', 'finalizar pedido'],
             estagio9: ['pedido foi entregue?', 'status do pedido', 'pedido está pronto?'],
+
             reclamacao: ['não gostei', 'teve um problema', 'quero reclamar'],
+
+            erro: ['Fiz meu pedido errado', 'Preciso ajustar meu pedido', 'To com erro'],
+
             elogio: ['adorei', 'excelente serviço', 'muito bom'],
+
             ajuda: ['não entendi', 'como funciona?', 'me ajude']
         };
 
@@ -87,13 +96,16 @@ class MewTwo {
         const cabecalho = "Mensagem\n";
         let dadosCSV = cabecalho;
 
-        this.conversa.forEach(mensagem => {
-            dadosCSV += `"${mensagem}"\n`;
+        this.conversa.forEach(subArray => {
+            subArray.forEach(mensagem => {
+                dadosCSV += `"${mensagem}"\n`;
+            });
         });
 
-        fs.writeFileSync('../../repository/mensagens.csv', dadosCSV, 'utf-8');
+        fs.writeFileSync('repository/mensagens.csv', dadosCSV, 'utf-8');
         console.log("Conversa salva no arquivo CSV!");
     }
+
 
 
     // Método para retornar o estágio correspondente com base na intenção detectada
@@ -103,9 +115,9 @@ class MewTwo {
         console.log(`Estagio Groundon ${estagio}`)
 
         const intentToStageMapping = {
-            'saudacao': '1',
-            'despedida': '9',
-            'pedido': '3',
+            'saudacao': 1,
+            'despedida': 9,
+            'pedido': 3,
             // Adicione outras intenções e seus estágios correspondentes aqui
         };
 
@@ -140,8 +152,16 @@ class MewTwo {
         }
     }
 
-    armazenarConversa(mensagem) {
-        this.conversa.push(mensagem);
+    salvarConversa(mensagem, contador) {
+        if (mensagem && mensagem.trim() !== "") {
+            if (this.conversa[contador]) {
+                this.conversa[contador].push(mensagem);
+            } else {
+                console.warn('Índice inválido: ', contador);
+            }
+        } else {
+            console.warn('Mensagem inválida ou vazia recebida: ', mensagem);
+        }
     }
 
     resetarContador() {

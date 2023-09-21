@@ -9,9 +9,6 @@ class Groundon {
 	armazenarConversa(message) {
 		if (message.body.length < 1000) {
 			this.conversa[this.numero_estagio - 1].push(message.body);
-
-
-
 		}
 	}
 

@@ -3,7 +3,7 @@ const Groundon = require('../models/Groundon')
 const fs = require('fs');
 const axios = require('axios');
 const pm2 = require('pm2');
-const { Console } = require('console');
+const MewTwo = require('../views/GroundonView')
 
 
 
@@ -16,7 +16,6 @@ uma coisa crucial do meu robo é receber varios clientes ao mesmo tempo, ja perc
 
 1) Isolar o estado por cliente: Em vez de um único objeto currentStage, você terá um objeto clientStates onde a chave é o identificador do cliente e o valor é o estado desse cliente.
 
-2) Resetar o estágio após inatividade: Para cada cliente, você iniciará um temporizador quando receber uma mensagem. Se outra mensagem desse cliente for recebida antes do temporizador expirar, o temporizador será reiniciado. Se o temporizador expirar, o estado do cliente será redefinido.
 
 
 */
@@ -61,6 +60,31 @@ class GroundonView extends Groundon {
 	};
 
 
+
+
+
+	navigateToStage(targetStage) {
+		const currentStage = this.getCurrentStage();
+
+		if (targetStage == currentStage) {
+			return; // Nada a fazer, já estamos no estágio de destino.
+		}
+
+		// Caso o estágio de destino seja maior que o atual
+		if (targetStage > currentStage) {
+			// Adicione os estágios intermediários à pilha
+			for (let i = currentStage + 1; i <= targetStage; i++) {
+				this.pushStage(i);
+			}
+		}
+		// Caso o estágio de destino seja menor que o atual
+		else if (targetStage < currentStage) {
+			// Retire os estágios da pilha até chegar ao estágio de destino
+			while (this.getCurrentStage() != targetStage) {
+				this.popStage();
+			}
+		}
+	}
 
 	// Rota para recuperar o link do Cardapio Digital
 	async getLinkCardapio() {
@@ -346,14 +370,7 @@ class GroundonView extends Groundon {
 		}, tempoConversa);
 	}
 
-	handleMessageClientID(message) {
-		const clientId = message.from;
-		this.setClientStateTimeout(clientId);
 
-		// Now, you can use the pushStage, popStage, and getCurrentStage methods with the clientId
-		// For example: this.pushStage(clientId, 'someStage');
-		// Note: You'll need to modify your existing code to handle messages accordingly
-	}
 
 }
 

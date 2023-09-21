@@ -60,14 +60,20 @@ class StagesView extends GroundonView {
 
     async processWithMewTwo(message) {
         const resposta = await this.mewTwo.processarIntencao(message.body);
-
-        // Imprime a intenção atual da última mensagem
-        console.log(`Intenção Atual: ${resposta.intent}`);
-
         const stage = this.mewTwo.getStageForIntent(resposta.intent);
+
+        console.log(stage)
+
         if (stage) {
-            console.log(stage)
-            this.pushStage(stage);
+
+            try {
+                this.pushStage(stage);
+                this.navigateToStage(stage)
+            } catch (error) {
+                console.log('tentativa de ir para o estagio', error)
+            }
+
+
         }
 
         this.enviarMensagem(message, resposta.answer);
@@ -110,7 +116,7 @@ class StagesView extends GroundonView {
             this.armazenarConversa(message);
             console.log(this.conversa)
             console.log(`Mensagem recebida: ${message.body}`)
-
+            this.salvarConversa(message.body, this.mewTwo.contador)
 
             //!Configurações Backend
             this.restartChatbot()
@@ -121,7 +127,13 @@ class StagesView extends GroundonView {
             if (this.isNLPMode) {
                 if (message.body.toLowerCase() === '!sair') {
                     this.isNLPMode = false;
-                    this.mewTwo.salvarConversaEmCSV();
+
+                    try {
+                        this.mewTwo.salvarConversaEmCSV();
+
+                    } catch (error) {
+                        console.log('Erro ao salvar conversa em CSV', error);
+                    }
 
                     this.enviarMensagem(message, 'Você saiu do modo de NLP e voltou ao chatbot padrão.');
                 } else {
