@@ -42,7 +42,7 @@ class MewTwo {
 
             reclamacao: ['não gostei', 'teve um problema', 'quero reclamar'],
 
-            erro: ['Fiz meu pedido errado', 'Preciso ajustar meu pedido', 'To com erro'],
+            //erro: ['Fiz meu pedido errado', 'Preciso ajustar meu pedido', 'To com erro'],
 
             elogio: ['adorei', 'excelente serviço', 'muito bom'],
 

@@ -9,7 +9,7 @@ const Cliente = require('../models/Regras de Negocio/Cliente/Cliente')
 
 const Widgets = require('../models/widgets/Widgets')
 
-const Estagio1 = require('./Stages/Estagio1')
+//const Stage1 = require('./Stages/Estagio1')
 const Estagio2 = require('./Stages/Estagio2');
 const Estagio3 = require('./Stages/Estagio3');
 
@@ -38,7 +38,7 @@ Mas mesmo cada loja tendo um número tem que ter um “você está fora da área
 class StagesView extends GroundonView {
     constructor(whatsapp, groundonController, backendController) {
         super(whatsapp, groundonController, backendController);
-        this.estagio1 = new Estagio1()
+        //this.estagio1 = new Stage1()
         this.estagio2 = new Estagio2()
         this.estagio3 = new Estagio3()
         this.clientes = {};
@@ -116,7 +116,7 @@ class StagesView extends GroundonView {
             this.armazenarConversa(message);
             console.log(this.conversa)
             console.log(`Mensagem recebida: ${message.body}`)
-            this.salvarConversa(message.body, this.mewTwo.contador)
+            this.mewTwo.salvarConversa(message.body, this.mewTwo.contador)
 
             //!Configurações Backend
             this.restartChatbot()
@@ -170,9 +170,8 @@ class StagesView extends GroundonView {
                         )
 
 
-                        //!=====================  Estágio 2 - Mostrar Menu Principal =====================
                     }
-
+                    //!=====================  Estágio 2 - Mostrar Menu Principal =====================
                     else if (numero_estagio === 2) {
                         console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
 
@@ -220,7 +219,6 @@ class StagesView extends GroundonView {
                     }
 
                     //!=====================  Estágio 3 - Responde as funcionalidades do Botão =====================
-
                     else if (numero_estagio === 3) {
 
 

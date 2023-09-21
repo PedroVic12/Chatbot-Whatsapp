@@ -1,6 +1,10 @@
 const StagesView = require('../StagesView');
 
 class Stage1 extends StagesView {
+	constructor(whatsapp) {
+		super(whatsapp);
+	}
+
 	async execute(message) {
 		console.log('\nEstágio 1:', message.body);
 
