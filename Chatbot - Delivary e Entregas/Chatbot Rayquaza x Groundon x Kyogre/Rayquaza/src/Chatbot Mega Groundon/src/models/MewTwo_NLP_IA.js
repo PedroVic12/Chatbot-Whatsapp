@@ -3,18 +3,16 @@ const Sentiment = require('sentiment');
 const fs = require('fs');
 const readline = require('readline');
 
-// Classe principal do Chatbot
 class MewTwo {
     constructor() {
         this.initializeProperties();
         this.initializeNLP();
     }
 
-    // -------------- Inicialização --------------
     initializeProperties() {
         this.sentimento = new Sentiment();
-        this.contador = 0;
-        this.conversa = [[], [], [], [], [], [], [], [], [], []];
+        this.counter = 0;
+        this.conversation = [];
     }
 
     initializeNLP() {
@@ -23,51 +21,81 @@ class MewTwo {
         this.manager.train();
     }
 
-    // -------------- Treinamento de NLP --------------
     addTrainingData() {
-        const intentsAndResponses = this.getIntentsAndResponses();
-        for (const intent in intentsAndResponses.intents) {
-            intentsAndResponses.intents[intent].forEach(phrase => this.manager.addDocument('pt', phrase, intent));
-            intentsAndResponses.responses[intent].forEach(response => this.manager.addAnswer('pt', intent, response));
+        const { intents, responses } = this.getIntentsAndResponses();
+        for (const intent in intents) {
+            intents[intent].forEach(phrase => this.manager.addDocument('pt', phrase, intent));
+            responses[intent].forEach(response => this.manager.addAnswer('pt', intent, response));
         }
     }
 
     getIntentsAndResponses() {
-        // Adicione seus intents e responses aqui
         return {
             intents: {
-                // exemplo: ['exemplo frase 1', 'exemplo frase 2'],
+                saudacao: ['boa noite', 'boa tarde', 'bom dia', 'alo', 'olá', 'oi', 'hello'],
+
+                despedida: ['obrigado e tchau', 'te vejo mais tarde', 'aguardo o pedido'],
+
+                pedido: ['fazer pedido', 'fazer um pedido', 'fazer um pedido de delivery', 'fazer um delivery', 'entregar comida', 'entrega de comida', 'entregar pizza'],
+
+                estagio1: ['iniciar', 'começar', 'olá de novo'],
+                estagio2: ['meu nome é', 'chamo-me', 'telefone é'],
+                estagio3: ['cardápio', 'ver menu', 'opções de pedido'],
+                estagio4: ['escolher produto', 'quero uma pizza'],
+                estagio5: ['endereço é', 'entregar em', 'morada'],
+                estagio6: ['complemento é', 'apartamento', 'bloco'],
+                estagio7: ['pagar com', 'forma de pagamento', 'dinheiro ou cartão'],
+                estagio8: ['confirmar pedido', 'tudo certo', 'finalizar pedido'],
+                estagio9: ['pedido foi entregue?', 'status do pedido', 'pedido está pronto?'],
+
+                reclamacao: ['não gostei', 'teve um problema', 'quero reclamar'],
+
+                //erro: ['Fiz meu pedido errado', 'Preciso ajustar meu pedido', 'To com erro'],
+
+                elogio: ['adorei', 'excelente serviço', 'muito bom'],
+
+                ajuda: ['não entendi', 'como funciona?', 'me ajude']
             },
             responses: {
-                // exemplo: ['exemplo resposta 1', 'exemplo resposta 2'],
+                saudacao: ['Olá, como posso ajudar você?', 'Oi, tudo bem?'],
+                despedida: ['Até logo!', 'Aguardo seu próximo pedido!'],
+                pedido: ['Você gostaria de fazer um pedido?', 'Faça seu pedido com calma'],
+                estagio1: ['Bem-vindo de volta! Como posso ajudar?'],
+                estagio2: ['Qual é o seu nome e telefone?'],
+                estagio3: ['Aqui está o nosso menu. O que você gostaria?'],
+                estagio4: ['Qual produto você gostaria de escolher?'],
+                estagio5: ['Por favor, forneça o seu endereço de entrega.'],
+                estagio6: ['Há algum complemento para o seu endereço?'],
+                estagio7: ['Como você gostaria de pagar?'],
+                estagio8: ['Por favor, confirme seu pedido.'],
+                estagio9: ['Seu pedido está sendo preparado.'],
+                reclamacao: ['Lamento ouvir isso. Por favor, nos dê mais detalhes para que possamos ajudar.'],
+                elogio: ['Muito obrigado pelo seu feedback positivo!'],
+                ajuda: ['Claro! Como posso ajudar você hoje?']
             }
         };
     }
 
-    // -------------- Gerenciamento de CSV --------------
     saveConversationToCSV() {
         let dataCSV = "Mensagem\n";
-        this.conversa.forEach(subArray => subArray.forEach(message => dataCSV += `"${message}"\n`));
+        this.conversation.forEach(message => dataCSV += `"${message}"\n`);
         fs.writeFileSync('repository/mensagens.csv', dataCSV, 'utf-8');
         console.log("Conversa salva no arquivo CSV!");
     }
 
-    // -------------- Gerenciamento de Mensagens --------------
-    storeMessage(message, counter) {
-        if (message && message.trim() !== "" && this.conversa[counter]) {
-            this.conversa[counter].push(message);
+    storeMessage(message) {
+        if (message && message.trim() !== "") {
+            this.conversation.push(message);
         } else {
-            console.warn('Mensagem inválida ou índice inválido recebido: ', message, counter);
+            console.warn('Mensagem inválida recebida: ', message);
         }
     }
 
-    // -------------- Processamento de Intenções --------------
     async processIntent(text) {
         this.counter++;
         return await this.manager.process('pt', text);
     }
 
-    // -------------- Análise de Sentimentos --------------
     analyzeSentiments(text) {
         try {
             return this.sentimento.analyze(text);
@@ -76,16 +104,19 @@ class MewTwo {
         }
     }
 
-    // -------------- Geração de Respostas Dinâmicas --------------
     generateDynamicResponse(intent) {
-        const responses = {
-            // Adicione suas respostas dinâmicas aqui, exemplo:
-            // 'exemplo': 'Exemplo de resposta dinâmica',
-        };
-        return responses[intent] || 'Desculpa, não entendi.';
+        switch (intent) {
+            case 'saudacao':
+                return 'Olá, como posso ajudar você?';
+            case 'despedida':
+                return 'Até logo!';
+            case 'pedido':
+                return 'Você gostaria de fazer um pedido?';
+            default:
+                return 'Desculpa nao entendi, voce quis dizer [opção1,opção2,opção3]?';
+        }
     }
 
-    // -------------- Execução do Chatbot --------------
     runChatbot() {
         const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
         const interact = async () => {
@@ -100,8 +131,14 @@ class MewTwo {
                 const sentimentsAnalysis = this.analyzeSentiments(userInput);
                 const dynamicResponse = this.generateDynamicResponse(intentResponse.intent);
 
-                this.storeMessage(userInput, this.counter);
-                this.counter++;
+                // Mostrando a resposta da intenção, análise de sentimentos e resposta dinâmica no terminal
+                console.log('\n\nResposta da Intenção: ', intentResponse);
+                console.log('\n\nAnálise de Sentimentos: ', sentimentsAnalysis);
+                console.log('\n\nResposta Dinâmica: ', dynamicResponse);
+
+                // Armazenando a mensagem do usuário
+                this.storeMessage(userInput);
+                this.storeMessage(userInput);
 
                 interact();
             });
@@ -114,3 +151,4 @@ class MewTwo {
 module.exports = MewTwo;
 const mewTwo = new MewTwo();
 mewTwo.runChatbot();
+
