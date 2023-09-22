@@ -153,16 +153,31 @@ class MewTwo {
         }
     }
 
-    salvarConversa(mensagem, contador) {
-        if (mensagem && mensagem.trim() !== "") {
-            if (this.conversa[contador]) {
-                this.conversa[contador].push(mensagem);
-            } else {
-                console.warn('Índice inválido: ', contador);
-            }
-        } else {
-            console.warn('Mensagem inválida ou vazia recebida: ', mensagem);
+    salvarConversaEmCSV(telefone) {
+        const dataAtual = new Date();
+        const dataFormatada = `${dataAtual.getFullYear()}-${dataAtual.getMonth() + 1}-${dataAtual.getDate()}`;
+
+        // Você pode incluir o número do telefone e a data no nome do arquivo
+        const nomeArquivo = path.join('repository', `mensagens_${telefone}_${dataFormatada}.csv`);
+
+        let dadosCSV = '';
+
+        // Verifica se o arquivo já existe
+        if (!fs.existsSync(nomeArquivo)) {
+            // Se o arquivo não existir, adiciona o cabeçalho
+            dadosCSV += "Data,Telefone,Mensagem\n";
         }
+
+        this.conversa.forEach(subArray => {
+            subArray.forEach(mensagem => {
+                // Adiciona a data, o número do telefone e a mensagem em cada linha do CSV
+                dadosCSV += `"${dataFormatada}","${telefone}","${mensagem}"\n`;
+            });
+        });
+
+        // Se o arquivo já existir, anexa os dados, caso contrário, cria um novo arquivo
+        fs.appendFileSync(nomeArquivo, dadosCSV, 'utf-8');
+        console.log("Conversa salva no arquivo CSV!");
     }
 
     resetarContador() {

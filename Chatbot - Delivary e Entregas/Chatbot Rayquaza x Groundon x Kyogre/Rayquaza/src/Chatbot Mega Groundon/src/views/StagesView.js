@@ -159,7 +159,7 @@ class StagesView extends GroundonView {
                     this.isNLPMode = false;
 
                     try {
-                        this.mewTwo.salvarConversaEmCSV();
+                        this.mewTwo.salvarConversaEmCSV(phoneNumber);
 
                     } catch (error) {
                         console.log('Erro ao salvar conversa em CSV', error);
