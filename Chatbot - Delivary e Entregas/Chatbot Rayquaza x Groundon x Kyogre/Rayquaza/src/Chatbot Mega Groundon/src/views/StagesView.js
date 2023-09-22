@@ -145,19 +145,12 @@ class StagesView extends GroundonView {
                     stack: [1] // Começa no estágio 1
                 };
             }
-            console.log('\n==================================================')
-            console.log('Cliente Fazendo atendimento :', this.clientStates)
-            console.log('==================================================\n')
+            console.log('\n\n==================================================')
+            console.log('Cliente Fazendo atendimento :\n', this.clientStates)
+            console.log('==================================================\n\n')
 
             let numero_estagio
             numero_estagio = this.clientStates[phoneNumber].stack[this.clientStates[phoneNumber].stack.length - 1];
-
-            try {
-                console.log(this.clientStates)
-            } catch (error) {
-                console.log('Erro ', error)
-            }
-
 
 
             //! Configurações de IA
@@ -267,11 +260,9 @@ class StagesView extends GroundonView {
                         // Mostra o menu principal
                         let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
                         this.enviarMensagem(message, menu_principal_text)
-                        this.enviarMensagem(message, `*${cliente.nome}* agora temos uma nova funcionalidade de IA!\n\nDigite *!startIA* para conversar com o nosso modelo NLP!`)
+                        this.enviarMensagem(message, `*${this.clientStates[phoneNumber].cliente.getNome()}* agora temos uma nova funcionalidade de IA!\n\nDigite *!startIA* para conversar com o nosso modelo NLP!`)
 
-                        //!Change here
                         this.clientStates[phoneNumber].stack.push(3);
-                        //this.pushStage(3);
                     }
 
                     //!=====================  Estágio 3 - Responde as funcionalidades do Botão =====================
@@ -353,6 +344,8 @@ class StagesView extends GroundonView {
 
                     //!=====================  Estagio 4 - Cliente Escolhe os Produtos no Cardapio Digital da Loja =====================
                     else if (numero_estagio === 4) {
+
+                        //todo mandar o pedido pelo groundon e salvar tudo no cliente formatado
                         console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
 
                         const pedido_escolhido_cardapio = this.getLastMessage(message);
@@ -360,7 +353,7 @@ class StagesView extends GroundonView {
 
                         //TODO COLOCAR OS ITENS, QUANTIDADE E PRECO DENTRO DO PEDIDO NA CLASSE CLIENTE
                         try {
-                            cliente.setPedido(pedido_json)
+                            this.clientStates[phoneNumber].cliente.setPedido(pedido_json)
                             console.log('\n\n\nPedido atraves do Cardapio:', cliente.getDadosCompletos(pedido_json))
 
                             this.delay(1000).then(
@@ -373,7 +366,7 @@ class StagesView extends GroundonView {
 
 
                         this.delay(3000).then(
-                            this.enviarMensagem(message, ` Boa escolha ${cliente.nome}!  *Digite o seu endereço de entrega:*`)
+                            this.enviarMensagem(message, ` Boa escolha ${this.clientStates[phoneNumber].cliente.nome}!  *Digite o seu endereço de entrega:*`)
                         )
 
 
@@ -389,7 +382,7 @@ class StagesView extends GroundonView {
 
 
                         const endereco_entrega = this.getLastMessage(message);
-                        cliente.setEndereco(endereco_entrega)
+                        this.clientStates[phoneNumber].cliente.setEndereco(endereco_entrega)
 
                         this.enviarMensagem(message, 'Seu endereço precisa de algum complemento? Digite Sim ou Não')
                         this.clientStates[phoneNumber].stack.push(6);
@@ -406,7 +399,7 @@ class StagesView extends GroundonView {
                             this.enviarMensagem(message, 'Digite seu complemento.');
                             this.clientStates[phoneNumber].stack.push(6.5);
                         } else if (resposta_cliente === 'NÃO' || resposta_cliente === 'NAO') {
-                            cliente.setComplemento('Sem Complemento.')
+                            this.clientStates[phoneNumber].cliente.setComplemento('Sem Complemento.')
 
 
                             // Mostra o menu principal
@@ -422,7 +415,7 @@ class StagesView extends GroundonView {
 
 
                         const complemento = this.getLastMessage(message);
-                        cliente.setComplemento(complemento);
+                        this.clientStates[phoneNumber].cliente.setComplemento(complemento);
 
 
                         // Mostra o menu principal
@@ -448,27 +441,22 @@ class StagesView extends GroundonView {
                             this.enviarMensagem(message, `Voce escolheu a opção *${selectedOption.button.text.slice(3)}*`)
                         }
 
-                        cliente.setFormaPagamento(forma_pagamento)
-
-                        this.delay(1000).then(
-                            this.enviarMensagem(message, `Você escolheu a forma de pagamento -> *${forma_pagamento}*`)
-                        )
-
+                        this.clientStates[phoneNumber].cliente.setFormaPagamento(selectedOption.button.text.slice(3))
 
 
                         // TODO USAR O MENU E TRATAMENTO DE DADOS PARA 3 RESPOSTAS
                         // Get complete client data
-                        const pedido_cliente = cliente.getPedido()
-                        cliente.setDataAtual()
-                        const DADOS_CLIENTE = cliente.getDadosCompletos(pedido_cliente);
+                        const pedido_cliente = this.clientStates[phoneNumber].cliente.getPedido()
+                        this.clientStates[phoneNumber].cliente.setDataAtual()
+                        const DADOS_CLIENTE = this.clientStates[phoneNumber].cliente.getDadosCompletos(pedido_cliente);
 
 
 
                         try {
 
                             // Generate and save the JSON file using the pedido data
-                            cliente.gerarPedidoJson(DADOS_CLIENTE);
-                            console.log('\n\n>>> DADOS DO CLIENTE:\n', DADOS_CLIENTE)
+                            this.clientStates[phoneNumber].cliente.gerarPedidoJson(DADOS_CLIENTE);
+                            console.log('\n\n\n>>> DADOS DO CLIENTE:\n', DADOS_CLIENTE, '\n')
 
                             // Enviando para o servidor
                             this.backendController.enviarPedidoRayquaza(DADOS_CLIENTE)
@@ -494,7 +482,7 @@ class StagesView extends GroundonView {
 
                         const confirmacao = this.getLastMessage(message)
 
-                        this.enviarMensagem(message, `*Obrigado, ${cliente.nome}*!\nSeu pedido esta sendo preparado e volto quando ele estiver sendo enviado para entrega!`)
+                        this.enviarMensagem(message, `*Obrigado, ${this.clientStates[phoneNumber].nome}*!\nSeu pedido esta sendo preparado e volto quando ele estiver sendo enviado para entrega!`)
 
 
 
