@@ -48,7 +48,6 @@ class StagesView extends GroundonView {
         this.mewTwo = new MewTwo();  // Instantiate MewTwo in the constructor
 
         this.dailyOrderCount = {}; // Armazena a contagem diária de pedidos por número de telefone
-        //this.clientStates = {}; // Armazena o estado de cada cliente
 
     }
 
@@ -73,8 +72,8 @@ class StagesView extends GroundonView {
         const resposta = await this.mewTwo.processarIntencao(message.body);
         const stage = this.mewTwo.getStageForIntent(resposta.intent);
 
-        console.log(stage)
 
+        //TODO IA TEM QUE SABER DIRECIONAR PARA OS ESTAGIOS CORRETOS
         if (stage) {
 
             try {
@@ -146,12 +145,15 @@ class StagesView extends GroundonView {
                     stack: [1] // Começa no estágio 1
                 };
             }
-            console.log(this.clientStates)
+            console.log('\n==================================================')
+            console.log('Cliente Fazendo atendimento :', this.clientStates)
+            console.log('==================================================\n')
+
             let numero_estagio
+            numero_estagio = this.clientStates[phoneNumber].stack[this.clientStates[phoneNumber].stack.length - 1];
 
             try {
-                numero_estagio = this.clientStates[phoneNumber].stack[this.clientStates[phoneNumber].stack.length - 1];
-                console.log('Stage:', numero_estagio)
+                console.log(this.clearStages[phoneNumber])
             } catch (error) {
                 console.log('Erro ', error)
             }
@@ -188,12 +190,14 @@ class StagesView extends GroundonView {
                         await this.delay(1000).then(
                             this.enviarMensagem(message, `Bem-vindo a Lanchonete *Citta RJ* Obrigado por escolher a nossos Serviços.\n🤖 Eu sou o Robô Groundon e estou aqui para ajudá-lo. `)
                         )
-
+                        this.clientStates[phoneNumber].stack.push(2);
                         await this.delay(3000).then(
                             this.enviarMensagem(message, "🤖 Antes de começarmos, por favor, *Digite Seu Nome*:")
                         )
-                        this.clientStates[phoneNumber].stack.push(2);
-                        this.pushStage(2)
+
+                        //TODO DEBUG HERE
+
+                        //this.pushStage(2)
 
                     }
                     //!=====================  Estágio 2 - Mostrar Menu Principal =====================
@@ -226,8 +230,6 @@ class StagesView extends GroundonView {
 
                         //await salvarDadosCliente()
 
-
-                        //TODO DEBUG HERE
                         const iniciandoAtendimentoPeloTelefone = async () => {
 
                             if (!phoneNumber) {
@@ -243,7 +245,7 @@ class StagesView extends GroundonView {
                             }
 
                             if (!this.clientStates[phoneNumber].cliente) {
-                                console.log('Debug - Initializing clientStates[phoneNumber].cliente with new Cliente instance');
+                                console.log('\nNovo Cliente detectado!');
                                 this.clientStates[phoneNumber].cliente = new Cliente();
                             }
 
@@ -259,7 +261,6 @@ class StagesView extends GroundonView {
                                 this.clientStates[phoneNumber].cliente.setTelefone(numCliente);
                                 this.clientStates[phoneNumber].cliente.setId(ID_PEDIDO);
 
-                                console.log('Debug - cliente after setting values:', this.clientStates[phoneNumber].cliente);
 
                                 // Incrementa o contador de pedidos para o número de telefone
                                 this.incrementOrderCount(numCliente);
@@ -298,7 +299,7 @@ class StagesView extends GroundonView {
                         this.enviarMensagem(message, `*${cliente.nome}* agora temos uma nova funcionalidade de IA!\n\nDigite *!startIA* para conversar com o nosso modelo NLP!`)
 
                         //!Change here
-                        this.clientStates[phoneNumber].stack.push(3); // Por exemplo, mover para o estágio 3
+                        this.clientStates[phoneNumber].stack.push(3);
                         //this.pushStage(3);
                     }
 
@@ -338,7 +339,9 @@ class StagesView extends GroundonView {
                                 selectedOption.button.text.toLowerCase().includes('pedido')
                             ) {
 
-                                this.enviarLinkCardapioDigital(message, KYOGRE_LINK_ID)
+                                let tel = this.clientStates[phoneNumber].cliente.getTelefone()
+                                console.log('debug', tel)
+                                this.enviarLinkCardapioDigital(message, KYOGRE_LINK_ID, tel)
                             }
 
 
@@ -370,6 +373,8 @@ class StagesView extends GroundonView {
 
 
                         }
+
+
                     }
 
 
@@ -400,6 +405,8 @@ class StagesView extends GroundonView {
                             this.enviarMensagem(message, ` Boa escolha ${cliente.nome}!  *Digite o seu endereço de entrega:*`)
                         )
 
+
+                        this.clientStates[phoneNumber].stack.push(5);
                         this.pushStage(5);
                     }
 

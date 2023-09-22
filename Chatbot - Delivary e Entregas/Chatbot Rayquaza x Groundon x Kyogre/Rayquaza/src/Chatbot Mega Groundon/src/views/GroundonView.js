@@ -33,7 +33,7 @@ class GroundonView extends Groundon {
 
 		this.stack = []; // Pilha de estágios
 		this.clientStates = {}; // Store client states
-		this.inactivityTimer = null; // Adicionado aqui
+		this.inactivityTimer = null;
 
 	}
 
@@ -58,6 +58,11 @@ class GroundonView extends Groundon {
 			});
 		}, 5 * 60 * 1000);  // 5 minutos
 	};
+
+	// Getter method for clientStates
+	getEstagioAtualDoCliente(phoneNumber) {
+		return this.clientStates[phoneNumber] || null;
+	}
 
 
 	//! Função para adicionar um estágio à pilha
@@ -191,76 +196,54 @@ class GroundonView extends Groundon {
 		};
 	}
 
-	async enviarLinkCardapioDigital(message, _LINK) {
+	async enviarLinkCardapioDigital(message, _LINK, phoneNumber) {
+		const MAX_ATTEMPTS = 3;
+		const ATTEMPT_INTERVAL = 7000; // 7 seconds
 
-		function calculaTempo(startTime, endTime) {
-			const elapsedTime = (endTime - startTime) / 1000;
-			return elapsedTime;
-		}
-
-		// Variável de controle
 		let linkSent = false;
+		const calculaTempo = (startTime) => (Date.now() - startTime) / 1000;
 		const _startTime = Date.now();
-		let tempo_execucao = 0;
 
-		// Envia a mensagem com o link para o cliente
-		this.enviarMensagem(message, `Abra esse link do seu pedido: ---> ${_LINK}`)
-			.then(() => {
-				linkSent = true; // Marca que o link foi enviado
-				tempo_execucao = calculaTempo(_startTime, Date.now());
-				console.log(`\nTempo de Resposta: ${tempo_execucao} segundos para enviar o link no WhatsApp!`);
-				this.pushStage(4);
-			})
-			.catch((error) => {
-				reject(error);
-			});
+		const sendLink = async (attempt = 1) => {
+			if (linkSent) return;
 
-		const linkPromise = new Promise(async (resolve) => {
-			this.enviarMensagem(message, `Processando... Aguarde um instante`);
-			tempo_execucao = calculaTempo(_startTime, Date.now());
-			console.log(tempo_execucao)
+			try {
+				if (attempt > 1) await this.enviarMensagem(message, `Tentando novamente...`);
+				await this.enviarMensagem(message, `Abra esse link do seu pedido: ---> ${_LINK}`);
+				linkSent = true;
+				const tempo_execucao = calculaTempo(_startTime);
+				console.log(`Tentativa ${attempt} (${tempo_execucao}): Link enviado com sucesso.`);
 
-			// Verifica após 15 segundos se o link foi enviado
-			setTimeout(() => {
-				if (!linkSent) {
-					// Tentativa recursiva
-					async function enviarLinkWppTentativas(_LINK, tentativa = 1) {
-						if (tentativa > 3) {
-							// Limite de tentativas atingido, exibe mensagem de erro
-							this.enviarMensagem(message, `Desculpe, não foi possível enviar o link. Por favor, tente novamente mais tarde.`);
-							return;
-						}
-
-						try {
-							this.enviarMensagem(message, `Processando... O.O`);
-							tempo_execucao = calculaTempo(_startTime, Date.now());
-							console.log(tempo_execucao)
-							await this.enviarMensagem(message, `Abra esse link do seu pedido: ---> ${_LINK}`);
-							linkSent = true; // Marca que o link foi enviado
-							resolve();
-							console.log(`Tentativa ${tentativa} (${tempo_execucao}): Link enviado com sucesso. ${linkSent}`);
-						} catch (error) {
-							console.log(`Tentativa ${tentativa}: Erro ao enviar o link.`, error);
-							await this.delay(2000);
-							await enviarLinkWppTentativas.call(this, tentativa + 1);
-						}
-					}
-
-					enviarLinkWppTentativas.call(this, _LINK);
+				let estadoCliente = this.getEstagioAtualDoCliente(phoneNumber)
+				if (estadoCliente) {
+					console.log('Client has been initialized:', estadoCliente);
+				} else {
+					console.log('Client has not been initialized.');
 				}
-			}, 5000); // 7 segundos
-		});
+				console.log(this.clearStages[phoneNumber]);
 
-		linkPromise
-			.then(() => {
-				tempo_execucao = calculaTempo(_startTime, Date.now());
-				console.log(`\nTempo de Resposta: ${tempo_execucao} segundos para enviar o link no WhatsApp!`);
-				this.pushStage(4);
-			})
-			.catch((error) => {
-				console.log('\n\nNão foi possível enviar o link:', error);
-			});
+				this.pushClientStage(phoneNumber, 4)
+
+				if (!this.clientStates[phoneNumber]) {
+					console.error(`this.clientStates[${phoneNumber}] é undefined!`);
+					return;
+				}
+
+			} catch (error) {
+				console.log(`Tentativa ${attempt}: Erro ao enviar o link.`, error);
+				if (attempt < MAX_ATTEMPTS) {
+					await this.delay(ATTEMPT_INTERVAL);
+					await sendLink(attempt + 1);
+				} else {
+					this.enviarMensagem(message, `Desculpe, não foi possível enviar o link. Por favor, tente novamente mais tarde.`);
+					console.error('Não foi possível enviar o link após', MAX_ATTEMPTS, 'tentativas:', error);
+				}
+			}
+		};
+
+		await sendLink();
 	}
+
 
 
 
