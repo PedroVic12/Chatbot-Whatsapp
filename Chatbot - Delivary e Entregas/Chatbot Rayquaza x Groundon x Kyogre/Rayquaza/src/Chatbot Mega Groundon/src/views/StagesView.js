@@ -189,14 +189,11 @@ class StagesView extends GroundonView {
                             this.enviarMensagem(message, `Bem-vindo a Lanchonete *Citta RJ* Obrigado por escolher a nossos Serviços.\n🤖 Eu sou o Robô Groundon e estou aqui para ajudá-lo. `)
                         )
 
-
-
-
                         await this.delay(3000).then(
                             this.enviarMensagem(message, "🤖 Antes de começarmos, por favor, *Digite Seu Nome*:")
                         )
-                        //this.pushStage(2)
                         this.clientStates[phoneNumber].stack.push(2);
+                        this.pushStage(2)
 
                     }
                     //!=====================  Estágio 2 - Mostrar Menu Principal =====================
@@ -230,67 +227,67 @@ class StagesView extends GroundonView {
                         //await salvarDadosCliente()
 
 
+                        //TODO DEBUG HERE
                         const iniciandoAtendimentoPeloTelefone = async () => {
-                            // Verificar se o estado do cliente existe para o phoneNumber, se não, inicializá-lo.
+
+                            if (!phoneNumber) {
+                                console.error('Error - phoneNumber is undefined or null');
+                                return;
+                            }
+
                             if (!this.clientStates[phoneNumber]) {
                                 this.clientStates[phoneNumber] = {
-                                    stack: [2],  // Se está inicializando no estágio 2, então o stack deve começar com 2.
+                                    stack: [2],  // If it's initializing at stage 2, then the stack should start with 2.
                                     cliente: new Cliente()
                                 };
                             }
 
-                            // Se o cliente já foi inicializado, não há necessidade de reinicializar.
                             if (!this.clientStates[phoneNumber].cliente) {
-                                try {
-                                    // Verificar se o cliente está definido
-                                    if (!this.clientStates[phoneNumber].cliente) {
-                                        console.error("O objeto Cliente não foi inicializado!");
-                                        this.clientStates[phoneNumber].cliente = new Cliente(); // Inicializar o objeto Cliente se não estiver definido
-                                    }
-
-                                    // Verificar valores antes de configurar
-                                    const nomeCLiente = this.getLastMessage(message);
-                                    console.log("Nome:", nomeCLiente);
-
-                                    const numCliente = this.estagio2.getTelefoneCliente(message);
-                                    console.log("Telefone:", numCliente);
-
-                                    ID_PEDIDO = this.backendController.gerarIdPedido();
-                                    console.log("ID Pedido:", ID_PEDIDO);
-
-                                    // Configurar valores
-                                    this.clientStates[phoneNumber].cliente.setNome(nomeCLiente);
-                                    this.clientStates[phoneNumber].cliente.setTelefone(numCliente);
-                                    this.clientStates[phoneNumber].cliente.setId(ID_PEDIDO);
-
-                                    console.log(this.clientStates[phoneNumber].cliente);
-
-                                    this.incrementOrderCount(numCliente); // Incrementa o contador de pedidos para o número de telefone
-
-                                    await this.backendController.enviarDadosClienteServidor(this.clientStates[phoneNumber].cliente, ID_PEDIDO);
-                                    KYOGRE_LINK_ID = await this.backendController.enviarLinkServidor(ID_PEDIDO);
-
-                                    console.log('\n\nDados Coletados!')
-                                    console.log(this.clientStates[phoneNumber].cliente);
-                                } catch (error) {
-                                    console.log('Não foi possível fazer uma conexão no backend', error);
-                                }
+                                console.log('Debug - Initializing clientStates[phoneNumber].cliente with new Cliente instance');
+                                this.clientStates[phoneNumber].cliente = new Cliente();
                             }
 
 
+                            try {
+                                const nomeCLiente = this.getLastMessage(message);
+                                const numCliente = this.estagio2.getTelefoneCliente(message);
+                                ID_PEDIDO = this.backendController.gerarIdPedido();
+                                console.log("ID Pedido:", ID_PEDIDO);
+
+                                // Set values
+                                this.clientStates[phoneNumber].cliente.setNome(nomeCLiente);
+                                this.clientStates[phoneNumber].cliente.setTelefone(numCliente);
+                                this.clientStates[phoneNumber].cliente.setId(ID_PEDIDO);
+
+                                console.log('Debug - cliente after setting values:', this.clientStates[phoneNumber].cliente);
+
+                                // Incrementa o contador de pedidos para o número de telefone
+                                this.incrementOrderCount(numCliente);
+
+
+                                //Enviando dados para o backEnd
+                                await this.backendController.enviarDadosClienteServidor(this.clientStates[phoneNumber].cliente, ID_PEDIDO);
+                                KYOGRE_LINK_ID = await this.backendController.enviarLinkServidor(ID_PEDIDO);
+
+                                console.log('\n\nDados Coletados!')
+                                console.log(this.clientStates[phoneNumber].cliente);
+
+
+                            } catch (error) {
+                                console.log('Não foi possível fazer uma conexão no backend', error);
+                            }
                         }
+
 
 
                         await iniciandoAtendimentoPeloTelefone()
 
                         await this.delay(2000).then(
-
-
                             //TODO se cliente não existir, cadastrar cliente
 
                             //TODO se cliente existir, pegar dados do cliente
 
-                            await this.enviarMensagem(message, `✅ Prazer em te conhecer, ${cliente.nome}!`)
+                            await this.enviarMensagem(message, `✅ Prazer em te conhecer, ${this.clientStates[phoneNumber].cliente.getNome()}!`)
                         )
 
                         this.enviarMensagem(message, `Seu numero de pedido é #${ID_PEDIDO}`)
