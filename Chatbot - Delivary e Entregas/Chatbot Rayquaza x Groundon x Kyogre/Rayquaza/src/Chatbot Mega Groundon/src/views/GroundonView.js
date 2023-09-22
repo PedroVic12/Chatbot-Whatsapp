@@ -196,7 +196,7 @@ class GroundonView extends Groundon {
 		};
 	}
 
-	async enviarLinkCardapioDigital(message, _LINK, phoneNumber) {
+	async enviarLinkCardapioDigital(message, _LINK) {
 		const MAX_ATTEMPTS = 3;
 		const ATTEMPT_INTERVAL = 7000; // 7 seconds
 
@@ -213,21 +213,6 @@ class GroundonView extends Groundon {
 				linkSent = true;
 				const tempo_execucao = calculaTempo(_startTime);
 				console.log(`Tentativa ${attempt} (${tempo_execucao}): Link enviado com sucesso.`);
-
-				let estadoCliente = this.getEstagioAtualDoCliente(phoneNumber)
-				if (estadoCliente) {
-					console.log('Client has been initialized:', estadoCliente);
-				} else {
-					console.log('Client has not been initialized.');
-				}
-				console.log(this.clearStages[phoneNumber]);
-
-				this.pushClientStage(phoneNumber, 4)
-
-				if (!this.clientStates[phoneNumber]) {
-					console.error(`this.clientStates[${phoneNumber}] é undefined!`);
-					return;
-				}
 
 			} catch (error) {
 				console.log(`Tentativa ${attempt}: Erro ao enviar o link.`, error);

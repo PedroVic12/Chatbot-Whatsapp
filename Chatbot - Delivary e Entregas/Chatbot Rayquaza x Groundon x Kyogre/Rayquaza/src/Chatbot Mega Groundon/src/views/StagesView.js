@@ -153,7 +153,7 @@ class StagesView extends GroundonView {
             numero_estagio = this.clientStates[phoneNumber].stack[this.clientStates[phoneNumber].stack.length - 1];
 
             try {
-                console.log(this.clearStages[phoneNumber])
+                console.log(this.clientStates)
             } catch (error) {
                 console.log('Erro ', error)
             }
@@ -204,32 +204,6 @@ class StagesView extends GroundonView {
                     else if (numero_estagio === 2) {
                         console.log(`\n\n\nEstágio ${numero_estagio}:`, message.body);
 
-
-                        const salvarDadosCliente = async () => {
-                            try {
-                                //Pega dados do CLiente
-                                const nome_cliente = this.getLastMessage(message)
-                                cliente.setNome(nome_cliente)
-
-                                const numero_cliente = this.estagio2.getTelefoneCliente(message)
-                                cliente.setTelefone(numero_cliente)
-
-                                // Envia os dados do cliente para o servidor
-                                ID_PEDIDO = this.backendController.gerarIdPedido();
-                                cliente.setId(ID_PEDIDO);
-                                this.backendController.enviarDadosClienteServidor(cliente, ID_PEDIDO);
-
-                                // Gera o Link do Cardapio Digital
-                                KYOGRE_LINK_ID = await this.backendController.enviarLinkServidor(ID_PEDIDO);
-
-                            } catch (error) {
-                                console.log('Não foi possível fazer uma conexão no backend')
-                            }
-
-                        }
-
-                        //await salvarDadosCliente()
-
                         const iniciandoAtendimentoPeloTelefone = async () => {
 
                             if (!phoneNumber) {
@@ -278,9 +252,6 @@ class StagesView extends GroundonView {
                                 console.log('Não foi possível fazer uma conexão no backend', error);
                             }
                         }
-
-
-
                         await iniciandoAtendimentoPeloTelefone()
 
                         await this.delay(2000).then(
@@ -339,9 +310,9 @@ class StagesView extends GroundonView {
                                 selectedOption.button.text.toLowerCase().includes('pedido')
                             ) {
 
-                                let tel = this.clientStates[phoneNumber].cliente.getTelefone()
-                                console.log('debug', tel)
-                                this.enviarLinkCardapioDigital(message, KYOGRE_LINK_ID, tel)
+                                await this.enviarLinkCardapioDigital(message, KYOGRE_LINK_ID)
+                                this.clientStates[phoneNumber].stack.push(4);
+
                             }
 
 
@@ -407,7 +378,6 @@ class StagesView extends GroundonView {
 
 
                         this.clientStates[phoneNumber].stack.push(5);
-                        this.pushStage(5);
                     }
 
 
@@ -422,7 +392,7 @@ class StagesView extends GroundonView {
                         cliente.setEndereco(endereco_entrega)
 
                         this.enviarMensagem(message, 'Seu endereço precisa de algum complemento? Digite Sim ou Não')
-                        this.pushStage(6)
+                        this.clientStates[phoneNumber].stack.push(6);
                     }
 
 
@@ -434,7 +404,7 @@ class StagesView extends GroundonView {
 
                         if (resposta_cliente === 'SIM') {
                             this.enviarMensagem(message, 'Digite seu complemento.');
-                            this.pushStage(6.5); // Estágio intermediário
+                            this.clientStates[phoneNumber].stack.push(6.5);
                         } else if (resposta_cliente === 'NÃO' || resposta_cliente === 'NAO') {
                             cliente.setComplemento('Sem Complemento.')
 
@@ -442,7 +412,7 @@ class StagesView extends GroundonView {
                             // Mostra o menu principal
                             let menu_pagamento_text = this.Widgets.getMenuText('Digite a forma de pagamento', menu_formaPagamento);
                             this.enviarMensagem(message, menu_pagamento_text)
-                            this.pushStage(7);
+                            this.clientStates[phoneNumber].stack.push(7);
                         }
                     }
 
@@ -458,7 +428,7 @@ class StagesView extends GroundonView {
                         // Mostra o menu principal
                         let menu_pagamento_text = this.Widgets.getMenuText('Digite a forma de pagamento', menu_formaPagamento);
                         this.enviarMensagem(message, menu_pagamento_text)
-                        this.pushStage(7);
+                        this.clientStates[phoneNumber].stack.push(7);
                     }
 
 
@@ -471,6 +441,8 @@ class StagesView extends GroundonView {
                         const forma_pagamento = this.getLastMessage(message)
                         const selectedOption = this.Widgets.getSelectedOption(menu_formaPagamento, forma_pagamento);
 
+
+                        //todo debug UX
                         // Verifica qual opção
                         if (selectedOption) {
                             this.enviarMensagem(message, `Voce escolheu a opção *${selectedOption.button.text.slice(3)}*`)
@@ -506,10 +478,10 @@ class StagesView extends GroundonView {
                         }
 
 
-                        await this.delay(2000).then(
+                        await this.delay(3000).then(
                             await this.enviarMensagem(message, 'Confirma o seu pedido?')
                         )
-                        this.pushStage(8)
+                        this.clientStates[phoneNumber].stack.push(8);
 
 
                     }
