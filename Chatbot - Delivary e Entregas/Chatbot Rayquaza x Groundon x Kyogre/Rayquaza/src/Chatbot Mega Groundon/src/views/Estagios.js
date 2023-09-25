@@ -10,11 +10,11 @@ class Estagios extends StagesView {
         // ... (todo o código do estágio 1 aqui)
     }
 
-    async stage2(message, cliente) {
+    async stage2(message) {
         // ... (todo o código do estágio 2 aqui)
     }
 
-    async stage3(message, cliente) {
+    async stage3(message) {
         // ... (todo o código do estágio 3 aqui)
     }
 }

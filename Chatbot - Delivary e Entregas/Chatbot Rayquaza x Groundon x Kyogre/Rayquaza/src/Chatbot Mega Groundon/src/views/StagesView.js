@@ -20,13 +20,7 @@ const cliente = new Cliente()
 TODO 
 Pesquisa sobre o “Anota Aí” e o “TakeEat App”
 
-Robo saber responder : Voce quis dizer? [opção 1, opção 2]
-
 Robo fazer consulta de dados pelo ID do pedido e telefone
-
-tem que ter um botão: “voltar” e começar tudo novamente
-
-Seu pedido está sendo preparado, caso precise modificar ou passar mais alguma informação para o atendente, ligue para (21)2222-2222”
 
 Vai conseguir colocar “raio de atendimento” ? 
 Pra direcionar o pedido pra loja A ou B e quem estiver fora da área, ser avisado que não dá pra prosseguir?
@@ -122,12 +116,13 @@ class StagesView extends GroundonView {
             console.log('\n\nGroundon esperando mensagens...')
             console.log(`\n\nMEWTWO LIGADO ${this.isNLPMode}`)
 
+            //!Tratamento quanto nao esta ligado
 
             //!Configurações de Conversa
             this.armazenarConversa(message);
             console.log(this.conversa)
             console.log(`Mensagem recebida: ${message.body}`)
-            this.mewTwo.salvarConversa(message.body, this.mewTwo.contador)
+            //this.mewTwo.salvarConversaEmCSV(message.body, this.mewTwo.contador)
 
 
             //!Configurações Backend
@@ -351,9 +346,14 @@ class StagesView extends GroundonView {
                         const pedido_escolhido_cardapio = this.getLastMessage(message);
                         const pedido_json = this.getPedidoCardapio(pedido_escolhido_cardapio)
 
-                        //TODO COLOCAR OS ITENS, QUANTIDADE E PRECO DENTRO DO PEDIDO NA CLASSE CLIENTE
+                        //TODO FAZER O PEDIDO SER ENVIADO PELO GROUNDON PARA QUE O CLIENTE NAO ALTERE OSA DADOS
+
+
+
                         try {
                             this.clientStates[phoneNumber].cliente.setPedido(pedido_json)
+                            //TODO COLOCAR OS ITENS, QUANTIDADE E PRECO DENTRO DO PEDIDO NA CLASSE CLIENTE
+
                             console.log('\n\n\nPedido atraves do Cardapio:', cliente.getDadosCompletos(pedido_json))
 
                             this.delay(1000).then(
@@ -379,6 +379,7 @@ class StagesView extends GroundonView {
                         console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
 
                         //TODO VERIFICAR RAIO DE ALCANCE DO PEDIDO USANDO UMA API 
+                        //LocationController
 
 
                         const endereco_entrega = this.getLastMessage(message);
@@ -484,6 +485,21 @@ class StagesView extends GroundonView {
 
                         this.enviarMensagem(message, `*Obrigado, ${this.clientStates[phoneNumber].nome}*!\nSeu pedido esta sendo preparado e volto quando ele estiver sendo enviado para entrega!`)
 
+                        this.clientStates[phoneNumber].stack.push(9);
+
+
+
+                        let mudou = false
+                        try {
+                            this.mudarDeEstagio(9)
+                            mudou = true
+                            if (mudou) {
+                                console.log('mudou de estagio')
+                            }
+                        } catch {
+                            console.log('Nao mudou :(')
+                        }
+
 
 
                     }
@@ -494,6 +510,7 @@ class StagesView extends GroundonView {
 
 
                         //TODO
+                        this.enviarMensagem(message, 'Seu pedido está sendo preparado, caso precise modificar ou passar mais alguma informação para o atendente, ligue para (21)2222-2222    ')
 
                     }
 

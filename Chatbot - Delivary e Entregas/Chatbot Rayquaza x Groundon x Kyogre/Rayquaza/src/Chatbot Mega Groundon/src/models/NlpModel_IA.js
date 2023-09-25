@@ -180,6 +180,14 @@ class MewTwo {
         console.log("Conversa salva no arquivo CSV!");
     }
 
+
+    saveConversationToCSV() {
+        let dataCSV = "Mensagem\n";
+        this.conversation.forEach(message => dataCSV += `"${message}"\n`);
+        fs.writeFileSync('repository/mensagens.csv', dataCSV, 'utf-8');
+        console.log("Conversa salva no arquivo CSV!");
+    }
+
     resetarContador() {
         this.contador = 0;
     }

@@ -3,6 +3,10 @@ const Sentiment = require('sentiment');
 const fs = require('fs');
 const readline = require('readline');
 
+
+//TODO Robo tem que ter um botão: “voltar” e começar tudo novamente e usar isso com o nlp
+
+
 class MewTwo {
     constructor() {
         this.initializeProperties();

@@ -71,6 +71,12 @@ class GroundonView extends Groundon {
 	}
 
 
+	mudarDeEstagio(num_stage) {
+		this.clientStates[phoneNumber].stack.push(num_stage);
+	}
+
+
+
 	// Método para configurar um estágio específico
 	setStage(stage) {
 		// Limpar pilha de estágios
