@@ -1,0 +1,11 @@
+Mensagem,Intent
+"oi", "saudacao"
+"quero um pedido", "reclamacao"
+"gostaria de fazer um pedido", "pedido"
+"1", "horarios"
+"2", "pedido"
+"3", "promo"
+"4", "location"
+"1", "horarios"
+"2", "pedido"
+"quero um pedido", "reclamacao"

@@ -84,21 +84,33 @@ class MewTwo {
             }
         };
     }
-
     saveConversationToCSV() {
-        let dataCSV = "Mensagem\n";
-        this.conversation.forEach(message => dataCSV += `"${message}"\n`);
-        fs.writeFileSync('repository/mensagens.csv', dataCSV, 'utf-8');
+        let dataCSV = "";
+        const filePath = 'repository/mensagens_nlp.csv';
+
+        // Se o arquivo não existir, adicione o cabeçalho
+        if (!fs.existsSync(filePath)) {
+            dataCSV += "Mensagem,Intent\n";
+        }
+
+        this.conversation.forEach((entry) => {
+            dataCSV += `"${entry.message}", "${entry.intent}"\n`;
+        });
+
+        // Salvar no arquivo CSV (anexando ao final)
+        fs.appendFileSync(filePath, dataCSV, 'utf-8');
         console.log("Conversa salva no arquivo CSV!");
     }
 
-    storeMessage(message) {
+
+    storeMessage(message, intent) {
         if (message && message.trim() !== "") {
-            this.conversation.push(message);
+            this.conversation.push({ message, intent });
         } else {
             console.warn('Mensagem inválida recebida: ', message);
         }
     }
+
 
     async processIntent(text) {
         this.counter++;
@@ -168,13 +180,21 @@ class MewTwo {
     async runChatbot() {
         const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
         const interact = async () => {
-            rl.question('Digite uma mensagem (ou "sair" para encerrar): ', async userInput => {
-                if (userInput.toLowerCase() === 'sair') {
+            rl.question('Digite uma mensagem (ou "!sair" para encerrar): ', async userInput => {
+                if (userInput.toLowerCase() === '!sair') {
                     this.saveConversationToCSV();
                     rl.close();
                     return;
                 }
 
+                const intentFromWidget = this.widgets.getIntentFromOption(this.widgets.menuPrincipal, userInput);
+
+                let intentResponse;
+                if (intentFromWidget) {
+                    intentResponse = { intent: intentFromWidget };
+                } else {
+                    intentResponse = await this.processIntent(userInput);
+                }
 
 
                 const sentimentsAnalysis = this.analyzeSentiments(userInput);
@@ -190,18 +210,10 @@ class MewTwo {
                 let menu = this.widgets.enviarMenu('Menu Principal', this.widgets.menuPrincipal)
                 console.log(menu)
 
-                const intentFromWidget = this.widgets.getIntentFromOption(this.widgets.menuPrincipal, userInput);
-                let intentResponse;
-
-                if (intentFromWidget) {
-                    intentResponse = { intent: intentFromWidget };
-                } else {
-                    intentResponse = await this.processIntent(userInput);
-                }
 
 
                 // Armazenando a mensagem do usuário
-                this.storeMessage(userInput);
+                this.storeMessage(userInput, intentResponse.intent);
 
                 interact();
             });
