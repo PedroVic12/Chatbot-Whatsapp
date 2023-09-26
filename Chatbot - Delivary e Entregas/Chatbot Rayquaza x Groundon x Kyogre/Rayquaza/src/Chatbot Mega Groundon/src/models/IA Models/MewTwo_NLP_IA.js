@@ -88,7 +88,11 @@ class MewTwo {
 
                 reclamacao: ['não gostei', 'teve um problema', 'quero reclamar'],
 
-                //erro: ['Fiz meu pedido errado', 'Preciso ajustar meu pedido', 'To com erro'],
+
+                erro: ['Fiz meu pedido errado', 'Preciso ajustar meu pedido', 'To com erro'],
+                location: [' Onde fica o estabelecimento', 'Localização'],
+                promo: ['Promoção', 'Promoções', 'Qual a promoção?'],
+                horarios: ['Qual o horario de antendimento', 'Horário', 'Horario de funcionamento'],
 
                 elogio: ['adorei', 'excelente serviço', 'muito bom'],
 
@@ -109,6 +113,10 @@ class MewTwo {
                 estagio9: ['Seu pedido está sendo preparado.'],
                 reclamacao: ['Lamento ouvir isso. Por favor, nos dê mais detalhes para que possamos ajudar.'],
                 elogio: ['Muito obrigado pelo seu feedback positivo!'],
+                erro: ['Sem problemas, vamos consertar isso.'],
+                location: ['Nossa localização é em Botafogo e Copacabana'],
+                promo: ['A promoção de hoje é: Bauro por 12 reais'],
+                horarios: ['Nosso horario de funcionamento é de 8h ate as 22h'],
                 ajuda: ['Claro! Como posso ajudar você hoje?']
             }
         };
@@ -162,6 +170,8 @@ class MewTwo {
                 return 'Até logo!';
             case 'pedido':
                 return 'Você gostaria de fazer um pedido?';
+            case 'ajuda':
+                return 'No que posso te ajudar?'
             default:
                 return 'Desculpa nao entendi, voce quis dizer [opção1,opção2,opção3]?';
         }
@@ -229,11 +239,10 @@ class MewTwo {
                 const dynamicResponse = this.generateDynamicResponse(intentResponse.intent);
 
                 // Mostrando a resposta da intenção, análise de sentimentos e resposta dinâmica no terminal
-                console.log('\n\nResposta da Intenção: ', intentResponse);
                 console.log('\n\nAnálise de Sentimentos: ', sentimentsAnalysis);
+                console.log('\n\nResposta da Intenção: ', intentResponse);
                 console.log('\n\nResposta Dinâmica: ', dynamicResponse);
 
-                //Mostrando o menu
                 //Mostrando o Menu
                 let menu = this.widgets.enviarMenu('Menu Principal', this.widgets.menuPrincipal)
                 console.log(menu)
