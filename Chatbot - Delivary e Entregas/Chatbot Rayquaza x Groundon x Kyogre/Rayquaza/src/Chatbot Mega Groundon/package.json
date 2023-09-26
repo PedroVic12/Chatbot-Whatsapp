@@ -9,6 +9,7 @@
   "author": "pv peter parker",
   "license": "ISC",
   "dependencies": {
+    "@googlemaps/google-maps-services-js": "^3.3.38",
     "@wppconnect-team/wppconnect": "^1.27.3",
     "express": "^4.18.2",
     "express-validator": "^7.0.1",

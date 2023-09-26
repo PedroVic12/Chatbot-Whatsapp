@@ -374,7 +374,7 @@ class StagesView extends GroundonView {
                     }
 
 
-                    //!=====================  Estagio 5 - Cliente escolhe o Lanche Desejado =====================
+                    //!=====================  Estagio 5 - Cliente coloca o endereço =====================
                     else if (numero_estagio === 5) {
                         console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
 
