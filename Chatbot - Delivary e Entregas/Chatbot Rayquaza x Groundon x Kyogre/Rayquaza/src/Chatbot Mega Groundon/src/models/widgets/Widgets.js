@@ -7,11 +7,11 @@ class Widgets {
     //! WIDGETS 
     // Menu Principal
     this.menuPrincipal = [
-      { button: { text: '📍 Ver nossa Localização', hide: true }, type: 'location' },
+      { button: { text: '🤖 Horários de Funcionamento', hide: true }, type: 'horarios' },
       { button: { text: '🛒 Fazer Pedido', hide: true }, type: 'pedido' },
-      { button: { text: '🤖 Reiniciar Atendimento', hide: true }, type: 'reiniciar' },
-      { button: { text: '👨‍🍳 Falar com um atendente', hide: true }, type: 'atendente' },
-      { button: { text: '❌ Sair', hide: true }, type: 'exit' }
+      { button: { text: '👨‍🍳 Promoções', hide: true }, type: 'promo' },
+      { button: { text: '📍 Endereço', hide: true }, type: 'location' },
+      //{ button: { text: '❌ Sair', hide: true }, type: 'exit' }
     ];
 
     // Menu de Opções de Pagamento
@@ -65,8 +65,27 @@ class Widgets {
     return null;
   }
 
+  enviarMenu(titulo, menu_object) {
+    let menu_text = this.getMenuText(titulo, menu_object);
+    return menu_text
+  }
 
+  // Método que pega a intenção do cliente dentro do menu
+  getIntentFromOption(menu, input) {
+    const selectedOptionByNumber = menu[Number(input) - 1];
+    if (selectedOptionByNumber) {
+      return selectedOptionByNumber.type; // 'type' agora representa 'intent'
+    }
 
+    const selectedOptionByText = menu.find(item =>
+      item.button.text.toLowerCase().includes(input.toLowerCase())
+    );
+    if (selectedOptionByText) {
+      return selectedOptionByText.type; // 'type' agora representa 'intent'
+    }
+
+    return null;
+  }
 
 
   // Menus com textos descritivos

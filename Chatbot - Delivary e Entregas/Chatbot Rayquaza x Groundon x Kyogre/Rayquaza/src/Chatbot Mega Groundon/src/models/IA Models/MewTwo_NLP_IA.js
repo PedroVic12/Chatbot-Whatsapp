@@ -2,6 +2,10 @@ const { NlpManager } = require('node-nlp');
 const Sentiment = require('sentiment');
 const fs = require('fs');
 const readline = require('readline');
+const Widgets = require('../widgets/Widgets');
+
+const natural = require('natural');
+const tokenizer = new natural.WordTokenizer();
 
 
 //TODO Robo tem que ter um botão: “voltar” e começar tudo novamente e usar isso com o nlp
@@ -11,6 +15,7 @@ class MewTwo {
     constructor() {
         this.initializeProperties();
         this.initializeNLP();
+        this.widgets = new Widgets()
     }
 
     initializeProperties() {
@@ -121,7 +126,46 @@ class MewTwo {
         }
     }
 
-    runChatbot() {
+
+    //!Funções de Limpeza e tratamento de texto
+    cleanText(text) {
+        return text.toLowerCase().replace(/[^a-z\s]/gi, '');
+    }
+
+    removeStopWords(text) {
+        const stopWords = ['e', 'o', 'a', 'de', 'que', 'do', 'da', 'em', 'um', 'para', 'é', 'com', 'não', 'uma', 'os', 'no', 'se', 'na', 'por', 'mais', 'as', 'dos', 'como', 'mas', 'foi', 'ao', 'ele', 'das', 'tem', 'à', 'seu', 'sua'];
+        const tokens = tokenizer.tokenize(text);
+        return tokens.filter(token => !stopWords.includes(token)).join(' ');
+    }
+
+    stemText(text) {
+        return natural.PorterStemmer.stem(text);
+    }
+
+    addDocumentToTfIdf(doc) {
+        if (!this.tfidf) {
+            this.tfidf = new natural.TfIdf();
+        }
+        this.tfidf.addDocument(doc);
+    }
+
+    getTfIdfScore(text) {
+        const result = [];
+        if (!this.tfidf) {
+            console.warn("TF-IDF não foi inicializado.");
+            return result;
+        }
+        this.tfidf.listTerms(0).forEach(item => {
+            result.push({
+                term: item.term,
+                tfidf: item.tfidf
+            });
+        });
+        return result;
+    }
+
+    //!Testando Chatbot
+    async runChatbot() {
         const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
         const interact = async () => {
             rl.question('Digite uma mensagem (ou "sair" para encerrar): ', async userInput => {
@@ -131,7 +175,8 @@ class MewTwo {
                     return;
                 }
 
-                const intentResponse = await this.processIntent(userInput);
+
+
                 const sentimentsAnalysis = this.analyzeSentiments(userInput);
                 const dynamicResponse = this.generateDynamicResponse(intentResponse.intent);
 
@@ -140,8 +185,22 @@ class MewTwo {
                 console.log('\n\nAnálise de Sentimentos: ', sentimentsAnalysis);
                 console.log('\n\nResposta Dinâmica: ', dynamicResponse);
 
+
+                //Mostrando o Menu
+                let menu = this.widgets.enviarMenu('Menu Principal', this.widgets.menuPrincipal)
+                console.log(menu)
+
+                const intentFromWidget = this.widgets.getIntentFromOption(this.widgets.menuPrincipal, userInput);
+                let intentResponse;
+
+                if (intentFromWidget) {
+                    intentResponse = { intent: intentFromWidget };
+                } else {
+                    intentResponse = await this.processIntent(userInput);
+                }
+
+
                 // Armazenando a mensagem do usuário
-                this.storeMessage(userInput);
                 this.storeMessage(userInput);
 
                 interact();
@@ -149,6 +208,7 @@ class MewTwo {
         };
         interact();
     }
+
 }
 
 // Exportação e Inicialização do MewTwo

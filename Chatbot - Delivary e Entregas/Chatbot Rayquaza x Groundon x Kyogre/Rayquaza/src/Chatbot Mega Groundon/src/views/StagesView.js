@@ -268,6 +268,9 @@ class StagesView extends GroundonView {
                         console.log(`\n\n\nEstágio ${numero_estagio}:`, message.body);
 
 
+
+                        //TODO MEWTWO TEM QUE RESPONDER AQUI
+
                         //? Pega a ultima mensagem enviada pelo cliente
                         const choice_escolhida = this.getLastMessage(message);
                         const selectedOption = this.Widgets.getSelectedOption(menu_principal, choice_escolhida);
