@@ -8,6 +8,7 @@ const natural = require('natural');
 const tokenizer = new natural.WordTokenizer();
 
 const csvParser = require('csv-parser');
+const GroundonView = require('../../views/GroundonView');
 
 //TODO Robo tem que ter um botão: “voltar” e começar tudo novamente e usar isso com o nlp
 
@@ -17,6 +18,7 @@ class MewTwo {
         this.initializeProperties();
         this.initializeNLP();
         this.widgets = new Widgets()
+        //this.groundon_bot = new GroundonView()
     }
 
     initializeProperties() {
@@ -121,7 +123,7 @@ class MewTwo {
             }
         };
     }
-    saveConversationToCSV() {
+    salvarConversaEmCSV() {
         let dataCSV = "";
         const filePath = 'repository/mensagens_nlp.csv';
 
@@ -136,7 +138,7 @@ class MewTwo {
 
         // Salvar no arquivo CSV (anexando ao final)
         fs.appendFileSync(filePath, dataCSV, 'utf-8');
-        console.log("Conversa salva no arquivo CSV!");
+        console.log(`Conversa salva no arquivo CSV! no arquivo ${filePath}`);
     }
 
 
@@ -177,6 +179,15 @@ class MewTwo {
         }
     }
 
+    getStageForIntent(intent) {
+        const intentToStageMapping = {
+            saudacao: 1,
+            despedida: 9,
+            pedido: 3,
+            // ... mapeie todas as intenções para seus estágios correspondentes
+        };
+        return intentToStageMapping[intent];
+    }
 
     //!Funções de Limpeza e tratamento de texto
     cleanText(text) {

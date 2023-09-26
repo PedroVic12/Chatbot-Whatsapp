@@ -3,7 +3,7 @@ const axios = require('axios');
 
 const Groundon = require('../models/Groundon');
 const GroundonView = require('./GroundonView');
-const MewTwo = require('../models/NlpModel_IA')
+const MewTwo = require('../models/IA Models/MewTwo_NLP_IA')
 
 const Cliente = require('../models/Regras de Negocio/Cliente/Cliente')
 
@@ -63,8 +63,9 @@ class StagesView extends GroundonView {
 
 
     async processWithMewTwo(message) {
-        const resposta = await this.mewTwo.processarIntencao(message.body);
+        const resposta = await this.mewTwo.processIntent(message.body);
         const stage = this.mewTwo.getStageForIntent(resposta.intent);
+        const dynamicResponse = this.mewTwo.generateDynamicResponse(resposta.intent);
 
 
         //TODO IA TEM QUE SABER DIRECIONAR PARA OS ESTAGIOS CORRETOS
@@ -79,7 +80,7 @@ class StagesView extends GroundonView {
 
 
         }
-
+        //this.enviarMensagem(message, `Resp. dynamic: ${dynamicResponse}`);
         this.enviarMensagem(message, resposta.answer);
     }
 
@@ -122,7 +123,7 @@ class StagesView extends GroundonView {
             this.armazenarConversa(message);
             console.log(this.conversa)
             console.log(`Mensagem recebida: ${message.body}`)
-            //this.mewTwo.salvarConversaEmCSV(message.body, this.mewTwo.contador)
+            //this.mewTwo.salvarConversaEmCSV()
 
 
             //!Configurações Backend
@@ -154,7 +155,7 @@ class StagesView extends GroundonView {
                     this.isNLPMode = false;
 
                     try {
-                        this.mewTwo.salvarConversaEmCSV(phoneNumber);
+                        this.mewTwo.salvarConversaEmCSV();
 
                     } catch (error) {
                         console.log('Erro ao salvar conversa em CSV', error);
