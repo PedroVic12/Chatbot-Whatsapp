@@ -7,6 +7,7 @@ const Widgets = require('../widgets/Widgets');
 const natural = require('natural');
 const tokenizer = new natural.WordTokenizer();
 
+const csvParser = require('csv-parser');
 
 //TODO Robo tem que ter um botão: “voltar” e começar tudo novamente e usar isso com o nlp
 
@@ -30,12 +31,40 @@ class MewTwo {
         this.manager.train();
     }
 
+    //!Treinamento e aprendizaado
     addTrainingData() {
         const { intents, responses } = this.getIntentsAndResponses();
         for (const intent in intents) {
             intents[intent].forEach(phrase => this.manager.addDocument('pt', phrase, intent));
             responses[intent].forEach(response => this.manager.addAnswer('pt', intent, response));
         }
+    }
+
+    async readCSVForTraining() {
+        const results = [];
+        const filePath = 'repository/mensagens_nlp.csv';
+
+        if (!fs.existsSync(filePath)) {
+            console.warn('O arquivo CSV não foi encontrado!');
+            return results;
+        }
+
+        return new Promise((resolve, reject) => {
+            fs.createReadStream(filePath)
+                .pipe(csvParser())
+                .on('data', (data) => results.push(data))
+                .on('end', () => {
+                    resolve(results);
+                });
+        });
+    }
+
+    async trainWithCSVData() {
+        const trainingData = await this.readCSVForTraining();
+        trainingData.forEach(data => {
+            this.manager.addDocument('pt', data.Mensagem, data.Intent);
+        });
+        await this.manager.train();
     }
 
     getIntentsAndResponses() {
@@ -180,7 +209,7 @@ class MewTwo {
     async runChatbot() {
         const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
         const interact = async () => {
-            rl.question('Digite uma mensagem (ou "!sair" para encerrar): ', async userInput => {
+            rl.question('\nDigite uma mensagem (ou "!sair" para encerrar): ', async userInput => {
                 if (userInput.toLowerCase() === '!sair') {
                     this.saveConversationToCSV();
                     rl.close();
@@ -196,7 +225,6 @@ class MewTwo {
                     intentResponse = await this.processIntent(userInput);
                 }
 
-
                 const sentimentsAnalysis = this.analyzeSentiments(userInput);
                 const dynamicResponse = this.generateDynamicResponse(intentResponse.intent);
 
@@ -205,26 +233,38 @@ class MewTwo {
                 console.log('\n\nAnálise de Sentimentos: ', sentimentsAnalysis);
                 console.log('\n\nResposta Dinâmica: ', dynamicResponse);
 
-
+                //Mostrando o menu
                 //Mostrando o Menu
                 let menu = this.widgets.enviarMenu('Menu Principal', this.widgets.menuPrincipal)
                 console.log(menu)
 
-
-
-                // Armazenando a mensagem do usuário
-                this.storeMessage(userInput, intentResponse.intent);
-
-                interact();
+                rl.question('\nA resposta foi correta? (sim/nao): ', async feedback => {
+                    if (feedback.toLowerCase() === 'nao') {
+                        rl.question('Qual seria a intenção correta?: ', async correctIntent => {
+                            // Armazenar a correção para treinamento
+                            this.manager.addDocument('pt', userInput, correctIntent);
+                            await this.manager.train();
+                            this.storeMessage(userInput, correctIntent);
+                            this.saveConversationToCSV();
+                            interact();
+                        });
+                    } else {
+                        this.storeMessage(userInput, intentResponse.intent);
+                        interact();
+                    }
+                });
             });
         };
         interact();
     }
 
+
 }
+
 
 // Exportação e Inicialização do MewTwo
 module.exports = MewTwo;
 const mewTwo = new MewTwo();
-mewTwo.runChatbot();
-
+mewTwo.trainWithCSVData().then(() => {
+    mewTwo.runChatbot();
+});
