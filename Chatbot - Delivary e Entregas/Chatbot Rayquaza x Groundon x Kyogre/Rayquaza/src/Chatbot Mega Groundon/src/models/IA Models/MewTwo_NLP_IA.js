@@ -18,6 +18,7 @@ class MewTwo {
         this.initializeProperties();
         this.initializeNLP();
         this.widgets = new Widgets()
+        this.currentClient = null
         //this.groundon_bot = new GroundonView()
     }
 
@@ -33,7 +34,10 @@ class MewTwo {
         this.manager.train();
     }
 
-
+    // Método para definir o cliente atual
+    setClient(client) {
+        this.currentClient = client;
+    }
     //!Treinamento e aprendizaado
     addTrainingData() {
         const { intents, responses } = this.getIntentsAndResponses();

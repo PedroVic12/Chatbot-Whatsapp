@@ -62,7 +62,7 @@ class StagesView extends GroundonView {
     }
 
 
-    async mewtwoRespondeMensagem(message) {
+    async mewtwoProcessa(message) {
         try {
             // Processar a mensagem usando MewTwo
             const resposta_intent = await this.mewTwo.processIntent(message.body);
@@ -122,14 +122,13 @@ class StagesView extends GroundonView {
     };
 
 
-    resetEstagio(message) {
-        // Handle back command
+    resetEstagio(message, num_stage, phone) {
+
         if (message.body === "!") {
-            const previousStage = this.stack[this.stack.length - 2]; // Get the previous stage from the stack
+            const previousStage = num_stage - 2; // Get the previous stage from the stack
 
             if (previousStage) {
-                this.popStage(); // Remove the current stage from the stack
-                this.setCurrentStage(previousStage); // Set the previous stage as the current stage
+                this.setClientStage(phone, previousStage) // Set the previous stage as the current stage
                 this.enviarMensagem(message, "Voltando para o estágio anterior.");
             } else {
                 this.enviarMensagem(message, "Não é possível voltar mais.");
@@ -160,12 +159,6 @@ class StagesView extends GroundonView {
             console.log(`Mensagem recebida: ${message.body}`)
             //this.mewTwo.salvarConversaEmCSV()
 
-
-            //!Configurações Backend
-            this.restartChatbot()
-            this.resetEstagio(message) // Função que reseta os estagios
-
-
             //! Configurações de Estagios de Fluxo
             const phoneNumber = message.from;
             console.log('Novo telefone detectado!', phoneNumber,)
@@ -183,6 +176,16 @@ class StagesView extends GroundonView {
             let numero_estagio
             numero_estagio = this.clientStates[phoneNumber].stack[this.clientStates[phoneNumber].stack.length - 1];
 
+
+
+            //!Configurações Backend
+            this.restartChatbot()
+            try {
+                this.resetEstagio(message, numero_estagio, phoneNumber) // Função que reseta os estagios
+
+            } catch (error) {
+                console.log('nao vai dar para voltar de estagio')
+            }
 
             //! Configurações de IA
             if (this.isNLPMode) {
@@ -241,6 +244,10 @@ class StagesView extends GroundonView {
                                     stack: [2],  // If it's initializing at stage 2, then the stack should start with 2.
                                     cliente: new Cliente()
                                 };
+
+                                // Defina o cliente para MewTwo
+                                this.mewTwo.setClient(this.clientStates[phoneNumber].cliente);
+
                             }
 
                             if (!this.clientStates[phoneNumber].cliente) {
