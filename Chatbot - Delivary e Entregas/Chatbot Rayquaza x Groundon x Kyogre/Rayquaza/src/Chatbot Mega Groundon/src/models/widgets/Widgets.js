@@ -11,14 +11,14 @@ class Widgets {
       { button: { text: '🛒 Fazer Pedido', hide: true }, type: 'pedido' },
       { button: { text: '👨‍🍳 Promoções', hide: true }, type: 'promo' },
       { button: { text: '📍 Endereço', hide: true }, type: 'location' },
-      //{ button: { text: '❌ Sair', hide: true }, type: 'exit' }
+      { button: { text: '📞 Consulta de Pedidos', hide: true }, type: 'consulta' },
     ];
 
     // Menu de Opções de Pagamento
     this.menuPagamento = [
-      { button: { text: '💳 Cartão', hide: true }, type: 'message' },
-      { button: { text: '💵 Dinheiro', hide: true }, type: 'message' },
-      { button: { text: '📱 Pix', hide: true }, type: 'message' }
+      { button: { text: '💳 Cartão', hide: true }, type: 'pagamento' },
+      { button: { text: '💵 Dinheiro', hide: true }, type: 'pagamento' },
+      { button: { text: '📱 Pix', hide: true }, type: 'pagamento' }
     ];
 
     // Menu de Confirmação
@@ -120,7 +120,7 @@ class Widgets {
     menu.forEach((item, index) => {
       formattedMenu += `⚡️ ${index + 1}. ${item.button.text}\n`;
     });
-    formattedMenu += '\n🚚 Opções de Delivery:\n1. Retirada no Local\n2. Entrega em Domicílio\n3. Delivery Expresso';
+    formattedMenu += '\n*OBS: Todas as formas de pagamento sao feitos no ato da entrega*';
     return formattedMenu;
   }
 

@@ -84,7 +84,7 @@ class StagesView extends GroundonView {
             if (stage) {
                 this.pushStage(stage);
                 this.navigateToStage(stage);
-                console.log(`\n\nStage of Mewtwo ${stage}`);
+                console.log(`\n\nStage of Mewtwo: ${stage}`);
             } else {
                 console.log('\n\nResposta Mewtwo fora do Groundon')
             }
@@ -183,7 +183,7 @@ class StagesView extends GroundonView {
                 } else {
                     // ... [existing logic to process message with the standard chatbot]
 
-                    this.mewtwoRespondeMensagem(message);
+                    //this.mewtwoRespondeMensagem(message);
 
 
                     //! ===================== Estágio 1 - Apresentação =====================
@@ -198,9 +198,6 @@ class StagesView extends GroundonView {
                             this.enviarMensagem(message, "🤖 Antes de começarmos, por favor, *Digite Seu Nome*:")
                         )
 
-                        //TODO DEBUG HERE
-
-                        //this.pushStage(2)
 
                     }
                     //!=====================  Estágio 2 - Mostrar Menu Principal =====================
@@ -270,33 +267,38 @@ class StagesView extends GroundonView {
                         // Mostra o menu principal
                         let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
                         this.enviarMensagem(message, menu_principal_text)
-                        this.enviarMensagem(message, `*${this.clientStates[phoneNumber].cliente.getNome()}* agora temos uma nova funcionalidade de IA!\n\nDigite *!startIA* para conversar com o nosso modelo NLP!`)
+                        this.enviarMensagem(message, `*${this.clientStates[phoneNumber].cliente.getNome()}*, agora temos uma nova funcionalidade de IA!\n\nDigite *!startIA* para conversar com o nosso modelo NLP!`)
 
                         this.clientStates[phoneNumber].stack.push(3);
                     }
 
                     //!=====================  Estágio 3 - Responde as funcionalidades do Botão =====================
                     else if (numero_estagio === 3) {
-
-
-                        //TODO desculpa nao entendi, voce quis dizer? ['opção1, opção2, 'opção3']
                         console.log(`\n\n\nEstágio ${numero_estagio}:`, message.body);
-
-
-
-                        //TODO MEWTWO TEM QUE RESPONDER AQUI
 
                         //? Pega a ultima mensagem enviada pelo cliente
                         const choice_escolhida = this.getLastMessage(message);
                         const selectedOption = this.Widgets.getSelectedOption(menu_principal, choice_escolhida);
 
+
+
                         // Verifica qual opção
                         if (selectedOption) {
-                            this.enviarMensagem(message, `Voce escolheu a opção *${selectedOption.button.text.slice(3)}*`)
+
+
+                            //Pegando o texto do menu
+                            const texto_item_selecionado = selectedOption.button.text.slice(3)
+
+                            // Processar a mensagem usando MewTwo
+                            const resposta_choice = await this.mewTwo.processIntent(texto_item_selecionado);
+
+                            this.enviarMensagem(message, `Voce escolheu a opção *${texto_item_selecionado}*`)
+                            this.enviarMensagem(message, resposta_choice.answer)
+
 
                             // Localização
-                            if (selectedOption.button.text.toUpperCase() === 'VER NOSSA LOCALIZAÇÃO' ||
-                                selectedOption.button.text.toUpperCase().includes('LOCALIZAÇÃO')) {
+                            if (selectedOption.button.text.toUpperCase() === 'HORARIOS DE FUNCIONAMENTO' ||
+                                selectedOption.button.text.toUpperCase().includes('HORARIOS')) {
 
                                 this.enviarMensagem(message, 'Estamos implementando essa funcionalidade, por favor tente outra opção.')
 
@@ -321,32 +323,30 @@ class StagesView extends GroundonView {
 
 
                             // Reiniciar
-                            else if (selectedOption.button.text.toUpperCase() === 'Reiniciar') {
+                            else if (selectedOption.button.text.toUpperCase() === 'Promoções') {
                                 //this.restartChatbot()
-                                this.popStage()
-                                this.popStage()
+                                //this.popStage()
+                                //this.popStage()
                             }
 
                             else if (
-                                selectedOption.button.text.toUpperCase() === 'FALAR COM UM ATENDENTE' ||
-                                selectedOption.button.text.toLowerCase().includes('atendente')
+                                selectedOption.button.text.toUpperCase() === 'ENDEREÇO' ||
+                                selectedOption.button.text.toLowerCase().includes('endereço')
                             ) {
 
                                 this.enviarMensagem(message, "Desculpe a essa funcionalidade ainda nao foi implementada")
                                 this.delay(3000).then(() => {
-                                    this.enviarMensagem(message, menu_principal);
-                                });
-                            }
-
-                            else if (selectedOption.button.text.toUpperCase().includes('SAIR')) {
-
-                                this.enviarMensagem(message, "Foi um prazer conversar com voce :) ")
-                                this.delay(3000).then(() => {
-                                    this.restartChatbot()
+                                    // Mostra o menu principal
+                                    let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
+                                    this.enviarMensagem(message, menu_principal_text)
                                 });
                             }
 
 
+
+
+                        } else {
+                            resposta = await this.mewtwoRespondeMensagem(message);
                         }
 
 
@@ -438,7 +438,7 @@ class StagesView extends GroundonView {
 
 
                         // Mostra o menu principal
-                        let menu_pagamento_text = this.Widgets.getMenuText('Digite a forma de pagamento', menu_formaPagamento);
+                        let menu_pagamento_text = this.Widgets.formatMenu('Digite a forma de pagamento', menu_formaPagamento);
                         this.enviarMensagem(message, menu_pagamento_text)
                         this.clientStates[phoneNumber].stack.push(7);
                     }
@@ -501,7 +501,7 @@ class StagesView extends GroundonView {
 
                         const confirmacao = this.getLastMessage(message)
 
-                        this.enviarMensagem(message, `*Obrigado, ${this.clientStates[phoneNumber].nome}*!\nSeu pedido esta sendo preparado e volto quando ele estiver sendo enviado para entrega!`)
+                        this.enviarMensagem(message, `*Obrigado, ${this.clientStates[phoneNumber].cliente.getNome()}*!\nSeu pedido esta sendo preparado e volto quando ele estiver sendo enviado para entrega!`)
 
                         this.clientStates[phoneNumber].stack.push(9);
 

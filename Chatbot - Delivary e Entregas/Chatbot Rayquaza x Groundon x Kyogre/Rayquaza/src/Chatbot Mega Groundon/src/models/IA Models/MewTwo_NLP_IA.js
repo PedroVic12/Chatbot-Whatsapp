@@ -77,7 +77,7 @@ class MewTwo {
 
                 despedida: ['obrigado e tchau', 'te vejo mais tarde', 'aguardo o pedido'],
 
-                pedido: ['fazer pedido', 'fazer um pedido', 'fazer um pedido de delivery', 'fazer um delivery', 'entregar comida', 'entrega de comida', 'entregar pizza'],
+                pedido: ['fazer pedido', 'fazer um pedido', 'fazer um pedido de delivery', 'fazer um delivery', 'entregar comida', 'quero uma pizza', 'quero um hambúrguer'],
 
                 estagio1: ['iniciar', 'começar', 'olá de novo'],
                 estagio2: ['meu nome é', 'chamo-me', 'telefone é'],
@@ -93,9 +93,9 @@ class MewTwo {
 
 
                 erro: ['Fiz meu pedido errado', 'Preciso ajustar meu pedido', 'To com erro'],
-                location: [' Onde fica o estabelecimento', 'Localização'],
+                location: [' Onde fica o estabelecimento', 'Localização', 'Qual o endereço de voces?', 'Endereço', 'Local da loja'],
                 promo: ['Promoção', 'Promoções', 'Qual a promoção?'],
-                horarios: ['Qual o horario de antendimento', 'Horário', 'Horario de funcionamento'],
+                horarios: ['Qual o horario de atendimento', 'Horário', 'Horario de funcionamento', 'Que horas voes estao abertos?', 'Voces estao funcionando?'],
 
                 elogio: ['adorei', 'excelente serviço', 'muito bom'],
 
@@ -104,7 +104,7 @@ class MewTwo {
             responses: {
                 saudacao: ['Olá, como posso ajudar você?', 'Oi, tudo bem?'],
                 despedida: ['Até logo!', 'Aguardo seu próximo pedido!'],
-                pedido: ['Você gostaria de fazer um pedido?', 'Faça seu pedido com calma'],
+                pedido: ['De uma olhada no nosso cardapio e faça seu pedido :)', 'Faça seu pedido com calma'],
                 estagio1: ['Bem-vindo de volta! Como posso ajudar?'],
                 estagio2: ['Qual é o seu nome e telefone?'],
                 estagio3: ['Aqui está o nosso menu. O que você gostaria?'],
@@ -307,6 +307,6 @@ class MewTwo {
 module.exports = MewTwo;
 const mewTwo = new MewTwo();
 mewTwo.trainWithCSVData().then(() => {
-    mewTwo.runChatbot();
+    //mewTwo.runChatbot();
     console.log('MewTwo online')
 });
