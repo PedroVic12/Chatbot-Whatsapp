@@ -33,6 +33,7 @@ class MewTwo {
         this.manager.train();
     }
 
+
     //!Treinamento e aprendizaado
     addTrainingData() {
         const { intents, responses } = this.getIntentsAndResponses();
@@ -123,6 +124,13 @@ class MewTwo {
             }
         };
     }
+
+    getResponseForIntent(intent) {
+        const { responses } = this.getIntentsAndResponses();
+
+        return responses[intent] ? responses[intent][0] : "Desculpe, não entendi.";
+    }
+
     salvarConversaEmCSV() {
         let dataCSV = "";
         const filePath = 'repository/mensagens_nlp.csv';
@@ -153,8 +161,10 @@ class MewTwo {
 
     async processIntent(text) {
         this.counter++;
-        return await this.manager.process('pt', text);
+        const result = await this.manager.process('pt', text);
+        return result;
     }
+
 
     analyzeSentiments(text) {
         try {
@@ -184,6 +194,8 @@ class MewTwo {
             saudacao: 1,
             despedida: 9,
             pedido: 3,
+            endereco: 5,
+            pagamento: 7
             // ... mapeie todas as intenções para seus estágios correspondentes
         };
         return intentToStageMapping[intent];
@@ -232,10 +244,12 @@ class MewTwo {
         const interact = async () => {
             rl.question('\nDigite uma mensagem (ou "!sair" para encerrar): ', async userInput => {
                 if (userInput.toLowerCase() === '!sair') {
-                    this.saveConversationToCSV();
+                    this.salvarConversaEmCSV();
                     rl.close();
                     return;
                 }
+
+
 
                 const intentFromWidget = this.widgets.getIntentFromOption(this.widgets.menuPrincipal, userInput);
 
@@ -252,7 +266,14 @@ class MewTwo {
                 // Mostrando a resposta da intenção, análise de sentimentos e resposta dinâmica no terminal
                 console.log('\n\nAnálise de Sentimentos: ', sentimentsAnalysis);
                 console.log('\n\nResposta da Intenção: ', intentResponse);
-                console.log('\n\nResposta Dinâmica: ', dynamicResponse);
+                //console.log('\n\nResposta Dinâmica: ', dynamicResponse);
+
+
+                const cleanIntent = intentResponse.intent.trim().replace(/"/g, '');
+                const response = this.getResponseForIntent(cleanIntent);
+                console.log('\n\nResposta:', response);
+
+
 
                 //Mostrando o Menu
                 let menu = this.widgets.enviarMenu('Menu Principal', this.widgets.menuPrincipal)
@@ -287,4 +308,5 @@ module.exports = MewTwo;
 const mewTwo = new MewTwo();
 mewTwo.trainWithCSVData().then(() => {
     mewTwo.runChatbot();
+    console.log('MewTwo online')
 });

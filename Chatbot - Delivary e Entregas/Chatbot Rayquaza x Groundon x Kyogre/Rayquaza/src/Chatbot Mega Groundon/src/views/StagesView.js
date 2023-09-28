@@ -62,26 +62,36 @@ class StagesView extends GroundonView {
     }
 
 
-    async processWithMewTwo(message) {
-        const resposta = await this.mewTwo.processIntent(message.body);
-        const stage = this.mewTwo.getStageForIntent(resposta.intent);
-        const dynamicResponse = this.mewTwo.generateDynamicResponse(resposta.intent);
+    async mewtwoRespondeMensagem(message) {
+        try {
+            // Processar a mensagem usando MewTwo
+            const resposta_intent = await this.mewTwo.processIntent(message.body);
 
+            const cleanIntent = resposta_intent.intent.trim().replace(/"/g, '');
+            const resposta = this.mewTwo.getResponseForIntent(cleanIntent);
 
-        //TODO IA TEM QUE SABER DIRECIONAR PARA OS ESTAGIOS CORRETOS
-        if (stage) {
-
-            try {
-                this.pushStage(stage);
-                this.navigateToStage(stage)
-            } catch (error) {
-                console.log('tentativa de ir para o estagio', error)
+            // Se a resposta foi bem-sucedida, envie a resposta para o usuário
+            if (resposta) {
+                this.enviarMensagem(message, `Resp. Mewtwo: ${resposta}`);
+            } else {
+                this.enviarMensagem(message, 'Desculpe, não consegui entender sua mensagem.');
             }
 
+            // Obter o estágio com base na intenção
+            const stage = this.mewTwo.getStageForIntent(resposta_intent.intent);
 
+            // Se um estágio foi identificado, navegue para ele
+            if (stage) {
+                this.pushStage(stage);
+                this.navigateToStage(stage);
+                console.log(`\n\nStage of Mewtwo ${stage}`);
+            } else {
+                console.log('\n\nResposta Mewtwo fora do Groundon')
+            }
+        } catch (error) {
+            console.error('Erro ao processar a mensagem:', error);
+            this.enviarMensagem(message, 'Desculpe, ocorreu um erro ao processar sua mensagem.');
         }
-        //this.enviarMensagem(message, `Resp. dynamic: ${dynamicResponse}`);
-        this.enviarMensagem(message, resposta.answer);
     }
 
 
@@ -163,7 +173,7 @@ class StagesView extends GroundonView {
 
                     this.enviarMensagem(message, 'Você saiu do modo de NLP e voltou ao chatbot padrão.');
                 } else {
-                    this.processWithMewTwo(message);
+                    this.mewtwoRespondeMensagem(message);
                     return;
                 }
             } else {
@@ -172,6 +182,10 @@ class StagesView extends GroundonView {
 
                 } else {
                     // ... [existing logic to process message with the standard chatbot]
+
+                    this.mewtwoRespondeMensagem(message);
+
+
                     //! ===================== Estágio 1 - Apresentação =====================
                     if (numero_estagio === 1) {
                         console.log(`\n\n\nEstágio ${numero_estagio}:`, message.body);
