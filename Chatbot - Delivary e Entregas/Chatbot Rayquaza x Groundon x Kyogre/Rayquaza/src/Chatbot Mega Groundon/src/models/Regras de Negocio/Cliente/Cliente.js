@@ -11,6 +11,7 @@ class Cliente {
         };
         this.forma_pagamento = ''
         this.pedido = {}
+        this.status_pedido = ''
         this.total_pagar = 0
         this.data_pedido = {
             data: '',

@@ -58,7 +58,7 @@ class StagesView extends GroundonView {
 
     async start_chatbot_IA(message) {
         this.isNLPMode = true;
-        this.enviarMensagem(message, 'Olá, sou o Mewtwo. Você está agora no modo de NLP. Digite "!sair" para sair.');
+        this.enviarMensagem(message, 'Olá, sou o Mewtwo. Você está agora no modo de treinamento  NLP. Digite "!sair" para sair.');
     }
 
 
@@ -69,6 +69,7 @@ class StagesView extends GroundonView {
 
             const cleanIntent = resposta_intent.intent.trim().replace(/"/g, '');
             const resposta = this.mewTwo.getResponseForIntent(cleanIntent);
+            console.log(`Debug: ${resposta} | ${resposta_intent} `)
 
             // Se a resposta foi bem-sucedida, envie a resposta para o usuário
             if (resposta) {
@@ -95,6 +96,30 @@ class StagesView extends GroundonView {
     }
 
 
+    async mewtwoRespondeItemDoMenu(selectedOption) {
+        const texto_item_selecionado = selectedOption.button.text.slice(3);
+        const resposta_choice = await this.mewTwo.processIntent(texto_item_selecionado);
+
+        this.enviarMensagem(message, `Voce escolheu a opção *${texto_item_selecionado}*`);
+        this.enviarMensagem(message, resposta_choice.answer);
+
+        // Você pode adicionar mais lógica aqui se necessário para ações específicas do menu.
+    };
+
+    async mewtwoRespondeMensagem(message) {
+        const resposta_intent = await this.mewTwo.processIntent(message.body);
+        const cleanIntent = resposta_intent.intent.trim().replace(/"/g, '');
+        const resposta = this.mewTwo.getResponseForIntent(cleanIntent);
+
+        // Se a resposta foi bem-sucedida, envie a resposta para o usuário.
+        if (resposta) {
+            this.enviarMensagem(message, `Resp. Mewtwo: ${resposta}`);
+        } else {
+            this.enviarMensagem(message, 'Desculpe, não consegui entender sua mensagem.');
+        }
+
+        // Adicione qualquer outra lógica necessária para tratar a resposta do MewTwo.
+    };
 
 
     resetEstagio(message) {
@@ -143,7 +168,7 @@ class StagesView extends GroundonView {
 
             //! Configurações de Estagios de Fluxo
             const phoneNumber = message.from;
-            console.log('Novo telefone detectado!', phoneNumber)
+            console.log('Novo telefone detectado!', phoneNumber,)
 
             // Inicializa o estado do cliente se não existir
             if (!this.clientStates[phoneNumber]) {
@@ -276,82 +301,44 @@ class StagesView extends GroundonView {
                     else if (numero_estagio === 3) {
                         console.log(`\n\n\nEstágio ${numero_estagio}:`, message.body);
 
-                        //? Pega a ultima mensagem enviada pelo cliente
-                        const choice_escolhida = this.getLastMessage(message);
-                        const selectedOption = this.Widgets.getSelectedOption(menu_principal, choice_escolhida);
+                        let intent_escolhida;
+                        // Verifique se a entrada é um número do menu
+                        const selectedOption = this.Widgets.getSelectedOption(menu_principal, message.body);
 
-
-
-                        // Verifica qual opção
                         if (selectedOption) {
-
-
-                            //Pegando o texto do menu
-                            const texto_item_selecionado = selectedOption.button.text.slice(3)
-
-                            // Processar a mensagem usando MewTwo
-                            const resposta_choice = await this.mewTwo.processIntent(texto_item_selecionado);
-
-                            this.enviarMensagem(message, `Voce escolheu a opção *${texto_item_selecionado}*`)
-                            this.enviarMensagem(message, resposta_choice.answer)
-
-
-                            // Localização
-                            if (selectedOption.button.text.toUpperCase() === 'HORARIOS DE FUNCIONAMENTO' ||
-                                selectedOption.button.text.toUpperCase().includes('HORARIOS')) {
-
-                                this.enviarMensagem(message, 'Estamos implementando essa funcionalidade, por favor tente outra opção.')
-
-                                this.delay(2000)
-
-                                // Mostra o menu principal
-                                let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
-                                this.enviarMensagem(message, menu_principal_text)
-                            }
-
-
-                            //!Enviar o cardapio Digital
-                            if (
-                                selectedOption.button.text.toUpperCase() === 'FAZER PEDIDO' ||
-                                selectedOption.button.text.toLowerCase().includes('pedido')
-                            ) {
-
-                                await this.enviarLinkCardapioDigital(message, KYOGRE_LINK_ID)
-                                this.clientStates[phoneNumber].stack.push(4);
-
-                            }
-
-
-                            // Reiniciar
-                            else if (selectedOption.button.text.toUpperCase() === 'Promoções') {
-                                //this.restartChatbot()
-                                //this.popStage()
-                                //this.popStage()
-                            }
-
-                            else if (
-                                selectedOption.button.text.toUpperCase() === 'ENDEREÇO' ||
-                                selectedOption.button.text.toLowerCase().includes('endereço')
-                            ) {
-
-                                this.enviarMensagem(message, "Desculpe a essa funcionalidade ainda nao foi implementada")
-                                this.delay(3000).then(() => {
-                                    // Mostra o menu principal
-                                    let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
-                                    this.enviarMensagem(message, menu_principal_text)
-                                });
-                            }
-
-
-
-
+                            // Pega o texto da opção selecionada
+                            intent_escolhida = selectedOption.button.text.slice(3);
+                            this.enviarMensagem(message, `Voce escolheu a opção *${intent_escolhida}*`)
                         } else {
-                            resposta = await this.mewtwoRespondeMensagem(message);
+                            intent_escolhida = this.getLastMessage(message)
                         }
 
+                        // Processa a entrada usando MewTwo
+                        const resposta_intent = await this.mewTwo.processIntent(intent_escolhida);
+                        const cleanIntent = resposta_intent.intent.trim().replace(/"/g, '');
+                        const resposta = this.mewTwo.getResponseForIntent(cleanIntent);
 
+                        if (cleanIntent === 'pedido') {
+                            this.enviarMensagem(message, resposta);
+                            await this.enviarLinkCardapioDigital(message, KYOGRE_LINK_ID);
+                            this.clientStates[phoneNumber].stack.push(4);
+                        } else {
+                            this.delay(3000).then(
+                                await this.enviarMensagem(message, `Resp. Mewtwo: ${resposta}`)
+                            )
+
+                            this.delay(7000).then(() => {
+                                // Mostra o menu principal
+                                this.enviarMensagem(message, "Aqui tem mais opções no que posso te ajudar :)")
+                                let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal)
+                                this.enviarMensagem(message, menu_principal_text)
+                            })
+
+
+
+
+                        }
                     }
-
 
 
 
@@ -526,10 +513,16 @@ class StagesView extends GroundonView {
                     else if (numero_estagio === 9) {
                         console.log(`\nEstágio ${numero_estagio}:`, message.body);
 
+                        // Processa a entrada usando MewTwo
+                        const resposta_intent = await this.mewTwo.processIntent(message.body);
+                        const cleanIntent = resposta_intent.intent.trim().replace(/"/g, '');
+                        const resposta = this.mewTwo.getResponseForIntent(cleanIntent);
 
-                        //TODO
-                        this.enviarMensagem(message, 'Seu pedido está sendo preparado, caso precise modificar ou passar mais alguma informação para o atendente, ligue para (21)2222-2222    ')
-
+                        if (cleanIntent === 'estagio9') {
+                            this.enviarMensagem(message, resposta);
+                        } else {
+                            this.enviarMensagem(message, 'Seu pedido está sendo preparado, caso precise modificar ou passar mais alguma informação para o atendente, ligue para (21)2222-2222.');
+                        }
                     }
 
 

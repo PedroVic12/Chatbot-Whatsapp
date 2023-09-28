@@ -103,11 +103,12 @@ class Widgets {
 
   getMenuText(title, menu) {
     let menuText = `⚡️  *${title}* ⚡️ \n\n`;
+
     menu.forEach((item, index) => {
       menuText += `${index + 1}) ${item.button.text}\n`;
     });
 
-    menuText += `\n📝 Digite o *Número* ou *Escreva a opção*  para escolher o item desejado.\n\n`;
+    menuText += `\n📝 Digite o *Número* ou *Escreva a opção*  para escolher o item desejado.`;
 
     return menuText;
   }
