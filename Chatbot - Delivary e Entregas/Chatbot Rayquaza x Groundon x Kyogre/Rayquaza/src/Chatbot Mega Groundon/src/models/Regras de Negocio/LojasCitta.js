@@ -1,5 +1,5 @@
 // Importe a classe Pikachu aqui
-const { Pikachu } = require('./pikachu'); // Substitua pelo caminho correto
+const Pikachu = require('../Pikachu'); // Substitua pelo caminho correto
 
 class LojasCitta {
     constructor() {
@@ -11,7 +11,7 @@ class LojasCitta {
         ];
 
         // Inicialize a instância de Pikachu com sua chave de API
-        this.pikachu = new Pikachu('SUA_CHAVE_DE_API'); // Substitua pela sua chave de API
+        this.pikachu = new Pikachu('AIzaSyBz5PufcmSRVrrmTWPHS2qlzPosL70XrwE'); // Substitua pela sua chave de API
     }
 
     async calcularTrajetosParaCentroDaCidade(destino) {
@@ -37,7 +37,7 @@ const lojasCitta = new LojasCitta();
 const destino = 'Centro da Cidade, Rio de Janeiro';
 lojasCitta.calcularTrajetosParaCentroDaCidade(destino)
     .then((trajetos) => {
-        console.log('Trajetos para o centro da cidade:');
+        console.log('\n\nTrajetos para o centro da cidade:');
         trajetos.forEach((trajeto) => {
             console.log(`Loja: ${trajeto.loja}`);
             console.log('Distância:', trajeto.trajeto.distancia);

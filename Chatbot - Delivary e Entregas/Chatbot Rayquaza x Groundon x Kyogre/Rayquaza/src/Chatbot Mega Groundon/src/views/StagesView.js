@@ -217,6 +217,7 @@ class StagesView extends GroundonView {
                     //! ===================== Estágio 1 - Apresentação =====================
                     if (numero_estagio === 1) {
                         console.log(`\n\n\nEstágio ${numero_estagio}:`, message.body);
+                        console.log(typeof (message.body))
 
                         await this.delay(1000).then(
                             this.enviarMensagem(message, `Bem-vindo a Lanchonete *Citta RJ* Obrigado por escolher a nossos Serviços.\n🤖 Eu sou o Robô Groundon e estou aqui para ajudá-lo. `)
@@ -309,7 +310,6 @@ class StagesView extends GroundonView {
                         console.log(`\n\n\nEstágio ${numero_estagio}:`, message.body);
 
                         let intent_escolhida;
-                        // Verifique se a entrada é um número do menu
                         const selectedOption = this.Widgets.getSelectedOption(menu_principal, message.body);
 
                         if (selectedOption) {
@@ -325,21 +325,26 @@ class StagesView extends GroundonView {
                         const cleanIntent = resposta_intent.intent.trim().replace(/"/g, '');
                         const resposta = this.mewTwo.getResponseForIntent(cleanIntent);
 
+
+                        //Responde o cliente
                         if (cleanIntent === 'pedido') {
                             this.enviarMensagem(message, resposta);
                             await this.enviarLinkCardapioDigital(message, KYOGRE_LINK_ID);
                             this.clientStates[phoneNumber].stack.push(4);
                         } else {
-                            this.delay(3000).then(
+                            this.delay(7000).then(
                                 await this.enviarMensagem(message, `Resp. Mewtwo: ${resposta}`)
                             )
 
-                            this.delay(7000).then(() => {
-                                // Mostra o menu principal
-                                this.enviarMensagem(message, "Aqui tem mais opções no que posso te ajudar :)")
-                                let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal)
-                                this.enviarMensagem(message, menu_principal_text)
-                            })
+                            // não enviar o menu se ele quer fazer o pedido
+                            if (cleanIntent != 'pedido') {
+                                this.delay(20000).then(() => {
+                                    // Mostra o menu principal
+                                    this.enviarMensagem(message, "Aqui tem mais opções no que posso te ajudar :)")
+                                    let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal)
+                                    this.enviarMensagem(message, menu_principal_text)
+                                })
+                            }
 
 
 
@@ -490,6 +495,7 @@ class StagesView extends GroundonView {
                     //!PEDIDO EVNIADO PARA COZINHA
                     else if (numero_estagio === 8) {
                         console.log(`\nEstágio ${numero_estagio}:`, message.body);
+                        let mudou = false
 
                         //TODO -> VERIFICAR QUANDO O PEDIDO FICAR PRONTO PARA MANDAR QUE FOI ENVIADO PARA ENTREGA
 
@@ -497,20 +503,32 @@ class StagesView extends GroundonView {
 
                         this.enviarMensagem(message, `*Obrigado, ${this.clientStates[phoneNumber].cliente.getNome()}*!\nSeu pedido esta sendo preparado e volto quando ele estiver sendo enviado para entrega!`)
 
-                        this.clientStates[phoneNumber].stack.push(9);
-
-
-
-                        let mudou = false
+                        // No final do estágio 8, antes de mudar para o próximo estágio:
                         try {
-                            this.mudarDeEstagio(9)
-                            mudou = true
+                            this.mewTwo.saveConversationClienteGroundon();
+                        } catch (error) {
+                            console.log('Erro ao salvar conversa em CSV', error);
+                        }
+
+
+
+                        try {
+                            let numero_cliente = this.clientStates[phoneNumber].cliente.getTelefoneCliente(message)
+
+                            if (numero_cliente) {
+                                this.setClientStage(numero_cliente, 9)
+                                mudou = true
+                            }
+
                             if (mudou) {
-                                console.log('mudou de estagio')
+                                console.log('mudou de estagio!')
+                            } else {
+                                this.clientStates[phoneNumber].stack.push(9);
                             }
                         } catch {
                             console.log('Nao mudou :(')
                         }
+
 
 
 
@@ -519,6 +537,7 @@ class StagesView extends GroundonView {
                     //!PEDIDO PRONTO E ENVIADO PARA ENTREGA
                     else if (numero_estagio === 9) {
                         console.log(`\nEstágio ${numero_estagio}:`, message.body);
+                        this.enviarMensagem(message, 'O.O opa, Seu pedido está sendo preparado, caso precise modificar ou passar mais alguma informação para o atendente, ligue para (21)2222-2222.');
 
                         // Processa a entrada usando MewTwo
                         const resposta_intent = await this.mewTwo.processIntent(message.body);

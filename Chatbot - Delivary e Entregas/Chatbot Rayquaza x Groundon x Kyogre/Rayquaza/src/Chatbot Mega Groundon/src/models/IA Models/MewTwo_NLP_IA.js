@@ -17,15 +17,15 @@ class MewTwo {
     constructor() {
         this.initializeProperties();
         this.initializeNLP();
-        this.widgets = new Widgets()
-        this.currentClient = null
-        //this.groundon_bot = new GroundonView()
+
     }
 
     initializeProperties() {
         this.sentimento = new Sentiment();
         this.counter = 0;
         this.conversation = [];
+        this.widgets = new Widgets()
+        this.currentClient = null
     }
 
     initializeNLP() {
@@ -37,6 +37,25 @@ class MewTwo {
     // Método para definir o cliente atual
     setClient(client) {
         this.currentClient = client;
+    }
+
+
+    // Método para adicionar uma mensagem à conversa
+    addMessageToConversation(sender, message) {
+        this.conversation.push({ sender, message });
+    }
+
+    // Método para salvar a conversa em um arquivo CSV
+    saveConversationClienteGroundon() {
+        const filePath = path.join(__dirname, 'conversations.csv'); // Defina o caminho desejado aqui
+        let csvContent = 'Sender,Message\n'; // Cabeçalho CSV
+
+        for (let entry of this.conversation) {
+            csvContent += `"${entry.sender}","${entry.message}"\n`; // Adicione cada entrada da conversa
+        }
+
+        fs.writeFileSync(filePath, csvContent, 'utf8');
+        console.log(`Conversa salva em: ${filePath}`);
     }
     //!Treinamento e aprendizaado
     addTrainingData() {

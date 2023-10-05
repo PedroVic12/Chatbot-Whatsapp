@@ -10,7 +10,7 @@ if [ -z "$IS_RUNNING" ]; then
     echo -e "Iniciando a aplicação $APP_NAME...\n"
     
     # Inicia a aplicação com o caminho completo para o arquivo index.js
-    pm2 start $INDEX_PATH --name $APP_NAME
+    pm2 start index.js --name $APP_NAME
     
     # Salva a aplicação para reiniciar automaticamente após reboots do sistema
     pm2 save
