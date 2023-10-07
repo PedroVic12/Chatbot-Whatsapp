@@ -357,20 +357,17 @@ class StagesView extends GroundonView {
                     //!=====================  Estagio 4 - Cliente Escolhe os Produtos no Cardapio Digital da Loja =====================
                     else if (numero_estagio === 4) {
 
-                        //todo mandar o pedido pelo groundon e salvar tudo no cliente formatado
                         console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
 
+
+
+                        //TODO FAZER O PEDIDO SER ENVIADO PELO GROUNDON PEGANDO OS DADOS DO FLUTTER E SERVIDOR 
                         const pedido_escolhido_cardapio = this.getLastMessage(message);
-                        const pedido_json = this.getPedidoCardapio(pedido_escolhido_cardapio)
-
-                        //TODO FAZER O PEDIDO SER ENVIADO PELO GROUNDON PARA QUE O CLIENTE NAO ALTERE OSA DADOS
-
+                        const pedido_json = this.getPedidoCardapio(pedido_escolhido_cardapio) //change here
 
 
                         try {
                             this.clientStates[phoneNumber].cliente.setPedido(pedido_json)
-                            //TODO COLOCAR OS ITENS, QUANTIDADE E PRECO DENTRO DO PEDIDO NA CLASSE CLIENTE
-
                             console.log('\n\n\nPedido atraves do Cardapio:', cliente.getDadosCompletos(pedido_json))
 
                             this.delay(1000).then(
