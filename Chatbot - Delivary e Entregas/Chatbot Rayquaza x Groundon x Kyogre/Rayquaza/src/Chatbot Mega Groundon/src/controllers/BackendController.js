@@ -23,10 +23,23 @@ class BackendController extends GroundonController {
     }
 
 
+    async getDadosPedidosKyogre(idPedido) {
+        const url = `https://rayquaza-citta-server.onrender.com/pedidos-kyogre/${idPedido}`;
+        try {
+            const response = await axios.get(url);
+            console.log('\n\n>>> Dados do pedido recebidos com sucesso:');
+            console.log(response.data)
+            return response.data
+        } catch (error) {
+            console.error('Erro ao receber dados do KYOGRE:', error);
+        }
+    }
+
+
     async enviarLinkServidor(idPedido) {
 
         // Rota Cardapio Digital
-        const link = `https://groundon-citta-cardapio.web.app/#/details/${idPedido}`;
+        const link = `https://groundon-citta-cardapio.web.app/#/pedido/${idPedido}`;
 
         const url_link = 'https://rayquaza-citta-server.onrender.com/receber-link';
         const data_link = {

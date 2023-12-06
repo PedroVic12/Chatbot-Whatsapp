@@ -18,7 +18,6 @@ const cliente = new Cliente()
 
 /*
 TODO 
-Pesquisa sobre o “Anota Aí” e o “TakeEat App”
 
 Robo fazer consulta de dados pelo ID do pedido e telefone
 
@@ -73,6 +72,7 @@ class StagesView extends GroundonView {
 
             // Se a resposta foi bem-sucedida, envie a resposta para o usuário
             if (resposta) {
+
                 this.enviarMensagem(message, `Resp. Mewtwo: ${resposta}`);
             } else {
                 this.enviarMensagem(message, 'Desculpe, não consegui entender sua mensagem.');
@@ -169,19 +169,18 @@ class StagesView extends GroundonView {
                     stack: [1] // Começa no estágio 1
                 };
             }
-            console.log('\n\n==================================================')
+            console.log('\n\n\n==================================================')
             console.log('Cliente Fazendo atendimento :\n', this.clientStates)
-            console.log('==================================================\n\n')
+            console.log('==================================================\n\n\n')
 
             let numero_estagio
             numero_estagio = this.clientStates[phoneNumber].stack[this.clientStates[phoneNumber].stack.length - 1];
 
 
-
             //!Configurações Backend
             this.restartChatbot()
             try {
-                this.resetEstagio(message, numero_estagio, phoneNumber) // Função que reseta os estagios
+                this.resetEstagio(message, numero_estagio, pnhoneNumber) // Função que reseta os estagios
 
             } catch (error) {
                 console.log('nao vai dar para voltar de estagio')
@@ -220,11 +219,11 @@ class StagesView extends GroundonView {
                         console.log(typeof (message.body))
 
                         await this.delay(1000).then(
-                            this.enviarMensagem(message, `Bem-vindo a Lanchonete *Citta RJ* Obrigado por escolher a nossos Serviços.\n🤖 Eu sou o Robô Groundon e estou aqui para ajudá-lo. `)
+                            this.enviarMensagem(message, `Bem-vindo a Lanchonete *Citta RJ*\n🤖 Eu sou o Robô Groundon e estou aqui para ajudar seu atendimento.`)
                         )
                         this.clientStates[phoneNumber].stack.push(2);
                         await this.delay(3000).then(
-                            this.enviarMensagem(message, "🤖 Antes de começarmos, por favor, *Digite Seu Nome*:")
+                            this.enviarMensagem(message, "🤖 Antes de começarmos, por favor, *Digite Seu Nome:*")
                         )
 
 
@@ -261,7 +260,6 @@ class StagesView extends GroundonView {
                                 const nomeCLiente = this.getLastMessage(message);
                                 const numCliente = this.estagio2.getTelefoneCliente(message);
                                 ID_PEDIDO = this.backendController.gerarIdPedido();
-                                console.log("ID Pedido:", ID_PEDIDO);
 
                                 // Set values
                                 this.clientStates[phoneNumber].cliente.setNome(nomeCLiente);
@@ -300,7 +298,9 @@ class StagesView extends GroundonView {
                         // Mostra o menu principal
                         let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal);
                         this.enviarMensagem(message, menu_principal_text)
-                        this.enviarMensagem(message, `*${this.clientStates[phoneNumber].cliente.getNome()}*, agora temos uma nova funcionalidade de IA!\n\nDigite *!startIA* para conversar com o nosso modelo NLP!`)
+
+
+                        // this.enviarMensagem(message, `*${this.clientStates[phoneNumber].cliente.getNome()}*, agora temos uma nova funcionalidade de IA!\n\nDigite *!startIA* para conversar com o nosso modelo NLP!`)
 
                         this.clientStates[phoneNumber].stack.push(3);
                     }
@@ -313,7 +313,6 @@ class StagesView extends GroundonView {
                         const selectedOption = this.Widgets.getSelectedOption(menu_principal, message.body);
 
                         if (selectedOption) {
-                            // Pega o texto da opção selecionada
                             intent_escolhida = selectedOption.button.text.slice(3);
                             this.enviarMensagem(message, `Voce escolheu a opção *${intent_escolhida}*`)
                         } else {
@@ -326,19 +325,30 @@ class StagesView extends GroundonView {
                         const resposta = this.mewTwo.getResponseForIntent(cleanIntent);
 
 
-                        //Responde o cliente
                         if (cleanIntent === 'pedido') {
                             this.enviarMensagem(message, resposta);
-                            await this.enviarLinkCardapioDigital(message, KYOGRE_LINK_ID);
+
+                            // Envia o link do cardapio digital
+                            new Promise(async (resolve, reject) => {
+                                const result = await this.enviarLinkCardapioDigital(message, KYOGRE_LINK_ID)
+                                resolve(result);
+                            }).then(
+
+                                await this.enviarMensagem(message, `Aqui está o cardápio digital da loja!`)
+                            ).finally(
+                                console.log('Enviado')
+                            )
+
+
                             this.clientStates[phoneNumber].stack.push(4);
                         } else {
                             this.delay(7000).then(
                                 await this.enviarMensagem(message, `Resp. Mewtwo: ${resposta}`)
                             )
 
-                            // não enviar o menu se ele quer fazer o pedido
+                            // enviar o menu se ele quer fazer o pedido
                             if (cleanIntent != 'pedido') {
-                                this.delay(20000).then(() => {
+                                this.delay(40000).then(() => {
                                     // Mostra o menu principal
                                     this.enviarMensagem(message, "Aqui tem mais opções no que posso te ajudar :)")
                                     let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal)
@@ -356,26 +366,46 @@ class StagesView extends GroundonView {
 
                     //!=====================  Estagio 4 - Cliente Escolhe os Produtos no Cardapio Digital da Loja =====================
                     else if (numero_estagio === 4) {
-
                         console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
 
 
 
-                        //TODO FAZER O PEDIDO SER ENVIADO PELO GROUNDON PEGANDO OS DADOS DO FLUTTER E SERVIDOR 
-                        const pedido_escolhido_cardapio = this.getLastMessage(message);
-                        const pedido_json = this.getPedidoCardapio(pedido_escolhido_cardapio) //change here
 
 
-                        try {
-                            this.clientStates[phoneNumber].cliente.setPedido(pedido_json)
-                            console.log('\n\n\nPedido atraves do Cardapio:', cliente.getDadosCompletos(pedido_json))
+                        const MENSAGEM_STRING_WPP = ''
+                        let msg = this.getLastMessage(message)
+                        const pedido_escolhido_cardapio = await this.backendController.getDadosPedidosKyogre(ID_PEDIDO)
 
-                            this.delay(1000).then(
-                                this.enviarMensagem(message, `✅ Seu pedido foi anotado!`)
-                            )
+                        if (msg == 'Ola mundo') {
+                            if (pedido_escolhido_cardapio) {
+                                const produtos = pedido_escolhido_cardapio.pedido.itens
+                                console.log(produtos)
 
-                        } catch (error) {
-                            console.log('Nao foi possivel salvar os produtos do pedido', error)
+                                //loop
+                                for (let index = 0; produtos < produtos.length; index++) {
+                                    const element = produtos[index];
+
+                                    MENSAGEM_STRING_WPP = `\n ->${produtos[index].quantidade}x - ${produtos[index].nome}`
+                                }
+
+                                console.log(MENSAGEM_STRING_WPP)
+                                this.enviarMensagem(message, `Resumo Pedido ${produtos[0].quantidade}\n${produtos[0].nome}`)
+
+
+                                // Pega os dados do Cliente do KYOGRE
+                                try {
+
+                                    this.clientStates[phoneNumber].cliente.setPedido(produtos);
+                                    console.log('\n\n\nPedido atraves do Cardapio:', cliente.getDadosCompletos(pedido_escolhido_cardapio.pedido.itens))
+
+                                    this.delay(1000).then(
+                                        this.enviarMensagem(message, `✅ Seu pedido foi anotado!`)
+                                    )
+
+                                } catch (error) {
+                                    console.log('Nao foi possivel salvar os produtos do pedido', error)
+                                }
+                            }
                         }
 
 
@@ -460,7 +490,6 @@ class StagesView extends GroundonView {
 
 
                         // TODO USAR O MENU E TRATAMENTO DE DADOS PARA 3 RESPOSTAS
-                        // Get complete client data
                         const pedido_cliente = this.clientStates[phoneNumber].cliente.getPedido()
                         this.clientStates[phoneNumber].cliente.setDataAtual()
                         const DADOS_CLIENTE = this.clientStates[phoneNumber].cliente.getDadosCompletos(pedido_cliente);
@@ -552,21 +581,6 @@ class StagesView extends GroundonView {
 
                 }
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         });

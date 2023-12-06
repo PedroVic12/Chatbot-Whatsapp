@@ -1,7 +1,5 @@
 const GroundonController = require('../controllers/GroundonController');
 const Groundon = require('../models/Groundon')
-const fs = require('fs');
-const axios = require('axios');
 const pm2 = require('pm2');
 const MewTwo = require('../views/GroundonView')
 
@@ -202,6 +200,44 @@ class GroundonView extends Groundon {
 		};
 	}
 
+
+	//!CARDAPIO DIGITAL
+	async sendLinkCardapioDigital(message, _LINK) {
+		const MAX_ATTEMPTS = 3;
+		const ATTEMPT_INTERVAL = 7000; // 7 segundos
+		let attemptCount = 0;
+		let linkSent = false;
+
+		const sendLink = async () => {
+			attemptCount++;
+			const _startTime = Date.now(); // Inicializa o temporizador para cada tentativa
+
+			if (attemptCount > MAX_ATTEMPTS) {
+				await this.enviarMensagem(message, `Desculpe, não foi possível enviar o link. Por favor, tente novamente mais tarde.`);
+				return;
+			}
+
+			try {
+				if (attemptCount > 1) {
+					await this.enviarMensagem(message, `Processando... por favor aguarde.`);
+				}
+				await this.enviarMensagem(message, `Abra o link do seu Pedido:\n👉${_LINK}`);
+				linkSent = true;
+				const tempo_execucao = (Date.now() - _startTime) / 1000; // Calcula o tempo de execução
+				console.log(`Tentativa ${attemptCount} (${tempo_execucao} segundos): Link enviado com sucesso.`);
+			} catch (error) {
+				console.log(`Tentativa ${attemptCount}: Erro ao enviar o link.`, error);
+				const tempo_execucao = (Date.now() - _startTime) / 1000; // Calcula o tempo de execução
+				console.log(`Tentativa ${attemptCount} (${tempo_execucao} segundos): Erro ao enviar o link.`);
+				await this.delay(ATTEMPT_INTERVAL);
+				await sendLink();
+			}
+		};
+
+		await sendLink();
+	}
+
+
 	async enviarLinkCardapioDigital(message, _LINK) {
 		const MAX_ATTEMPTS = 3;
 		const ATTEMPT_INTERVAL = 7000; // 7 seconds
@@ -214,8 +250,8 @@ class GroundonView extends Groundon {
 			if (linkSent) return;
 
 			try {
-				if (attempt > 1) await this.enviarMensagem(message, `Tentando novamente...`);
-				await this.enviarMensagem(message, `Abra esse link do seu pedido: ---> ${_LINK}`);
+				if (attempt > 1) await this.enviarMensagem(message, `Processando... por favor aguarde...`);
+				await this.enviarMensagem(message, `Abra o link do seu Pedido:\n👉${_LINK}`);
 				linkSent = true;
 				const tempo_execucao = calculaTempo(_startTime);
 				console.log(`Tentativa ${attempt} (${tempo_execucao}): Link enviado com sucesso.`);

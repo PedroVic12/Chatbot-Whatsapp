@@ -11,7 +11,7 @@ class Cliente {
         };
         this.forma_pagamento = ''
         this.pedido = {}
-        this.status_pedido = ''
+        this.status = ''
         this.total_pagar = 0
         this.data_pedido = {
             data: '',
@@ -87,9 +87,15 @@ class Cliente {
     }
 
 
-    setPedido(itensPedido) {
-        // Adicione os itens do pedido ao objeto pedido
-        this.pedido.itens = itensPedido.itens.map(item => {
+    setPedido(dadosPedido) {
+        //! Configura as propriedades do pedido
+        //this.nome = dadosPedido.nome_cliente;
+        //this.telefone = dadosPedido.telefone_cliente;
+        //this.endereco_cliente = dadosPedido.endereco;
+        this.status = dadosPedido.status;
+
+        // Configura os itens do pedido
+        this.pedido.itens = dadosPedido.pedido.itens.map(item => {
             return {
                 quantidade: item.quantidade,
                 nome: item.nome,
@@ -97,9 +103,10 @@ class Cliente {
             };
         });
 
-        // Calcule o total do pedido
-        this.total_pagar = itensPedido.itens.reduce((total, item) => total + (item.quantidade * item.preco), 0);
+        // Configura o total do pedido
+        this.pedido.total = dadosPedido.total; // O total já vem calculado do Flutter
     }
+
 
     getPedido() {
         return this.pedido
@@ -112,6 +119,7 @@ class Cliente {
             data: this.data_pedido,
             nome: this.nome,
             telefone: this.telefone,
+            status: this.status,
             endereco: this.endereco_cliente.endereco,
             complemento: this.endereco_cliente.complemento,
             formaPagamento: this.forma_pagamento,
@@ -173,4 +181,4 @@ function main_cliente() {
 
 }
 
-main_cliente();
+//main_cliente();
