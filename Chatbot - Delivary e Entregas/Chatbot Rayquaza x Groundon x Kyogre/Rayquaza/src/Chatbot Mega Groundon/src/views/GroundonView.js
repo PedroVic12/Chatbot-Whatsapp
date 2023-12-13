@@ -201,41 +201,47 @@ class GroundonView extends Groundon {
 	}
 
 
-	//!CARDAPIO DIGITAL
+	//!Cardapio Digiral
 	async sendLinkCardapioDigital(message, _LINK) {
 		const MAX_ATTEMPTS = 3;
 		const ATTEMPT_INTERVAL = 7000; // 7 segundos
 		let attemptCount = 0;
 		let linkSent = false;
 
-		const sendLink = async () => {
+		const trySendLink = async () => {
 			attemptCount++;
 			const _startTime = Date.now(); // Inicializa o temporizador para cada tentativa
 
-			if (attemptCount > MAX_ATTEMPTS) {
-				await this.enviarMensagem(message, `Desculpe, não foi possível enviar o link. Por favor, tente novamente mais tarde.`);
-				return;
+			// Envia a mensagem de processamento antes de cada nova tentativa (exceto a primeira)
+			if (attemptCount > 1) {
+				await this.enviarMensagem(message, `Processando... por favor aguarde.`);
 			}
 
 			try {
-				if (attemptCount > 1) {
-					await this.enviarMensagem(message, `Processando... por favor aguarde.`);
-				}
+				// Tenta enviar o link
 				await this.enviarMensagem(message, `Abra o link do seu Pedido:\n👉${_LINK}`);
 				linkSent = true;
-				const tempo_execucao = (Date.now() - _startTime) / 1000; // Calcula o tempo de execução
+				const tempo_execucao = (Date.now() - _startTime) / 1000;
 				console.log(`Tentativa ${attemptCount} (${tempo_execucao} segundos): Link enviado com sucesso.`);
 			} catch (error) {
-				console.log(`Tentativa ${attemptCount}: Erro ao enviar o link.`, error);
-				const tempo_execucao = (Date.now() - _startTime) / 1000; // Calcula o tempo de execução
-				console.log(`Tentativa ${attemptCount} (${tempo_execucao} segundos): Erro ao enviar o link.`);
-				await this.delay(ATTEMPT_INTERVAL);
-				await sendLink();
+				const tempo_execucao = (Date.now() - _startTime) / 1000;
+				console.log(`Tentativa ${attemptCount} (${tempo_execucao} segundos): Erro ao enviar o link.`, error);
+				if (attemptCount < MAX_ATTEMPTS) {
+					// Aguarda o intervalo antes de tentar novamente
+					await this.delay(ATTEMPT_INTERVAL);
+					await trySendLink(); // Chama a si mesma recursivamente para nova tentativa
+				}
 			}
 		};
 
-		await sendLink();
+		await trySendLink(); // Inicia a primeira tentativa
+
+		// Se não conseguiu enviar após todas as tentativas
+		if (!linkSent) {
+			await this.enviarMensagem(message, `Desculpe, não foi possível enviar o link. Por favor, tente novamente mais tarde.`);
+		}
 	}
+
 
 
 	async enviarLinkCardapioDigital(message, _LINK) {

@@ -3,7 +3,7 @@ const fs = require('fs');
 class Cliente {
     constructor() {
         this.id = ''
-        this.nome = "";
+        this.NOME_CLIENTE = "";
         this.telefone = "";
         this.endereco_cliente = {
             endereco: "",
@@ -30,10 +30,10 @@ class Cliente {
 
     // Getter e Setter para Nome
     getNome() {
-        return this.nome;
+        return this.NOME_CLIENTE;
     }
     setNome(nome) {
-        this.nome = nome;
+        this.NOME_CLIENTE = nome;
     }
 
 
@@ -92,10 +92,10 @@ class Cliente {
         //this.nome = dadosPedido.nome_cliente;
         //this.telefone = dadosPedido.telefone_cliente;
         //this.endereco_cliente = dadosPedido.endereco;
-        this.status = dadosPedido.status;
+        //this.status = dadosPedido.status;
 
         // Configura os itens do pedido
-        this.pedido.itens = dadosPedido.pedido.itens.map(item => {
+        this.pedido = dadosPedido.carrinho.map(item => {
             return {
                 quantidade: item.quantidade,
                 nome: item.nome,
@@ -104,7 +104,7 @@ class Cliente {
         });
 
         // Configura o total do pedido
-        this.pedido.total = dadosPedido.total; // O total já vem calculado do Flutter
+        this.total_pagar = dadosPedido.total_pagar; // O total já vem calculado do Flutter
     }
 
 
@@ -113,18 +113,18 @@ class Cliente {
     }
 
     // Método para retornar os dados completos do cliente
-    getDadosCompletos(pedido_object) {
+    getDadosCompletos() {
         return {
-            id_pedido: this.id,
-            data: this.data_pedido,
-            nome: this.nome,
-            telefone: this.telefone,
-            status: this.status,
-            endereco: this.endereco_cliente.endereco,
-            complemento: this.endereco_cliente.complemento,
-            formaPagamento: this.forma_pagamento,
-            pedido: pedido_object.itens,
-            totalPagar: this.total_pagar,
+            id: this.getId(),
+            nome_cliente: this.getNome(),
+            telefone: this.getTelefone(),
+            endereco: this.getEndereco(),
+            complemento: this.getComplemento(),
+            forma_pagamento: this.getFormaPagamento(),
+            status: "Em Processo",
+            total_pagar: this.total_pagar,
+            data_pedido: this.getDataAtual(),
+            carrinho: this.getPedido()
         };
     }
 

@@ -309,6 +309,7 @@ class StagesView extends GroundonView {
                     else if (numero_estagio === 3) {
                         console.log(`\n\n\nEstágio ${numero_estagio}:`, message.body);
 
+                        let cardapioEnviado = false;
                         let intent_escolhida;
                         const selectedOption = this.Widgets.getSelectedOption(menu_principal, message.body);
 
@@ -328,36 +329,39 @@ class StagesView extends GroundonView {
                         if (cleanIntent === 'pedido') {
                             this.enviarMensagem(message, resposta);
 
-                            // Envia o link do cardapio digital
+                            let cardapioEnviado = false
+
                             new Promise(async (resolve, reject) => {
-                                const result = await this.enviarLinkCardapioDigital(message, KYOGRE_LINK_ID)
-                                resolve(result);
-                            }).then(
+                                try {
+                                    const result = await this.sendLinkCardapioDigital(message, KYOGRE_LINK_ID);
+                                    cardapioEnviado = true
+                                    resolve(result);
+                                }
+                                catch (error) {
+                                    reject(error);
+                                }
+                            }).then(() => {
+                                this.clientStates[phoneNumber].stack.push(4);
+                                console.log('Enviado?', cardapioEnviado)
 
-                                await this.enviarMensagem(message, `Aqui está o cardápio digital da loja!`)
-                            ).finally(
-                                console.log('Enviado')
-                            )
+                            }).catch((error) => {
+                                console.error('Erro ao enviar o link do cardápio:', error);
+                            });
 
-
-                            this.clientStates[phoneNumber].stack.push(4);
                         } else {
-                            this.delay(7000).then(
+                            this.delay(3000).then(
                                 await this.enviarMensagem(message, `Resp. Mewtwo: ${resposta}`)
                             )
 
                             // enviar o menu se ele quer fazer o pedido
                             if (cleanIntent != 'pedido') {
-                                this.delay(40000).then(() => {
+                                this.delay(60000).then(() => {
                                     // Mostra o menu principal
                                     this.enviarMensagem(message, "Aqui tem mais opções no que posso te ajudar :)")
                                     let menu_principal_text = this.Widgets.getMenuText('Menu Principal', menu_principal)
                                     this.enviarMensagem(message, menu_principal_text)
                                 })
                             }
-
-
-
 
                         }
                     }
@@ -367,36 +371,34 @@ class StagesView extends GroundonView {
                     //!=====================  Estagio 4 - Cliente Escolhe os Produtos no Cardapio Digital da Loja =====================
                     else if (numero_estagio === 4) {
                         console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
-
-
-
-
-
-                        const MENSAGEM_STRING_WPP = ''
+                        let MENSAGEM_STRING_WPP = ''
                         let msg = this.getLastMessage(message)
+
+
+                        // Pega os dados do cliente do Kyogre
                         const pedido_escolhido_cardapio = await this.backendController.getDadosPedidosKyogre(ID_PEDIDO)
 
                         if (msg == 'Ola mundo') {
                             if (pedido_escolhido_cardapio) {
-                                const produtos = pedido_escolhido_cardapio.pedido.itens
-                                console.log(produtos)
+                                const PRODUTOS = pedido_escolhido_cardapio
+                                const CARRINHO = PRODUTOS['carrinho']
 
-                                //loop
-                                for (let index = 0; produtos < produtos.length; index++) {
-                                    const element = produtos[index];
 
-                                    MENSAGEM_STRING_WPP = `\n ->${produtos[index].quantidade}x - ${produtos[index].nome}`
+                                //a mensagem do resumo do pedido
+                                for (let index = 0; index < CARRINHO.length; index++) {
+                                    const item = CARRINHO[index]
+                                    MENSAGEM_STRING_WPP += `\n-> ${item.quantidade}x - ${item.nome}`;
                                 }
 
-                                console.log(MENSAGEM_STRING_WPP)
-                                this.enviarMensagem(message, `Resumo Pedido ${produtos[0].quantidade}\n${produtos[0].nome}`)
+                                await this.enviarMensagem(message, `Resumo Pedido ${ID_PEDIDO} ${MENSAGEM_STRING_WPP}`)
 
 
                                 // Pega os dados do Cliente do KYOGRE
                                 try {
 
-                                    this.clientStates[phoneNumber].cliente.setPedido(produtos);
-                                    console.log('\n\n\nPedido atraves do Cardapio:', cliente.getDadosCompletos(pedido_escolhido_cardapio.pedido.itens))
+                                    this.clientStates[phoneNumber].cliente.setPedido(PRODUTOS)
+
+                                    console.log('\n\n\nPedido KYOGRE:\n', this.clientStates[phoneNumber].cliente.getDadosCompletos())
 
                                     this.delay(1000).then(
                                         this.enviarMensagem(message, `✅ Seu pedido foi anotado!`)
@@ -410,7 +412,7 @@ class StagesView extends GroundonView {
 
 
                         this.delay(3000).then(
-                            this.enviarMensagem(message, ` Boa escolha ${this.clientStates[phoneNumber].cliente.nome}!  *Digite o seu endereço de entrega:*`)
+                            this.enviarMensagem(message, ` Boa escolha ${this.clientStates[phoneNumber].cliente.getNome()}!\n*Digite o seu endereço de entrega:*`)
                         )
 
 
@@ -492,15 +494,17 @@ class StagesView extends GroundonView {
                         // TODO USAR O MENU E TRATAMENTO DE DADOS PARA 3 RESPOSTAS
                         const pedido_cliente = this.clientStates[phoneNumber].cliente.getPedido()
                         this.clientStates[phoneNumber].cliente.setDataAtual()
-                        const DADOS_CLIENTE = this.clientStates[phoneNumber].cliente.getDadosCompletos(pedido_cliente);
+                        const DADOS_CLIENTE = this.clientStates[phoneNumber].cliente.getDadosCompletos();
 
 
 
                         try {
 
                             // Generate and save the JSON file using the pedido data
-                            this.clientStates[phoneNumber].cliente.gerarPedidoJson(DADOS_CLIENTE);
+
                             console.log('\n\n\n>>> DADOS DO CLIENTE:\n', DADOS_CLIENTE, '\n')
+
+                            this.clientStates[phoneNumber].cliente.gerarPedidoJson(DADOS_CLIENTE);
 
                             // Enviando para o servidor
                             this.backendController.enviarPedidoRayquaza(DADOS_CLIENTE)
@@ -523,7 +527,6 @@ class StagesView extends GroundonView {
                         console.log(`\nEstágio ${numero_estagio}:`, message.body);
                         let mudou = false
 
-                        //TODO -> VERIFICAR QUANDO O PEDIDO FICAR PRONTO PARA MANDAR QUE FOI ENVIADO PARA ENTREGA
 
                         const confirmacao = this.getLastMessage(message)
 
@@ -535,28 +538,6 @@ class StagesView extends GroundonView {
                         } catch (error) {
                             console.log('Erro ao salvar conversa em CSV', error);
                         }
-
-
-
-                        try {
-                            let numero_cliente = this.clientStates[phoneNumber].cliente.getTelefoneCliente(message)
-
-                            if (numero_cliente) {
-                                this.setClientStage(numero_cliente, 9)
-                                mudou = true
-                            }
-
-                            if (mudou) {
-                                console.log('mudou de estagio!')
-                            } else {
-                                this.clientStates[phoneNumber].stack.push(9);
-                            }
-                        } catch {
-                            console.log('Nao mudou :(')
-                        }
-
-
-
 
                     }
 

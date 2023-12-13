@@ -53,7 +53,7 @@ async function startStagesView(groundonController, backendController) {
 
 }
 
-async function main() {
+async function MAIN_ROBO_GROUNDON() {
 	const groundonController = new GroundonController();
 	const backendController = new BackendController();
 
@@ -65,6 +65,7 @@ async function main() {
 		return;
 	}
 
+	
 
 
 	const groundonIsOnline = await startStagesView(groundonController, backendController);
@@ -76,10 +77,10 @@ async function main() {
 	if (groundonIsOnline) {
 		console.log('\n\n\n==================================================')
 		console.log('Chatbot Groundon está online. :)', groundonIsOnline);
-		console.log('==================================================')
+		console.log('==================================================\n')
 	}
 }
 
-main().catch((error) => {
+MAIN_ROBO_GROUNDON().catch((error) => {
 	console.error('\n\nOcorreu um erro:', error);
 });

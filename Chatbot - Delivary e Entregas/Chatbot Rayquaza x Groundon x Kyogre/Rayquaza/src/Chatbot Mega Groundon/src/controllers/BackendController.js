@@ -28,7 +28,7 @@ class BackendController extends GroundonController {
         try {
             const response = await axios.get(url);
             console.log('\n\n>>> Dados do pedido recebidos com sucesso:');
-            console.log(response.data)
+            //console.log(response.data)
             return response.data
         } catch (error) {
             console.error('Erro ao receber dados do KYOGRE:', error);
@@ -67,7 +67,7 @@ class BackendController extends GroundonController {
         const url = `https://rayquaza-citta-server.onrender.com/cliente/${idPedido}`;
         const data = {
             id: idPedido,
-            nome: cliente.nome,
+            nome: cliente.NOME_CLIENTE,
             telefone: cliente.telefone,
         };
 
@@ -96,7 +96,7 @@ class BackendController extends GroundonController {
             });
 
             if (response.status === 200) {
-                console.log(response.data);
+                console.log('\n\nPEDIDO ENVIADO COM SUCESSO!')
             } else {
                 console.log('Falha ao enviar o pedido. Status:', response.status);
             }
