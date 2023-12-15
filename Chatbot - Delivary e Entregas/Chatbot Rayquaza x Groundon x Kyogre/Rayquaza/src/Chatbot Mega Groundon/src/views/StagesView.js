@@ -372,13 +372,19 @@ class StagesView extends GroundonView {
                     else if (numero_estagio === 4) {
                         console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
                         let MENSAGEM_STRING_WPP = ''
-                        let msg = this.getLastMessage(message)
+                        let msgEnviadaKyogre = this.getLastMessage(message)
 
 
                         // Pega os dados do cliente do Kyogre
                         const pedido_escolhido_cardapio = await this.backendController.getDadosPedidosKyogre(ID_PEDIDO)
 
-                        if (msg == 'Ola mundo') {
+
+
+                        //const intentPedidoFeito = await this.mewTwo.processIntent(msgEnviadaKyogre);
+                        // if (intentPedidoFeito === 'pedidoCardapioFeito')
+
+
+                        if (msgEnviadaKyogre == 'Ola mundo') {
                             if (pedido_escolhido_cardapio) {
                                 const PRODUTOS = pedido_escolhido_cardapio
                                 const CARRINHO = PRODUTOS['carrinho']

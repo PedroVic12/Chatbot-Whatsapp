@@ -13,7 +13,7 @@ class Pikachu {
                     origin: origem,
                     destination: destino,
                     mode: modo,
-                    key: this.apiKey // Utilizar a chave da API aqui
+                    key: this.apiKey
                 },
             });
 
@@ -107,59 +107,47 @@ class Pikachu {
 
 module.exports = Pikachu;
 
-
-function main_pikachu() {
-    // Exemplo de uso:
-    const apiKey = 'AIzaSyBz5PufcmSRVrrmTWPHS2qlzPosL70XrwE'; // Substitua pela sua chave da API
+async function main_pikachu() {
+    const apiKey = 'AIzaSyBz5PufcmSRVrrmTWPHS2qlzPosL70XrwE';
     const pikachu = new Pikachu(apiKey);
 
-    pikachu.calcularTrajeto('Copacabana, Rio de Janeiro', 'Botafogo, Rio de Janeiro')
-        .then((info) => {
-            console.log('\n\nInformações de trajeto:');
-            console.log('Distância:', info.distancia);
-            console.log('Duração:', info.duracao);
-        })
-        .catch((error) => {
-            console.error(error.message);
-        });
+    let lojasEndereco = ['Castelo, Rio de Janeiro', 'Copacabana', 'Botafogo, Rio de Janeiro', 'Ipanema'];
+    let enderecoDesejado = 'Centro, Rio de Janeiro';
+
+    let menorDistancia = Number.MAX_SAFE_INTEGER;
+    let lojaMaisProxima = '';
+
+    for (const loja of lojasEndereco) {
+        try {
+            const info = await pikachu.calcularTrajeto(loja, enderecoDesejado).then((info) => {
+                console.log(`\nInformações de trajeto: ${loja} X ${enderecoDesejado}`);
+                if (info.distancia >= `15.0 km`) {
+                    console.log("VOCE ESTA LONGE AREA DE ENTREGA! ")
+                }
+                else {
+                    console.log('Distância:', info.distancia);
+                    console.log('Duração:', info.duracao);
+                }
+
+                let distanciaNumerica = parseFloat(info.distancia.split(' ')[0]);
+                if (distanciaNumerica < menorDistancia) {
+                    menorDistancia = distanciaNumerica;
+                    lojaMaisProxima = loja;
+                }
+
+            })
 
 
+        }
 
-    pikachu.obterCEP("Copacabana, Rio de Janeiro")
-        .then((cep) => {
-            console.log("\n\nEndereço com CEP:", cep);
-        })
-        .catch((error) => {
-            console.error(error.message);
-        });
+        catch (error) {
+            console.error('Erro ao calcular distância para a loja ' + loja + ': ' + error.message);
+        }
 
-
-
-    pikachu.obterTempoEstimadoDeEntrega("Copacabana, Rio de Janeiro", "Botafogo, Rio de Janeiro")
-        .then((eta) => {
-            console.log("\n\nTEMPO ESTIMADO DE ENTREGA:");
-            console.log("Distância:", eta.distancia);
-            console.log("Duração:", eta.duracao);
-        })
-        .catch((error) => {
-            console.error(error.message);
-        });
-
-
-
-
-    let endereço = 'Copacabana, Rio de Janeiro'
-    pikachu.obterInformacoesDeLocalizacao(endereço)
-        .then((localizacao) => {
-            console.log(`\n\nInformações de localização: ${endereço} `);
-            console.log('Latitude:', localizacao.latitude);
-            console.log('Longitude:', localizacao.longitude);
-        })
-        .catch((error) => {
-            console.error(error.message);
-        });
+        // Imprime a resposta final fora do loop
+    }
+    console.log('\n\nLoja mais próxima ---> ' + lojaMaisProxima, 'Distância: ' + menorDistancia + ' km');
 
 }
-
 
 main_pikachu()
