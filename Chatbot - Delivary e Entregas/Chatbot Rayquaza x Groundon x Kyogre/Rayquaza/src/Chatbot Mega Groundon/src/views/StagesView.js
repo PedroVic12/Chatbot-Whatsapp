@@ -219,7 +219,7 @@ class StagesView extends GroundonView {
                         console.log(typeof (message.body))
 
                         await this.delay(1000).then(
-                            this.enviarMensagem(message, `Bem-vindo a Lanchonete *Citta RJ*\n🤖 Eu sou o Robô Groundon e estou aqui para ajudar seu atendimento.`)
+                            this.enviarMensagem(message, `Bem-vindo a Lanchonete!\n🤖 Eu sou o Robô Groundon e estou aqui para ajudar seu atendimento.`)
                         )
                         this.clientStates[phoneNumber].stack.push(2);
                         await this.delay(3000).then(
@@ -373,6 +373,7 @@ class StagesView extends GroundonView {
                         console.log(`\n\nEstágio ${numero_estagio}:`, message.body);
                         let MENSAGEM_STRING_WPP = ''
                         let msgEnviadaKyogre = this.getLastMessage(message)
+                        let intentClienteCardapio = await this.mewTwo.processIntent(msgEnviadaKyogre)
 
 
                         // Pega os dados do cliente do Kyogre
@@ -384,7 +385,8 @@ class StagesView extends GroundonView {
                         // if (intentPedidoFeito === 'pedidoCardapioFeito')
 
 
-                        if (msgEnviadaKyogre == 'Ola mundo') {
+                        if (msgEnviadaKyogre == 'Pronto! fiz meu pedido!') {
+                            console.log(intentClienteCardapio)
                             if (pedido_escolhido_cardapio) {
                                 const PRODUTOS = pedido_escolhido_cardapio
                                 const CARRINHO = PRODUTOS['carrinho']
@@ -396,7 +398,7 @@ class StagesView extends GroundonView {
                                     MENSAGEM_STRING_WPP += `\n-> ${item.quantidade}x - ${item.nome}`;
                                 }
 
-                                await this.enviarMensagem(message, `Resumo Pedido ${ID_PEDIDO} ${MENSAGEM_STRING_WPP}`)
+                                await this.enviarMensagem(message, `*Resumo do Pedido ${ID_PEDIDO}* ${MENSAGEM_STRING_WPP}`)
 
 
                                 // Pega os dados do Cliente do KYOGRE
