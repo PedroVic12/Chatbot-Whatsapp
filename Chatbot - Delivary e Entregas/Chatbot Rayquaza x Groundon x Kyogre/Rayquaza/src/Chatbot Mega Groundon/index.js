@@ -30,6 +30,10 @@ async function initializeBackend(backendController) {
 	}
 }
 
+
+
+
+
 async function startStagesView(groundonController, backendController) {
 	const stagesView = new StagesView(
 		groundonController.whatsapp,
